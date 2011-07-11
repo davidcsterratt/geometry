@@ -120,104 +120,11 @@ Per-Olof Persson (http://www-math.mit.edu/~persson/mesh/)</li>
 <li>n-D interpolation with Delaunay triangulation</li>
 </ul>
 <h2>Contribute</h2>
-If you have ideas for functions, or functions you made and think
+<p>If you have ideas for functions, or functions you made and think
 would be of value to include in the geometry package (take into
 account that the package is called <code>geometry</code> and
 restricts itself to functions directly related to computational
-geometry), you can e-mail me <a href="mailto:david.c.sterratt@ed.ac.uk">david.c.sterratt@ed.ac.uk</a>,
-or you can fill out the form below.<br />
-<!--center>
-<form action="http://home.tiscali.nl/cgi-bin/mailform"
-      method="POST"
-      onsubmit="javascript:return(validmail());">
-<input type="hidden" name="LINK" value="http://users.fmg.uva.nl/rgrasman/requestsent.html">
-<script language="javascript">
-    var INPUThiddenUSER
-    = '<INPUT type="hidden" value="grasman' + String.fromCharCode(64) + 'psy.uva.nl" name="USER">\n'
-      + '<input type="hidden" value="' + document.cookie + '" name="identity">'
-   document.write(INPUThiddenUSER) ;
-</script>
-<table>
-<tr><td>&nbsp;
-<tr>
-    <td> Sender: <td> <input type="text" size="65">
-<tr>
-    <td valign="top"> Comments: <td> <textarea rows="15" cols="50"> </textarea>
-<tr>
-    <td><td><input type="submit" value="submit">
-</table>
-</form>
-</center-->
-<br />
-<center>
-<div style=
-"border: solid 1px silver;width:60%;font-family:verdana;">
-<form id="deVragen" style="WIDTH: 100%" name="deVragen" action=
-"http://web.archive.org/web/20080218222024/http://www2.fmg.uva.nl/FMGweb/scripts/formMail.cfm"
-method="post"><!-- ================== vraag ============== -->
-<div class="vraagwrapper"><input type="hidden" size="130" name=
-"vraag1q" />
-<div class="vraag" title="" contenteditable="false">
-<center>
-<table class="vraagtable" width="100%" border="0">
-<tbody>
-<tr class="vraagrow1">
-<td></td>
-<td colspan="3"></td>
-</tr>
-<tr class="vraagresponsen">
-<td></td>
-<td class="SQWtd" id="SQWtdCell1vraag1">
-<p>Your name:</p>
-<p>Your e-mail:</p>
-<p>Subject:</p>
-</td>
-<td class="SQWtd" id="SQWtdCell2vraag1"></td>
-<td class="SQWtd" id="SQWtdCell3vraag1">
-<p><input class="SQWtext" style="WIDTH: 333px; HEIGHT: 22px" size=
-"44" name="vraag1" /></p>
-<p><input class="SQWtext" style="WIDTH: 333px; HEIGHT: 22px" size=
-"44" name="vraag1" /></p>
-<p><input class="SQWtext" style="WIDTH: 332px; HEIGHT: 22px" size=
-"45" name="vraag1" value="suggestions geometry package" /></p>
-</td>
-</tr>
-</tbody>
-</table>
-</center>
-</div>
-</div>
-<!-- ================== vraag ============== -->
-<div class="vraagwrapper"><input type="hidden" size="130" value=
-"Message:" name="vraag2q" />
-<div class="vraag" title="" contenteditable="false">
-<center>
-<table class="vraagtable" width="100%" border="0">
-<tbody>
-<tr class="vraagrow1">
-<td></td>
-<td>Message:</td>
-</tr>
-<tr class="vraagresponsen">
-<td></td>
-<td>
-<textarea class="SQWtextarea" style="WIDTH: 589px; HEIGHT: 189px"
-name="vraag2" rows="10" cols="69" value="NA">
-</textarea></td>
-</tr>
-</tbody>
-</table>
-</center>
-</div>
-</div>
-<input class="submitButton" type="submit" value="submit" name=
-"submitButton" /><input type="hidden" value="rgrasman" name=
-"ontvanger" /><input type="hidden" value=
-"http://users.fmg.uva.nl/rgrasman/requestsent.html" name=
-"redirect" /><input type="hidden" value="Rqhull response" name=
-"MAILSUBJECT" /></form>
-</div>
-</center>
+geometry), you can e-mail me <a href="mailto:david.c.sterratt@ed.ac.uk">david.c.sterratt@ed.ac.uk</a>.</p>
 <p>The <strong>project summary page</strong> you can find <a href=
 "http://%3C?php%20echo%20$domain;%20?%3E/projects/%3C?php%20echo%20$group_name;%20?%3E/">
 <strong>here</strong></a>.</p>
