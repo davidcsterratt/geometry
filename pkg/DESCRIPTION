@@ -15,11 +15,8 @@ Description: This package makes the qhull library (www.qhull.org)
         some R functions that allow for this. Currently the package
         only gives access to Delaunay triangulation and convex hull
         computation.
-Maintainer: Robert B. Gramacy <bobby@statslab.cam.ac.uk>
+Maintainer: David C. Sterratt <david.c.sterratt@ed.ac.uk>
 Depends: R (>= 2.5.0)
 Suggests: rgl, R.matlab, tripack
-URL: http://users.fmg.uva.nl/rgrasman/Rqhull.html
+URL: http://geometry.r-forge.r-project.org/
 License: GPL (>= 2) + file LICENSE
-Packaged: 2010-01-10 13:23:57 UTC; bobby
-Repository: CRAN
-Date/Publication: 2010-01-10 15:35:17
