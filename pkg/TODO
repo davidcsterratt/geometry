@@ -1,0 +1,11 @@
+* port __vonoroi__.cc
+handle gives wrong result)
+* more self explaining interface for qhull options (?)
+* less rudimentary version of distmesh2d and distmeshNd
+* quiet error output
+* Improve the algorithm to not destroy good regions again
+* Implement in C/Fortran
+* Use delaunayn instead of tri.mesh in distmesh2d
+* Implement an n-D version of distmesh2d as provided in the matlab package
+* Translate other functions of the matlab mesh package of
+  Per-Olof Persson (http://www-math.mit.edu/~persson/mesh/)

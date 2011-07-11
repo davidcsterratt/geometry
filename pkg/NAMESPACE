@@ -1,0 +1,6 @@
+useDynLib(geometry)
+
+export( delaunayn, convhulln, tetramesh, extprod3d, matmax, matmin, matsort,
+        matorder, Unique, entry.value, "entry.value<-", mesh.dsphere, mesh.hunif,
+        mesh.diff, mesh.union, mesh.intersect, mesh.dcircle, mesh.drectangle,
+        distmesh2d, distmeshnd, surf.tri, trimesh )
