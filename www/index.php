@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <!-- This is the project specific website template -->
 <!-- It can be changed as liked or replaced by other content -->
 <?php
