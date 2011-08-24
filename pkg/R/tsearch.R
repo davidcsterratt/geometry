@@ -15,21 +15,31 @@
 ## along with this program. If not, see
 ## <http://www.gnu.org/licenses/>.
 
-##' For \code{t = delaunay(p)}, where \code{p} is a 2D set of points,
-##' \code{tsearch(p[,1], p[,2], t, xi, yi)} finds the index in \code{t}
-##' containing the points \code{(xi, yi)}.  For points outside the
-##' convex hull the index is \code{NA}.
+##' For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D
+##' set of points, \code{tsearch(x, y, t, xi, yi)} finds the
+##' index in \code{t} containing the points \code{(xi, yi)}.  For
+##' points outside the convex hull the index is \code{NA}.
 ##'
 ##' @title Search for the enclosing Delaunay convex hull
 ##' @param x X-coordinates of triangluation points
 ##' @param y Y-coordinates of triangluation points
-##' @param t Triangulation, e.g. produced by \code{t = delaunay(x, y)}
+##' @param t Triangulation, e.g. produced by \code{t = delaunayn(cbind(x, y))}
 ##' @param xi X-coordinates of points to test
 ##' @param yi Y-coordinates of points to test
-##' @return The index in \code{t} containing the points \code{(xi,
-##' yi)}.  For points outside the convex hull the index is \code{NA}.
+##' @param bary If \code{TRUE} return barycentric coordinates as well
+##' as index of triangle.
+##' @return If \code{bary} is \code{FALSE}, the index in \code{t}
+##' containing the points \code{(xi, yi)}.  For points outside the
+##' convex hull the index is \code{NA}. If \code{bary} is \code{TRUE},
+##' a list containing:
+##' \item{\code{idx}}{the index in \code{t} containing the points
+##' \code{(xi, yi)}}
+##' \item{\code{p}}{a 3-column matrix containing the barycentric
+##' coordinates with respect to the enclosing triangle of each point
+##' code{(xi, yi).}}
+##' @seealso tsearchn, delaunayn
 ##' @author David Sterratt
-tsearch <- function(x, y, t, xi, yi) {
+tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
   if (!is.vector(x))  {stop(paste(deparse(substitute(x)), "is not a vector"))}
   if (!is.vector(y))  {stop(paste(deparse(substitute(y)), "is not a vector"))}
   if (!is.matrix(t))  {stop(paste(deparse(substitute(t)), "is not a matrix"))}
@@ -46,33 +56,38 @@ tsearch <- function(x, y, t, xi, yi) {
   }
   storage.mode(t) <- "integer"
   out <- .Call("tsearch", as.double(x), as.double(y), t,
-               as.double(xi), as.double(yi))
+               as.double(xi), as.double(yi), as.logical(bary))
+  if (bary) {
+    names(out) <- c("idx", "p")
+  }
   return(out)
 }
 
-##' For \code{t = delaunayn(x)}, finds the index in \code{t}
-##' containing the points \code{xi}. For points outside the convex
-##' hull, \code{idx} is \code{NA}. \code{tsearchn} also returns the
-##' barycentric coordinates \code{x} of the enclosing triangles.
+##' For \code{t = delaunayn(x)}, where \code{x} is a set of points in
+##' \code{d} dimensions, \code{tsearchn(x, t, xi)} finds the index
+##' in \code{t} containing the points \code{xi}. For points outside
+##' the convex hull, \code{idx} is \code{NA}. \code{tsearchn} also
+##' returns the barycentric coordinates \code{p} of the enclosing
+##' triangles.
 ##'
 ##' @title Search for the enclosing Delaunay convex hull
-##' @param x An \code{n}-by-\code{dim} matrix.  The rows of \code{x}
-##' represent \code{n} points in \code{dim}-dimensional space. 
-##' @param t A \code{m}-by-\code{dim+1} matrix. A row of \code{t}
+##' @param x An \code{n}-by-\code{d} matrix.  The rows of \code{x}
+##' represent \code{n} points in \code{d}-dimensional space. 
+##' @param t A \code{m}-by-\code{d+1} matrix. A row of \code{t}
 ##' contains indices into \code{x} of the vertices of a
-##' \code{dim}-dimensional simplex. \code{t} is usually the output of
+##' \code{d}-dimensional simplex. \code{t} is usually the output of
 ##' delaunayn.
-##' @param xi An \code{ni}-by-\code{dim} matrix.  The rows of
-##' \code{xi} represent \code{n} points in \code{dim}-dimensional
+##' @param xi An \code{ni}-by-\code{d} matrix.  The rows of
+##' \code{xi} represent \code{n} points in \code{d}-dimensional
 ##' space whose positions in the mesh are being sought.
 ##' @return A list containing:
 ##' \item{\code{idx}}{An \code{ni}-long
 ##' vector containing the indicies  of the row of \code{t} in which
 ##' each point in \code{xi} is found.}
-##' \item{\code{p}}{An \code{ni}-by-\code{dim+1} matrix
+##' \item{\code{p}}{An \code{ni}-by-\code{d+1} matrix
 ##'  containing the barycentric coordinates with respect to the enclosing simplex of 
 ##' each point in \code{xi}.}
-##' @seealso delaunayn
+##' @seealso tsearch, delaunayn
 ##' @author David Sterratt
 tsearchn <- function(x, t, xi) {
   ## Check input

@@ -55,8 +55,14 @@ inline double min (double a, double b, double c)
 */
 
 SEXP tsearch(SEXP x,  SEXP y, SEXP elem, 
-             SEXP xi, SEXP yi)
+             SEXP xi, SEXP yi,
+             SEXP bary)
 {
+  int ibary = 0;
+  if (isLogical(bary)) 
+    if (*LOGICAL(bary) == TRUE) 
+      ibary = 1;
+
   /* printf("Here 1\n"); */
   double *rx = REAL(x);
   double *ry = REAL(y);
@@ -90,6 +96,14 @@ SEXP tsearch(SEXP x,  SEXP y, SEXP elem,
   SEXP values;
   PROTECT(values = allocVector(INTSXP, np));
   int *ivalues = INTEGER(values);
+  SEXP p = NULL;
+  double *rp = NULL;
+  if (ibary) {
+    PROTECT(p = allocMatrix(REALSXP, np, 3));
+    rp = REAL(p);
+    for (int k = 0; k < 3*np; k++)
+      rp[k] = NA_REAL;
+  }
 
   double x0 = 0.0, y0 = 0.0;
   double a11 = 0.0, a12 = 0.0, a21 = 0.0, a22 = 0.0, det = 0.0;
@@ -109,6 +123,11 @@ SEXP tsearch(SEXP x,  SEXP y, SEXP elem,
       c2 = (-a12 * dx1 + a11 * dx2) / det;
       if ((c1 >= -DOUBLE_EPS) && (c2 >= -DOUBLE_EPS) && ((c1 + c2) <= (1 + DOUBLE_EPS))) {
         ivalues[kp] = k+1;
+        if (ibary) {
+          rp[kp] = 1 - c1 - c2;
+          rp[kp+np] = c1; 
+          rp[kp+2*np] = c2;
+        }
         continue;
       }
     }
@@ -137,15 +156,30 @@ SEXP tsearch(SEXP x,  SEXP y, SEXP elem,
         if ((c1 >= -DOUBLE_EPS) && (c2 >= -DOUBLE_EPS) && ((c1 + c2) <= (1 + DOUBLE_EPS))) {
           /* printf("Setting point %i's triangle to %i\n", kp+1, k+1);  */
           ivalues[kp] = k+1;
+          if (ibary) {
+            rp[kp] = 1 - c1 - c2;
+            rp[kp+np] = c1; 
+            rp[kp+2*np] = c2;
+          }
           break;
         }
       } //endif # examine this element closely
     } //endfor # each element
     /* printf("%i\n", kp); */
-    if (k == nelem)
+    if (k == nelem) {
       ivalues[kp] = NA_INTEGER;
-
+    }
   } //endfor # kp
-  UNPROTECT(5);
-  return(values);
+
+  SEXP ans;
+  if (ibary) {
+    PROTECT(ans = allocVector(VECSXP, 2));
+    SET_VECTOR_ELT(ans, 0, values);
+    SET_VECTOR_ELT(ans, 1, p);
+    UNPROTECT(7);
+    return(ans);
+  } else {
+    UNPROTECT(5);
+    return(values);
+  }
 }
