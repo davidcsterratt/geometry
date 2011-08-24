@@ -5,5 +5,7 @@ NEW FEATURES
  * The tsearch and tsearchn functions have been ported from
    Octave. These functions have the same syntax as the Octave
    versions, though it also possible to get tsearch to output
-   barycentric coordinates. tsearch only works for 2D simplexes, but
-   is much faster than tsearchn as it is written in C.
+   barycentric coordinates. tsearch only works for 2D simplexes
+   (i.e. triangles), but is fast because it is written in C. By
+   default, tsearchn uses the fast tsearch function when presented
+   with 2D data.

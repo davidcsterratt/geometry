@@ -6,7 +6,7 @@ XI <- runif(1000)
 YI <- runif(1000)
 
 out <- tsearch(X, Y, T, XI, YI)
-outn <- tsearchn(cbind(X, Y), T, cbind(XI, YI))
+outn <- tsearchn(cbind(X, Y), T, cbind(XI, YI), fast=FALSE)
 out <- tsearch(X, Y, T, XI, YI)
 print(all(na.omit(out) == na.omit(outn$idx)))
 

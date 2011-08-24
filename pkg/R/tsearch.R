@@ -80,6 +80,8 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
 ##' @param xi An \code{ni}-by-\code{d} matrix.  The rows of
 ##' \code{xi} represent \code{n} points in \code{d}-dimensional
 ##' space whose positions in the mesh are being sought.
+##' @param fast If the data is in 2D, use the fast C-based
+##' \code{tsearch} function to produce the results.
 ##' @return A list containing:
 ##' \item{\code{idx}}{An \code{ni}-long
 ##' vector containing the indicies  of the row of \code{t} in which
@@ -89,15 +91,18 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
 ##' each point in \code{xi}.}
 ##' @seealso tsearch, delaunayn
 ##' @author David Sterratt
-tsearchn <- function(x, t, xi) {
+tsearchn <- function(x, t, xi, fast=TRUE) {
   ## Check input
   if (!is.matrix(x))  {stop(paste(deparse(substitute(x)), "is not a matrix"))}
   if (!is.matrix(t))  {stop(paste(deparse(substitute(t)), "is not a matrix"))}
   if (!is.matrix(xi)) {stop(paste(deparse(substitute(xi)), "is not a matrix"))}
 
+  n <- dim(x)[2]                        # Number of dimensions
+  if (n==2 && fast) {
+    return(tsearch(x[,1], x[,2], t, xi[,2], xi[,2]))
+  }
   nt <- dim(t)[1]                       # Number of simplexes
   m <- dim(x)[1]                        # Number of points in simplex grid
-  n <- dim(x)[2]                        # Number of dimensions
   mi <- dim(xi)[1]                      # Number of points to search for
   ## If there are no points to search for, return an empty index
   ## vector and an empty coordinate matrix

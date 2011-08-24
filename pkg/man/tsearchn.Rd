@@ -1,7 +1,7 @@
 \name{tsearchn}
 \alias{tsearchn}
 \title{Search for the enclosing Delaunay convex hull}
-\usage{tsearchn(x, t, xi)}
+\usage{tsearchn(x, t, xi, fast=TRUE)}
 \description{For \code{t = delaunayn(x)}, where \code{x} is a set of points in
 \code{d} dimensions, \code{tsearchn(x, t, xi)} finds the index
 in \code{t} containing the points \code{xi}. For points outside
@@ -25,4 +25,6 @@ contains indices into \code{x} of the vertices of a
 delaunayn.}
 \item{xi}{An \code{ni}-by-\code{d} matrix.  The rows of
 \code{xi} represent \code{n} points in \code{d}-dimensional
-space whose positions in the mesh are being sought.}}
+space whose positions in the mesh are being sought.}
+\item{fast}{If the data is in 2D, use the fast C-based
+\code{tsearch} function to produce the results.}}
