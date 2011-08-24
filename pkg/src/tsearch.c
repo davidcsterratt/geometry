@@ -1,20 +1,21 @@
 /*
 
-Copyright (C) 2002-2011 Andreas Stahel
+  Copyright (C) 2002-2011 Andreas Stahel
+  Copyright (C) 2011 David Sterratt
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the
+  Free Software Foundation; either version 3 of the License, or (at your
+  option) any later version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program. If not, see
-<http://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU General Public License
+  along with this program. If not, see
+  <http://www.gnu.org/licenses/>.
 
 */
 
@@ -22,21 +23,10 @@ along with this program. If not, see
 /* Author: Andreas Stahel <Andreas.Stahel@hta-bi.bfh.ch> */
 /* 19 August 2011: Ported to R by David Sterratt <david.c.sterratt@ed.ac.uk> */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include "lo-ieee.h"
-#include "lo-math.h"
-
-#include "defun-dld.h"
-#include "error.h"
-#include "oct-obj.h"
-#include "parse.h"
+#include <R.h>
+#include <Rdefines.h>
+#include <R_ext/Rdynload.h>
+#include <Rinternals.h>
 
 inline double max (double a, double b, double c)
 {
@@ -54,7 +44,7 @@ inline double min (double a, double b, double c)
     return (a > c ? c : a);
 }
 
-#define REF(x,k,i) x(static_cast<octave_idx_type>(elem((k), (i))) - 1)
+#define REF(x,k,i) x[ielem[k + i*nelem] - 1]
 
 // for large data set the algorithm is very slow
 // one should presort (how?) either the elements of the points of evaluation
@@ -64,123 +54,124 @@ inline double min (double a, double b, double c)
 // e.g., build up a neighbouring triangle structure and use a simplex-like
 // method to traverse it
 
-DEFUN_DLD (tsearch, args, ,
-        "-*- texinfo -*-\n\
-@deftypefn {Loadable Function} {@var{idx} =} tsearch (@var{x}, @var{y}, @var{t}, @var{xi}, @var{yi})\n\
-Search for the enclosing Delaunay convex hull.  For @code{@var{t} =\n\
-delaunay (@var{x}, @var{y})}, finds the index in @var{t} containing the\n\
-points @code{(@var{xi}, @var{yi})}.  For points outside the convex hull,\n\
-@var{idx} is NaN.\n\
-@seealso{delaunay, delaunayn}\n\
-@end deftypefn")
+/* 
+   DEFUN_DLD (tsearch, args, ,
+   "-*- texinfo -*-\n\
+   @deftypefn {Loadable Function} {@var{idx} =} tsearch (@var{x}, @var{y}, @var{t}, @var{xi}, @var{yi})\n\
+   Search for the enclosing Delaunay convex hull.  For @code{@var{t} =\n\
+   delaunay (@var{x}, @var{y})}, finds the index in @var{t} containing the\n\
+   points @code{(@var{xi}, @var{yi})}.  For points outside the convex hull,\n\
+   @var{idx} is NaN.\n\
+   @seealso{delaunay, delaunayn}\n\
+   @end deftypefn")
+*/
+
+SEXP tsearch(SEXP x,  SEXP y, SEXP elem, 
+             SEXP xi, SEXP yi)
 {
-  const double eps=1.0e-12;
+  /* printf("Here 1\n"); */
+  double *rx = REAL(x);
+  double *ry = REAL(y);
+  int nelem = nrows(elem);
+  int *ielem = INTEGER(elem);
+  double *rxi = REAL(xi);
+  double *ryi = REAL(yi);
+  int np = LENGTH(xi);
+  /* printf("%i points\n", np); */
+  SEXP minx, maxx, miny, maxy;
+  PROTECT(minx = allocVector(REALSXP, nelem));
+  PROTECT(maxx = allocVector(REALSXP, nelem));
+  PROTECT(miny = allocVector(REALSXP, nelem));
+  PROTECT(maxy = allocVector(REALSXP, nelem));
+  double *rminx = REAL(minx);
+  double *rmaxx = REAL(maxx);
+  double *rminy = REAL(miny);
+  double *rmaxy = REAL(maxy);
 
-  octave_value_list retval;
-  const int nargin = args.length ();
-  if (nargin != 5)
-    {
-      print_usage ();
-      return retval;
-    }
+  /* Find bounding boxes of each triangle */
+  for (int k = 0; k < nelem; k++) {
+    /* printf("X[T[%i, 1]] = %f; T[%i, 1] = %i\n", k+1, REF(rx, k, 0), k+1, ielem[k + 0*nelem]); */
+    rminx[k] = min(REF(rx, k, 0), REF(rx, k, 1), REF(rx, k, 2)) - DOUBLE_EPS;
+    rmaxx[k] = max(REF(rx, k, 0), REF(rx, k, 1), REF(rx, k, 2)) + DOUBLE_EPS;
+    rminy[k] = min(REF(ry, k, 0), REF(ry, k, 1), REF(ry, k, 2)) - DOUBLE_EPS;
+    rmaxy[k] = max(REF(ry, k, 0), REF(ry, k, 1), REF(ry, k, 2)) + DOUBLE_EPS;
+    /* printf("%f %f %f %f\n", rminx[k], rmaxx[k], rminy[k], rmaxy[k]); */
+  }
 
-  const ColumnVector x (args(0).vector_value ());
-  const ColumnVector y (args(1).vector_value ());
-  const Matrix elem (args(2).matrix_value ());
-  const ColumnVector xi (args(3).vector_value ());
-  const ColumnVector yi (args(4).vector_value ());
-
-  if (error_state)
-    return retval;
-
-  const octave_idx_type nelem = elem.rows ();
-
-  ColumnVector minx (nelem);
-  ColumnVector maxx (nelem);
-  ColumnVector miny (nelem);
-  ColumnVector maxy (nelem);
-  for (octave_idx_type k = 0; k < nelem; k++)
-    {
-      minx(k) = min (REF (x, k, 0), REF (x, k, 1), REF (x, k, 2)) - eps;
-      maxx(k) = max (REF (x, k, 0), REF (x, k, 1), REF (x, k, 2)) + eps;
-      miny(k) = min (REF (y, k, 0), REF (y, k, 1), REF (y, k, 2)) - eps;
-      maxy(k) = max (REF (y, k, 0), REF (y, k, 1), REF (y, k, 2)) + eps;
-    }
-
-  const octave_idx_type np = xi.length ();
-  ColumnVector values (np);
+  /* Make space for output */
+  SEXP values;
+  PROTECT(values = allocVector(INTSXP, np));
+  int *ivalues = INTEGER(values);
 
   double x0 = 0.0, y0 = 0.0;
   double a11 = 0.0, a12 = 0.0, a21 = 0.0, a22 = 0.0, det = 0.0;
 
-  octave_idx_type k = nelem; // k is a counter of elements
-  for (octave_idx_type kp = 0; kp < np; kp++)
-    {
-      const double xt = xi(kp);
-      const double yt = yi(kp);
+  double xt, yt;
+  double dx1, dx2, c1, c2;
+  int k = nelem; // k is a counter of elements
+  for (int kp = 0; kp < np; kp++) {
+    xt = rxi[kp];
+    yt = ryi[kp];
 
-      // check if last triangle contains the next point
-      if (k < nelem)
-        {
-          const double dx1 = xt - x0;
-          const double dx2 = yt - y0;
-          const double c1 = (a22 * dx1 - a21 * dx2) / det;
-          const double c2 = (-a12 * dx1 + a11 * dx2) / det;
-          if (c1 >= -eps && c2 >= -eps && (c1 + c2) <= (1 + eps))
-            {
-              values(kp) = double(k+1);
-              continue;
-            }
+    // check if last triangle contains the next point
+    /* if (k < nelem) { */
+    /*   dx1 = xt - x0; */
+    /*   dx2 = yt - y0; */
+    /*   c1 = ( a22 * dx1 - a21 * dx2) / det; */
+    /*   c2 = (-a12 * dx1 + a11 * dx2) / det; */
+    /*   if ((c1 >= -DOUBLE_EPS) && (c2 >= -DOUBLE_EPS) && ((c1 + c2) <= (1 + DOUBLE_EPS))) { */
+    /*     ivalues[kp] = k+1; */
+    /*     continue; */
+    /*   } */
+    /* } */
+
+    // it doesn't, so go through all elements
+    for (k = 0; k < nelem; k++) {
+      /* OCTAVE_QUIT; */
+      if (xt >= rminx[k] && xt <= rmaxx[k] && yt >= rminy[k] && yt <= rmaxy[k]) {
+        /* printf("Point %i (%1.3f, %1.3f) could be in triangle %i (%1.3f, %1.3f) (%1.3f, %1.3f)\n",  */
+        /*        kp+1, xt, yt, k+1, rminx[k], rminy[k], rmaxx[k], rmaxy[k]); */
+        // element inside the minimum rectangle: examine it closely
+        x0  = REF(rx, k, 0);
+        y0  = REF(ry, k, 0);
+        /* printf("Triangle %i: x0=%f, y0=%f\n", k+1, x0, y0); */
+        a11 = REF(rx, k, 1) - x0;
+        a12 = REF(ry, k, 1) - y0;
+        a21 = REF(rx, k, 2) - x0;
+        a22 = REF(ry, k, 2) - y0;
+        det = a11 * a22 - a21 * a12;
+
+        // solve the system
+        dx1 = xt - x0;
+        dx2 = yt - y0;
+        c1 = ( a22 * dx1 - a21 * dx2) / det;
+        c2 = (-a12 * dx1 + a11 * dx2) / det;
+        if ((c1 >= -DOUBLE_EPS) && (c2 >= -DOUBLE_EPS) && ((c1 + c2) <= (1 + DOUBLE_EPS))) {
+          /* printf("Setting point %i's triangle to %i\n", kp+1, k+1);  */
+          ivalues[kp] = k+1;
+          break;
         }
+      } //endif # examine this element closely
+    } //endfor # each element
+    /* printf("%i\n", kp); */
+    if (k == nelem)
+      ivalues[kp] = NA_INTEGER;
 
-      // it doesn't, so go through all elements
-      for (k = 0; k < nelem; k++)
-        {
-          OCTAVE_QUIT;
-          if (xt >= minx(k) && xt <= maxx(k) && yt >= miny(k) && yt <= maxy(k))
-            {
-              // element inside the minimum rectangle: examine it closely
-              x0  = REF (x, k, 0);
-              y0  = REF (y, k, 0);
-              a11 = REF (x, k, 1) - x0;
-              a12 = REF (y, k, 1) - y0;
-              a21 = REF (x, k, 2) - x0;
-              a22 = REF (y, k, 2) - y0;
-              det = a11 * a22 - a21 * a12;
-
-              // solve the system
-              const double dx1 = xt - x0;
-              const double dx2 = yt - y0;
-              const double c1 = (a22 * dx1 - a21 * dx2) / det;
-              const double c2 = (-a12 * dx1 + a11 * dx2) / det;
-              if ((c1 >= -eps) && (c2 >= -eps) && ((c1 + c2) <= (1 + eps)))
-                {
-                  values(kp) = double(k+1);
-                  break;
-                }
-            } //endif # examine this element closely
-        } //endfor # each element
-
-      if (k == nelem)
-        values(kp) = lo_ieee_nan_value ();
-
-    } //endfor # kp
-
-  retval(0) = values;
-
-  return retval;
+  } //endfor # kp
+  UNPROTECT(5);
+  return(values);
 }
 
 /*
-%!shared x, y, tri
-%! x = [-1;-1;1];
-%! y = [-1;1;-1];
-%! tri = [1, 2, 3];
-%!error (tsearch())
-%!assert (tsearch (x,y,tri,-1,-1), 1)
-%!assert (tsearch (x,y,tri, 1,-1), 1)
-%!assert (tsearch (x,y,tri,-1, 1), 1)
-%!assert (tsearch (x,y,tri,-1/3, -1/3), 1)
-%!assert (tsearch (x,y,tri, 1, 1), NaN)
+  %!shared x, y, tri
+  %! x = [-1;-1;1];
+  %! y = [-1;1;-1];
+  %! tri = [1, 2, 3];
+  %!error (tsearch())
+  %!assert (tsearch (x,y,tri,-1,-1), 1)
+  %!assert (tsearch (x,y,tri, 1,-1), 1)
+  %!assert (tsearch (x,y,tri,-1, 1), 1)
+  %!assert (tsearch (x,y,tri,-1/3, -1/3), 1)
+  %!assert (tsearch (x,y,tri, 1, 1), NaN)
 
 */
