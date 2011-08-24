@@ -44,9 +44,7 @@ tsearch <- function(x, y, t, xi, yi) {
   if (ncol(t) != 3) {
     stop(paste(deparse(substitute(t)), "does not have three columns"))
   }
-  if (!is.integer(t)) {
-    stop(paste(deparse(substitute(t)), "is not an integer"))
-  }
+  storage.mode(t) <- "integer"
   out <- .Call("tsearch", as.double(x), as.double(y), t,
                as.double(xi), as.double(yi))
   return(out)
