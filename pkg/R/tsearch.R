@@ -99,7 +99,7 @@ tsearchn <- function(x, t, xi, fast=TRUE) {
 
   n <- dim(x)[2]                        # Number of dimensions
   if (n==2 && fast) {
-    return(tsearch(x[,1], x[,2], t, xi[,2], xi[,2]))
+    return(tsearch(x[,1], x[,2], t, xi[,1], xi[,2], bary=TRUE))
   }
   nt <- dim(t)[1]                       # Number of simplexes
   m <- dim(x)[1]                        # Number of points in simplex grid
