@@ -50,10 +50,10 @@ tsearch <- function(x, y, t, xi, yi) {
   return(out)
 }
 
-##' For \code{t = delaunayn (x)}, finds the index in \code{t}
+##' For \code{t = delaunayn(x)}, finds the index in \code{t}
 ##' containing the points \code{xi}. For points outside the convex
 ##' hull, \code{idx} is \code{NA}. \code{tsearchn} also returns the
-##' barycentric coordinates \code{p} of the enclosing triangles.
+##' barycentric coordinates \code{x} of the enclosing triangles.
 ##'
 ##' @title Search for the enclosing Delaunay convex hull
 ##' @param x An \code{n}-by-\code{dim} matrix.  The rows of \code{x}
