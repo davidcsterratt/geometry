@@ -46,24 +46,12 @@ inline double min (double a, double b, double c)
 
 #define REF(x,k,i) x[ielem[k + i*nelem] - 1]
 
-// for large data set the algorithm is very slow
-// one should presort (how?) either the elements of the points of evaluation
-// to cut down the time needed to decide which triangle contains the
-// given point
+/* for large data set the algorithm is very slow one should presort
+ (how?) either the elements of the points of evaluation to cut down
+ the time needed to decide which triangle contains the given point
 
-// e.g., build up a neighbouring triangle structure and use a simplex-like
-// method to traverse it
-
-/* 
-   DEFUN_DLD (tsearch, args, ,
-   "-*- texinfo -*-\n\
-   @deftypefn {Loadable Function} {@var{idx} =} tsearch (@var{x}, @var{y}, @var{t}, @var{xi}, @var{yi})\n\
-   Search for the enclosing Delaunay convex hull.  For @code{@var{t} =\n\
-   delaunay (@var{x}, @var{y})}, finds the index in @var{t} containing the\n\
-   points @code{(@var{xi}, @var{yi})}.  For points outside the convex hull,\n\
-   @var{idx} is NaN.\n\
-   @seealso{delaunay, delaunayn}\n\
-   @end deftypefn")
+ e.g., build up a neighbouring triangle structure and use a simplex-like
+ method to traverse it
 */
 
 SEXP tsearch(SEXP x,  SEXP y, SEXP elem, 
@@ -113,17 +101,17 @@ SEXP tsearch(SEXP x,  SEXP y, SEXP elem,
     xt = rxi[kp];
     yt = ryi[kp];
 
-    // check if last triangle contains the next point
-    /* if (k < nelem) { */
-    /*   dx1 = xt - x0; */
-    /*   dx2 = yt - y0; */
-    /*   c1 = ( a22 * dx1 - a21 * dx2) / det; */
-    /*   c2 = (-a12 * dx1 + a11 * dx2) / det; */
-    /*   if ((c1 >= -DOUBLE_EPS) && (c2 >= -DOUBLE_EPS) && ((c1 + c2) <= (1 + DOUBLE_EPS))) { */
-    /*     ivalues[kp] = k+1; */
-    /*     continue; */
-    /*   } */
-    /* } */
+    /* check if last triangle contains the next point */
+    if (k < nelem) {
+      dx1 = xt - x0;
+      dx2 = yt - y0;
+      c1 = ( a22 * dx1 - a21 * dx2) / det;
+      c2 = (-a12 * dx1 + a11 * dx2) / det;
+      if ((c1 >= -DOUBLE_EPS) && (c2 >= -DOUBLE_EPS) && ((c1 + c2) <= (1 + DOUBLE_EPS))) {
+        ivalues[kp] = k+1;
+        continue;
+      }
+    }
 
     // it doesn't, so go through all elements
     for (k = 0; k < nelem; k++) {
