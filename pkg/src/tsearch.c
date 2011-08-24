@@ -161,17 +161,3 @@ SEXP tsearch(SEXP x,  SEXP y, SEXP elem,
   UNPROTECT(5);
   return(values);
 }
-
-/*
-  %!shared x, y, tri
-  %! x = [-1;-1;1];
-  %! y = [-1;1;-1];
-  %! tri = [1, 2, 3];
-  %!error (tsearch())
-  %!assert (tsearch (x,y,tri,-1,-1), 1)
-  %!assert (tsearch (x,y,tri, 1,-1), 1)
-  %!assert (tsearch (x,y,tri,-1, 1), 1)
-  %!assert (tsearch (x,y,tri,-1/3, -1/3), 1)
-  %!assert (tsearch (x,y,tri, 1, 1), NaN)
-
-*/
