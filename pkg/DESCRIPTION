@@ -1,8 +1,8 @@
 Package: geometry
 Title: Mesh generation and surface tesselation
-Version: 0.1-7
-Date: 2010-01-10
-Author: Raoul Grasman and Robert B. Gramacy <bobby@statslab.cam.ac.uk>
+Version: 0.2-0
+Date: 2011-08-24
+Author: Raoul Grasman, Robert B. Gramacy and David C. Sterratt <david.c.sterratt@ed.ac.uk>
 Description: This package makes the qhull library (www.qhull.org)
         available in R, in a similar manner as in Octave and MATLAB.
         Qhull computes convex hulls, Delaunay triangulations, halfspace
