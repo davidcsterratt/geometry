@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.2-0  - Released 2011/08/24
+CHANGES IN VERSION 0.2-0  - Released 2011/09/09
 
 NEW FEATURES
 
@@ -9,3 +9,8 @@ NEW FEATURES
    (i.e. triangles), but is fast because it is written in C. By
    default, tsearchn uses the fast tsearch function when presented
    with 2D data.
+
+NEW MAINTAINER
+
+ * David Sterratt has taken over from Bobby Gramacy. Thank-you to
+   Bobby for his work on the package.
