@@ -1,6 +1,4 @@
 Mesh generation and surface tesselation
 
-Please see the Qhull copyright notice in file COPYING (original Qhull sources);
+Please see the Qhull copyright notice in file QHULL-COPYING (original Qhull sources);
 Otherwise, GPL (>=2) applies (all other files)
-
-Questions? Contact Robert B. Gramacy (bobby@statslab.cam.ac.uk)
