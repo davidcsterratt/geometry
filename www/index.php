@@ -74,9 +74,8 @@ this license</a>. The non-qhull sources are subject to the GPL version
 2 or higher.<br /></p>
 
 <p>The code repository is hosted on R-Forge. To find the latest
-  snapshot of the package, go to the <a href=
-  "http://<?php echo $domain;?>/projects/<?php echo $group_name;?>/">
-  R-Forge project summary page</a>.</p>
+  snapshot of the package, go to the <a 
+    <?php echo 'href="http://' .  $domain . '/projects/' . $group_name  . '"' ; ?> R-Forge project summary page</a>.</p>
 
 <h2>Using the Qhull options</h2>
 
