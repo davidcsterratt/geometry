@@ -143,44 +143,58 @@ tsearchn <- function(x, t, xi, fast=TRUE) {
   return(list(idx=idx, p=p))
 }
 
+##' Given the Cartesian coordinates of one or more points,  with
+##' compute the barycentric coordinates of these points with respect to
+##' a simplex.
+##' 
+##' Given a reference simplex in \eqn{N} dimensions represented by a
+##' \eqn{N+1}-by-\eqn{N} matrix an arbitrary point \eqn{\mathbf{P}}
+##' in Cartesian coordinates, represented by a 1-by-\eqn{N} row
+##' vector, can be written as
+##' \deqn{\mathbf{P} = \mathbf{\beta}\mathbf{T}}
+##' where \eqn{\mathbf{\beta}} is a \eqn{N+1} vector of the
+##' barycentric coordinates. A criterion on \eqn{\mathbf{\beta}} is
+##' that \deqn{\sum_i\beta_i = 1} Now partition the simplex into its
+##' first \eqn{N} rows \eqn{\mathbf{T}_N} and its \eqn{N+1}th row
+##' \eqn{\mathbf{T}_{N+1}}. Partition the barycentric coordinates
+##' into the first \eqn{N} columns \eqn{\mathbf{\beta}_N} and the \eqn{N+1}th
+##' column \eqn{\beta_{N+1}}. This allows us to write
+##' \deqn{\mathbf{P - T}_{N+1} = \mathbf{\beta}_N\mathbf{T}_N + \mathbf{\beta}_{N+1}\mathbf{T}_{N+1} - \mathbf{T}_{N+1}}
+##' which can be written
+##' \deqn{\mathbf{P - T}_{N+1} = \mathbf{\beta}_N(\mathbf{T}_N - \mathbf{1}\mathbf{T}_{N+1})}
+##' where \eqn{\mathbf{1}} is a \eqn{N}-by-1 matrix of ones. 
+##' We can then solve for \eqn{\mathbf{\beta}_N}:
+##' \deqn{\mathbf{\beta}_N = \mathbf{P - T}_{N+1}(\mathbf{T}_N - \mathbf{1}\mathbf{T}_{N+1})^{-1}}
+##' and compute \deqn{\beta_{N+1} = 1 - \sum_{i=1}^N\beta_i}
+##' This can be  generalised for multiple values of \eqn{\mathbf{P}},
+##' one per row.
+##' @title Conversion of Cartesian to Barycentric coordinates.
+##' @param T Reference simplex in \eqn{N} dimensions represented by a
+##' \eqn{N+1}-by-\eqn{N} matrix
+##' @param P \eqn{M}-by-\eqn{N} matrix in which each row is the
+##' Cartesian coordinates of a point.
+##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the
+##' Cartesian coordinates of corresponding row of \code{P}
+##' @author David Sterratt
 cart2bary <- function(T, P) {
-  ## Conversion of Cartesian to Barycentric coordinates.
-  ## Given a reference simplex in N dimensions represented by a
-  ## (N+1)-by-(N) matrix, and arbitrary point P in cartesion coordinates,
-  ## represented by a N-by-1 row vector can be written as
-  ##
-  ## P = Beta * T
-  ##
-  ## Where Beta is a N+1 vector of the barycentric coordinates. A criteria
-  ## on Beta is that
-  ##
-  ## sum (Beta) == 1
-  ##
-  ## and therefore we can write the above as
-  ##
-  ## P - T(end, :) = Beta(1:end-1) * (T(1:end-1,:) - ones(N,1) * T(end,:))
-  ##
-  ## and then we can solve for Beta as
-  ##
-  ## Beta(1:end-1) = (P - T(end,:)) / (T(1:end-1,:) - ones(N,1) * T(end,:))
-  ## Beta(end) = sum(Beta)
-  ##
-  ## Note below is generalize for multiple values of P, one per row.
   M <- dim(P)[1]
   N <- dim(P)[2]
-  ## 
   Beta <- (P - matrix(T[N+1,], M, N, byrow=TRUE)) %*% solve(T[1:N,] - matrix(1,N,1) %*% T[N+1,,drop=FALSE])
   Beta <- cbind(Beta, 1 - apply(Beta, 1, sum))
   return(Beta)
 }
 
+##' Given the baryocentric coordinates of one or more points with
+##' respect to a simplex, compute the Cartesian coordinates of these
+##' points. 
+##' @title Conversion of Barycentric to Cartesian coordinates
+##' @param T Reference simplex in \eqn{N} dimensions represented by a
+##' \eqn{N+1}-by-\eqn{N} matrix
+##' @param Beta \eqn{M} points in baryocentric coordinates with respect to the
+##' simplex \code{T} represented by a \eqn{M}-by-\eqn{N+1} matrix
+##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the
+##' Cartesian coordinates of corresponding row of \code{Beta}
+##' @author David Sterratt
 bary2cart <- function(T, Beta) {
-  ## Conversion of Barycentric to Cartesian coordinates.
-  ## Given a reference simplex T in N dimensions represented by a
-  ## (N+1)-by-(N) matrix, and arbitrary point Beta in baryocentric coordinates,
-  ## represented by a N+1-by-1 row vector, the cartesian coordinates P are
-  ## given
-  ##
-  ## P = Beta * T
   return(Beta %*% T)
 }

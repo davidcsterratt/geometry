@@ -1,22 +1,28 @@
 Package: geometry
-Title: Mesh generation and surface tesselation
-Version: 0.2-0
-Date: 2011-08-24
-Author: Raoul Grasman, Robert B. Gramacy and David C. Sterratt <david.c.sterratt@ed.ac.uk>
-Description: This package makes the qhull library (www.qhull.org)
-        available in R, in a similar manner as in Octave and MATLAB.
-        Qhull computes convex hulls, Delaunay triangulations, halfspace
-        intersections about a point, Voronoi diagrams, furthest-site
-        Delaunay triangulations, and furthest-site Voronoi diagrams. It
-        runs in 2-d, 3-d, 4-d, and higher dimensions. It implements the
-        Quickhull algorithm for computing the convex hull. Qhull does
-        not support constrained Delaunay triangulations, or mesh
-        generation of non-convex objects, but the package does include
-        some R functions that allow for this. Currently the package
-        only gives access to Delaunay triangulation and convex hull
-        computation.
 Maintainer: David C. Sterratt <david.c.sterratt@ed.ac.uk>
+License: GPL (>= 2) + file LICENSE
+Title: Mesh generation and surface tesselation
+Author: Raoul Grasman, Robert B. Gramacy and David C. Sterratt
+    <david.c.sterratt@ed.ac.uk>
+Description: This package makes the qhull library (www.qhull.org)
+    available in R, in a similar manner as in Octave and MATLAB. Qhull
+    computes convex hulls, Delaunay triangulations, halfspace
+    intersections about a point, Voronoi diagrams, furthest-site
+    Delaunay triangulations, and furthest-site Voronoi diagrams. It
+    runs in 2-d, 3-d, 4-d, and higher dimensions. It implements the
+    Quickhull algorithm for computing the convex hull. Qhull does not
+    support constrained Delaunay triangulations, or mesh generation of
+    non-convex objects, but the package does include some R functions
+    that allow for this. Currently the package only gives access to
+    Delaunay triangulation and convex hull computation.
+Version: 0.2-1
+URL: http://geometry.r-forge.r-project.org/
+Date: 2011-08-24
 Depends: R (>= 2.5.0)
 Suggests: rgl, R.matlab, tripack
-URL: http://geometry.r-forge.r-project.org/
-License: GPL (>= 2) + file LICENSE
+Collate: 'convhulln.R' 'delaunayn.R' 'distmesh2d.R' 'distmeshnd.R'
+    'entry.value.R' 'extprod3d.R' 'matmax.R' 'matmin.R' 'matorder.R'
+    'matsort.R' 'mesh.dcircle.R' 'mesh.diff.R' 'mesh.drectangle.R'
+    'mesh.dsphere.R' 'mesh.hunif.R' 'mesh.intersect.R' 'mesh.union.R'
+    'surf.tri.R' 'tetramesh.R' 'trimesh.R' 'trisplinter.R' 'tsearch.R'
+    'Unique.R'
