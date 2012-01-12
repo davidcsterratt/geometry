@@ -18,11 +18,33 @@ Description: This package makes the qhull library (www.qhull.org)
 Version: 0.2-1
 URL: http://geometry.r-forge.r-project.org/
 Date: 2011-08-24
-Depends: R (>= 2.5.0)
-Suggests: rgl, R.matlab, tripack
-Collate: 'convhulln.R' 'delaunayn.R' 'distmesh2d.R' 'distmeshnd.R'
-    'entry.value.R' 'extprod3d.R' 'matmax.R' 'matmin.R' 'matorder.R'
-    'matsort.R' 'mesh.dcircle.R' 'mesh.diff.R' 'mesh.drectangle.R'
-    'mesh.dsphere.R' 'mesh.hunif.R' 'mesh.intersect.R' 'mesh.union.R'
-    'surf.tri.R' 'tetramesh.R' 'trimesh.R' 'trisplinter.R' 'tsearch.R'
+Depends:
+    R (>= 2.5.0)
+Suggests:
+    rgl,
+    R.matlab,
+    tripack
+Collate:
+    'convhulln.R'
+    'delaunayn.R'
+    'distmesh2d.R'
+    'distmeshnd.R'
+    'entry.value.R'
+    'extprod3d.R'
+    'matmax.R'
+    'matmin.R'
+    'matorder.R'
+    'matsort.R'
+    'mesh.dcircle.R'
+    'mesh.diff.R'
+    'mesh.drectangle.R'
+    'mesh.dsphere.R'
+    'mesh.hunif.R'
+    'mesh.intersect.R'
+    'mesh.union.R'
+    'surf.tri.R'
+    'tetramesh.R'
+    'trimesh.R'
+    'trisplinter.R'
+    'tsearch.R'
     'Unique.R'

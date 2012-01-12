@@ -1,38 +1,40 @@
 \name{surf.tri}
 \alias{surf.tri}
-\title{ Find surface triangles from tetrahedra mesh }
-\description{
-  Find surface triangles from tetrahedron mesh typically obtained with
-  \code{\link{delaunayn}}.
-}
+\title{Find surface triangles from tetrahedra mesh}
 \usage{
-surf.tri(p, t)
+  surf.tri(p, t)
 }
 \arguments{
-  \item{p}{ An \code{n}-by-\code{3} matrix. The rows of \code{p} represent \code{n}
-            points in \code{dim}-dimensional space. }
-  \item{t}{ Matrix with 4 columns, interpreted as output of \code{\link{delaunayn}}. }
-}
-\details{
-  \code{surf.tri} and \code{\link{convhulln}} serve a similar purpose in 3D, but
-  \code{surf.tri} also works for non-convex meshes obtained e.g. with \code{\link{distmeshnd}}.
-  It also does not produce currently unavoidable diagnostic output on the console as
-  \code{convhulln} does at the Rterm console--i.e., \code{surf.tri} is silent.
+  \item{p}{An \code{n}-by-\code{3} matrix. The rows of
+  \code{p} represent \code{n} points in
+  \code{dim}-dimensional space.}
+
+  \item{t}{Matrix with 4 columns, interpreted as output of
+  \code{\link{delaunayn}}.}
 }
 \value{
-  An \code{m}-by-\code{3} index matrix of which each row defines
- a triangle. The indices refer to the rows in \code{p}.
+  An \code{m}-by-\code{3} index matrix of which each row
+  defines a triangle. The indices refer to the rows in
+  \code{p}.
 }
-
-\author{ Raoul Grasman }
-\note{ \code{surf.tri} was based on matlab code for mesh of Per-Olof Persson
-(\url{http://www-math.mit.edu/~persson/mesh/index.html}).
+\description{
+  Find surface triangles from tetrahedron mesh typically
+  obtained with \code{\link{delaunayn}}.
 }
-
-\seealso{ \code{\link[tripack]{tri.mesh}},
-          \code{\link{convhulln}},
-          \code{\link{surf.tri}},
-          \code{\link{distmesh2d}} }
+\details{
+  \code{surf.tri} and \code{\link{convhulln}} serve a
+  similar purpose in 3D, but \code{surf.tri} also works for
+  non-convex meshes obtained e.g. with
+  \code{\link{distmeshnd}}.  It also does not produce
+  currently unavoidable diagnostic output on the console as
+  \code{convhulln} does at the Rterm console--i.e.,
+  \code{surf.tri} is silent.
+}
+\note{
+  \code{surf.tri} was based on matlab code for mesh of
+  Per-Olof Persson
+  (\url{http://www-math.mit.edu/~persson/mesh/index.html}).
+}
 \examples{
 \dontrun{
 # more extensive example of surf.tri
@@ -62,6 +64,14 @@ rgl.spheres( lx, ly,.116,radius=.015*.7,col="brown")
 rgl.spheres( lx, ly,.124,radius=.015*.25,col="black")
 }
 }
-\keyword{ math }
-\keyword{ optimize }
-\keyword{ dplot }
+\author{
+  Raoul Grasman
+}
+\seealso{
+  \code{\link[tripack]{tri.mesh}}, \code{\link{convhulln}},
+  \code{\link{surf.tri}}, \code{\link{distmesh2d}}
+}
+\keyword{dplot}
+\keyword{math}
+\keyword{optimize}
+

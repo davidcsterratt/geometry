@@ -1,26 +1,46 @@
 \name{tsearch}
 \alias{tsearch}
 \title{Search for the enclosing Delaunay convex hull}
-\usage{tsearch(x, y, t, xi, yi, bary=FALSE)}
-\description{For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D
-set of points, \code{tsearch(x, y, t, xi, yi)} finds the
-index in \code{t} containing the points \code{(xi, yi)}.  For
-points outside the convex hull the index is \code{NA}.}
-\value{If \code{bary} is \code{FALSE}, the index in \code{t}
-containing the points \code{(xi, yi)}.  For points outside the
-convex hull the index is \code{NA}. If \code{bary} is \code{TRUE},
-a list containing:
-\item{\code{idx}}{the index in \code{t} containing the points
-\code{(xi, yi)}}
-\item{\code{p}}{a 3-column matrix containing the barycentric
-coordinates with respect to the enclosing triangle of each point
-code{(xi, yi).}}}
-\seealso{tsearchn, delaunayn}
-\author{David Sterratt}
-\arguments{\item{x}{X-coordinates of triangluation points}
-\item{y}{Y-coordinates of triangluation points}
-\item{t}{Triangulation, e.g. produced by \code{t = delaunayn(cbind(x, y))}}
-\item{xi}{X-coordinates of points to test}
-\item{yi}{Y-coordinates of points to test}
-\item{bary}{If \code{TRUE} return barycentric coordinates as well
-as index of triangle.}}
+\usage{
+  tsearch(x, y, t, xi, yi, bary = FALSE)
+}
+\arguments{
+  \item{x}{X-coordinates of triangluation points}
+
+  \item{y}{Y-coordinates of triangluation points}
+
+  \item{t}{Triangulation, e.g. produced by \code{t =
+  delaunayn(cbind(x, y))}}
+
+  \item{xi}{X-coordinates of points to test}
+
+  \item{yi}{Y-coordinates of points to test}
+
+  \item{bary}{If \code{TRUE} return barycentric coordinates
+  as well as index of triangle.}
+}
+\value{
+  If \code{bary} is \code{FALSE}, the index in \code{t}
+  containing the points \code{(xi, yi)}.  For points
+  outside the convex hull the index is \code{NA}. If
+  \code{bary} is \code{TRUE}, a list containing:
+  \item{list("idx")}{the index in \code{t} containing the
+  points \code{(xi, yi)}} \item{list("p")}{a 3-column
+  matrix containing the barycentric coordinates with
+  respect to the enclosing triangle of each point code(xi,
+  yi).}
+}
+\description{
+  For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)}
+  is a 2D set of points, \code{tsearch(x, y, t, xi, yi)}
+  finds the index in \code{t} containing the points
+  \code{(xi, yi)}.  For points outside the convex hull the
+  index is \code{NA}.
+}
+\author{
+  David Sterratt
+}
+\seealso{
+  tsearchn, delaunayn
+}
+
