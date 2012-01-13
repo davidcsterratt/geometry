@@ -4,6 +4,7 @@ GEOMETRY_SVN_REVISION1=$(shell echo $(GEOMETRY_SVN_REVISION) + 1 | bc)
 PACKAGE=geometry_$(GEOMETRY_VERSION).tar.gz
 
 roxygen:
+	rm -f pkg/man/*
 	echo "library(roxygen2) ; roxygenize(\"pkg\")" |	R --no-restore --slave
 
 package: roxygen
@@ -18,8 +19,12 @@ doc: roxygen
 	R CMD Rd2dvi --pdf --output=geometry.pdf pkg 
 
 check:
-	R CMD check pkg
+	R CMD check $(PACKAGE)
 
 revision:
 	@echo $(GEOMETRY_SVN_REVISION)
 	@echo $(GEOMETRY_SVN_REVISION1)
+
+## Generate test results like this:
+## R --vanilla < pkg/tests/delaunayn.R > pkg/tests/delaunayn.Rout.save
+
