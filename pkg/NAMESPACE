@@ -1,3 +1,4 @@
+export("entry.value<-")
 export(bary2cart)
 export(cart2bary)
 export(convhulln)
