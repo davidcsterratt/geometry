@@ -1,3 +1,4 @@
+library(geometry)
 set.seed(1)
 ps <- matrix(rnorm(3000),ncol=3)
 ps <- sqrt(3) * ps / drop(sqrt((ps^2) %*% rep(1,3)))
