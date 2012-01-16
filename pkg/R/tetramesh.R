@@ -1,39 +1,23 @@
-##' Display triangles mesh (2D) render tetrahedron mesh (3D)
+##' \code{tetramesh(T, X, col)} uses the \link[rgl]{rgl} package to
+##' display the tetrahedrons defined in the m-by-4 matrix T as mesh.
+##' Each row of \code{T} specifies a thetrahedron by giving the 4
+##' indices of its points in \code{X}.
 ##' 
-##' \code{tetramesh(T, X, col)} uses the \link[rgl]{rgl} package to display the
-##' tetrahedrons defined in the m-by-4 matrix T as mesh.
-##' 
-##' Each row of \code{T} specifies a triangle by giving the 3 indices of its
-##' points in \code{X}.  Each row of \code{T} specifies a thetrahedron by
-##' giving the 4 indices of its points in \code{X}.
-##' 
-##' @aliases tetramesh trimesh
+##' @title Render tetrahedron mesh (3D)
 ##' @param T T is a \code{m}-by-3 matrix in trimesh and \code{m}-by-4 in
 ##' tetramesh. A row of \code{T} contains indices into \code{X} of the vertices
 ##' of a triangle/tetrahedron. \code{T} is usually the output of delaunayn.
 ##' @param X X is an n-by-2/n-by-3 matrix. The rows of X represent \code{n}
 ##' points in 2D/3D space.
-##' @param p A vector or a matrix.
-##' @param p2 if \code{p} is not a matrix \code{p} and \code{p2} are bind to a
-##' matrix with \code{cbind}.
-##' @param add Add to existing plot in current active device?
-##' @param axis Draw axes?
-##' @param boxed Plot box?
 ##' @param col The tetrahedron color. See rgl documentation for details.
 ##' @param clear Should the current rendering device be cleared?
 ##' @param \dots Parameters to the rendering device. See the \link[rgl]{rgl}
 ##' package.
 ##' @author Raoul Grasman
-##' @seealso \code{\link[rgl]{rgl}}, \code{\link{delaunayn}},
+##' @seealso \code{\link{trimesh}}, \code{\link[rgl]{rgl}}, \code{\link{delaunayn}},
 ##' \code{\link{convhulln}}, \code{\link{surf.tri}}
 ##' @keywords hplot
 ##' @examples
-##' 
-##' #example trimesh
-##' p = cbind(x=rnorm(30), y=rnorm(30))
-##' tt = delaunayn(p)
-##' trimesh(tt,p)
-##' 
 ##' \dontrun{
 ##' # example delaunayn
 ##' d = c(-1,1)
@@ -47,20 +31,18 @@
 ##' rgl.light(270,60)
 ##' tetramesh(tc,pc,alpha=0.7,col=clr)
 ##' }
-##' @export tetramesh trimesh
-"tetramesh" <-
-function (T, X, col = heat.colors(nrow(T)), clear = TRUE, ...)
-{
-    if(require(rgl) == FALSE)
-        stop("the rgl package is required for tetramesh")
-    if (!is.numeric(T) | !is.numeric(T))
-        stop("`T' and `X' should both be numeric.")
-    if (ncol(T) != 4)
-        stop("Expect first arg `T' to have 4 columns.")
-    if (ncol(X) != 3)
-        stop("Expect second arg `X' to have 3 columns.")
-    t = t(rbind(T[, -1], T[, -2], T[, -3], T[, -4]))
-    if (clear)
-        rgl.clear()
-    rgl.triangles(X[t, 1], X[t, 2], X[t, 3], col = col, ...)
+##' @export
+tetramesh <- function (T, X, col = heat.colors(nrow(T)), clear = TRUE, ...) {
+  if(require(rgl) == FALSE)
+    stop("the rgl package is required for tetramesh")
+  if (!is.numeric(T) | !is.numeric(T))
+    stop("`T' and `X' should both be numeric.")
+  if (ncol(T) != 4)
+    stop("Expect first arg `T' to have 4 columns.")
+  if (ncol(X) != 3)
+    stop("Expect second arg `X' to have 3 columns.")
+  t = t(rbind(T[, -1], T[, -2], T[, -3], T[, -4]))
+  if (clear)
+    rgl.clear()
+  rgl.triangles(X[t, 1], X[t, 2], X[t, 3], col = col, ...)
 }

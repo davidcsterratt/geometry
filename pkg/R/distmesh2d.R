@@ -31,12 +31,14 @@
 ##' See the references below for all details. Also, see the comments in the
 ##' source file.
 ##' 
-##' @param fd Vectorized signed distance function, accepting an
-##' \code{n}-by-\code{2} matrix, where \code{n} is arbitrary, as the first
-##' argument.
-##' @param fh Vectorized function that returns desired edge length as a
-##' function of position.  Accepts an \code{n}-by-\code{2} matrix, where
-##' \code{n} is arbitrary, as its first argument.
+##' @param fd Vectorized signed distance function, for example
+##' \code{\link{mesh.dcircle}} or \code{\link{mesh.diff}}, accepting
+##' an \code{n}-by-\code{2} matrix, where \code{n} is arbitrary, as
+##' the first argument.
+##' @param fh Vectorized function, for example \code{\link{mesh.hunif}},
+##' that returns desired edge length as a function of position.
+##' Accepts an \code{n}-by-\code{2} matrix, where \code{n} is
+##' arbitrary, as its first argument.
 ##' @param h0 Initial distance between mesh nodes. (Ignored of \code{p} is
 ##' supplied)
 ##' @param bbox Bounding box cbind(c(xmin,xmax), c(ymin,ymax))
@@ -71,20 +73,20 @@
 ##' @examples
 ##' 
 ##' # examples distmesh2d
-##' fd = function(p, ...) sqrt((p^2)%*%c(1,1)) - 1
+##' fd <- function(p, ...) sqrt((p^2)%*%c(1,1)) - 1
 ##'      # also predefined as `mesh.dcircle'
-##' fh = function(p,...)  rep(1,nrow(p))
-##' bbox = matrix(c(-1,1,-1,1),2,2)
-##' p = distmesh2d(fd,fh,0.2,bbox, maxiter=100)
+##' fh <- function(p,...)  rep(1,nrow(p))
+##' bbox <- matrix(c(-1,1,-1,1),2,2)
+##' p <- distmesh2d(fd,fh,0.2,bbox, maxiter=100)
 ##'     # this may take a while:
 ##'     # press Esc to get result of current iteration
 ##' 
 ##' # example with non-convex region
-##' fd = function(p, ...) mesh.diff( p , mesh.drectangle, mesh.dcircle, radius=.3)
+##' fd <- function(p, ...) mesh.diff(p , mesh.drectangle, mesh.dcircle, radius=.3)
 ##'      # fd defines difference of square and circle
 ##' 
-##' p = distmesh2d(fd,fh,0.05,bbox,radius=0.3,maxiter=4)
-##' p = distmesh2d(fd,fh,0.05,bbox,radius=0.3, maxiter=10)
+##' p <- distmesh2d(fd,fh,0.05,bbox,radius=0.3,maxiter=4)
+##' p <- distmesh2d(fd,fh,0.05,bbox,radius=0.3, maxiter=10)
 ##'      # continue on previous mesh
 ##' @export
 "distmesh2d" <-

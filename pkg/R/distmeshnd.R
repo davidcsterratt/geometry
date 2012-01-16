@@ -31,12 +31,13 @@
 ##' See the references below for all details. Also, see the comments in the
 ##' source file of \code{distmesh2d}.
 ##' 
-##' @param fdist Vectorized signed distance function, accepting an
-##' \code{m}-by-\code{n} matrix, where \code{m} is arbitrary, as the first
-##' argument.
-##' @param fh Vectorized function that returns desired edge length as a
-##' function of position.  Accepts an \code{m}-by-\code{n} matrix, where
-##' \code{n} is arbitrary, as its first argument.
+##' @param fdist Vectorized signed distance function, for example
+##' \code{\link{mesh.dsphere}}, accepting an \code{m}-by-\code{n}
+##' matrix, where \code{m} is arbitrary, as the first argument.
+##' @param fh Vectorized function, for example \code{\link{mesh.hunif}},
+##' that returns desired edge length as a function of position.
+##' Accepts an \code{m}-by-\code{n} matrix, where \code{n} is
+##' arbitrary, as its first argument.
 ##' @param h Initial distance between mesh nodes.
 ##' @param box \code{2}-by-\code{n} matrix that specifies the bounding box.
 ##' (See \link{distmesh2d} for an example.)
@@ -78,14 +79,6 @@
 ##' p = distmeshnd(fd,fh,0.2,bbox, maxiter=100)
 ##'     # this may take a while:
 ##'     # press Esc to get result of current iteration
-##' 
-##' # example with non-convex region
-##' fd = function(p, ...) mesh.diff( p , mesh.drectangle, mesh.dcircle, radius=.3)
-##'      # fd defines difference of square and circle
-##' 
-##' p = distmesh2d(fd,fh,0.05,bbox,radius=0.3,maxiter=4)
-##' p = distmesh2d(fd,fh,0.05,bbox,radius=0.3, maxiter=10)
-##'      # continue on previous mesh
 ##' }
 ##'
 ##' @export
