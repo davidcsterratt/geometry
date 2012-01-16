@@ -1,0 +1,45 @@
+\name{mesh.diff}
+\alias{mesh.diff}
+\alias{mesh.intersect}
+\alias{mesh.union}
+\title{Difference, union and intesection operation on  two regions}
+\usage{
+  mesh.diff(p, regionA, regionB, ...)
+}
+\arguments{
+  \item{p}{A matrix with 2 columns (3 in
+  \code{mesh.dsphere}), each row representing a point in
+  the plane.}
+
+  \item{regionA}{vectorized function describing region A in
+  the union / intersection / difference}
+
+  \item{regionB}{vectorized function describing region B in
+  the union / intersection / difference}
+
+  \item{...}{additional arguments passed to \code{regionA}
+  and \code{regionB}}
+}
+\value{
+  A vector of length \code{nrow(p)} containing the signed
+  distances to the boundary of the region.
+}
+\description{
+  Compute the signed distances from points \code{p} to a
+  region defined by the difference, union or intersection
+  of regions specified by the functions \code{regionA} and
+  \code{regionB}. \code{regionA} and \code{regionB} must
+  accept a matrix \code{p} with 2 columns as their first
+  argument, and must return a vector of length
+  \code{nrow(p)} containing the signed distances of the
+  supplied points in \code{p} to their respective regions.
+}
+\author{
+  Raoul Grasman; translated from original Matlab sources of
+  Per-Olof Persson.
+}
+\seealso{
+  \code{\link{distmesh2d}}, \code{\link{mesh.dcircle}},
+  \code{\link{mesh.drectangle}} \code{\link{mesh.dsphere}}
+}
+

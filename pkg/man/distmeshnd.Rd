@@ -8,12 +8,14 @@
     deps = sqrt(.Machine$double.eps) * h)
 }
 \arguments{
-  \item{fdist}{Vectorized signed distance function,
-  accepting an \code{m}-by-\code{n} matrix, where \code{m}
-  is arbitrary, as the first argument.}
+  \item{fdist}{Vectorized signed distance function, for
+  example \code{\link{mesh.dsphere}}, accepting an
+  \code{m}-by-\code{n} matrix, where \code{m} is arbitrary,
+  as the first argument.}
 
-  \item{fh}{Vectorized function that returns desired edge
-  length as a function of position.  Accepts an
+  \item{fh}{Vectorized function, for example
+  \code{\link{mesh.hunif}}, that returns desired edge
+  length as a function of position. Accepts an
   \code{m}-by-\code{n} matrix, where \code{n} is arbitrary,
   as its first argument.}
 
@@ -102,14 +104,6 @@ bbox = matrix(c(-1,1),2,3)
 p = distmeshnd(fd,fh,0.2,bbox, maxiter=100)
     # this may take a while:
     # press Esc to get result of current iteration
-
-# example with non-convex region
-fd = function(p, ...) mesh.diff( p , mesh.drectangle, mesh.dcircle, radius=.3)
-     # fd defines difference of square and circle
-
-p = distmesh2d(fd,fh,0.05,bbox,radius=0.3,maxiter=4)
-p = distmesh2d(fd,fh,0.05,bbox,radius=0.3, maxiter=10)
-     # continue on previous mesh
 }
 }
 \author{

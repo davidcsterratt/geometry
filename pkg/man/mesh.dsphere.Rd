@@ -1,0 +1,44 @@
+\name{mesh.dsphere}
+\alias{mesh.dsphere}
+\title{Sphere distance function}
+\usage{
+  mesh.dsphere(p, radius = 1, ...)
+}
+\arguments{
+  \item{p}{A matrix with 2 columns (3 in
+  \code{mesh.dsphere}), each row representing a point in
+  the plane.}
+
+  \item{radius}{radius of sphere}
+
+  \item{...}{additional arguments (not used)}
+}
+\value{
+  A vector of length \code{nrow(p)} containing the signed
+  distances to the sphere
+}
+\description{
+  Signed distance from points \code{p} to boundary of
+  sphere to allow easy definition of regions in
+  \code{\link{distmeshnd}}.
+}
+\examples{
+example(distmeshnd)
+}
+\author{
+  Raoul Grasman; translated from original Matlab sources of
+  Per-Olof Persson.
+}
+\references{
+  \url{http://www-math.mit.edu/~persson/mesh/}
+
+  \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator
+  in MATLAB. SIAM Review, Volume 46 (2), pp. 329-345, June
+  2004}
+}
+\seealso{
+  \code{\link{distmeshnd}}
+}
+\keyword{arith}
+\keyword{math}
+

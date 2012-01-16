@@ -1,0 +1,46 @@
+\name{mesh.dcircle}
+\alias{mesh.dcircle}
+\title{Circle distance function}
+\usage{
+  mesh.dcircle(p, radius = 1, ...)
+}
+\arguments{
+  \item{p}{A matrix with 2 columns (3 in
+  \code{mesh.dsphere}), each row representing a point in
+  the plane.}
+
+  \item{radius}{radius of circle}
+
+  \item{...}{additional arguments (not used)}
+}
+\value{
+  A vector of length \code{nrow(p)} containing the signed
+  distances to the circle
+}
+\description{
+  Signed distance from points \code{p} to boundary of
+  circle to allow easy definition of regions in
+  \code{\link{distmesh2d}}.
+}
+\examples{
+example(distmesh2d)
+}
+\author{
+  Raoul Grasman; translated from original Matlab sources of
+  Per-Olof Persson.
+}
+\references{
+  \url{http://www-math.mit.edu/~persson/mesh/}
+
+  \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator
+  in MATLAB. SIAM Review, Volume 46 (2), pp. 329-345, June
+  2004}
+}
+\seealso{
+  \code{\link{distmesh2d}}, \code{\link{mesh.drectangle}},
+  \code{\link{mesh.diff}}, \code{\link{mesh.intersect}},
+  \code{\link{mesh.union}}
+}
+\keyword{arith}
+\keyword{math}
+

@@ -1,7 +1,6 @@
 \name{tetramesh}
 \alias{tetramesh}
-\alias{trimesh}
-\title{Display triangles mesh (2D) render tetrahedron mesh (3D)}
+\title{Render tetrahedron mesh (3D)}
 \usage{
   tetramesh(T, X, col = heat.colors(nrow(T)), clear = TRUE,
     ...)
@@ -16,18 +15,6 @@
   \item{X}{X is an n-by-2/n-by-3 matrix. The rows of X
   represent \code{n} points in 2D/3D space.}
 
-  \item{p}{A vector or a matrix.}
-
-  \item{p2}{if \code{p} is not a matrix \code{p} and
-  \code{p2} are bind to a matrix with \code{cbind}.}
-
-  \item{add}{Add to existing plot in current active
-  device?}
-
-  \item{axis}{Draw axes?}
-
-  \item{boxed}{Plot box?}
-
   \item{col}{The tetrahedron color. See rgl documentation
   for details.}
 
@@ -40,20 +27,11 @@
 \description{
   \code{tetramesh(T, X, col)} uses the \link[rgl]{rgl}
   package to display the tetrahedrons defined in the m-by-4
-  matrix T as mesh.
-}
-\details{
-  Each row of \code{T} specifies a triangle by giving the 3
-  indices of its points in \code{X}.  Each row of \code{T}
-  specifies a thetrahedron by giving the 4 indices of its
-  points in \code{X}.
+  matrix T as mesh. Each row of \code{T} specifies a
+  thetrahedron by giving the 4 indices of its points in
+  \code{X}.
 }
 \examples{
-#example trimesh
-p = cbind(x=rnorm(30), y=rnorm(30))
-tt = delaunayn(p)
-trimesh(tt,p)
-
 \dontrun{
 # example delaunayn
 d = c(-1,1)
@@ -72,8 +50,9 @@ tetramesh(tc,pc,alpha=0.7,col=clr)
   Raoul Grasman
 }
 \seealso{
-  \code{\link[rgl]{rgl}}, \code{\link{delaunayn}},
-  \code{\link{convhulln}}, \code{\link{surf.tri}}
+  \code{\link{trimesh}}, \code{\link[rgl]{rgl}},
+  \code{\link{delaunayn}}, \code{\link{convhulln}},
+  \code{\link{surf.tri}}
 }
 \keyword{hplot}
 
