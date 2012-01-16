@@ -93,17 +93,12 @@ SEXP convhulln(const SEXP p, const SEXP options)
     for(j=0; j < dim; j++)
       pt_array[dim*i+j] = REAL(p)[i+n*j]; /* could have been pt_array = REAL(p) if p had been transposed */
 
-  ismalloc = False;   /* True if qhull should free points in qh_freeqhull() or reallocation */
+  ismalloc = False; /* True if qhull should free points in qh_freeqhull() or reallocation */
 
   /* hmm  lot's of options for qhull here */
-  // sprintf(flags,"qhull Qt Tcv %s",opts); // removed by Bobby
+  /* sprintf(flags,"qhull Qt Tcv %s",opts); // removed by Bobby */
   sprintf(flags,"qhull Qt %s",opts);  // Bobby moved Tcv to default options
-  /* outfile = NULL; this produces nonsensical output ... 
-     needs to be fixed to get convexhulln quiet */
   exitcode = qh_new_qhull (dim,n,pt_array,ismalloc,flags,outfile,errfile);
-  /* If you want some debugging information replace the NULL
-  // pointer with stdout
-  */
 
   if (!exitcode) {  /* 0 if no error from qhull */
 

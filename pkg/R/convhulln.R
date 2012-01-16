@@ -7,11 +7,12 @@
 ##' This function interfaces the qhull library, and intends to be a port from
 ##' Octave to R.
 ##' 
-##' The input \code{n}-by-\code{dim} matrix contains \code{n} points of
-##' dimension \code{dim}. If a second optional argument is given, it must be a
-##' string containing extra options for the underlying qhull command.  The
-##' \code{options} always include \code{"Qt"}. (See the Qhull documentation for
-##' the available options - refer to \link{delaunayn}.)
+##' The input \code{n}-by-\code{dim} matrix contains \code{n} points
+##' of dimension \code{dim}. If a second optional argument is given,
+##' it must be a string containing extra options for the underlying
+##' qhull command.  The \code{options} always include
+##' \code{"Qt"}. (See the Qhull documentation for the available
+##' options -- refer to \link{delaunayn}.)
 ##' 
 ##' @param p An \code{n}-by-\code{dim} matrix.  The rows of \code{p} represent
 ##' \code{n} points in \code{dim}-dimensional space.
@@ -25,13 +26,10 @@
 ##' @note This intents to be a port of the Octave's
 ##' (\url{http://www.octave.org}) geometry library. The sources originals were
 ##' from Kai Habel.
-##' 
-##' All console printing is sent to a file in the CWD called
-##' \dQuote{qhull\_out.txt} unless another file is specified with the TO option
-##' -- see the qhull documentation.  To get the usual progress-related output
-##' specify the R-specific option \code{"Pp Ps"}. The option \code{"FA"}
-##' results in the area and volume of the convex hull to be included in the
-##' output list.
+##'
+##' To get the usual progress-related output specify the R-specific
+##' option \code{"Pp Ps"}. The option \code{"FA"} results in the area
+##' and volume of the convex hull to be included in the output list.
 ##' 
 ##' See further notes in \link{delaunayn}.
 ##' @author Raoul Grasman and Robert B. Gramacy
