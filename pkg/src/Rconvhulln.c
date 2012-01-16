@@ -63,9 +63,9 @@ SEXP convhulln(const SEXP p, const SEXP options)
   area = vol = retlist = NULL;
   retlen = 1;
 
-  /* Bobby */ /*FILE *outfile = stdout; */     /* output from qh_produce_output() use NULL to skip qh_produce_output() */
-  FILE *outfile = fopen("qhull_out.txt", "a"); /* Bobby */
-  FILE *errfile = stderr;      /* error messages from qhull code */
+  /* output from qh_produce_output() use NULL to skip qh_produce_output() */
+  FILE *outfile = NULL;         /* No output file */
+  FILE *errfile = stderr;       /* error messages from qhull code */
 
   retval = R_NilValue;
 
@@ -136,7 +136,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
     j=0;
     for(i=0;i<nrows(retval);i++)
       for(j=0;j<ncols(retval);j++)
-	INTEGER(retval)[i+nrows(retval)*j] = idx[i+n*j];
+        INTEGER(retval)[i+nrows(retval)*j] = idx[i+n*j];
 
     /* Bobby: return area and volume */
     if (qh totarea != 0.0) {
@@ -176,12 +176,11 @@ SEXP convhulln(const SEXP p, const SEXP options)
 	    totlong, curlong);
   }
 
-  /* close the outfile, and possibly remove it if it is empty */
-  fclose(outfile); /* Bobby */
-  stat("qhull_out.txt", &file_status);
-  if((int) file_status.st_size == 0) unlink("qhull_out.txt");
+  /* If close the outfile, and possibly remove it if it is empty */
+  /* fclose(outfile); */
+  /* stat("qhull_out.txt", &file_status);
+     if((int) file_status.st_size == 0) unlink("qhull_out.txt"); */
 
   /* Bobby: */
   return retlist;
-  /* return retval; */
 }

@@ -66,8 +66,11 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	int *simpl;
 	double *pt_array;
 
-	FILE *outfile = stdout;      /* output from qh_produce_output() use NULL to skip qh_produce_output() */
-	FILE *errfile = stderr;      /* error messages from qhull code */
+  /* output from qh_produce_output() use stdout to produce
+     qh_produce_output() or try */
+  /* FILE outfile = fopen("qhull_out.txt", "a"); */
+  FILE *outfile = NULL;
+  FILE *errfile = stderr; /* error messages from qhull code */
 
 	retval = R_NilValue;
 
@@ -103,12 +106,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 		ismalloc = False;   /* True if qhull should free points in qh_freeqhull() or reallocation */
 
 		sprintf(flags,"qhull d Qbb QJ T0 %s", opts); 
-		/* outfile = NULL; */ /* Bobby */
-		outfile = fopen("qhull_out.txt", "a"); /* Bobby */
 		exitcode = qh_new_qhull (dim, n, pt_array, ismalloc, flags, outfile, errfile); 
-					/*If you want some debugging information replace the NULL
-					pointer with outfile.
-					*/
 
 		if (!exitcode) {                    /* 0 if no error from qhull */
 
@@ -161,8 +159,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 		UNPROTECT(1);
 	}
 
-	fclose(outfile); /* Bobby */
-
+	/* fclose(outfile); */
 	return retval;
 }
 
