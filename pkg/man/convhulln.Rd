@@ -36,7 +36,7 @@
   argument is given, it must be a string containing extra
   options for the underlying qhull command.  The
   \code{options} always include \code{"Qt"}. (See the Qhull
-  documentation for the available options - refer to
+  documentation for the available options -- refer to
   \link{delaunayn}.)
 }
 \note{
@@ -44,10 +44,7 @@
   (\url{http://www.octave.org}) geometry library. The
   sources originals were from Kai Habel.
 
-  All console printing is sent to a file in the CWD called
-  \dQuote{qhull\_out.txt} unless another file is specified
-  with the TO option -- see the qhull documentation.  To
-  get the usual progress-related output specify the
+  To get the usual progress-related output specify the
   R-specific option \code{"Pp Ps"}. The option \code{"FA"}
   results in the area and volume of the convex hull to be
   included in the output list.
