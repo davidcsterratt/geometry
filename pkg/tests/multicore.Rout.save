@@ -1,0 +1,40 @@
+
+R version 2.14.0 (2011-10-31)
+Copyright (C) 2011 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-redhat-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(geometry)
+> library(multicore)
+> 
+> ## Set seed for replicability
+> set.seed(1)
+> 
+> ## Create points and try standard Delaunay Triangulation
+> N <- 100000
+> P <- matrix(runif(2*N), N, 2)
+> T <- delaunayn(P)
+> print(nrow(T))
+[1] 199966
+> 
+> ## Now try out the parallel version
+> Ts <- mclapply(list(P, P, P, P), delaunayn)
+> print(length(Ts))
+[1] 4
+> print(nrow(Ts[[1]]))
+[1] 199966
+> 
