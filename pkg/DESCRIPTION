@@ -23,7 +23,8 @@ Depends:
 Suggests:
     rgl,
     R.matlab,
-    tripack
+    tripack,
+    multicore
 Collate:
     'convhulln.R'
     'delaunayn.R'
