@@ -1,0 +1,30 @@
+\name{dot}
+\alias{dot}
+\title{Compute the dot product of two vectors}
+\usage{
+  dot(x, y, d = NULL)
+}
+\arguments{
+  \item{x}{Matrix of vectors}
+
+  \item{y}{Matrix of vectors}
+
+  \item{d}{Dimension along which to calculate the dot
+  product}
+}
+\value{
+  Vector with length of \code{d}th dimension
+}
+\description{
+  If \code{x} and \code{y} are matrices, calculate the
+  dot-product along the first non-singleton dimension.  If
+  the optional argument \code{d} is given, calculate the
+  dot-product along this dimension.
+}
+\author{
+  David Sterratt
+}
+\keyword{arith}
+\keyword{array}
+\keyword{math}
+

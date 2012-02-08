@@ -49,3 +49,4 @@ Collate:
     'trisplinter.R'
     'tsearch.R'
     'Unique.R'
+    'dotprod.R'
