@@ -19,7 +19,8 @@ Version: 0.2-1
 URL: http://geometry.r-forge.r-project.org/
 Date: 2011-08-24
 Depends:
-    R (>= 2.5.0)
+    R (>= 2.5.0),
+    magic
 Suggests:
     rgl,
     R.matlab,
@@ -50,3 +51,4 @@ Collate:
     'tsearch.R'
     'Unique.R'
     'dotprod.R'
+    'polyarea.R'
