@@ -105,7 +105,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 				pt_array[dim*i+j] = REAL(p)[i+n*j];
 		ismalloc = False;   /* True if qhull should free points in qh_freeqhull() or reallocation */
 
-		sprintf(flags,"qhull d Qbb QJ T0 %s", opts); 
+		sprintf(flags,"qhull d Qbb T0 %s", opts); 
 		exitcode = qh_new_qhull (dim, n, pt_array, ismalloc, flags, outfile, errfile); 
 
 		if (!exitcode) {                    /* 0 if no error from qhull */

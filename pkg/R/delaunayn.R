@@ -27,30 +27,27 @@
 ##' 
 ##' @param p \code{p} is an \code{n}-by-\code{dim} matrix. The rows of \code{p}
 ##' represent \code{n} points in \code{dim}-dimensional space.
-##' @param options Optional options, see details below.
+##' @param options Optional options, see details below. 
 ##' @return The return matrix has \code{m} rows and \code{dim+1} columns. It
 ##' contains for each row a set of indices to the points, which describes a
 ##' simplex of dimension dim.
-##' @note This intents to be a port of the Octave's
-##' (\url{http://www.octave.org}) geometry library. The sources originals were
-##' from Kai Habel.
+##' @note This is  a port of Octave's (\url{http://www.octave.org})
+##' geometry library.
 ##' 
-##' The current implementation calls Qhull always with the "QJ" option. (See
-##' Qhull documentation for details).
+##' The current implementation does not call Qhull with the "QJ"
+##' option, as did previous versions. (See Qhull documentation for
+##' details).
 ##' 
-##' All console printing is sent to a file in the CWD called
-##' \dQuote{qhull\_out.txt} unless another file is specified with the TO option
-##' -- see the qhull documentation. To get the usual progress-related output
-##' specify the R-specific option "Pp Ps".
+##' To get the usual progress-related output specify the R-specific
+##' option "Pp Ps".
 ##' 
 ##' Qhull does not support constrained Delaunay triangulations, triangulation
 ##' of non-convex surfaces, mesh generation of non-convex objects, or
 ##' medium-sized inputs in 9-D and higher. A rudimentary algorithm for mesh
 ##' generation in non-convex regions using Delaunay triangulation is
 ##' implemented in \link{distmesh2d} (currently only 2D).
-##' @author Raoul Grasman and Robert B. Gramacy
-##' \email{bobby@@statslab.cam.ac.uk}; based on the corresponding Octave
-##' sources of Kai Habel.
+##' @author Raoul Grasman and Robert B. Gramacy; based on the
+##' corresponding Octave sources of Kai Habel.
 ##' @seealso \code{\link[tripack]{tri.mesh}}, \code{\link{convhulln}},
 ##' \code{\link{surf.tri}}, \code{\link{distmesh2d}}
 ##' @references \cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
@@ -62,9 +59,9 @@
 ##' @examples
 ##' 
 ##' # example delaunayn
-##' d = c(-1,1)
-##' pc = as.matrix(rbind(expand.grid(d,d,d),0))
-##' tc = delaunayn(pc)
+##' d <- c(-1,1)
+##' pc <- as.matrix(rbind(expand.grid(d,d,d),0))
+##' tc <- delaunayn(pc)
 ##' 
 ##' # example tetramesh
 ##' \dontrun{
@@ -74,20 +71,8 @@
 ##' tetramesh(tc,pc, alpha=0.9)
 ##' }
 ##' 
-##' # example surf.tri
-##' # ==> see also convhulln, but it currently prints an unavoidable
-##' #     message to the console
-##' ps = matrix(rnorm(3000),ncol=3)        # generate poinst on a sphere
-##' ps = sqrt(3) * ps / drop(sqrt((ps^2) %*%rep(1,3)))
-##' ts = delaunayn(ps)
-##' ts.surf = t( surf.tri(ps,ts) )
-##' \dontrun{
-##' rgl.triangles(ps[ts.surf,1], ps[ts.surf,2] ,ps[ts.surf,3],
-##'               col="blue", alpha=.2)
-##' for(i in 1:(8*360)) rgl.viewpoint(i/8)
-##' }
 ##' @export
 ##' @useDynLib geometry
-"delaunayn" <-
-function (p, options = "QJ") 
-.Call("delaunayn", p, options, PACKAGE="geometry")
+delaunayn <- function (p, options="") {
+  .Call("delaunayn", p, options, PACKAGE="geometry")
+}

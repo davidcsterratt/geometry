@@ -1,22 +1,24 @@
 ##' Compute smallest convex hull that encloses a set of points
 ##' 
-##' Returns an index matrix to the points of simplices (\dQuote{triangles})
-##' that form the smallest convex simplicial complex of a set of input points
-##' in N-dimensional space.
+##' Returns an index matrix to the points of simplices
+##' (\dQuote{triangles}) that form the smallest convex simplicial
+##' complex of a set of input points in N-dimensional space.
 ##' 
-##' This function interfaces the qhull library, and intends to be a port from
+##' This function interfaces the qhull library and is a port from
 ##' Octave to R.
 ##' 
 ##' The input \code{n}-by-\code{dim} matrix contains \code{n} points
 ##' of dimension \code{dim}. If a second optional argument is given,
 ##' it must be a string containing extra options for the underlying
-##' qhull command.  The \code{options} always include
-##' \code{"Qt"}. (See the Qhull documentation for the available
-##' options -- refer to \link{delaunayn}.)
+##' qhull command.  
 ##' 
 ##' @param p An \code{n}-by-\code{dim} matrix.  The rows of \code{p} represent
 ##' \code{n} points in \code{dim}-dimensional space.
-##' @param options Optional options, see details below and Qhull documentation.
+##' @param options Optional options, see details below and Qhull
+##' documentation at
+##' \url{http://www.qhull.org/html/qconvex.htm#synopsis}.  The
+##' \code{options}  \code{Qt}.
+##' 
 ##' @return An \code{m}-by-\code{dim} index matrix of which each row defines a
 ##' \code{dim}-dimensional \dQuote{triangle}. The indices refer to the rows in
 ##' \code{p}.  If the option \code{"FA"} is provided, then the output is a
@@ -43,20 +45,6 @@
 ##' \url{http://www.qhull.org}
 ##' @keywords math dplot graphs
 ##' @examples
-##' 
-##' # example delaunayn
-##' d = c(-1,1)
-##' pc = as.matrix(rbind(expand.grid(d,d,d),0))
-##' tc = delaunayn(pc)
-##' 
-##' # example tetramesh
-##' \dontrun{
-##' library(rgl)
-##' rgl.viewpoint(60)
-##' rgl.light(120,60)
-##' tetramesh(tc,pc, alpha=0.9)    # render tetrahedron mesh
-##' }
-##' 
 ##' # example convhulln
 ##' # ==> see also surf.tri to avoid unwanted messages printed to the console by qhull
 ##' ps = matrix(rnorm(3000),ncol=3)                     # generate poinst on a sphere
@@ -69,6 +57,6 @@
 ##'
 ##' @export
 ##' @useDynLib geometry
-"convhulln" <-
-function (p, options = "Tv") 
-.Call("convhulln", as.matrix(p), as.character(options), PACKAGE="geometry")
+convhulln <- function (p, options = "Tv") {
+  .Call("convhulln", as.matrix(p), as.character(options), PACKAGE="geometry")
+}

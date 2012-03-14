@@ -2,7 +2,7 @@
 \alias{delaunayn}
 \title{Delaunay triangulation in N-dimensions}
 \usage{
-  delaunayn(p, options = "QJ")
+  delaunayn(p, options = "")
 }
 \arguments{
   \item{p}{\code{p} is an \code{n}-by-\code{dim} matrix.
@@ -51,18 +51,15 @@
   available options.)
 }
 \note{
-  This intents to be a port of the Octave's
-  (\url{http://www.octave.org}) geometry library. The
-  sources originals were from Kai Habel.
+  This is a port of Octave's (\url{http://www.octave.org})
+  geometry library.
 
-  The current implementation calls Qhull always with the
-  "QJ" option. (See Qhull documentation for details).
+  The current implementation does not call Qhull with the
+  "QJ" option, as did previous versions. (See Qhull
+  documentation for details).
 
-  All console printing is sent to a file in the CWD called
-  \dQuote{qhull\_out.txt} unless another file is specified
-  with the TO option -- see the qhull documentation. To get
-  the usual progress-related output specify the R-specific
-  option "Pp Ps".
+  To get the usual progress-related output specify the
+  R-specific option "Pp Ps".
 
   Qhull does not support constrained Delaunay
   triangulations, triangulation of non-convex surfaces,
@@ -74,9 +71,9 @@
 }
 \examples{
 # example delaunayn
-d = c(-1,1)
-pc = as.matrix(rbind(expand.grid(d,d,d),0))
-tc = delaunayn(pc)
+d <- c(-1,1)
+pc <- as.matrix(rbind(expand.grid(d,d,d),0))
+tc <- delaunayn(pc)
 
 # example tetramesh
 \dontrun{
@@ -85,23 +82,9 @@ rgl.viewpoint(60)
 rgl.light(120,60)
 tetramesh(tc,pc, alpha=0.9)
 }
-
-# example surf.tri
-# ==> see also convhulln, but it currently prints an unavoidable
-#     message to the console
-ps = matrix(rnorm(3000),ncol=3)        # generate poinst on a sphere
-ps = sqrt(3) * ps / drop(sqrt((ps^2) \%*\%rep(1,3)))
-ts = delaunayn(ps)
-ts.surf = t( surf.tri(ps,ts) )
-\dontrun{
-rgl.triangles(ps[ts.surf,1], ps[ts.surf,2] ,ps[ts.surf,3],
-              col="blue", alpha=.2)
-for(i in 1:(8*360)) rgl.viewpoint(i/8)
-}
 }
 \author{
-  Raoul Grasman and Robert B. Gramacy
-  \email{bobby@statslab.cam.ac.uk}; based on the
+  Raoul Grasman and Robert B. Gramacy; based on the
   corresponding Octave sources of Kai Habel.
 }
 \references{
