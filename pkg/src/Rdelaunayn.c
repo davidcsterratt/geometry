@@ -34,6 +34,8 @@
 
 #include <R.h>
 #include <Rdefines.h>
+#include <Rinterface.h>
+#define qh_QHimport
 #include "qhull_a.h"
 
 /*
@@ -62,16 +64,14 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	unsigned dim, n;
 	boolT ismalloc;
 	char flags[250];             /* option flags for qhull, see qh_opt.htm */
-	char *opts;
-	int *simpl;
+	/* int *simpl; */
 	double *pt_array;
 
   /* output from qh_produce_output() use stdout to produce
      qh_produce_output() or try */
   /* FILE outfile = fopen("qhull_out.txt", "a"); */
   FILE *outfile = NULL;
-  FILE *errfile = stderr; /* error messages from qhull code */
-
+  FILE *errfile = R_Consolefile; /* error messages from qhull code */
 	retval = R_NilValue;
 
 	if(!isString(options) || length(options) != 1){
@@ -80,12 +80,14 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	if(!isMatrix(p) || !isReal(p)){
 		error("First argument should be a real matrix.");
 	}
+  
+  /* Read options into command */
+	i = LENGTH(STRING_ELT(options,0)); 
+  if (i > 200) 
+    error("Option string too long");
+  sprintf(flags,"qhull d Qbb T0 %s", CHAR(STRING_ELT(options,0))); 
 
-	i=LENGTH(STRING_ELT(options,0)); 
-	opts = (char *) R_alloc( ((i>1)?i:1), sizeof(char) );
-	strcpy(opts, " ");
-	if(i>1) strcpy(opts, CHAR(STRING_ELT(options,0)));
-
+  /* Check input matrix */
 	dim = ncols(p);
 	n   = nrows(p);
 	if(dim <= 0 || n <= 0){
@@ -105,48 +107,58 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 				pt_array[dim*i+j] = REAL(p)[i+n*j];
 		ismalloc = False;   /* True if qhull should free points in qh_freeqhull() or reallocation */
 
-		sprintf(flags,"qhull d Qbb T0 %s", opts); 
-		exitcode = qh_new_qhull (dim, n, pt_array, ismalloc, flags, outfile, errfile); 
-
+		exitcode = qh_new_qhull(dim, n, pt_array, ismalloc, flags, outfile, errfile); 
 		if (!exitcode) {                    /* 0 if no error from qhull */
 
 			facetT *facet;                  /* set by FORALLfacets */
 			vertexT *vertex, **vertexp;
-			int nf=0,i=0,j=0;
 
-			FORALLfacets {
-				if (!facet->upperdelaunay) nf++;
-			}
-
-			PROTECT(retval = allocMatrix(INTSXP, nf, dim+1));
-			simpl = (int *) R_alloc(nf*(dim+1),sizeof(int));
+			int nf=0;                 /* Number of facets */
 			FORALLfacets {
 				if (!facet->upperdelaunay) {
+          nf++;
+          /* int nv=0;
+          FOREACHvertex_ (facet->vertices) {
+            nv++;
+          }
+          printf("Facet %i: %i vertices\n", nf, nv); */
+        }
+			}
+
+      PROTECT(retval = allocMatrix(INTSXP, nf, dim+1));
+      int i=0;
+			FORALLfacets {
+				if (!facet->upperdelaunay) {
+          if (i >= nf) {
+            error("Trying to access non-existent facet %i", i);
+          }
 					int j=0;
 					FOREACHvertex_ (facet->vertices) {
-						simpl[i + nf*j++] = 1 + qh_pointid(vertex->point);
+            if ((i + nf*j) >= nf*(dim+1))
+              error("Trying to write to non-existent area of memory i=%i, j=%i, nf=%i, dim=%i", i, j, nf, dim);
+            INTEGER(retval)[i + nf*j] = 1 + qh_pointid(vertex->point);
+            j++;
 					}
 					i++;
 				}
 			}
-			for(i=0;i<nrows(retval);i++)
-				for(j=0;j<ncols(retval);j++)
-					INTEGER(retval)[i+nrows(retval)*j] = simpl[i+nf*j];
-
-		} else {
-			error("Received error code %d from qhull.",exitcode);
-		}
-
-		qh_freeqhull(!qh_ALL);		/* free long memory */
-
-		qh_memfreeshort (&curlong, &totlong);
-		/* free short memory and memory allocator */
+      /* PROTECT(retval = allocMatrix(INTSXP, nf, dim+1)); */
+			/* for(i=0;i<nrows(retval);i++) */
+			/* 	for(j=0;j<ncols(retval);j++) */
+			/* 		INTEGER(retval)[i+nrows(retval)*j] = simpl[i+nf*j]; */
+      UNPROTECT(1);
+		} 
+    
+    /* Do cleanup regardless of whether there is an error */
+		qh_freeqhull(!qh_ALL);                  /* free long memory */
+		qh_memfreeshort (&curlong, &totlong);   /* free short memory and memory allocator */
 
 		if (curlong || totlong) {
-			warning("delaunay: did not free %d bytes of long memory (%d pieces)",
-				totlong, curlong);
+			printf(errfile, "delaunay: did not free %d bytes of long memory (%d pieces)", totlong, curlong);
 		}
-		UNPROTECT(1);
+    if (exitcode) {
+			error("Received error code %d from qhull.", exitcode);
+		}
 	} else if (n == dim + 1) {
 		/* one should check if nx points span a simplex
 		// I will look at this later.
