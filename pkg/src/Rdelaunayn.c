@@ -64,7 +64,6 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	unsigned dim, n;
 	boolT ismalloc;
 	char flags[250];             /* option flags for qhull, see qh_opt.htm */
-	/* int *simpl; */
 	double *pt_array;
 
   /* output from qh_produce_output() use stdout to produce
@@ -142,10 +141,6 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 					i++;
 				}
 			}
-      /* PROTECT(retval = allocMatrix(INTSXP, nf, dim+1)); */
-			/* for(i=0;i<nrows(retval);i++) */
-			/* 	for(j=0;j<ncols(retval);j++) */
-			/* 		INTEGER(retval)[i+nrows(retval)*j] = simpl[i+nf*j]; */
       UNPROTECT(1);
 		} 
     
@@ -154,7 +149,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 		qh_memfreeshort (&curlong, &totlong);   /* free short memory and memory allocator */
 
 		if (curlong || totlong) {
-			printf(errfile, "delaunay: did not free %d bytes of long memory (%d pieces)", totlong, curlong);
+			warning("delaunay: did not free %d bytes of long memory (%d pieces)", totlong, curlong);
 		}
     if (exitcode) {
 			error("Received error code %d from qhull.", exitcode);

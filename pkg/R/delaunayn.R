@@ -74,5 +74,15 @@
 ##' @export
 ##' @useDynLib geometry
 delaunayn <- function (p, options="") {
+  ## Input sanitisation
+  options <- paste(options, collapse=" ")
+
+  ## It is essential that delaunayn is called with either the QJ or Qt
+  ## option. Otherwise it may return a non-triangulated structure, i.e
+  ## one with more than dim+1 points per structure, where dim is the
+  ## dimension in which the points p reside.
+  if (!grepl("Qt", options) & !grepl("QJ", options)) {
+    options <- paste(options, "Qt")
+  }
   .Call("delaunayn", p, options, PACKAGE="geometry")
 }
