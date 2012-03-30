@@ -31,6 +31,8 @@
 #include <unistd.h>
 #include <R.h>
 #include <Rdefines.h>
+#include <Rinterface.h>
+#define qh_QHimport
 #include "qhull_a.h"
 
 /*
@@ -64,9 +66,8 @@ SEXP convhulln(const SEXP p, const SEXP options)
   retlen = 1;
 
   /* output from qh_produce_output() use NULL to skip qh_produce_output() */
-  FILE *outfile = NULL;         /* No output file */
-  FILE *errfile = stderr;       /* error messages from qhull code */
-
+  FILE *outfile = NULL;          /* No output file */
+  FILE *errfile = R_Consolefile; /* error messages from qhull code */
   retval = R_NilValue;
 
   if(!isString(options) || length(options) != 1){
