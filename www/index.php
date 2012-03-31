@@ -44,15 +44,14 @@ echo $contents; } ?><!-- end of project description -->
 
 <h1>Qhull in R</h1>
 
-<p>The geometry package intents to implement several geometry
-functions available in Octave and Matlab and the like, available in
-<a href=
+<p>The geometry package provides <a href=
 "http://web.archive.org/web/20080218222024/http://www.r-project.org/">
-R</a>. It merely ports those functions to R and makes available the
-qhull library (which also underlies the corresponding Matlab and
-Octave functions). Currently only part of the qhull library is
-accessible and no specific class for a Delaunay triangulation is
-specified.</p>
+R</a> with several geometry functions available in Octave, Matlab and
+the like. In particular, it provides an interface to the <a href=
+"http://www.qhull.org/">qhull</a> library (which also underlies the
+corresponding Matlab and Octave functions). Currently only part of the
+qhull library is accessible and interface for Delaunay triangulation
+differs from more modern versions of Matlab.</p>
 
 <p>The geometry package also implements a simple technique to
 refine a given mesh and generate high quality meshes and surface
@@ -61,61 +60,48 @@ examples can be found at the site of its inventors <a href=
 "http://web.archive.org/web/20080218222024/http://www-math.mit.edu/~persson/mesh/">
 Per-Olof Persson and Gilbert Strang</a>.</p>
 
-<p>The Qhull library is documented online at <a href=
-"http://www.qhull.org/">www.qhull.org</a></p>
+<h2>Downloads</h2>
 
-<p>A gzipped tar-ball with the sources, and a pre-compiled binary
-distribution for windows can be downloaded
-from <a href="http://cran.r-project.org/web/packages/geometry/index.html">CRAN</a>. All
-original qhull sources are included in the distribution. The
+<ul>
+<li>The latest stable version is available from <a href="http://cran.r-project.org/web/packages/geometry/index.html">CRAN</a>.</li>
+<li>The latest development version is available from <a href="https://r-forge.r-project.org/R/?group_id=1149">R-Forge project page</a>.</li>
+
+<p>Original qhull sources are included in the distribution. The
 distribution is subject to <a href=
 "http://www.qhull.org/COPYING.txt">
 this license</a>. The non-qhull sources are subject to the GPL version
-2 or higher.<br /></p>
-
-<p>The code repository is hosted on R-Forge. To find the latest
-  snapshot of the package, go to the <a 
-    <?php echo 'href="http://' .  $domain . '/projects/' . $group_name  . '"' ; ?> R-Forge project summary page</a>.</p>
+2 or higher.</p>
 
 <h2>Using the Qhull options</h2>
 
-<p>Qhull provides many options that you can use to your advantage.
-For instance you may request the volume of a convex hull and its
-surface area by specifying the 'FS' option. Currently the output is
-written to the console window, and cannot be accessed
-programmatically. However, Qhull has the option TO
-<em>filename</em> which can be used to write the output to a file
-which can then be parsed into R again. For instance, if you want to
-compute the volume of a convex hull of a set of points, if you have
-a matrix with 3 columns,
-<pre>&gt; ps &lt;- matrix(rnorm(30),,3);
-</pre>
-say, that might be something like
-<pre>&gt; x = convhulln(ps,"FS TO 'bla.txt'"); # use of the 'TO filename' option
-</pre>
-This command created the text file 'bla.txt' that contains the
-requested output (i.e. the output specified by the Qhull options).
-For the Qhull option FS this is the following: [<a href=
+<p>Qhull provides many options. For instance you may request the
+volume of a convex hull and its surface area by specifying the 'FS'
+option. Currently the output cannot be accessed directly. However,
+Qhull has the option TO <em>filename</em> which can be used to write
+the output to a file which can then be parsed into R again. For
+instance, if you want to compute the volume of a convex hull of a set
+of points, if you have a matrix with 3 columns, <pre>&gt; ps &lt;-
+matrix(rnorm(30),,3); </pre> say, that might be something like
+<pre>&gt; x = convhulln(ps,"FS TO 'bla.txt'"); # use of the 'TO
+filename' option </pre> This command created the text file 'bla.txt'
+that contains the requested output (i.e. the output specified by the
+Qhull options).  For the Qhull option FS this is the following: [<a
+href=
 "http://web.archive.org/web/20080218222024/http://www.qhull.org/html/qh-optf.htm#FS">from
 the doc</a>] "The first line consists of the number of integers
-("0"). The second line consists of the number of reals ("2"),
-followed by the total facet area, and the total volume. Later
-versions of Qhull may produce additional integers or reals." You
-can then parse the text in the file according to your needs; in
-your case it will be something like 
-<pre>&gt; qh.outp &lt;- scan('bla.txt ');
-&gt; volume &lt;- qh.outp[3];</pre>
-</p>
+("0"). The second line consists of the number of reals ("2"), followed
+by the total facet area, and the total volume. Later versions of Qhull
+may produce additional integers or reals." You can then parse the text
+in the file according to your needs; in your case it will be something
+like <pre>&gt; qh.outp &lt;- scan('bla.txt '); &gt; volume &lt;-
+qh.outp[3];</pre> </p>
 
 <h2>Wish list for future releases</h2>
 
 <ul>
 <li>port __vonoroi__.cc</li>
-<li>get rid of output to console in convhulln (specifying NULL as
-standard output handle gives wrong result)</li>
 <li>more self explaining interface for qhull options (?)</li>
 <li>quiet error output</li>
-<li>Implement in C/Fortran</li>
 <li>Translate other functions of the matlab mesh package of
 Per-Olof Persson (http://www-math.mit.edu/~persson/mesh/)</li>
 <li>n-D interpolation with Delaunay triangulation</li>
