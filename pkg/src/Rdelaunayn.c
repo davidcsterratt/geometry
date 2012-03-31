@@ -34,7 +34,12 @@
 
 #include <R.h>
 #include <Rdefines.h>
+#include <R_ext/Riconv.h>
+#ifdef Win32
+#include <Defn.h>
+#else
 #include <Rinterface.h>
+#endif
 #define qh_QHimport
 #include "qhull_a.h"
 

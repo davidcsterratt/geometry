@@ -31,7 +31,11 @@
 #include <unistd.h>
 #include <R.h>
 #include <Rdefines.h>
+#ifdef Win32
+#include <Defn.h>
+#else
 #include <Rinterface.h>
+#endif
 #define qh_QHimport
 #include "qhull_a.h"
 
