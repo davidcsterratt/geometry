@@ -32,7 +32,6 @@
 #include <R.h>
 #include <Rdefines.h>
 #ifdef WIN32
-#include <Defn.h>
 #else
 #include <Rinterface.h>
 #endif

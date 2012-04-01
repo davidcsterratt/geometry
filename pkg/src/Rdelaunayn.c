@@ -36,7 +36,6 @@
 #include <Rdefines.h>
 #include <R_ext/Riconv.h>
 #ifdef WIN32
-#include <Defn.h>
 #else
 #include <Rinterface.h>
 #endif
