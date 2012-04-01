@@ -27,7 +27,7 @@ rel="stylesheet" type="text/css" />
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr>
 <td><a href="http://r-forge.r-project.org/"><img src=
-"http://%3C?php%20echo%20$themeroot;%20?%3E/images/logo.png"
+    <?php echo '"http://' . $themeroot; . '/images/logo.png"'; ?>
 border="0" alt="R-Forge Logo" /></a></td>
 </tr>
 </table>
@@ -65,6 +65,7 @@ Per-Olof Persson and Gilbert Strang</a>.</p>
 <ul>
 <li>The latest stable version is available from <a href="http://cran.r-project.org/web/packages/geometry/index.html">CRAN</a>.</li>
 <li>The latest development version is available from <a href="https://r-forge.r-project.org/R/?group_id=1149">R-Forge project page</a>.</li>
+</ul>
 
 <p>Original qhull sources are included in the distribution. The
 distribution is subject to <a href=
