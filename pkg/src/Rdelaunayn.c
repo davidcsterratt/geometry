@@ -41,6 +41,10 @@
    definitions - Rinterface.h is not available.  */
 extern FILE * R_Consolefile;
 extern FILE * R_Outputfile;
+#define _MSC_VER 1
+#ifdef WIN64
+#define _WIN64 1
+#endif
 #else
 #include <Rinterface.h>
 #endif
