@@ -1,4 +1,3 @@
-
 <!-- This is the project specific website template -->
 <!-- It can be changed as liked or replaced by other content -->
 <?php
@@ -27,7 +26,7 @@ rel="stylesheet" type="text/css" />
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr>
 <td><a href="http://r-forge.r-project.org/"><img src=
-    <?php echo '"http://' . $themeroot; . '/images/logo.png"'; ?>
+    <?php echo '"http://' . $themeroot . '/images/logo.png"'; ?>
 border="0" alt="R-Forge Logo" /></a></td>
 </tr>
 </table>
