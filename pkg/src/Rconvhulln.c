@@ -31,6 +31,7 @@
 #include <unistd.h>
 #include <R.h>
 #include <Rdefines.h>
+#include <Rinternals.h>
 #ifdef WIN32
 #else
 #include <Rinterface.h>
