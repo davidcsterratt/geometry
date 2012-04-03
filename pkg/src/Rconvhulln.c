@@ -37,28 +37,12 @@
    definitions - Rinterface.h is not available.  */
 extern FILE * R_Consolefile;
 extern FILE * R_Outputfile;
-#define _MSC_VER 1
-#ifdef WIN64
-#define _WIN64 1
-#endif
 #else
 #include <Rinterface.h>
 #endif
 #define qh_QHimport
 #include "qhull_a.h"
 
-/*
-DEFUN_DLD (convhulln, args, ,
-"-*- texinfo -*-\n\
-@deftypefn {Loadable Function} {@var{H} =} convhulln (@var{p}[, @var{opt}])\n\
-Returns an index vector to the points of the enclosing convex hull.\n\
-The input matrix of size [n, dim] contains n points of dimension dim.\n\n\
-If a second optional argument is given, it must be a string containing\n\
-extra options for the underlying qhull command.  (See the Qhull\n\
-documentation for the available options.)\n\n\
-@seealso{convhull, delaunayn}\n\
-@end deftypefn")
-*/
 SEXP convhulln(const SEXP p, const SEXP options)
 {
   SEXP retval, area, vol, retlist, retnames;
@@ -71,7 +55,6 @@ SEXP convhulln(const SEXP p, const SEXP options)
   int *idx;
   double *pt_array;
   struct stat file_status;
-
 
   /* Bobby */
   area = vol = retlist = NULL;
@@ -172,9 +155,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
       setAttrib(retlist, R_NamesSymbol, retnames);
     } else retlist = retval;
 
-    /* Bobby */
     UNPROTECT(retlen);
-    /* UNPROTECT(1); */
   }
   qh_freeqhull(!qh_ALL);					/*free long memory */
   qh_memfreeshort (&curlong, &totlong);	/* free short memory and memory allocator */
@@ -189,6 +170,5 @@ SEXP convhulln(const SEXP p, const SEXP options)
   /* stat("qhull_out.txt", &file_status);
      if((int) file_status.st_size == 0) unlink("qhull_out.txt"); */
 
-  /* Bobby: */
   return retlist;
 }

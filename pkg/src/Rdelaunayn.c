@@ -41,34 +41,11 @@
    definitions - Rinterface.h is not available.  */
 extern FILE * R_Consolefile;
 extern FILE * R_Outputfile;
-#define _MSC_VER 1
-#ifdef WIN64
-#define _WIN64 1
-#endif
 #else
 #include <Rinterface.h>
 #endif
 #define qh_QHimport
 #include "qhull_a.h"
-
-/*
-DEFUN_DLD (delaunayn, args, ,
-        "-*- texinfo -*-\n\
-@deftypefn {Loadable Function} {@var{T}=} delaunayn (@var{P}[, @var{opt}])\n\
-Form the Delaunay triangulation for a set of points.\n\
-The Delaunay trianugulation is a tessellation of the convex hull of the\n\
-points such that no n-sphere defined by the n-triangles contains\n\
-any other points from the set.\n\n\
-The input matrix of size [n, dim] contains n points of dimension dim.\n\
-The return matrix @var{T} has the size [m, dim+1]. It contains for\n\
-each row a set of indices to the points, which describes a simplex of\n\
-dimension dim.  The 3d simplex is a tetrahedron.\n\n\
-If a second optional argument is given, it must be a string containing\n\
-extra options for the underlying qhull command.  In particular, \"Qt\"\n\
-may be useful for joggling the input to cope with non-simplicial cases.\n\
-(See the Qhull documentation for the available options.) @end deftypefn")
-*/
-
 
 SEXP delaunayn(const SEXP p, const SEXP options)
 {
