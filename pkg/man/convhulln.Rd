@@ -1,13 +1,6 @@
 \name{convhulln}
 \alias{convhulln}
-\title{Compute smallest convex hull that encloses a set of points
-
-Returns an index matrix to the points of simplices
-(\dQuote{triangles}) that form the smallest convex simplicial
-complex of a set of input points in N-dimensional space. This
-function interfaces the Qhull library.
-
-For slient operation, specify the option \code{Pp}.}
+\title{Compute smallest convex hull that encloses a set of points}
 \usage{
   convhulln(p, options = "Tv")
 }
@@ -31,15 +24,13 @@ For slient operation, specify the option \code{Pp}.}
   volume of the hull described by the matrix.
 }
 \description{
-  Compute smallest convex hull that encloses a set of
-  points
-
   Returns an index matrix to the points of simplices
   (\dQuote{triangles}) that form the smallest convex
   simplicial complex of a set of input points in
   N-dimensional space. This function interfaces the Qhull
   library.
-
+}
+\details{
   For slient operation, specify the option \code{Pp}.
 }
 \note{

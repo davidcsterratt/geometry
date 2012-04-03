@@ -1,4 +1,4 @@
-##' @title Compute smallest convex hull that encloses a set of points
+##' Compute smallest convex hull that encloses a set of points
 ##' 
 ##' Returns an index matrix to the points of simplices
 ##' (\dQuote{triangles}) that form the smallest convex simplicial

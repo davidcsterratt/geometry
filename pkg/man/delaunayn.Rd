@@ -1,27 +1,6 @@
 \name{delaunayn}
 \alias{delaunayn}
-\title{Delaunay triangulation in N-dimensions
-
-The Delaunay triangulation is a tessellation of the convex hull of
-the points such that no N-sphere defined by the N-triangles
-contains any other points from the set.
-
-This function interfaces the Qhull library, and intents to be a port from
-Octave to R. Qhull computes convex hulls, Delaunay triangulations,
-halfspace intersections about a point, Voronoi diagrams, furthest-site
-Delaunay triangulations, and furthest-site Voronoi diagrams. It runs in
-2-d, 3-d, 4-d, and higher dimensions. It implements the Quickhull algorithm
-for computing the convex hull. Qhull handles roundoff errors from floating
-point arithmetic. It computes volumes, surface areas, and approximations to
-the convex hull. See the Qhull documentation included in this distribution
-(the doc directory \url{../doc/index.htm}).
-
-The \code{Qt} option is supplied to Qhull by default. The code
-ensures that one of \code{Qt} or \code{QJ} is passed to Qhull.
-See \url{../doc/qdelaun.htm} for more details.
-
-To get the usual progress-related output specify the R-specific
-option \code{Pp Ps}.}
+\title{Delaunay triangulation in N-dimensions}
 \usage{
   delaunayn(p, options = "")
 }
@@ -41,36 +20,31 @@ option \code{Pp Ps}.}
   \code{dim}. The 3D simplex is a tetrahedron.
 }
 \description{
-  Delaunay triangulation in N-dimensions
-
   The Delaunay triangulation is a tessellation of the
   convex hull of the points such that no N-sphere defined
   by the N-triangles contains any other points from the
   set.
-
-  This function interfaces the Qhull library, and intents
-  to be a port from Octave to R. Qhull computes convex
-  hulls, Delaunay triangulations, halfspace intersections
-  about a point, Voronoi diagrams, furthest-site Delaunay
-  triangulations, and furthest-site Voronoi diagrams. It
-  runs in 2-d, 3-d, 4-d, and higher dimensions. It
-  implements the Quickhull algorithm for computing the
-  convex hull. Qhull handles roundoff errors from floating
-  point arithmetic. It computes volumes, surface areas, and
-  approximations to the convex hull. See the Qhull
-  documentation included in this distribution (the doc
-  directory \url{../doc/index.htm}).
-
+}
+\details{
   The \code{Qt} option is supplied to Qhull by default. The
   code ensures that one of \code{Qt} or \code{QJ} is passed
   to Qhull. See \url{../doc/qdelaun.htm} for more details.
 
-  To get the usual progress-related output specify the
-  R-specific option \code{Pp Ps}.
+  For slient operation, specify the option \code{Pp}.
 }
 \note{
-  This is a port of Octave's (\url{http://www.octave.org})
-  geometry library.
+  This function interfaces the Qhull library and is a port
+  from Octave (\url{http://www.octave.org}) to R. Qhull
+  computes convex hulls, Delaunay triangulations, halfspace
+  intersections about a point, Voronoi diagrams,
+  furthest-site Delaunay triangulations, and furthest-site
+  Voronoi diagrams. It runs in 2-d, 3-d, 4-d, and higher
+  dimensions. It implements the Quickhull algorithm for
+  computing the convex hull. Qhull handles roundoff errors
+  from floating point arithmetic. It computes volumes,
+  surface areas, and approximations to the convex hull. See
+  the Qhull documentation included in this distribution
+  (the doc directory \url{../doc/index.htm}).
 
   Qhull does not support constrained Delaunay
   triangulations, triangulation of non-convex surfaces,
