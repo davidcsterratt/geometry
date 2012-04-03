@@ -1,6 +1,27 @@
 \name{delaunayn}
 \alias{delaunayn}
-\title{Delaunay triangulation in N-dimensions}
+\title{Delaunay triangulation in N-dimensions
+
+The Delaunay triangulation is a tessellation of the convex hull of
+the points such that no N-sphere defined by the N-triangles
+contains any other points from the set.
+
+This function interfaces the Qhull library, and intents to be a port from
+Octave to R. Qhull computes convex hulls, Delaunay triangulations,
+halfspace intersections about a point, Voronoi diagrams, furthest-site
+Delaunay triangulations, and furthest-site Voronoi diagrams. It runs in
+2-d, 3-d, 4-d, and higher dimensions. It implements the Quickhull algorithm
+for computing the convex hull. Qhull handles roundoff errors from floating
+point arithmetic. It computes volumes, surface areas, and approximations to
+the convex hull. See the Qhull documentation included in this distribution
+(the doc directory \url{../doc/index.htm}).
+
+The \code{Qt} option is supplied to Qhull by default. The code
+ensures that one of \code{Qt} or \code{QJ} is passed to Qhull.
+See \url{../doc/qdelaun.htm} for more details.
+
+To get the usual progress-related output specify the R-specific
+option \code{Pp Ps}.}
 \usage{
   delaunayn(p, options = "")
 }
@@ -9,21 +30,25 @@
   The rows of \code{p} represent \code{n} points in
   \code{dim}-dimensional space.}
 
-  \item{options}{Optional options, see details below.}
+  \item{options}{String containing extra options for the
+  underlying Qhull command.(See the Qhull documentation
+  (\url{../doc/qdelaun.htm}) for the available options.)}
 }
 \value{
   The return matrix has \code{m} rows and \code{dim+1}
   columns. It contains for each row a set of indices to the
-  points, which describes a simplex of dimension dim.
+  points, which describes a simplex of dimension
+  \code{dim}. The 3D simplex is a tetrahedron.
 }
 \description{
+  Delaunay triangulation in N-dimensions
+
   The Delaunay triangulation is a tessellation of the
-  convex hull of the points such that no n-sphere defined
-  by the n-triangles contains any other points from the
+  convex hull of the points such that no N-sphere defined
+  by the N-triangles contains any other points from the
   set.
-}
-\details{
-  This function interfaces the qhull library, and intents
+
+  This function interfaces the Qhull library, and intents
   to be a port from Octave to R. Qhull computes convex
   hulls, Delaunay triangulations, halfspace intersections
   about a point, Voronoi diagrams, furthest-site Delaunay
@@ -32,34 +57,20 @@
   implements the Quickhull algorithm for computing the
   convex hull. Qhull handles roundoff errors from floating
   point arithmetic. It computes volumes, surface areas, and
-  approximations to the convex hull. See the qhull
+  approximations to the convex hull. See the Qhull
   documentation included in this distribution (the doc
   directory \url{../doc/index.htm}).
 
-  The input \code{n}-by-\code{dim} matrix contains \code{n}
-  points of dimension dim. The return matrix \code{T} has
-  \code{m} rows and \code{dim+1} columns. It contains for
-  each row a set of indices to the points, which describes
-  a simplex of dimension dim.  The 3D simplex is a
-  tetrahedron.
+  The \code{Qt} option is supplied to Qhull by default. The
+  code ensures that one of \code{Qt} or \code{QJ} is passed
+  to Qhull. See \url{../doc/qdelaun.htm} for more details.
 
-  If a second optional argument is given, it must be a
-  string containing extra options for the underlying qhull
-  command.  In particular, "Qt" may be useful for joggling
-  the input to cope with non-simplicial cases. (See the
-  Qhull documentation (\url{../doc/index.htm}) for the
-  available options.)
+  To get the usual progress-related output specify the
+  R-specific option \code{Pp Ps}.
 }
 \note{
   This is a port of Octave's (\url{http://www.octave.org})
   geometry library.
-
-  The current implementation does not call Qhull with the
-  "QJ" option, as did previous versions. (See Qhull
-  documentation for details).
-
-  To get the usual progress-related output specify the
-  R-specific option "Pp Ps".
 
   Qhull does not support constrained Delaunay
   triangulations, triangulation of non-convex surfaces,
