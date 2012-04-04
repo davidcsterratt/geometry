@@ -149,7 +149,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 		/* FIXME. Need to check if nx points span a simplex. */
     PROTECT(retval = allocMatrix(INTSXP, 1, dim+1));
 		for (int i=0; i<n; i++) {
-			INTEGER(retval)[i] = i + 1.0;
+			INTEGER(retval)[i] = i + 1;
 		}
 		UNPROTECT(1);
 	}
