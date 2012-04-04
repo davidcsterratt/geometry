@@ -145,13 +145,11 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 			error("Received error code %d from qhull.", exitcode);
 		}
 	} else if (n == dim + 1) {
-		/* one should check if nx points span a simplex
-		// I will look at this later.
-		*/
-		int i;
-		PROTECT(retval = allocVector(REALSXP, n));
-		for (i=0;i<n;i++) {
-			REAL(retval)[i] = i + 1.0;
+    /* Number of points is one more than the number of dimensions. */
+		/* FIXME. Need to check if nx points span a simplex. */
+    PROTECT(retval = allocMatrix(INTSXP, 1, dim+1));
+		for (int i=0; i<n; i++) {
+			INTEGER(retval)[i] = i + 1.0;
 		}
 		UNPROTECT(1);
 	}
