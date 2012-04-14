@@ -1,3 +1,36 @@
+CHANGES IN VERSION 0.2-1  - Released 2012/04/15
+
+NEW FEATURES
+
+ * New function dot() to compute dot product. Syntax is shared with
+   Octave dot() function.  
+
+ * New function polyarea() to compute area of polygons. Syntax is shared with
+   Octave polyarea() function.  
+
+BUG FIXES
+
+ * Fix for Issue #1578: convhulln crashes when running 2 instances of
+   R in the same directory: output to qhull_out.txt removed (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1578&group_id=1149&atid=4552)
+
+ * Fix for Issue #1923: Compilation on Windows 64 doesn't work (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1923&group_id=1149&atid=4552)
+
+ * Fix for Issue #1930:	delaunayn should always return a matrix (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1930&group_id=1149&atid=4552)
+
+ * Fix for Issue #1915: geometry segfaults during tests (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1915&group_id=1149&atid=4552)
+
+OTHER CHANGES
+
+ * Updated to qhull version 2011.2.
+
+ * The default qhull option "QJ" for delaunayn() has been replaced by
+   "Qt". One or other option is always provided to the qhull code (see
+   https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1915&group_id=1149&atid=4552).
+
+ * Documentation improvements.
+
+ * Added some tests.
+
 CHANGES IN VERSION 0.2-0  - Released 2011/09/09
 
 NEW FEATURES
