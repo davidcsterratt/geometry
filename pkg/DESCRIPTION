@@ -2,8 +2,8 @@ Package: geometry
 Maintainer: David C. Sterratt <david.c.sterratt@ed.ac.uk>
 License: GPL (>= 2) + file LICENSE
 Title: Mesh generation and surface tesselation
-Author: Raoul Grasman, Robert B. Gramacy and David C. Sterratt
-    <david.c.sterratt@ed.ac.uk>
+Author: C. B. Barber, Kai Habel, Raoul Grasman, Robert B. Gramacy, Andreas
+    Stahel and David C. Sterratt
 Description: This package makes the qhull library (www.qhull.org)
     available in R, in a similar manner as in Octave and MATLAB. Qhull
     computes convex hulls, Delaunay triangulations, halfspace
@@ -15,9 +15,10 @@ Description: This package makes the qhull library (www.qhull.org)
     non-convex objects, but the package does include some R functions
     that allow for this. Currently the package only gives access to
     Delaunay triangulation and convex hull computation.
-Version: 0.2-1
+Version: 0.3-0
 URL: http://geometry.r-forge.r-project.org/
-Date: 2011-08-24
+Date: 2012-04-15
+BugReports: https://r-forge.r-project.org/tracker/?group_id=1149
 Depends:
     R (>= 2.5.0),
     magic
