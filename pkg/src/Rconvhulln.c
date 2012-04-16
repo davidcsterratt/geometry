@@ -47,9 +47,8 @@ SEXP convhulln(const SEXP p, const SEXP options)
   char *opts;
   int *idx;
   double *pt_array;
-  struct stat file_status;
 
-  /* Bobby */
+  /* Initialise return values */
   area = vol = retlist = NULL;
   retlen = 1;
 
@@ -84,15 +83,14 @@ SEXP convhulln(const SEXP p, const SEXP options)
 
   ismalloc = False; /* True if qhull should free points in qh_freeqhull() or reallocation */
 
-  /* hmm  lot's of options for qhull here */
   /* sprintf(flags,"qhull Qt Tcv %s",opts); // removed by Bobby */
-  sprintf(flags,"qhull Qt %s",opts);  // Bobby moved Tcv to default options
+  sprintf(flags,"qhull Qt %s",opts); 
   exitcode = qh_new_qhull (dim,n,pt_array,ismalloc,flags,outfile,errfile);
 
   if (!exitcode) {  /* 0 if no error from qhull */
 
-    facetT *facet;                  /* set by FORALLfacets */
-    vertexT *vertex, **vertexp;		/* set by FORALLfacets */
+    facetT *facet;              /* set by FORALLfacets */
+    vertexT *vertex, **vertexp; /* set by FORALLfacets */
     unsigned int n = qh num_facets;
 
     PROTECT(retval = allocMatrix(INTSXP, n, dim));
@@ -103,16 +101,14 @@ SEXP convhulln(const SEXP p, const SEXP options)
     i=0;
     FORALLfacets {
       j=0;
-      /*std::cout << "Current index " << i << "," << j << std::endl << std::flush;
-      // qh_printfacet(stdout,facet);
-      */
+      /* qh_printfacet(stdout,facet); */
       FOREACHvertex_ (facet->vertices) {
-	/* qh_printvertex(stdout,vertex); */
-	if (j >= dim)
-	  warning("extra vertex %d of facet %d = %d",
-		  j++,i,1+qh_pointid(vertex->point));
-	else
-	  idx[i+n*j++] = 1 + qh_pointid(vertex->point);
+        /* qh_printvertex(stdout,vertex); */
+        if (j >= dim)
+          warning("extra vertex %d of facet %d = %d",
+                  j++,i,1+qh_pointid(vertex->point));
+        else
+          idx[i+n*j++] = 1 + qh_pointid(vertex->point);
       }
       if (j < dim) warning("facet %d only has %d vertices",i,j);
       i++;
@@ -122,7 +118,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
       for(j=0;j<ncols(retval);j++)
         INTEGER(retval)[i+nrows(retval)*j] = idx[i+n*j];
 
-    /* Bobby: return area and volume */
+    /* Return area and volume */
     if (qh totarea != 0.0) {
       PROTECT(area = allocVector(REALSXP, 1));
       REAL(area)[0] = qh totarea;
@@ -134,7 +130,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
       retlen++;
     }
 
-    /* Bobby: make a list if there is area or volume */
+    /* Make a list if there is area or volume */
     if(retlen > 1) {
       PROTECT(retlist = allocVector(VECSXP, retlen));
       PROTECT(retnames = allocVector(VECSXP, retlen));
@@ -150,18 +146,13 @@ SEXP convhulln(const SEXP p, const SEXP options)
 
     UNPROTECT(retlen);
   }
-  qh_freeqhull(!qh_ALL);					/*free long memory */
+  qh_freeqhull(!qh_ALL);                /* free long memory */
   qh_memfreeshort (&curlong, &totlong);	/* free short memory and memory allocator */
 
   if (curlong || totlong) {
     warning("convhulln: did not free %d bytes of long memory (%d pieces)",
 	    totlong, curlong);
   }
-
-  /* If close the outfile, and possibly remove it if it is empty */
-  /* fclose(outfile); */
-  /* stat("qhull_out.txt", &file_status);
-     if((int) file_status.st_size == 0) unlink("qhull_out.txt"); */
 
   return retlist;
 }
