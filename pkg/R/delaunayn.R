@@ -6,7 +6,7 @@
 ##' 
 ##' The \code{Qt} option is supplied to Qhull by default. The code
 ##' ensures that one of \code{Qt} or \code{QJ} is passed to Qhull.
-##' See \url{../doc/qdelaun.htm} for more details.
+##' See \url{../doc/html/qdelaun.html} for more details.
 ##' 
 ##' For slient operation, specify the option \code{Pp}. 
 ##'
@@ -14,7 +14,7 @@
 ##' represent \code{n} points in \code{dim}-dimensional space.
 ##' @param options String containing extra options for the underlying
 ##' Qhull command.(See the Qhull documentation
-##' (\url{../doc/qdelaun.htm}) for the available options.)
+##' (\url{../doc/html/qdelaun.html}) for the available options.)
 ##' @return The return matrix has \code{m} rows and \code{dim+1}
 ##' columns. It contains for each row a set of indices to the points,
 ##' which describes a simplex of dimension \code{dim}. The 3D simplex
@@ -30,7 +30,7 @@
 ##' floating point arithmetic. It computes volumes, surface areas, and
 ##' approximations to the convex hull. See the Qhull documentation
 ##' included in this distribution (the doc directory
-##' \url{../doc/index.htm}).
+##' \url{../doc/index.html}).
 ##'
 ##' Qhull does not support constrained Delaunay triangulations, triangulation
 ##' of non-convex surfaces, mesh generation of non-convex objects, or
