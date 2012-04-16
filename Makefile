@@ -20,10 +20,20 @@ doc: roxygen
 
 check:
 	R CMD check $(PACKAGE)
+	@ if [ $$(/bin/ls -1 pkg/inst/doc/*htm 2>/dev/null | wc -l) -gt 0 ] ; then echo "ERROR: .htm files in pkg/inst/doc. See Makefile for suggestion of how to fix" ; fi	
+	@ if [ $$(/bin/ls -1 pkg/inst/doc/html/*htm 2>/dev/null | wc -l) -gt 0 ]; then echo "ERROR: .htm files in pkg/inst/doc. See Makefile for suggestion of how to fix" ; fi 
 
 revision:
 	@echo $(GEOMETRY_SVN_REVISION)
 	@echo $(GEOMETRY_SVN_REVISION1)
+
+## qhull doc files need to have html suffixes and to have html 
+## cd inst/doc
+## for f in  *.htm ; do svn move $f ${f}l ; done
+## perl -p -i -e 's/\.htm([#\"])/.html\1/g; ' *.html
+## cd html
+## for f in  *.htm ; do svn move $f ${f}l ; done
+## perl -p -i -e 's/\.htm([#\"])/.html\1/g; ' *.html
 
 ## Generate test results like this:
 ## R --vanilla < pkg/tests/delaunayn.R > pkg/tests/delaunayn.Rout.save
