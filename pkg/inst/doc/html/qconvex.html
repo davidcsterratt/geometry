@@ -9,16 +9,16 @@
 <!-- Navigation links -->
 <a name="TOP"><b>Up</b></a><b>:</b>
 <a href="http://www.qhull.org">Home page</a> for Qhull<br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a> -- Table of Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a> -- Table of Contents<br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics
@@ -33,26 +33,26 @@ height="100"></a>qconvex -- convex hull</h1>
 
 <p>The convex hull of a set of points is the smallest convex set
 containing the points. See the detailed introduction by O'Rourke
-[<a href="index.htm#orou94">'94</a>]. See <a
-href="index.htm#description">Description of Qhull</a> and <a
-href="qh-eg.htm#how">How Qhull adds a point</a>.</p>
+[<a href="index.html#orou94">'94</a>]. See <a
+href="index.html#description">Description of Qhull</a> and <a
+href="qh-eg.html#how">How Qhull adds a point</a>.</p>
 
 <blockquote>
 <dl>
     <dt><b>Example:</b> rbox 10 D3 | qconvex <a
-        href="qh-opto.htm#s">s</a> <a href="qh-opto.htm#o">o</a> <a
-        href="qh-optt.htm#TO">TO result</a></dt>
+        href="qh-opto.html#s">s</a> <a href="qh-opto.html#o">o</a> <a
+        href="qh-optt.html#TO">TO result</a></dt>
     <dd>Compute the 3-d convex hull of 10 random points. Write a
         summary to the console and the points and facets to
         'result'.</dd>
 
         <dt>&nbsp;</dt>
             <dt><b>Example:</b> rbox c | qconvex <a
-                href="qh-opto.htm#n">n</a></dt>
+                href="qh-opto.html#n">n</a></dt>
             <dd>Print the normals for each facet of a cube.</dd>
             <dt>&nbsp;</dt>
             <dt><b>Example:</b> rbox c | qconvex <a
-                href="qh-opto.htm#i">i</a> <a href="qh-optq.htm#Qt">Qt</a></dt>
+                href="qh-opto.html#i">i</a> <a href="qh-optq.html#Qt">Qt</a></dt>
             <dd>Print the triangulated facets of a cube.</dd>
             <dt>&nbsp;</dt>
             <dt><b>Example:</b> rbox y 500 W0 | qconvex</dt>
@@ -60,38 +60,38 @@ href="qh-eg.htm#how">How Qhull adds a point</a>.</p>
                 points on its surface.</dd>
             <dt>&nbsp;</dt>
             <dt><b>Example:</b> rbox x W1e-12 1000 | qconvex
-            <a href="qh-optq.htm#QR">QR0</a></dt>
+            <a href="qh-optq.html#QR">QR0</a></dt>
         <dd>Compute the convex hull of 1000 points near the
                     surface of a randomly rotated simplex.  Report
                         the maximum thickness of a facet.</dd>
             <dt>&nbsp;</dt>
        <dt><b>Example:</b> rbox 1000 s | qconvex <a
-            href="qh-opto.htm#s">s</a> <a
-            href="qh-optf.htm#FA">FA</a> </dt>
+            href="qh-opto.html#s">s</a> <a
+            href="qh-optf.html#FA">FA</a> </dt>
         <dd>Compute the convex hull of 1000 cospherical
             points. Verify the results and print a summary
             with the total area and volume.</dd>
         <dt>&nbsp;</dt>
             <dt><b>Example:</b> rbox d D12 | qconvex <a
-                href="qh-optq.htm#QRn">QR0</a> <a
-                href="qh-optf.htm#FA">FA</a></dt>
+                href="qh-optq.html#QRn">QR0</a> <a
+                href="qh-optf.html#FA">FA</a></dt>
             <dd>Compute the convex hull of a 12-d diamond.
                 Randomly rotate the input. Note the large number
                 of facets and the small volume.</dd>
             <dt>&nbsp;</dt>
             <dt><b>Example:</b> rbox c D7 | qconvex <a
-                href="qh-optf.htm#FA">FA</a> <a
-                href="qh-optt.htm#TFn">TF1000</a></dt>
+                href="qh-optf.html#FA">FA</a> <a
+                href="qh-optt.html#TFn">TF1000</a></dt>
             <dd>Compute the convex hull of the 7-d hypercube.
                 Report on progress every 1000 facets. Computing
                 the convex hull of the 9-d hypercube takes too
                 much time and space. </dd>
             <dt>&nbsp;</dt>
         <dt><b>Example:</b> rbox c d D2 | qconvex <a
-            href="qh-optq.htm#Qc">Qc</a> <a
-            href="qh-opto.htm#s">s</a> <a
-            href="qh-opto.htm#f">f</a> <a
-            href="qh-optf.htm#Fx">Fx</a> | more</dt>
+            href="qh-optq.html#Qc">Qc</a> <a
+            href="qh-opto.html#s">s</a> <a
+            href="qh-opto.html#f">f</a> <a
+            href="qh-optf.html#Fx">Fx</a> | more</dt>
         <dd>Dump all fields of all facets for a square and a
             diamond. Also print a summary and a list of
             vertices. Note the coplanar points.</dd>
@@ -104,30 +104,30 @@ href="qh-eg.htm#how">How Qhull adds a point</a>.</p>
 <p>By default, Qhull merges coplanar facets.  For example, the convex
 hull of a cube's vertices has six facets.
 
-<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output),
+<p>If you use '<a href="qh-optq.html#Qt">Qt</a>' (triangulated output),
 all facets will be simplicial (e.g., triangles in 2-d).  For the cube
 example, it will have 12 facets.  Some facets may be
 degenerate and have zero area.
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input),
+<p>If you use '<a href="qh-optq.html#QJn">QJ</a>' (joggled input),
 all facets will be simplicial.  The corresponding vertices will be
 slightly perturbed and identical points will be joggled apart.
 Joggled input is less accurate that triangulated
 output.See <a
-href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
+href="qh-impre.html#joggle">Merged facets or joggled input</a>. </p>
 
 <p>The output for 4-d convex hulls may be confusing if the convex
 hull contains non-simplicial facets (e.g., a hypercube). See
-<a href=qh-faq.htm#extra>Why
+<a href=qh-faq.html#extra>Why
 are there extra points in a 4-d or higher convex hull?</a><br>
 </p>
 </p>
 
 <p>The 'qconvex' program is equivalent to
-'<a href=qhull.htm#outputs>qhull</a>' in 2-d to 4-d, and
-'<a href=qhull.htm#outputs>qhull</a> <a href=qh-optq.htm#Qx>Qx</a>'
+'<a href=qhull.html#outputs>qhull</a>' in 2-d to 4-d, and
+'<a href=qhull.html#outputs>qhull</a> <a href=qh-optq.html#Qx>Qx</a>'
 in 5-d and higher.  It disables the following Qhull
-<a href=qh-quick.htm#options>options</a>: <i>d v H Qbb Qf Qg Qm
+<a href=qh-quick.html#options>options</a>: <i>d v H Qbb Qf Qg Qm
 Qr Qu Qv Qx Qz TR E V Fp Gt Q0,etc</i>.
 
 <p><b>Copyright &copy; 1995-2012 C.B. Barber</b></p>
@@ -180,7 +180,7 @@ input</a></h3>
 </ul>
 
 <p>Use I/O redirection (e.g., qconvex &lt; data.txt), a pipe (e.g., rbox 10 | qconvex),
-or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qconvex TI data.txt).
+or the '<a href=qh-optt.html#TI>TI</a>' option (e.g., qconvex TI data.txt).
 
 <p>Comments start with a non-numeric character.  Error reporting is
 simpler if there is one point per line.  Dimension
@@ -243,28 +243,28 @@ individually or together.</p>
 <dl compact>
     <dt>&nbsp;</dt>
     <dd><b>Vertices</b></dd>
-    <dt><a href="qh-optf.htm#Fx">Fx</a></dt>
+    <dt><a href="qh-optf.html#Fx">Fx</a></dt>
     <dd>list extreme points (i.e., vertices).  The first line is the number of
         extreme points.  Each point is listed, one per line.  The cube example
         has eight vertices.</dd>
-    <dt><a href="qh-optf.htm#Fv">Fv</a></dt>
+    <dt><a href="qh-optf.html#Fv">Fv</a></dt>
     <dd>list vertices for each facet.  The first line is the number of facets.
         Each remaining line starts with the number of vertices.  For the cube example,
         each facet has four vertices.</dd>
-    <dt><a href="qh-opto.htm#i">i</a></dt>
+    <dt><a href="qh-opto.html#i">i</a></dt>
     <dd>list vertices for each facet.  The first line is the number of facets.  The
         remaining lines list the vertices for each facet.  In 3-d and
         higher, report cospherical sites by adding extra points.</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Coordinates</b></dd>
-    <dt><a href="qh-opto.htm#o">o</a></dt>
+    <dt><a href="qh-opto.html#o">o</a></dt>
     <dd>print vertices and facets of the convex hull in OFF format.  The
            first line is the dimension.  The second line is the number of
            vertices, facets, and ridges.  The vertex
            coordinates are next, followed by the facets.  Each facet starts with
            the number of vertices.  The cube example has four vertices per facet.</dd>
-    <dt><a href="qh-optf.htm#Ft">Ft</a></dt>
+    <dt><a href="qh-optf.html#Ft">Ft</a></dt>
     <dd>print a triangulation of the convex hull in OFF format.  The first line
         is the dimension.  The second line is the number of vertices and added points,
         followed by the number of facets and the number of ridges.
@@ -273,66 +273,66 @@ individually or together.</p>
         The cube example has six centrums, one per square.
     Each facet starts with the number of vertices or centrums.
         In the cube example, each facet uses two vertices and one centrum.</dd>
-    <dt><a href="qh-opto.htm#p">p</a></dt>
+    <dt><a href="qh-opto.html#p">p</a></dt>
     <dd>print vertex coordinates.  The first line is the dimension and the second
         line is the number of vertices.  The following lines are the coordinates of each
         vertex.  The cube example has eight vertices.</dd>
-    <dt><a href="qh-optq.htm#Qc">Qc</a> <a href="qh-opto.htm#p">p</a></dt>
+    <dt><a href="qh-optq.html#Qc">Qc</a> <a href="qh-opto.html#p">p</a></dt>
     <dd>print coordinates of vertices and coplanar points.  The first line is the dimension.
         The second line is the number of vertices and coplanar points.  The coordinates
-        are next, one line per point.  Use '<a href="qh-optq.htm#Qc">Qc</a> <a href="qh-optq.htm#Qi">Qi</a> p'
+        are next, one line per point.  Use '<a href="qh-optq.html#Qc">Qc</a> <a href="qh-optq.html#Qi">Qi</a> p'
         to print the coordinates of all points.</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Facets</b></dd>
-    <dt><a href="qh-optf.htm#Fn">Fn</a></dt>
+    <dt><a href="qh-optf.html#Fn">Fn</a></dt>
     <dd>list neighboring facets for each facet.  The first line is the
         number of facets.  Each remaining line starts with the number of
         neighboring facets.  The cube example has four neighbors per facet.</dd>
-    <dt><a href="qh-optf.htm#FN">FN</a></dt>
+    <dt><a href="qh-optf.html#FN">FN</a></dt>
     <dd>list neighboring facets for each point.  The first line is the
         total number of points.  Each remaining line starts with the number of
         neighboring facets.  Each vertex of the cube example has three neighboring
-        facets.  Use '<a href="qh-optq.htm#Qc">Qc</a> <a href="qh-optq.htm#Qi">Qi</a> FN'
+        facets.  Use '<a href="qh-optq.html#Qc">Qc</a> <a href="qh-optq.html#Qi">Qi</a> FN'
         to include coplanar and interior points. </dd>
-    <dt><a href="qh-optf.htm#Fa">Fa</a></dt>
+    <dt><a href="qh-optf.html#Fa">Fa</a></dt>
     <dd>print area for each facet.  The first line is the number of facets.
         Facet area follows, one line per facet.  For the cube example, each facet has area one.</dd>
-    <dt><a href="qh-optf.htm#FI">FI</a></dt>
+    <dt><a href="qh-optf.html#FI">FI</a></dt>
     <dd>list facet IDs.  The first line is the number of
         facets.  The IDs follow, one per line.</dd>
 
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Coplanar and interior points</b></dd>
-    <dt><a href="qh-optf.htm#Fc">Fc</a></dt>
+    <dt><a href="qh-optf.html#Fc">Fc</a></dt>
     <dd>list coplanar points for each facet.  The first line is the number
         of facets.  The remaining lines start with the number of coplanar points.
         A coplanar point is assigned to one facet.</dd>
-    <dt><a href="qh-optq.htm#Qi">Qi</a> <a href="qh-optf.htm#Fc">Fc</a></dt>
+    <dt><a href="qh-optq.html#Qi">Qi</a> <a href="qh-optf.html#Fc">Fc</a></dt>
     <dd>list interior points for each facet.  The first line is the number
         of facets.  The remaining lines start with the number of interior points.
         A coplanar point is assigned to one facet.</dd>
-    <dt><a href="qh-optf.htm#FP">FP</a></dt>
+    <dt><a href="qh-optf.html#FP">FP</a></dt>
     <dd>print distance to nearest vertex for coplanar points.  The first line is the
         number of coplanar points.  Each remaining line starts with the point ID of
         a vertex, followed by the point ID of a coplanar point, its facet, and distance.
-        Use '<a href="qh-optq.htm#Qc">Qc</a> <a href="qh-optq.htm#Qi">Qi</a>
-        <a href="qh-optf.htm#FP">FP</a>' for coplanar and interior points.</dd>
+        Use '<a href="qh-optq.html#Qc">Qc</a> <a href="qh-optq.html#Qi">Qi</a>
+        <a href="qh-optf.html#FP">FP</a>' for coplanar and interior points.</dd>
 
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Hyperplanes</b></dd>
-    <dt><a href="qh-opto.htm#n">n</a></dt>
+    <dt><a href="qh-opto.html#n">n</a></dt>
     <dd>print hyperplane for each facet.  The first line is the dimension.  The
         second line is the number of facets.  Each remaining line is the hyperplane's
         coefficients followed by its offset.</dd>
-    <dt><a href="qh-optf.htm#Fo">Fo</a></dt>
+    <dt><a href="qh-optf.html#Fo">Fo</a></dt>
     <dd>print outer plane for each facet.  The output plane is above all points.
          The first line is the dimension.  The
         second line is the number of facets.  Each remaining line is the outer plane's
         coefficients followed by its offset.</dd>
-    <dt><a href="qh-optf.htm#Fi">Fi</a></dt>
+    <dt><a href="qh-optf.html#Fi">Fi</a></dt>
     <dd>print inner plane for each facet.  The inner plane of a facet is
         below its vertices.
          The first line is the dimension.  The
@@ -342,34 +342,34 @@ individually or together.</p>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>General</b></dd>
-    <dt><a href="qh-opto.htm#s">s</a></dt>
+    <dt><a href="qh-opto.html#s">s</a></dt>
     <dd>print summary for the convex hull. Use '<a
-        href="qh-optf.htm#Fs">Fs</a>' and '<a
-        href="qh-optf.htm#FS">FS</a>' if you need numeric data.</dd>
-    <dt><a href="qh-optf.htm#FA">FA</a></dt>
+        href="qh-optf.html#Fs">Fs</a>' and '<a
+        href="qh-optf.html#FS">FS</a>' if you need numeric data.</dd>
+    <dt><a href="qh-optf.html#FA">FA</a></dt>
     <dd>compute total area and volume for '<a
-        href="qh-opto.htm#s">s</a>' and '<a href="qh-optf.htm#FS">FS</a>'</dd>
-    <dt><a href="qh-opto.htm#m">m</a></dt>
+        href="qh-opto.html#s">s</a>' and '<a href="qh-optf.html#FS">FS</a>'</dd>
+    <dt><a href="qh-opto.html#m">m</a></dt>
     <dd>Mathematica output for the convex hull in 2-d or 3-d.</dd>
-    <dt><a href="qh-optf.htm#FM">FM</a></dt>
+    <dt><a href="qh-optf.html#FM">FM</a></dt>
     <dd>Maple output for the convex hull in 2-d or 3-d.</dd>
-    <dt><a href="qh-optg.htm#G">G</a></dt>
+    <dt><a href="qh-optg.html#G">G</a></dt>
     <dd>Geomview output for the convex hull in 2-d, 3-d, or 4-d.</dd>
 
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Scaling and rotation</b></dd>
-    <dt><a href="qh-optq.htm#Qbk">Qbk:n</a></dt>
+    <dt><a href="qh-optq.html#Qbk">Qbk:n</a></dt>
     <dd>scale k'th coordinate to lower bound.</dd>
-    <dt><a href="qh-optq.htm#QBk">QBk:n</a></dt>
+    <dt><a href="qh-optq.html#QBk">QBk:n</a></dt>
     <dd>scale k'th coordinate to upper bound.</dd>
-    <dt><a href="qh-optq.htm#QbB">QbB</a></dt>
+    <dt><a href="qh-optq.html#QbB">QbB</a></dt>
     <dd>scale input to unit cube centered at the origin.</dd>
-    <dt><a href="qh-optq.htm#QRn">QRn</a></dt>
+    <dt><a href="qh-optq.html#QRn">QRn</a></dt>
     <dd>randomly rotate the input with a random seed of n.  If n=0, the
         seed is the time.  If n=-1, use time for the random seed, but do
         not rotate the input.</dd>
-    <dt><a href="qh-optq.htm#Qb0">Qbk:0Bk:0</a></dt>
+    <dt><a href="qh-optq.html#Qb0">Qbk:0Bk:0</a></dt>
     <dd>remove k'th coordinate from input.  This computes the
         convex hull in one lower dimension.</dd>
 </dl>
@@ -383,39 +383,39 @@ individually or together.</p>
 
 <blockquote>
 <dl compact>
-    <dt><a href="qh-optq.htm#Qt">Qt</a></dt>
+    <dt><a href="qh-optq.html#Qt">Qt</a></dt>
     <dd>triangulated output.  Qhull triangulates non-simplicial facets.  It may produce
      degenerate facets of zero area.</dd>
-    <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
+    <dt><a href="qh-optq.html#QJn">QJ</a></dt>
     <dd>joggle the input instead of merging facets.  This guarantees simplicial facets
         (e.g., triangles in 3-d).  It is less accurate than triangulated output ('Qt').</dd>
-    <dt><a href="qh-optq.htm#Qc">Qc</a></dt>
+    <dt><a href="qh-optq.html#Qc">Qc</a></dt>
     <dd>keep coplanar points</dd>
-    <dt><a href="qh-optq.htm#Qi">Qi</a></dt>
+    <dt><a href="qh-optq.html#Qi">Qi</a></dt>
     <dd>keep interior points</dd>
-    <dt><a href="qh-opto.htm#f">f </a></dt>
+    <dt><a href="qh-opto.html#f">f </a></dt>
     <dd>facet dump.  Print the data structure for each facet.</dd>
-    <dt><a href="qh-optq.htm#QVn">QVn</a></dt>
+    <dt><a href="qh-optq.html#QVn">QVn</a></dt>
     <dd>select facets containing point <em>n</em> as a vertex,</dd>
-    <dt><a href="qh-optq.htm#QGn">QGn</a></dt>
+    <dt><a href="qh-optq.html#QGn">QGn</a></dt>
     <dd>select facets that are visible from point <em>n</em>
         (marked 'good').  Use <em>-n</em> for the remainder.</dd>
-    <dt><a href="qh-optp.htm#PDk">PDk:0</a></dt>
+    <dt><a href="qh-optp.html#PDk">PDk:0</a></dt>
     <dd>select facets with a negative coordinate for dimension <i>k</i></dd>
-    <dt><a href="qh-optt.htm#TFn">TFn</a></dt>
+    <dt><a href="qh-optt.html#TFn">TFn</a></dt>
     <dd>report progress after constructing <em>n</em> facets</dd>
-    <dt><a href="qh-optt.htm#Tv">Tv</a></dt>
+    <dt><a href="qh-optt.html#Tv">Tv</a></dt>
     <dd>verify result</dd>
-    <dt><a href="qh-optt.htm#TO">TI file</a></dt>
+    <dt><a href="qh-optt.html#TO">TI file</a></dt>
     <dd>input data from file.  The filename may not use spaces or quotes.</dd>
-    <dt><a href="qh-optt.htm#TO">TO file</a></dt>
+    <dt><a href="qh-optt.html#TO">TO file</a></dt>
     <dd>output results to file.  Use single quotes if the filename
         contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
-    <dt><a href="qh-optq.htm#Qs">Qs</a></dt>
+    <dt><a href="qh-optq.html#Qs">Qs</a></dt>
     <dd>search all points for the initial simplex.  If Qhull can
         not construct an initial simplex, it reports a
 descriptive message. Usually, the point set is degenerate and one
-or more dimensions should be removed ('<a href="qh-optq.htm#Qb0">Qbk:0Bk:0</a>').
+or more dimensions should be removed ('<a href="qh-optq.html#Qb0">Qbk:0Bk:0</a>').
 If not, use option 'Qs'. It performs an exhaustive search for the
 best initial simplex. This is expensive is high dimensions.</dd>
 </dl>
@@ -426,14 +426,14 @@ best initial simplex. This is expensive is high dimensions.</dd>
 <blockquote>
 
 <p>Display 2-d, 3-d, and 4-d convex hulls with Geomview ('<a
-href="qh-optg.htm#G">G</a>').</p>
+href="qh-optg.html#G">G</a>').</p>
 
 <p>Display 2-d and 3-d convex hulls with Mathematica ('<a
-href="qh-opto.htm#m">m</a>').</p>
+href="qh-opto.html#m">m</a>').</p>
 
 <p>To view 4-d convex hulls in 3-d, use '<a
-href="qh-optp.htm#Pdk">Pd0d1d2d3</a>' to select the positive
-octant and '<a href="qh-optg.htm#GDn">GrD2</a>' to drop dimension
+href="qh-optp.html#Pdk">Pd0d1d2d3</a>' to select the positive
+octant and '<a href="qh-optg.html#GDn">GrD2</a>' to drop dimension
 2. </p>
 
 </blockquote>
@@ -453,7 +453,7 @@ conventions</a></h3>
 <blockquote>
 
 <p>The following terminology is used for convex hulls in Qhull.
-See <a href="index.htm#structure">Qhull's data structures</a>.</p>
+See <a href="index.html#structure">Qhull's data structures</a>.</p>
 
 <ul>
     <li><em>point</em> - <em>d</em> coordinates</li>
@@ -473,7 +473,7 @@ See <a href="index.htm#structure">Qhull's data structures</a>.</p>
     <li><em>non-simplicial facet</em> - a facet with more than <em>d</em>
         vertices</li>
     <li><em>good facet</em> - a facet selected by '<a
-        href="qh-optq.htm#QVn">QVn</a>', etc.</li>
+        href="qh-optq.html#QVn">QVn</a>', etc.</li>
 </ul>
 </blockquote>
 <h3><a href="#TOP">&#187;</a><a name="options">qconvex options</a></h3>
@@ -599,16 +599,16 @@ Print options:
 <hr>
 
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;<a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a>: Table of Contents<br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149;<a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics

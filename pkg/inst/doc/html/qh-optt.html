@@ -8,16 +8,16 @@
 <body>
 <!-- Navigation links -->
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a></p>
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a>: Table of Contents<br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a></p>
 
 <hr>
 <!-- Main text of document -->
@@ -33,15 +33,15 @@ indicated by 'T' followed by a letter.
 
 <hr>
 
-<p><a href="index.htm#TOC">&#187;</a> <a href="qh-quick.htm#programs">Programs</a>
-<a name="trace">&#149;</a> <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a></p>
+<p><a href="index.html#TOC">&#187;</a> <a href="qh-quick.html#programs">Programs</a>
+<a name="trace">&#149;</a> <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a></p>
 
 <h2>Trace options</h2>
 
@@ -99,7 +99,7 @@ building cone for point n</a></h3>
 
 <p>Qhull builds a cone from the point to its horizon facets.
 Option 'TCn' stops Qhull just after building the cone. The output
-for '<a href="qh-opto.htm#f">f</a>' includes the cone and the old
+for '<a href="qh-opto.html#f">f</a>' includes the cone and the old
 hull.'. </p>
 
 <h3><a href="#trace">&#187;</a><a name="TFn">TFn - report summary
@@ -163,10 +163,10 @@ reduces the output size when tracing.  It is the normal
 method to determine the cause of a Qhull error. All Qhull errors
 report the last point added.
 
-<p>Use options 'TPn <a href="qh-optt.htm#TVn">TVn</a>' to
+<p>Use options 'TPn <a href="qh-optt.html#TVn">TVn</a>' to
 trace the addition of point n to the convex hull and stop when done.</p>
 
-<p>If used with option '<a href="qh-optt.htm#TWn">TWn</a>',
+<p>If used with option '<a href="qh-optt.html#TWn">TWn</a>',
 'TPn' turns off tracing after adding point n to the hull.
 Use options 'TPn TWn' to
 trace the addition of point n to the convex hull, partitions
@@ -175,9 +175,9 @@ of point n, and wide merges.</p>
 <h3><a href="#trace">&#187;</a><a name="TRn">TRn - rerun qhull n times</a></h3>
 
 <p>Option 'TRn' reruns Qhull n times.  It is usually used
-with '<a href="qh-optq.htm#QJn">QJn</a>' to determine the probability
+with '<a href="qh-optq.html#QJn">QJn</a>' to determine the probability
 that a given joggle will fail.  The summary
-('<a href="qh-opto.htm#s">s</a>') lists the failure
+('<a href="qh-opto.html#s">s</a>') lists the failure
 rate and the precision errors that occurred.
 Option '<a href="#Ts">Ts</a>' will report statistics for
 all of the runs.  Trace and output options only apply to the last
@@ -200,7 +200,7 @@ structure, convexity, and point inclusion </a></h3>
 point inclusion. If precision problems occurred, facet convexity
 is tested whether or not 'Tv' is selected. Option 'Tv' does not
 check point inclusion if forcing output with '<a
-href="qh-optp.htm#Po">Po</a>', or if '<a href="qh-optq.htm#Q5">Q5</a>'
+href="qh-optp.html#Po">Po</a>', or if '<a href="qh-optq.html#Q5">Q5</a>'
 is set. </p>
 
 <p>The convex hull of a set of points is the smallest polytope
@@ -210,15 +210,15 @@ Qhull verifies that all points are below all outer planes
 or if the facet-point product is small enough; otherwise Qhull
 verifies each point with a directed search (qh_findbest). To
 force an exhaustive test when using option '<a
-href="qh-optc.htm#C0">C-0</a>' (default), use 'C-1e-30' instead. </p>
+href="qh-optc.html#C0">C-0</a>' (default), use 'C-1e-30' instead. </p>
 
 <p>Point inclusion testing occurs after producing output. It
 prints a message to stderr unless option '<a
-href="qh-optp.htm#Pp">Pp</a>' is used. This allows the user to
+href="qh-optp.html#Pp">Pp</a>' is used. This allows the user to
 interrupt Qhull without changing the output. </p>
 
-<p>With '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.htm#Fi2">Fi</a>'
-and '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.htm#Fo2">Fo</a>',
+<p>With '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.html#Fi2">Fi</a>'
+and '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.html#Fo2">Fo</a>',
 option 'Tv' collects statistics that verify all Voronoi vertices lie
 on the separating hyperplane, and for bounded regions, all
 separating hyperplanes are perpendicular bisectors.
@@ -227,7 +227,7 @@ separating hyperplanes are perpendicular bisectors.
 adding point n</a></h3>
 
 <p>Qhull adds one point at a time to the convex hull. See <a
-href="qh-eg.htm#how">how Qhull adds a point</a>. Option 'TV-n'
+href="qh-eg.html#how">how Qhull adds a point</a>. Option 'TV-n'
 stops Qhull just before adding a new point. Output shows the hull
 at this time.</p>
 
@@ -251,16 +251,16 @@ stdout </a></h3>
 <hr>
 
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a></p>
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a>: Table of Contents<br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a></p>
 <!-- GC common information -->
 <hr>
 

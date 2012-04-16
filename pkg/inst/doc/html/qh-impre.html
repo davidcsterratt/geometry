@@ -9,17 +9,17 @@
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a href="http://www.qhull.org">Home
 page</a> for Qhull <br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a>: Table of
 Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To: </b><a href="#TOC">Qhull imprecision</a>: Table of Contents
 (please wait while loading)
 
@@ -32,14 +32,14 @@ height="100"></a> Imprecision in Qhull</h1>
 
 <p>This section of the Qhull manual discusses the problems caused
 by coplanar points and why Qhull uses options '<a
-href="qh-optc.htm#C0">C-0</a>' or '<a href="qh-optq.htm#Qx">Qx</a>'
+href="qh-optc.html#C0">C-0</a>' or '<a href="qh-optq.html#Qx">Qx</a>'
 by default. If you ignore precision issues with option '<a
-href="qh-optq.htm#Q0">Q0</a>', the output from Qhull can be
+href="qh-optq.html#Q0">Q0</a>', the output from Qhull can be
 arbitrarily bad. Qhull avoids precision problems if you merge facets (the default) or joggle
 the input ('<a
-href="qh-optq.htm#QJn">QJ</a>'). </p>
+href="qh-optq.html#QJn">QJ</a>'). </p>
 
-<p>Use option '<a href="qh-optt.htm#Tv">Tv</a>' to verify the
+<p>Use option '<a href="qh-optt.html#Tv">Tv</a>' to verify the
 output from Qhull. It verifies that adjacent facets are clearly
 convex. It verifies that all points are on or below all facets. </p>
 
@@ -94,7 +94,7 @@ from these problems.  Qhull handles most of them.</p>
 <p>Under imprecision, calculations may return erroneous results.
 For example, roundoff error can turn a small, positive number
 into a small, negative number. See Milenkovic [<a
-href="index.htm#mile93">'93</a>] for a discussion of <em>strict
+href="index.html#mile93">'93</a>] for a discussion of <em>strict
 robust geometry</em>. Qhull does not meet Milenkovic's criterion
 for accuracy. Qhull's error bound is empirical instead of
 theoretical.</p>
@@ -106,29 +106,29 @@ facets adjacent to a ridge, and two facets with exactly the same
 set of vertices.</p>
 
 <p>Qhull 2.4 and later automatically handles errors due to
-machine round-off. Option '<a href="qh-optc.htm#C0">C-0</a>' or '<a
-href="qh-optq.htm#Qx">Qx</a>' is set by default. In 5-d and
+machine round-off. Option '<a href="qh-optc.html#C0">C-0</a>' or '<a
+href="qh-optq.html#Qx">Qx</a>' is set by default. In 5-d and
 higher, the output is clearly convex but an input point could be
 outside of the hull. This may be corrected by using option '<a
-href="qh-optc.htm#C0">C-0</a>', but then the output may contain
+href="qh-optc.html#C0">C-0</a>', but then the output may contain
 wide facets.</p>
 
-<p>Qhull 2.5 and later provides option '<a href="qh-optq.htm#QJn">QJ</a>'
+<p>Qhull 2.5 and later provides option '<a href="qh-optq.html#QJn">QJ</a>'
 to joggled input. Each input coordinate is modified by a
 small, random quantity. If a precision error occurs, a larger
 modification is tried. When no precision errors occur, Qhull is
 done. </p>
 
-<p>Qhull 3.1 and later provides option '<a href="qh-optq.htm#Qt">Qt</a>'
+<p>Qhull 3.1 and later provides option '<a href="qh-optq.html#Qt">Qt</a>'
 for triangulated output.  This removes the need for
-joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
+joggled input ('<a href="qh-optq.html#QJn">QJ</a>').
 Non-simplicial facets are triangulated.
 The facets may have zero area.
 Triangulated output is particularly useful for Delaunay triangulations.</p>
 
 <p>By handling round-off errors, Qhull can provide a variety of
 output formats. For example, it can return the halfspace that
-defines each facet ('<a href="qh-opto.htm#n">n</a>'). The
+defines each facet ('<a href="qh-opto.html#n">n</a>'). The
 halfspaces include roundoff error. If the halfspaces were exact,
 their intersection would return the original extreme points. With
 imprecise halfspaces and exact arithmetic, nearly incident points
@@ -140,8 +140,8 @@ point, but this appears to be unlikely.</p>
 <p>The following pipe implements the identity function for
 extreme points (with roundoff):
 <blockquote>
-    qconvex <a href="qh-optf.htm#FV">FV</a> <a
-    href="qh-opto.htm#n">n</a> | qhalf <a href="qh-optf.htm#Fp">Fp</a>
+    qconvex <a href="qh-optf.html#FV">FV</a> <a
+    href="qh-opto.html#n">n</a> | qhalf <a href="qh-optf.html#Fp">Fp</a>
 </blockquote>
 
 <p>Bernd Gartner published his
@@ -157,15 +157,15 @@ points that are close to the intermediate result.
 
 <p>This section discusses the choice between merged facets and joggled input.
 By default, Qhull uses merged facets to handle
-precision problems. With option '<a href="qh-optq.htm#QJn">QJ</a>',
-the input is joggled. See <a href="qh-eg.htm#joggle">examples</a>
+precision problems. With option '<a href="qh-optq.html#QJn">QJ</a>',
+the input is joggled. See <a href="qh-eg.html#joggle">examples</a>
 of joggled input and triangulated output.
 <ul>
 <li>Use merged facets (the default)
 when you want non-simplicial output (e.g., the faces of a cube).
-<li>Use merged facets and triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') when
+<li>Use merged facets and triangulated output ('<a href="qh-optq.html#Qt">Qt</a>') when
 you want simplicial output and coplanar facets (e.g., triangles for a Delaunay triangulation).
-<li>Use joggled input ('<a href="qh-optq.htm#QJn">QJ</a>') when you need clearly-convex,
+<li>Use joggled input ('<a href="qh-optq.html#QJn">QJ</a>') when you need clearly-convex,
 simplicial output.
 </ul>
 
@@ -178,12 +178,12 @@ precision errors.
 with triangulated output. </p>
 
 <p>Use merged facets (the
-default, '<a href="qh-optc.htm#C0">C-0</a>')
-or triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') if </p>
+default, '<a href="qh-optc.html#C0">C-0</a>')
+or triangulated output ('<a href="qh-optq.html#Qt">Qt</a>') if </p>
 
 <ul>
     <li>Your application supports non-simplicial facets, or
-    it allows degenerate, simplicial facets (option '<a href="qh-optq.htm#Qt">Qt</a>'). </li>
+    it allows degenerate, simplicial facets (option '<a href="qh-optq.html#Qt">Qt</a>'). </li>
     <li>You do not want the input modified. </li>
     <li>You want to set additional options for approximating the
         hull. </li>
@@ -191,7 +191,7 @@ or triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') if </p>
     </li>
 </ul>
 
-<p>Use joggled input ('<a href="qh-optq.htm#QJn">QJ</a>') if </p>
+<p>Use joggled input ('<a href="qh-optq.html#QJn">QJ</a>') if </p>
 
 <ul>
     <li>Your application needs clearly convex, simplicial output</li>
@@ -200,7 +200,7 @@ or triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') if </p>
 </ul>
 
 <p>You may use both techniques or combine joggle with
-post-merging ('<a href="qh-optc.htm#Cn2">Cn</a>'). </p>
+post-merging ('<a href="qh-optc.html#Cn2">Cn</a>'). </p>
 
 <p>Other researchers have used techniques similar to joggled
 input. Sullivan and Beichel [ref?] randomly perturb the input
@@ -210,7 +210,7 @@ testing point inclusion. Edelsbrunner and Mucke [Symp. Comp.
 Geo., 1988] and Yap [J. Comp. Sys. Sci., 1990] symbolically
 perturb the input to remove singularities. </p>
 
-<p>Merged facets ('<a href="qh-optc.htm#C0">C-0</a>') handles
+<p>Merged facets ('<a href="qh-optc.html#C0">C-0</a>') handles
 precision problems directly. If a precision problem occurs, Qhull
 merges one of the offending facets into one of its neighbors.
 Since all precision problems in Qhull are associated with one or
@@ -224,8 +224,8 @@ triangulations </a></h2>
 a triangulated input. By default, <a href=qdelaun.htm>qdelaunay</a>
 merges regions with cocircular or cospherical input sites.
 If you want a simplicial triangulation
-use triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') or joggled
-input ('<a href="qh-optq.htm#QJn">QJ</a>').
+use triangulated output ('<a href="qh-optq.html#Qt">Qt</a>') or joggled
+input ('<a href="qh-optq.html#QJn">QJ</a>').
 
 <p>For Delaunay triangulations, triangulated
 output should produce good results.  All points are within roundoff error of
@@ -233,13 +233,13 @@ a paraboloid.  If two points are nearly incident, one will be a
 coplanar point.  So all points are clearly separated and convex.
 If qhull reports deleted vertices, the triangulation
 may contain serious precision faults.  Deleted vertices are reported
-in the summary ('<a href="qh-opto.htm#s">s</a>', '<a href="qh-optf.htm#Fs">Fs</a>'</p>
+in the summary ('<a href="qh-opto.html#s">s</a>', '<a href="qh-optf.html#Fs">Fs</a>'</p>
 
-<p>You should use option '<a href="qh-optq.htm#Qbb">Qbb</a>' with Delaunay
+<p>You should use option '<a href="qh-optq.html#Qbb">Qbb</a>' with Delaunay
 triangulations. It scales the last coordinate and may reduce
 roundoff error. It is automatically set for <a href=qdelaun.htm>qdelaunay</a>,
 <a href=qvoronoi.htm>qvoronoi</a>, and option '<a
-href="qh-optq.htm#QJn">QJ</a>'.</p>
+href="qh-optq.html#QJn">QJ</a>'.</p>
 
 <p>Edelsbrunner, H, <i>Geometry and Topology for Mesh Generation</i>, Cambridge University Press, 2001.
 Good mathematical treatise on Delaunay triangulation and mesh generation for 2-d
@@ -292,8 +292,8 @@ vertices, the centrum is equivalent to the centroid or center of
 gravity. </p>
 
 <p>Two neighboring facets are convex if each centrum is clearly
-below the other hyperplane. The '<a href="qh-optc.htm#Cn2">Cn</a>'
-or '<a href="qh-optc.htm#Cn">C-n</a>' options sets the centrum's
+below the other hyperplane. The '<a href="qh-optc.html#Cn2">Cn</a>'
+or '<a href="qh-optc.html#Cn">C-n</a>' options sets the centrum's
 radius to <i>n </i>. A centrum is clearly below a hyperplane if
 the computed distance from the centrum to the hyperplane is
 greater than the centrum's radius plus two maximum roundoff
@@ -301,23 +301,23 @@ errors. Two are required because the centrum can be the maximum
 roundoff error above its hyperplane and the distance computation
 can be high by the maximum roundoff error.</p>
 
-<p>With the '<a href="qh-optc.htm#Cn">C-n</a>' or '<a
-href="qh-optc.htm#An">A-n </a>' options, Qhull merges non-convex
+<p>With the '<a href="qh-optc.html#Cn">C-n</a>' or '<a
+href="qh-optc.html#An">A-n </a>' options, Qhull merges non-convex
 facets while constructing the hull. The remaining facets are
-clearly convex. With the '<a href="qh-optq.htm#Qx">Qx </a>'
+clearly convex. With the '<a href="qh-optq.html#Qx">Qx </a>'
 option, Qhull merges coplanar facets after constructing the hull.
 While constructing the hull, it merges coplanar horizon facets,
 flipped facets, concave facets and duplicated ridges. With '<a
-href="qh-optq.htm#Qx">Qx</a>', coplanar points may be missed, but
+href="qh-optq.html#Qx">Qx</a>', coplanar points may be missed, but
 it appears to be unlikely.</p>
 
-<p>If the user sets the '<a href="qh-optc.htm#An2">An</a>' or '<a
-href="qh-optc.htm#An">A-n</a>' option, then all neighboring
+<p>If the user sets the '<a href="qh-optc.html#An2">An</a>' or '<a
+href="qh-optc.html#An">A-n</a>' option, then all neighboring
 facets are clearly convex and the maximum (exact) cosine of an
 angle is <i>n</i>.</p>
 
-<p>If '<a href="qh-optc.htm#C0">C-0</a>' or '<a
-href="qh-optq.htm#Qx">Qx</a>' is used without other precision
+<p>If '<a href="qh-optc.html#C0">C-0</a>' or '<a
+href="qh-optq.html#Qx">Qx</a>' is used without other precision
 options (default), Qhull tests vertices instead of centrums for
 adjacent simplices. In 3-d, if simplex <i>abc</i> is adjacent to
 simplex <i>bcd</i>, Qhull tests that vertex <i>a</i> is clearly
@@ -361,12 +361,12 @@ facets</a></h2>
 If one coordinate has a larger absolute value than other
 coordinates, it may dominate the effect of roundoff errors on
 distance computations. You may use option '<a
-href="qh-optq.htm#QbB">QbB</a>' to scale points to the unit cube.
+href="qh-optq.html#QbB">QbB</a>' to scale points to the unit cube.
 For Delaunay triangulations and Voronoi diagrams, <a href=qdelaun.htm>qdelaunay</a>
 and <a href=qvoronoi.htm>qvoronoi</a> always set
-option '<a href="qh-optq.htm#Qbb">Qbb</a>'.  It scales the last
+option '<a href="qh-optq.html#Qbb">Qbb</a>'.  It scales the last
 coordinate to [0,m] where <i>m</i> is the maximum width of the
-other coordinates.  Option '<a href="qh-optq.htm#Qbb">Qbb</a>' is
+other coordinates.  Option '<a href="qh-optq.html#Qbb">Qbb</a>' is
 needed for Delaunay triangulations of integer coordinates
 and nearly cocircular points.
 
@@ -380,14 +380,14 @@ with
 </pre>
 The distributions are the same but the first is compressed to a 2e-14 slab.
 <p>
-<li><b>Post-merging of coplanar facets</b> -- In 5-d and higher, option '<a href="qh-optq.htm#Qx">Qx</a>'
+<li><b>Post-merging of coplanar facets</b> -- In 5-d and higher, option '<a href="qh-optq.html#Qx">Qx</a>'
 (default) delays merging of coplanar facets until post-merging.
 This may allow &quot;dents&quot; to occur in the intermediate
 convex hulls. A point may be poorly partitioned and force a poor
-approximation. See option '<a href="qh-optq.htm#Qx">Qx</a>' for
+approximation. See option '<a href="qh-optq.html#Qx">Qx</a>' for
 further discussion.</p>
 
-<p>This is difficult to produce in 5-d and higher.  Option '<a href="qh-optq.htm#Q6">Q6</a>' turns off merging of concave
+<p>This is difficult to produce in 5-d and higher.  Option '<a href="qh-optq.html#Q6">Q6</a>' turns off merging of concave
 facets.  This is similar to 'Qx'.  It may lead to serious precision errors,
 for example,
 <pre>
@@ -401,11 +401,11 @@ more than roundoff error apart). There is no upper bound
 for either figure. This is an area for further research. Qhull
 does a good job of post-merging in all dimensions. Qhull does a
 good job of pre-merging in 2-d, 3-d, and 4-d. With the '<a
-href="qh-optq.htm#Qx">Qx</a>' option, it does a good job in
+href="qh-optq.html#Qx">Qx</a>' option, it does a good job in
 higher dimensions. In 5-d and higher, Qhull does poorly at
 detecting redundant vertices. </p>
 
-<p>In the summary ('<a href="qh-opto.htm#s">s</a>'), look at the
+<p>In the summary ('<a href="qh-opto.html#s">s</a>'), look at the
 ratio between the maximum facet width and the maximum width of a
 single merge, e.g., &quot;(3.4x)&quot;. Qhull usually reports a
 ratio of four or lower in 3-d and six or lower in 4-d. If it
@@ -414,7 +414,7 @@ implementation error.  Narrow distributions (see following) may
 produce wide facets.
 
 <p>For example, if special processing for narrow distributions is
-turned off ('<a href="qh-optq.htm#Q10">Q10</a>'), qhull may produce
+turned off ('<a href="qh-optq.html#Q10">Q10</a>'), qhull may produce
 a wide facet:</p>
 <pre>
          RBOX 1000 L100000 s G1e-16 t1002074964 | QHULL Tv Q10
@@ -423,7 +423,7 @@ a wide facet:</p>
 <p>
 <li><b>Narrow distribution</b> -- In 3-d, a narrow distribution may result in a poor
 approximation. For example, if you do not use qdelaunay nor option
-'<a href="qh-optq.htm#Qbb">Qbb</a>', the furthest-site
+'<a href="qh-optq.html#Qbb">Qbb</a>', the furthest-site
 Delaunay triangulation of nearly cocircular points may produce a poor
 approximation:
 <pre>
@@ -437,15 +437,15 @@ facets with opposite orientations that span the input
 set.  Even though the point may be nearly coplanar with both
 facets, and can be distant from the precise convex
 hull of the input sites.  Additional facets leave the point distant from
-a facet.  To fix this problem, add option '<a href="qh-optq.htm#Qbb">Qbb</a>'
-(it scales the last coordinate).  Option '<a href="qh-optq.htm#Qbb">Qbb</a>'
+a facet.  To fix this problem, add option '<a href="qh-optq.html#Qbb">Qbb</a>'
+(it scales the last coordinate).  Option '<a href="qh-optq.html#Qbb">Qbb</a>'
 is automatically set for <a href=qdelaun.htm>qdelaunay</a> and <a href=qvoronoi.htm>qvoronoi</a>.
 
 <p>Qhull generates a warning if the initial simplex is narrow.
 For narrow distributions, Qhull changes how it processes coplanar
 points -- it does not make a point coplanar until the hull is
 finished.
-Use option '<a href="qh-optq.htm#Q10">Q10</a>' to try Qhull without
+Use option '<a href="qh-optq.html#Q10">Q10</a>' to try Qhull without
 special processing for narrow distributions.
 For example, special processing is needed for:
 <pre>
@@ -454,12 +454,12 @@ For example, special processing is needed for:
 
 <p>You may turn off the warning message by reducing
 qh_WARNnarrow in <tt>user.h</tt> or by setting option
-'<a href="qh-optp.htm#Pp">Pp</a>'. </p>
+'<a href="qh-optp.html#Pp">Pp</a>'. </p>
 
 <p>Similar problems occur for distributions with a large flat facet surrounded
 with many small facet at a sharp angle to the large facet.
 Qhull 3.1 fixes most of these problems, but a poor approximation can occur.
-A point may be left outside of the convex hull ('<a href="qh-optt.htm#Tv">Tv</a>').
+A point may be left outside of the convex hull ('<a href="qh-optt.html#Tv">Tv</a>').
 Examples include
 the furthest-site Delaunay triangulation of nearly cocircular points plus the origin, and the convex hull of a cone of nearly cocircular points. The width of the band is 10^-13.
 <pre>
@@ -475,7 +475,7 @@ output.   For example, <tt>RBOX 1000 s W1e-13 c G2 | QHULL d</tt> is 4 times
 faster for 500 points.  The convex hull contains two large nearly spherical facets and
 many nearly coplanar facets.  Each new point retriangulates the spherical facet and repartitions the remaining points into all of the nearly coplanar facets.
 In this case, quadratic running time is avoided if you use qdelaunay,
-add option '<a href="qh-optq.htm#Qbb">Qbb</a>',
+add option '<a href="qh-optq.html#Qbb">Qbb</a>',
 or add the origin ('P0') to the input.
 <p>
 <li><b>Facet with zero-area</b> --
@@ -491,7 +491,7 @@ vertices can be collinear. </p>
 and two of the facets are not clearly convex. This typically
 occurs when the convexity constraints are too strong or the input
 points are degenerate. The former is more likely in 5-d and
-higher -- especially with option '<a href="qh-optc.htm#Cn">C-n</a>'.</p>
+higher -- especially with option '<a href="qh-optc.html#Cn">C-n</a>'.</p>
 
 <p>
 <li><b>Deleted cone</b> -- Lots of merging can end up deleting all
@@ -502,7 +502,7 @@ only been seen while debugging the code.
 <li><b>Triangulated output leads to precision problems</b> -- With sufficient
 merging, the ridges of a non-simplicial facet may have serious topological
 and geometric problems.  A ridge may be between more than two
-neighboring facets.  If so, their triangulation ('<a href="qh-optq.htm#Qt">Qt</a>')
+neighboring facets.  If so, their triangulation ('<a href="qh-optq.html#Qt">Qt</a>')
 will fail since two facets have the same vertex set.  Furthermore,
 a triangulated facet may have flipped orientation compared to its
 neighbors.</li>
@@ -513,14 +513,14 @@ zero area.
 
 <p>
 <li><b>Coplanar points</b> --
-Option '<a href="qh-optq.htm#Qc">Qc</a>' is determined by
+Option '<a href="qh-optq.html#Qc">Qc</a>' is determined by
 qh_check_maxout() after constructing the hull. Qhull needs to
 retain all possible coplanar points in the facets' coplanar sets.
 This depends on qh_RATIOnearInside in <tt>user.h.</tt>
 Furthermore, the cutoff for a coplanar point is arbitrarily set
 at the minimum vertex. If coplanar points are important to your
 application, remove the interior points by hand (set '<a
-href="qh-optq.htm#Qc">Qc</a> <a href="qh-optq.htm#Qi">Qi</a>') or
+href="qh-optq.html#Qc">Qc</a> <a href="qh-optq.html#Qi">Qi</a>') or
 make qh_RATIOnearInside sufficiently large.</p>
 
 <p>
@@ -529,7 +529,7 @@ coordinates of the point set. Usually the maximum roundoff error
 is a reasonable choice for all distance computations. The maximum
 roundoff error could be computed separately for each point or for
 each distance computation. This is expensive and it conflicts
-with option '<a href="qh-optc.htm#Cn">C-n</a>'.
+with option '<a href="qh-optc.html#Cn">C-n</a>'.
 
 <p>
 <li><b>All flipped or upper Delaunay</b> -- When a lot of merging occurs for
@@ -570,7 +570,7 @@ joggle will halve the probability of a precision error. </p>
 
 <p>With actual data, an analysis would need to account for each
 point changing independently and other computations. It is easier
-to determine the probabilities empirically ('<a href="qh-optt.htm#TRn">TRn</a>') . For example, consider
+to determine the probabilities empirically ('<a href="qh-optt.html#TRn">TRn</a>') . For example, consider
 computing the convex hull of the unit cube centered on the
 origin. The arithmetic has 16 significant decimal digits. </p>
 
@@ -739,28 +739,28 @@ convex hull</a></h2>
 
 <p>Qhull may be used for approximating a convex hull. This is
 particularly valuable in 5-d and higher where hulls can be
-immense. You can use '<a href="qh-optq.htm#Qx">Qx</a> <a
-href="qh-optc.htm#Cn">C-n</a>' to merge facets as the hull is
-being constructed. Then use '<a href="qh-optc.htm#Cn2">Cn</a>'
-and/or '<a href="qh-optc.htm#An2">An</a>' to merge small facets
+immense. You can use '<a href="qh-optq.html#Qx">Qx</a> <a
+href="qh-optc.html#Cn">C-n</a>' to merge facets as the hull is
+being constructed. Then use '<a href="qh-optc.html#Cn2">Cn</a>'
+and/or '<a href="qh-optc.html#An2">An</a>' to merge small facets
 during post-processing. You can print the <i>n</i> largest facets
-with option '<a href="qh-optp.htm#PAn">PAn</a>'. You can print
+with option '<a href="qh-optp.html#PAn">PAn</a>'. You can print
 facets whose area is at least <i>n</i> with option '<a
-href="qh-optp.htm#PFn">PFn</a>'. You can output the outer planes
-and an interior point with '<a href="qh-optf.htm#FV">FV</a> <a
-href="qh-optf.htm#Fo">Fo</a>' and then compute their intersection
+href="qh-optp.html#PFn">PFn</a>'. You can output the outer planes
+and an interior point with '<a href="qh-optf.html#FV">FV</a> <a
+href="qh-optf.html#Fo">Fo</a>' and then compute their intersection
 with 'qhalf'. </p>
 
 <p>To approximate a convex hull in 6-d and higher, use
-post-merging with '<a href="qh-optc.htm#Wn">Wn</a>' (e.g., qhull
+post-merging with '<a href="qh-optc.html#Wn">Wn</a>' (e.g., qhull
 W1e-1 C1e-2 TF2000). Pre-merging with a convexity constraint
 (e.g., qhull Qx C-1e-2) often produces a poor approximation or
-terminates with a simplex. Option '<a href="qh-optq.htm#QbB">QbB</a>'
+terminates with a simplex. Option '<a href="qh-optq.html#QbB">QbB</a>'
 may help to spread out the data.</p>
 
 <p>You will need to experiment to determine a satisfactory set of
-options. Use <a href="rbox.htm">rbox</a> to generate test sets
-quickly and <a href="index.htm#geomview">Geomview</a> to view
+options. Use <a href="rbox.html">rbox</a> to generate test sets
+quickly and <a href="index.html#geomview">Geomview</a> to view
 the results. You will probably want to write your own driver for
 Qhull using the Qhull library. For example, you could select the
 largest facet in each quadrant.</p>
@@ -770,17 +770,17 @@ largest facet in each quadrant.</p>
 
 <p><b>Up:</b> <a href="http://www.qhull.org">Home
 page</a> for Qhull <br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a>: Table of
 Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To:</b> <a href="#TOC">Qhull imprecision: Table of Contents</a>
 
 <!-- GC common information -->

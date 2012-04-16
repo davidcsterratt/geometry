@@ -11,20 +11,20 @@
 <p><a name="TOP"><b>Up:</b></a> <a
 href="http://www.qhull.org">Home page for Qhull</a>
 <br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
+<b>Up:</b> <a href="index.html#TOC">Qhull manual: Table of
 Contents</a><br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents
 (please wait while loading) <br>
-<b>Dn:</b> <a href="../src/libqhull/index.htm">Qhull functions</a>, macros, and data
+<b>Dn:</b> <a href="../src/libqhull/index.html">Qhull functions</a>, macros, and data
 structures
 </p>
 
@@ -86,7 +86,7 @@ Contents </a></h2>
         </ul>
     </li>
     <li><a href="#enhance">Enhancements</a> to Qhull</li>
-    <li><a href="../src/libqhull/index.htm">Qhull functions</a>, macros, and data
+    <li><a href="../src/libqhull/index.html">Qhull functions</a>, macros, and data
         structures </li>
 </ul>
 
@@ -110,12 +110,12 @@ increases rapidly with dimension. It is <em>O(v^floor(d/2) /
 floor(d/2)!)</em>.</p>
 
 <p>The time complexity for merging is unknown. Options '<a
-href="qh-optc.htm#C0">C-0</a>' and '<a href="qh-optq.htm#Qx">Qx</a>'
+href="qh-optc.html#C0">C-0</a>' and '<a href="qh-optq.html#Qx">Qx</a>'
 (defaults) handle precision problems due to floating-point
 arithmetic. They are optimized for simplicial outputs. </p>
 
 <p>When running large data sets, you should monitor Qhull's
-performance with the '<a href="qh-optt.htm#TFn">TFn</a>' option.
+performance with the '<a href="qh-optt.html#TFn">TFn</a>' option.
 The time per facet is approximately constant. In high-d with many
 merged facets, the size of the ridge sets grows rapidly. For
 example the product of 8-d simplices contains 18 facets and
@@ -131,16 +131,16 @@ usage of Qhull. If more than 5-10% of Qhull is in virtual memory,
 its performance will degrade rapidly. </p>
 
 <p>When building hulls in 20-d and higher, you can follow the
-progress of Qhull with option '<a href="qh-optt.htm#Tn">T1</a>'.
+progress of Qhull with option '<a href="qh-optt.html#Tn">T1</a>'.
 It reports each major event in processing a point. </p>
 
 <p>To reduce memory requirements, recompile Qhull for
 single-precision reals (REALfloat in <tt>user.h</tt>).
 Single-precision does not work with joggle ('<a
-href="qh-optq.htm#QJn">QJ</a>'). Check qh_MEMalign in <tt>user.h</tt>
+href="qh-optq.html#QJn">QJ</a>'). Check qh_MEMalign in <tt>user.h</tt>
 and the match between free list sizes and data structure sizes
 (see the end of the statistics report from '<a
-href="qh-optt.htm#Ts">Ts</a>'). If free list sizes do not match,
+href="qh-optt.html#Ts">Ts</a>'). If free list sizes do not match,
 you may be able to use a smaller qh_MEMalign. Setting
 qh_COMPUTEfurthest saves a small amount of memory, as does
 clearing qh_MAXoutside (both in <tt>user.h</tt>).</p>
@@ -157,15 +157,15 @@ version 1.01 of Qhull is much smaller. It contains some bugs that
 prevent Qhull from initializing in simple test cases. It is
 slower in high dimensions.</p>
 
-<p>The precision options, '<a href="qh-optc.htm#Vn">Vn</a>', '<a
-href="qh-optc.htm#Wn">Wn</a>', '<a href="qh-optc.htm#Un">Un</a>'.
-'<a href="qh-optc.htm#An">A-n</a>', '<a href="qh-optc.htm#Cn">C-n</a>',
-'<a href="qh-optc.htm#An2">An</a>', '<a href="qh-optc.htm#Cn2">Cn</a>',
-and '<a href="qh-optq.htm#Qx">Qx</a>', may have large effects on
+<p>The precision options, '<a href="qh-optc.html#Vn">Vn</a>', '<a
+href="qh-optc.html#Wn">Wn</a>', '<a href="qh-optc.html#Un">Un</a>'.
+'<a href="qh-optc.html#An">A-n</a>', '<a href="qh-optc.html#Cn">C-n</a>',
+'<a href="qh-optc.html#An2">An</a>', '<a href="qh-optc.html#Cn2">Cn</a>',
+and '<a href="qh-optq.html#Qx">Qx</a>', may have large effects on
 Qhull performance. You will need to experiment to find the best
 combination for your application. </p>
 
-<p>The verify option ('<a href="qh-optt.htm#Tv">Tv</a>') checks
+<p>The verify option ('<a href="qh-optt.html#Tv">Tv</a>') checks
 every point after the hull is complete. If facet merging is used,
 it checks that every point is inside every facet. This can take a
 very long time if there are many points and many facets. You can
@@ -176,21 +176,21 @@ fast enough for most point sets. Directed search is not used for
 facet merging because directed search was already used for
 updating the facets' outer planes.</p>
 
-<p>The check-frequently option ('<a href="qh-optt.htm#Tc">Tc</a>')
+<p>The check-frequently option ('<a href="qh-optt.html#Tc">Tc</a>')
 becomes expensive as the dimension increases. The verify option
-('<a href="qh-optt.htm#Tv">Tv</a>') performs many of the same
+('<a href="qh-optt.html#Tv">Tv</a>') performs many of the same
 checks before outputting the results.</p>
 
-<p>Options '<a href="qh-optq.htm#Q0">Q0</a>' (no pre-merging), '<a
-href="qh-optq.htm#Q3">Q3</a>' (no checks for redundant vertices),
-'<a href="qh-optq.htm#Q5">Q5</a>' (no updates for outer planes),
-and '<a href="qh-optq.htm#Q8">Q8</a>' (no near-interior points)
+<p>Options '<a href="qh-optq.html#Q0">Q0</a>' (no pre-merging), '<a
+href="qh-optq.html#Q3">Q3</a>' (no checks for redundant vertices),
+'<a href="qh-optq.html#Q5">Q5</a>' (no updates for outer planes),
+and '<a href="qh-optq.html#Q8">Q8</a>' (no near-interior points)
 increase Qhull's speed. The corresponding operations may not be
 needed in your application.</p>
 
 <p>In 2-d and 3-d, a partial hull may be faster to produce.
-Option '<a href="qh-optq.htm#QGn">QgGn</a>' only builds facets
-visible to point n. Option '<a href="qh-optq.htm#QVn">QgVn</a>'
+Option '<a href="qh-optq.html#QGn">QgGn</a>' only builds facets
+visible to point n. Option '<a href="qh-optq.html#QVn">QgVn</a>'
 only builds facets that contain point n. In higher-dimensions,
 this does not reduce the number of facets.</p>
 
@@ -253,7 +253,7 @@ the output to a std::vector.
 The same technique may be used for calling Qhull from C++.
 </p>
 <ul><li>
-Run Qhull with option '<a href="qh-optt.htm#Ta">Ta</a>' to annotate the
+Run Qhull with option '<a href="qh-optt.html#Ta">Ta</a>' to annotate the
 output with qh_fprintf() identifiers.
 </li><li>
 Redefine qh_fprintf() for these identifiers.
@@ -499,7 +499,7 @@ Standard Template Library.  It would provide a good interface to Qhull.
 If you are interested in adapting BGL to Qhull, please contact
 <a href="mailto:bradb@shore.net">bradb@shore.net</a>.
 
-<p>See <a href="../src/libqhull/index.htm">Qhull functions, macros, and data
+<p>See <a href="../src/libqhull/index.html">Qhull functions, macros, and data
 structures</a> for internal documentation of Qhull. The
 documentation provides an overview and index. To use the library
 you will need to read and understand the code. For most users, it
@@ -525,9 +525,9 @@ avoids potential name conflicts.</p>
 <p>If you use the Qhull library, you are on your own as far as
 bugs go. Start with small examples for which you know the output.
 If you get a bug, try to duplicate it with the Qhull program. The
-'<a href="qh-optt.htm#Tc">Tc</a>' option will catch many problems
+'<a href="qh-optt.html#Tc">Tc</a>' option will catch many problems
 as they occur. When an error occurs, use '<a
-href="qh-optt.htm#Tn">T4</a> <a href="qh-optt.htm#TPn">TPn</a>'
+href="qh-optt.html#Tn">T4</a> <a href="qh-optt.html#TPn">TPn</a>'
 to trace from the last point added to the hull. Compare your
 trace with the trace output from the Qhull program.</p>
 
@@ -588,15 +588,15 @@ the convex hull is either the distance to this facet or the
 distance to a subface of the facet.</p>
 
 <blockquote>
-<p><b>Warning:</b> If triangulated output ('<a href=qh-optq.htm#Qt>Qt</a>') and
+<p><b>Warning:</b> If triangulated output ('<a href=qh-optq.html#Qt>Qt</a>') and
 the best facet is triangulated, qh_findbestfacet() returns one of
 the corresponding 'tricoplanar' facets.  The actual best facet may be a different
 tricoplanar facet.
 <p>
 See qh_nearvertex() in poly2.c for sample code to visit each
 tricoplanar facet.  To identify the correct tricoplanar facet,
-see Devillers, et. al., [<a href="index.htm#devi01">'01</a>]
-and Mucke, et al [<a href="index.htm#muck96">'96</a>].  If you
+see Devillers, et. al., [<a href="index.html#devi01">'01</a>]
+and Mucke, et al [<a href="index.html#muck96">'96</a>].  If you
 implement this test in general dimension, please notify
 <a href="mailto:qhull@qhull.org">qhull@qhull.org</a>.
 </blockquote>
@@ -612,13 +612,13 @@ may return a facet on the far side of the convex hull. </p>
 <p>Algorithms that retain the previously constructed hulls
 usually avoid an exhaustive search for the best facet. You may
 use a hierarchical decomposition of the convex hull [Dobkin and
-Kirkpatrick <a href="index.htm#dob-kir90">'90</a>]. </p>
+Kirkpatrick <a href="index.html#dob-kir90">'90</a>]. </p>
 
 <p>To use qh_findbestfacet with Delaunay triangulations, lift the
 point to a paraboloid by summing the squares of its coordinates
 (see qh_setdelaunay in geom2.c). Do not scale the input with
 options 'Qbk', 'QBk', 'QbB' or 'Qbb'. See Mucke, et al [<a
-href="index.htm#muck96">'96</a>] for a good point location
+href="index.html#muck96">'96</a>] for a good point location
 algorithm.</p>
 
 <p>The intersection of a ray with the convex hull may be found by
@@ -699,7 +699,7 @@ separation may be incorrect. [H. Geron] </p>
 
 <h3><A href="#TOC">&#187;</A><a name="tricoplanar">Tricoplanar facets and option 'Qt'</h3>
 
-<p>Option '<a href=qh-optq.htm#Qt>Qt</a>' triangulates non-simplicial
+<p>Option '<a href=qh-optq.html#Qt>Qt</a>' triangulates non-simplicial
 facets (e.g., a square facet in 3-d or a cubical facet in 4-d).
 All facets share the same apex (i.e., the first vertex in facet->vertices).
 For each triangulated facet, Qhull
@@ -728,7 +728,7 @@ corresponds to a vertex of the convex hull and a Voronoi vertex
 corresponds to an adjacent facet. A facet is
 &quot;upperdelaunay&quot; if it corresponds to a Voronoi vertex
 &quot;at-infinity&quot;. Qhull uses qh_printvoronoi in <tt>io.c</tt>
-for '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-opto.htm#o">o'</a> </p>
+for '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-opto.html#o">o'</a> </p>
 
 <blockquote>
     <pre>
@@ -758,7 +758,7 @@ FORALLvertices {
 ridge</a></h3>
 
 <p>Qhull uses qh_printvdiagram() in io.c to print the ridges of a
-Voronoi diagram for option '<a href="qh-optf.htm#Fv2">Fv</a>'.
+Voronoi diagram for option '<a href="qh-optf.html#Fv2">Fv</a>'.
 The helper function qh_eachvoronoi() does the real work. It calls
 the callback 'printvridge' for each ridge of the Voronoi diagram.
 </p>
@@ -828,7 +828,7 @@ graph of the convex hull. </p>
 
 Documentation
 - Qhull::addPoint().  Problems with qh_findbestfacet and otherpoints see
-   qh-code.htm#inc on-line construction with qh_addpoint()
+   qh-code.html#inc on-line construction with qh_addpoint()
 - How to handle 64-bit possible loss of data.  WARN64, ptr_intT, size_t/int
 - Show custom of qh_fprintf
 - grep 'qh_mem ' x | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
@@ -859,8 +859,8 @@ Documentation
  - prove that directed search locates all coplanar facets
  - in high-d merging, can a loop of facets become disconnected?
  - find a way to improve inner hulls in 5-d and higher
- - determine the best policy for facet visibility ('<a href="qh-optc.htm#Vn">Vn</a>')
- - determine the limitations of '<a href="qh-optq.htm#Qg">Qg</a>'
+ - determine the best policy for facet visibility ('<a href="qh-optc.html#Vn">Vn</a>')
+ - determine the limitations of '<a href="qh-optq.html#Qg">Qg</a>'
 
 Precision improvements:
  - For 'Qt', resolve cross-linked, butterfly ridges.
@@ -902,15 +902,15 @@ Input/output improvements:
  - generate Geomview output for Voronoi ridges and unbounded rays
  - generate Geomview output for halfspace intersection
  - generate Geomview display of furthest-site Voronoi diagram
- - use '<a href="qh-optg.htm#GDn">GDn</a>' to view 5-d facets in 4-d
+ - use '<a href="qh-optg.html#GDn">GDn</a>' to view 5-d facets in 4-d
  - convert Geomview output for other 3-d viewers
  - add interactive output option to avoid recomputing a hull
- - orient vertex neighbors for '<a href="qh-optf.htm#Fv">Fv</a>' in 3-d and 2-d
+ - orient vertex neighbors for '<a href="qh-optf.html#Fv">Fv</a>' in 3-d and 2-d
  - track total number of ridges for summary and logging
 
 Performance improvements:
  - optimize Qhull for 2-d Delaunay triangulations
- -   use O'Rourke's <a href="index.htm#orou94">'94</a> vertex-&gt;duplicate_edge
+ -   use O'Rourke's <a href="index.html#orou94">'94</a> vertex-&gt;duplicate_edge
  -   add bucketing
  -   better to specialize all of the code (ca. 2-3x faster w/o merging)
  - use updated LU decomposition to speed up hyperplane construction
@@ -926,19 +926,19 @@ Performance improvements:
 
 <p><b>Up:</b> <a href="http://www.qhull.org">Home
 page for Qhull</a> <br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
+<b>Up:</b> <a href="index.html#TOC">Qhull manual: Table of
 Contents</a><br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents <br>
-<b>Dn:</b> <a href="../src/libqhull/index.htm">Qhull functions</a>, macros, and data
+<b>Dn:</b> <a href="../src/libqhull/index.html">Qhull functions</a>, macros, and data
 structures <!-- GC common information -->
 
 <hr>

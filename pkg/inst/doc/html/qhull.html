@@ -8,16 +8,16 @@
 <body>
 <!-- Navigation links -->
 <p><b><a name="TOP">Up</a></b><b>:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a>: Table of Contents<br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put
 &#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols
 &#149; <a href="#options">op</a>tions
@@ -44,9 +44,9 @@ It takes the same options and uses the same code.
 <blockquote>
 <dl>
     <dt><b>Example:</b> rbox 1000 D3 | qhull
-         <a href="qh-optc.htm#Cn">C-1e-4</a>
-         <a href="qh-optf.htm#FO">FO</a>
-         <a href="qh-optt.htm#Ts">Ts</a>
+         <a href="qh-optc.html#Cn">C-1e-4</a>
+         <a href="qh-optf.html#FO">FO</a>
+         <a href="qh-optt.html#Ts">Ts</a>
          </dt>
     <dd>Compute the 3-d convex hull of 1000 random
              points.
@@ -55,10 +55,10 @@ It takes the same options and uses the same code.
                  When done, print statistics.  These options may be
                  used with any of the Qhull programs.</dd>
     <dt>&nbsp;</dt>
-    <dt><b>Example:</b> rbox 1000 D3 | qhull <a href=qhull.htm#outputs>d</a>
-         <a href="qh-optq.htm#Qbb">Qbb</a>
-         <a href="qh-optc.htm#Rn">R1e-4</a>
-         <a href="qh-optq.htm#Q0">Q0</a></dt>
+    <dt><b>Example:</b> rbox 1000 D3 | qhull <a href=qhull.html#outputs>d</a>
+         <a href="qh-optq.html#Qbb">Qbb</a>
+         <a href="qh-optc.html#Rn">R1e-4</a>
+         <a href="qh-optq.html#Q0">Q0</a></dt>
     <dd>Compute the 3-d Delaunay triangulation of 1000 random
              points.  Randomly perturb all calculations by
                  [0.9999,1.0001].  Do not correct precision problems.
@@ -70,13 +70,13 @@ Delaunay triangulation is a 4-d convex hull):
 <blockquote>
 <ul>
 <li>
-<a href="qconvex.htm">qconvex</a> == qhull
+<a href="qconvex.html">qconvex</a> == qhull
 <li>
-<a href=qdelaun.htm>qdelaunay</a> == qhull d <a href="qh-optq.htm#Qbb">Qbb</a>
+<a href=qdelaun.htm>qdelaunay</a> == qhull d <a href="qh-optq.html#Qbb">Qbb</a>
 <li>
 <a href=qhalf.htm>qhalf</a> == qhull H
 <li>
-<a href=qvoronoi.htm>qvoronoi</a> == qhull v <a href="qh-optq.htm#Qbb">Qbb</a>
+<a href=qvoronoi.htm>qvoronoi</a> == qhull v <a href="qh-optq.html#Qbb">Qbb</a>
 </ul>
 </blockquote>
 
@@ -85,13 +85,13 @@ Delaunay triangulation is a 5-d convex hull):
 <blockquote>
 <ul>
 <li>
-<a href="qconvex.htm">qconvex</a> == qhull <a href="qh-optq.htm#Qx">Qx</a>
+<a href="qconvex.html">qconvex</a> == qhull <a href="qh-optq.html#Qx">Qx</a>
 <li>
-<a href=qdelaun.htm>qdelaunay</a> == qhull d <a href="qh-optq.htm#Qbb">Qbb</a> <a href="qh-optq.htm#Qx">Qx</a>
+<a href=qdelaun.htm>qdelaunay</a> == qhull d <a href="qh-optq.html#Qbb">Qbb</a> <a href="qh-optq.html#Qx">Qx</a>
 <li>
-<a href=qhalf.htm>qhalf</a> == qhull H <a href="qh-optq.htm#Qx">Qx</a>
+<a href=qhalf.htm>qhalf</a> == qhull H <a href="qh-optq.html#Qx">Qx</a>
 <li>
-<a href=qvoronoi.htm>qvoronoi</a> == qhull v <a href="qh-optq.htm#Qbb">Qbb</a> <a href="qh-optq.htm#Qx">Qx</a>
+<a href=qvoronoi.htm>qvoronoi</a> == qhull v <a href="qh-optq.html#Qbb">Qbb</a> <a href="qh-optq.html#Qx">Qx</a>
 </ul>
 </blockquote>
 
@@ -99,20 +99,20 @@ Delaunay triangulation is a 5-d convex hull):
 <p>By default, Qhull merges coplanar facets.  For example, the convex
 hull of a cube's vertices has six facets.
 
-<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output),
+<p>If you use '<a href="qh-optq.html#Qt">Qt</a>' (triangulated output),
 all facets will be simplicial (e.g., triangles in 2-d).  For the cube
 example, it will have 12 facets.  Some facets may be
 degenerate and have zero area.
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input),
+<p>If you use '<a href="qh-optq.html#QJn">QJ</a>' (joggled input),
 all facets will be simplicial.  The corresponding vertices will be
 slightly perturbed.  Joggled input is less accurate that triangulated
 output.See <a
-href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
+href="qh-impre.html#joggle">Merged facets or joggled input</a>. </p>
 
 <p>The output for 4-d convex hulls may be confusing if the convex
 hull contains non-simplicial facets (e.g., a hypercube). See
-<a href=qh-faq.htm#extra>Why
+<a href=qh-faq.html#extra>Why
 are there extra points in a 4-d or higher convex hull?</a><br>
 </p>
 
@@ -174,12 +174,12 @@ examples:
 </ul>
 
 <p>Use I/O redirection (e.g., qhull &lt; data.txt), a pipe (e.g., rbox 10 | qhull),
-or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qhull TI data.txt).
+or the '<a href=qh-optt.html#TI>TI</a>' option (e.g., qhull TI data.txt).
 
 <p>Comments start with a non-numeric character.  Error reporting is
 simpler if there is one point per line.  Dimension
 and number of points may be reversed.  For halfspace intersection,
-an interior point may be prepended (see <a href=qhalf.htm#input>qhalf input</a>).
+an interior point may be prepended (see <a href=qhalf.html#input>qhalf input</a>).
 
 <p>Here is the input for computing the convex
 hull of the unit cube.  The output is the normals, one
@@ -243,12 +243,12 @@ individually or together.</p>
         See <a href=qconvex.htm>qconvex</a>.</dd>
     <dt><a name="d">qhull d Qbb</a></dt>
     <dd>compute the Delaunay triangulation by lifting the points
-        to a paraboloid.  Use option '<a href="qh-optq.htm#Qbb">Qbb</a>'
+        to a paraboloid.  Use option '<a href="qh-optq.html#Qbb">Qbb</a>'
         to scale the paraboloid and improve numeric precision.
         See <a href=qdelaun.htm>qdelaunay</a>.</dd>
     <dt><a name="v">qhull v Qbb</a></dt>
     <dd>compute the Voronoi diagram by computing the Delaunay
-        triangulation.    Use option '<a href="qh-optq.htm#Qbb">Qbb</a>'
+        triangulation.    Use option '<a href="qh-optq.html#Qbb">Qbb</a>'
         to scale the paraboloid and improve numeric precision.
         See <a href=qvoronoi.htm>qvoronoi</a>.</dd>
     <dt><a name="H">qhull H</a></dt>
@@ -260,12 +260,12 @@ individually or together.</p>
 <p>For a full list of output options see
 <blockquote>
 <ul>
-            <li><a href="qh-opto.htm#output">Output</a> formats</li>
-            <li><a href="qh-optf.htm#format">Additional</a> I/O
+            <li><a href="qh-opto.html#output">Output</a> formats</li>
+            <li><a href="qh-optf.html#format">Additional</a> I/O
                 formats</li>
-            <li><a href="qh-optg.htm#geomview">Geomview</a>
+            <li><a href="qh-optg.html#geomview">Geomview</a>
                 output options</li>
-            <li><a href="qh-optp.htm#print">Print</a> options</li>
+            <li><a href="qh-optp.html#print">Print</a> options</li>
 </ul>
 </blockquote>
 
@@ -276,10 +276,10 @@ individually or together.</p>
 <p>For a full list of control options see
 <blockquote>
 <ul>
-            <li><a href="qh-optq.htm#qhull">Qhull</a> control
+            <li><a href="qh-optq.html#qhull">Qhull</a> control
                 options</li>
-            <li><a href="qh-optc.htm#prec">Precision</a> options</li>
-            <li><a href="qh-optt.htm#trace">Trace</a> options</li>
+            <li><a href="qh-optc.html#prec">Precision</a> options</li>
+            <li><a href="qh-optt.html#trace">Trace</a> options</li>
 </ul>
 </blockquote>
 
@@ -442,16 +442,16 @@ Print options:
 <hr>
 
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a>: Table of Contents<br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put
 &#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols
 &#149; <a href="#options">op</a>tions

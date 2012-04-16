@@ -9,16 +9,16 @@
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a href="http://www.qhull.org">Home
 page</a> for Qhull <br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="index.html#TOC">Qhull manual</a>: Table of Contents<br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To: </b><a href="#TOC">Qhull examples: Table of Contents</a> (please wait
 while loading)<br>
 
@@ -31,15 +31,15 @@ height="100"></a> Examples of Qhull</h1>
 
 <p>This section of the Qhull manual will introduce you to Qhull
 and its options. Each example is a file for viewing with <a
-href="index.htm#geomview">Geomview</a>.  You will need to
+href="index.html#geomview">Geomview</a>.  You will need to
 use a Unix computer with a copy of Geomview.
 <p>
 If you are not running Unix, you can view <a
 href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">pictures</a>
 for some of the examples.  To understand Qhull without Geomview, try the
-examples in <a href="qh-quick.htm#programs">Programs</a> and
-<a href="qh-quick.htm#programs">Programs/input</a>.  You can also try small
-examples that you compute by hand.  Use <a href="rbox.htm">rbox</a>
+examples in <a href="qh-quick.html#programs">Programs</a> and
+<a href="qh-quick.html#programs">Programs/input</a>.  You can also try small
+examples that you compute by hand.  Use <a href="rbox.html">rbox</a>
 to generate examples.
 <p>
 To generate the Geomview examples, execute the shell script <tt>eg/q_eg</tt>.
@@ -149,7 +149,7 @@ indicates its normal. For example, normal [0,0,1] along the Z
 axis is (r=0.5, g=0.5, b=1.0). With the 'Dn' option in <tt>rbox</tt>,
 you can generate hypercubes in any dimension. Above 7-d the
 number of intermediate facets grows rapidly. Use '<a
-href="qh-optt.htm#TFn">TFn</a>' to track qconvex's progress. Note
+href="qh-optt.html#TFn">TFn</a>' to track qconvex's progress. Note
 that each facet is a square that qconvex merged from coplanar
 triangles.</p>
 
@@ -176,7 +176,7 @@ A-0.95 p | qconvex G &gt;eg.99</i>.</p>
 <p>In 2-d, there are many ways to generate a convex hull. One of
 the earliest algorithms, and one of the fastest, is the 2-d
 Quickhull algorithm [c.f., Preparata &amp; Shamos <a
-href="index.htm#pre-sha85">'85</a>]. It was the model for
+href="index.html#pre-sha85">'85</a>]. It was the model for
 Qhull.</p>
 
 <h3><a href="#2d">&#187;</a><a name="05">rbox 10 l | qconvex G
@@ -188,7 +188,7 @@ Qhull.</p>
 Qc Gapcv &gt;eg.06.merge.square</a></h3>
 
 <p>This demonstrates how Qhull handles precision errors. Option '<a
-href="qh-optc.htm#Cn">C-0.03</a>' requires a clearly convex angle
+href="qh-optc.html#Cn">C-0.03</a>' requires a clearly convex angle
 between adjacent facets. Otherwise, Qhull merges the facets. </p>
 
 <p>This is the convex hull of random points in a square. The
@@ -210,7 +210,7 @@ machine roundoff errors. Note the large number of facets. </p>
 
 <p>The sphere is just barely poking out of the cube. Try the same
 distribution with randomization turned on ('<a
-href="qh-optq.htm#Qr">Qr</a>'). This turns Qhull into a
+href="qh-optq.html#Qr">Qr</a>'). This turns Qhull into a
 randomized incremental algorithm. To compare Qhull and
 randomization, look at the number of hyperplanes created and the
 number of points partitioned. Don't compare CPU times since Qhull's
@@ -290,11 +290,11 @@ a point that is furthest in an outside set. A point like
 <h3><a href="#how">&#187;</a><a name="14">rbox 100 s P0.5,0.5,0.5 |
 qhull Ga QV0g Q0 &gt;eg.14.sphere.corner</a></h3>
 
-<p>The '<a href="qh-optq.htm#QVn">QVn</a>', '<a
-href="qh-optq.htm#QGn">QGn </a>' and '<a href="qh-optp.htm#Pdk">Pdk</a>'
+<p>The '<a href="qh-optq.html#QVn">QVn</a>', '<a
+href="qh-optq.html#QGn">QGn </a>' and '<a href="qh-optp.html#Pdk">Pdk</a>'
 options define good facets for Qhull. In this case '<a
-href="qh-optq.htm#QVn">QV0</a>' defines the 0'th point
-[0.5,0.5,0.5] as the good vertex, and '<a href="qh-optq.htm#Qg">Qg</a>'
+href="qh-optq.html#QVn">QV0</a>' defines the 0'th point
+[0.5,0.5,0.5] as the good vertex, and '<a href="qh-optq.html#Qg">Qg</a>'
 tells Qhull to only build facets that might be part of a good
 facet. This technique reduces output size in low dimensions. It
 does not work with facet merging.</p>
@@ -309,7 +309,7 @@ Qhull merges non-convex facets.
 
 <p>If the facets were not merged, Qhull
 would report precision problems.  For example, turn off facet merging
-with option '<a href="qh-optq.htm#Q0">Q0</a>'.  Qhull may report concave
+with option '<a href="qh-optq.html#Q0">Q0</a>'.  Qhull may report concave
 facets, flipped facets, or other precision errors:
 <blockquote>
 rbox 500 W0 | qhull QR0 Q0
@@ -319,7 +319,7 @@ rbox 500 W0 | qhull QR0 Q0
 <h3><a href="#joggle">&#187;</a><a name="15b">rbox 500 W0 | qconvex QR0 Qt Qc Gvp &gt;eg.15b.triangle</a></h3>
 
 <p>Like the previous examples, this is the convex hull of 500 points on the
-surface of a cube.  Option '<a href="qh-optq.htm#Qt">Qt</a>' triangulates the
+surface of a cube.  Option '<a href="qh-optq.html#Qt">Qt</a>' triangulates the
 non-simplicial facets.  Triangulated output is
 particularly helpful for Delaunay triangulations.
 
@@ -327,12 +327,12 @@ particularly helpful for Delaunay triangulations.
 <h3><a href="#joggle">&#187;</a><a name="15c">rbox 500 W0 | qconvex QR0 QJ5e-2 Qc Gvp &gt;eg.15c.joggle</a></h3>
 
 <p>This is the convex hull of 500 joggled points on the surface of
-a cube.  The option '<a href="qh-optq.htm#QJn">QJ5e-2</a>'
+a cube.  The option '<a href="qh-optq.html#QJn">QJ5e-2</a>'
 sets a very large joggle to make the effect visible.  Notice
 that all of the facets are triangles.  If you rotate the cube,
 you'll see red-yellow lines for coplanar points.
 <p>
-With option '<a href="qh-optq.htm#QJn">QJ</a>', Qhull joggles the
+With option '<a href="qh-optq.html#QJn">QJ</a>', Qhull joggles the
 input to avoid precision problems.  It adds a small random number
 to each input coordinate.  If a precision
 error occurs, it increases the joggle and tries again.  It repeats
@@ -340,7 +340,7 @@ this process until no precision problems occur.
 <p>
 Joggled input is a simple solution to precision problems in
 computational geometry.  Qhull can also merge facets to handle
-precision problems.  See <a href="qh-impre.htm#joggle">Merged facets or joggled input</a>.
+precision problems.  See <a href="qh-impre.html#joggle">Merged facets or joggled input</a>.
 
 <h2><a href="#TOC">&#187;</a>Delaunay and Voronoi diagrams</h2>
 
@@ -355,13 +355,13 @@ points centered on the square.
 <p>The Delaunay triangulation is the triangulation with empty
 circumcircles.  The input for this example is unusual because it
 includes six co-circular points.  Every triangular subset of these
-points has the same circumcircle.  Option '<a href="qh-optq.htm#Qt">Qt</a>'
+points has the same circumcircle.  Option '<a href="qh-optq.html#Qt">Qt</a>'
 triangulates the co-circular facet.</p>
 
 <h3><a href="#delaunay">&#187;</a><a name="17b">qdelaunay &lt;eg.data.17
 GnraD2 &gt;eg.17b.delaunay.2i</a></h3>
 
-<p>This is the same example without triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>').  qdelaunay
+<p>This is the same example without triangulated output ('<a href="qh-optq.html#Qt">Qt</a>').  qdelaunay
 merges the non-unique Delaunay triangles into a hexagon.</p>
 
 <h3><a href="#delaunay">&#187;</a><a name="17c">qdelaunay &lt;eg.data.17
@@ -389,12 +389,12 @@ Voronoi region for a site. Qhull does not draw the unbounded
 edges. Instead, it draws extra edges to close the unbounded
 Voronoi regions. You may find it helpful to enclose the input
 points in a square.  You can compute the unbounded
-rays from option '<a href="qh-optf.htm#Fo2">Fo</a>'.
+rays from option '<a href="qh-optf.html#Fo2">Fo</a>'.
 </p>
 
 <p>Instead
-of triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>'), this
-example uses joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
+of triangulated output ('<a href="qh-optq.html#Qt">Qt</a>'), this
+example uses joggled input ('<a href="qh-optq.html#QJn">QJ</a>').
 Normally, you should use neither 'QJ' nor 'Qt' for Voronoi diagrams.
 
 <h3><a href="#delaunay">&#187;</a><a name="17e">qvoronoi &lt;eg.data.17
@@ -423,7 +423,7 @@ qdelaunay Gt Qz &lt;eg.17f.delaunay.3 </a></h3>
 a prism. Since the outside ridges are transparent, it shows the
 interior of the outermost facets. If you slice open the
 triangulation with Geomview's ginsu, you will see that the innermost
-facet is a cube. Note the use of '<a href="qh-optq.htm#Qz">Qz</a>'
+facet is a cube. Note the use of '<a href="qh-optq.html#Qz">Qz</a>'
 to add a point &quot;at infinity&quot;. This avoids a degenerate
 input due to cospherical points.</p>
 
@@ -454,7 +454,7 @@ Qu Gv &gt;eg.18c.furthest.2</a></h3>
 only shows regions with more than two vertices. The regions are
 artificially truncated. The actual regions are unbounded. You can
 print the regions' vertices with 'qvoronoi Qu <a
-href="qh-opto.htm#o">o</a>'. </p>
+href="qh-opto.html#o">o</a>'. </p>
 
 <p>Use Geomview's 'obscure' menu to turn off normalization, and
 Geomview's 'cameras' menu to turn off perspective. Then load this
@@ -485,9 +485,9 @@ has recovered the original design.</p>
 R0.01 Gav Po &gt;eg.21a.roundoff.errors </a></h3>
 
 <p>This is the convex hull of 200 cospherical points with
-precision errors ignored ('<a href="qh-optq.htm#Q0">Q0</a>'). To
+precision errors ignored ('<a href="qh-optq.html#Q0">Q0</a>'). To
 demonstrate the effect of roundoff error, we've added a random
-perturbation ('<a href="qh-optc.htm#Rn">R0.01</a>') to every
+perturbation ('<a href="qh-optc.html#Rn">R0.01</a>') to every
 distance and hyperplane calculation. Qhull, like all other convex
 hull algorithms with floating point arithmetic, makes
 inconsistent decisions and generates wildly wrong results. In
@@ -499,7 +499,7 @@ correspond to flipped facets. </p>
 
 <p>Different machines may not produce this picture. If your
 machine generated a long error message, decrease the number of
-points or the random perturbation ('<a href="qh-optc.htm#Rn">R0.01</a>').
+points or the random perturbation ('<a href="qh-optc.html#Rn">R0.01</a>').
 If it did not report flipped facets, increase the number of
 points or perturbation.</p>
 
@@ -511,12 +511,12 @@ imprecise <a
 href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/fixed.html">sphere</a>.
 In this case, the output is a weak approximation to the points.
 This is because a random perturbation of '<a
-href="qh-optc.htm#Rn">R0.01 </a>' is equivalent to losing all but
+href="qh-optc.html#Rn">R0.01 </a>' is equivalent to losing all but
 1.8 digits of precision. The outer planes float above the points
 because Qhull needs to allow for the maximum roundoff error. </p>
 <p>
 If you start with a smaller random perturbation, you
-can use joggle ('<a href="qh-optq.htm#QJn">QJn</a>') to avoid
+can use joggle ('<a href="qh-optq.html#QJn">QJn</a>') to avoid
 precision problems.  You need to set <i>n</i> significantly
 larger than the random perturbation.  For example, try
 'rbox 200 s | qconvex Qc R1e-4 QJ1e-1'.
@@ -534,7 +534,7 @@ Qc Gcrpv &gt;eg.22c.merge.sphere.05</a></h3>
 C-0.05 Qc Gcrpv &gt;eg.22d.merge.sphere.-05</a></h3>
 
 <p>The next four examples compare post-merging and pre-merging ('<a
-href="qh-optc.htm#Cn2">Cn</a>' vs. '<a href="qh-optc.htm#Cn">C-n</a>').
+href="qh-optc.html#Cn2">Cn</a>' vs. '<a href="qh-optc.html#Cn">C-n</a>').
 Qhull uses '-' as a flag to indicate pre-merging.</p>
 
 <p>Post-merging happens after the convex hull is built. During
@@ -560,7 +560,7 @@ Gcprvah C0.1 Qc &gt;eg.23.merge.cube</a></h3>
 options. There's spheres for the vertices, radii for the coplanar
 points, dots for the interior points, hyperplane intersections,
 centrums, and inner and outer planes.  The radii are shorter than
-the spheres because this uses post-merging ('<a href="qh-optc.htm#Cn2">C0.1</a>')
+the spheres because this uses post-merging ('<a href="qh-optc.html#Cn2">C0.1</a>')
 instead of pre-merging.
 
 <h2><a href="#TOC">&#187;</a>4-d objects</h2>
@@ -573,7 +573,7 @@ surface of a 3-d sphere in a 2-d plane.</p>
 Pd0:0.5 C-0.02 C0.1 &gt;eg.24.merge.cube.4d-in-3d</a></h3>
 
 <p>Here's one facet of the imprecise cube in 4-d. It's projected
-into 3-d (the '<a href="qh-optg.htm#GDn">GDn</a>' option drops
+into 3-d (the '<a href="qh-optg.html#GDn">GDn</a>' option drops
 dimension n). Each ridge consists of two triangles between this
 facet and the neighboring facet. In this case, Geomview displays
 the topological ridges, i.e., as triangles between three
@@ -597,9 +597,9 @@ object through Geomview. The <tt>4dview</tt> module includes an
 option for slicing along any hyperplane. If you do this in the x,
 y, or z plane, you'll see the inside of a hypercube.</p>
 
-<p>The '<a href="qh-optg.htm#Gh">Gh</a>' option prints the
+<p>The '<a href="qh-optg.html#Gh">Gh</a>' option prints the
 geometric intersections between adjacent facets. Note the strong
-convexity constraint for post-merging ('<a href="qh-optc.htm#Cn2">C0.1</a>').
+convexity constraint for post-merging ('<a href="qh-optc.html#Cn2">C0.1</a>').
 It deletes the small facets.</p>
 
 <h3><a href="#4d">&#187;</a><a name="31">rbox 20 D3 | qdelaunay G
@@ -665,16 +665,16 @@ third picture is a duplicate of the first. </p>
 
 <p><b>Up:</b> <a href="http://www.qhull.org">Home
 page for Qhull</a> <br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of Contents</a><br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="index.html#TOC">Qhull manual: Table of Contents</a><br>
+<b>To:</b> <a href="qh-quick.html#programs">Programs</a>
+&#149; <a href="qh-quick.html#options">Options</a>
+&#149; <a href="qh-opto.html#output">Output</a>
+&#149; <a href="qh-optf.html#format">Formats</a>
+&#149; <a href="qh-optg.html#geomview">Geomview</a>
+&#149; <a href="qh-optp.html#print">Print</a>
+&#149; <a href="qh-optq.html#qhull">Qhull</a>
+&#149; <a href="qh-optc.html#prec">Precision</a>
+&#149; <a href="qh-optt.html#trace">Trace</a><br>
 <b>To: </b><a href="#TOC">Qhull examples: Table of Contents</a> (please wait
 while loading)<br>
 <!-- GC common information -->
