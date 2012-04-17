@@ -31,11 +31,6 @@
  * Changed the interface for R
 */
 
-
-#include <R.h>
-#include <Rdefines.h>
-#include <Rinternals.h>
-#include <R_ext/Riconv.h>
 #include "Rgeometry.h"
 #define qh_QHimport
 #include "qhull_a.h"

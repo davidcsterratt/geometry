@@ -25,13 +25,6 @@
 * Changed the interface for R
 */
 
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <R.h>
-#include <Rdefines.h>
-#include <Rinternals.h>
 #include "Rgeometry.h"
 #define qh_QHimport
 #include "qhull_a.h"
