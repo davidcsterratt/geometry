@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.3-0  - Released 2012/04/15
+CHANGES IN VERSION 0.3-0  - Released 2012/04/17
 
 NEW FEATURES
 
@@ -18,6 +18,8 @@ BUG FIXES
  * Fix for Issue #1930:	delaunayn should always return a matrix (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1930&group_id=1149&atid=4552)
 
  * Fix for Issue #1915: geometry segfaults during tests (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1915&group_id=1149&atid=4552)
+
+ * Fix for Issue #1947: convhulln crash when Qhull error reported (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1947&group_id=1149&atid=4552)
 
 OTHER CHANGES
 
