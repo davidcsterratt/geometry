@@ -41,7 +41,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
   SEXP retval, area, vol, retlist, retnames;
   int curlong, totlong, i, j, retlen;
   unsigned int dim, n;
-  int exitcode; 
+  int exitcode = 1; 
   boolT ismalloc;
   char flags[250];             /* option flags for qhull, see qh_opt.htm */
   char *opts;
@@ -49,7 +49,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
   double *pt_array;
 
   /* Initialise return values */
-  area = vol = retlist = NULL;
+  area = vol = retlist = R_NilValue;
   retlen = 1;
 
   /* output from qh_produce_output() use NULL to skip qh_produce_output() */
@@ -153,6 +153,8 @@ SEXP convhulln(const SEXP p, const SEXP options)
     warning("convhulln: did not free %d bytes of long memory (%d pieces)",
 	    totlong, curlong);
   }
-
+  if (exitcode) {
+    error("Received error code %d from qhull.", exitcode);
+  }
   return retlist;
 }

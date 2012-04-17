@@ -79,7 +79,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	if (n > dim+1) {
 
 		int i, j;
-		int exitcode;
+		int exitcode = 1;
 		int curlong, totlong;
 
 		i=0,j=0;
