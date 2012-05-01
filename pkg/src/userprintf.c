@@ -40,21 +40,36 @@
 void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
-    if (!fp) {
-        fprintf(stderr, "QH6232 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
-        qh_errexit(6232, NULL, NULL);
-    }
+    /* CHANGE TO SOURCE: The code has been altered so that if the file
+       pointer is null it is assumed that REprintf(), the R error
+       function, will be used. */
+    /* if (!fp) {
+      fprintf(stderr, "QH6232 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
+      qh_errexit(6232, NULL, NULL);
+      } */
     va_start(args, fmt);
 #if qh_QHpointer
     if (qh_qh && qh ANNOTATEoutput) {
 #else
     if (qh ANNOTATEoutput) {
 #endif
-      fprintf(fp, "[QH%.4d]", msgcode);
+      if (fp) {
+        fprintf(fp, "[QH%.4d]", msgcode);
+      } else {
+        REprintf("[QH%.4d]", msgcode);
+      }
     }else if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
-      fprintf(fp, "QH%.4d ", msgcode);
+      if (fp) {
+        fprintf(fp, "QH%.4d ", msgcode);
+      } else {
+        REprintf("QH%.4d ", msgcode);
+      }
     }
-    vfprintf(fp, fmt, args);
+    if (fp) {
+      vfprintf(fp, fmt, args);
+    } else {
+      REvprintf(fmt, args);
+    }
     va_end(args);
 
     /* Place debugging traps here. Use with option 'Tn' */

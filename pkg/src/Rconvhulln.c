@@ -44,11 +44,16 @@ SEXP convhulln(const SEXP p, const SEXP options)
   /* Initialise return values */
   area = vol = retlist = R_NilValue;
   retlen = 1;
-
-  /* output from qh_produce_output() use NULL to skip qh_produce_output() */
-  FILE *outfile = NULL;          /* No output file */
-  FILE *errfile = R_Consolefile; /* error messages from qhull code */
   retval = R_NilValue;
+
+  /* We cannot print directly to stdout in R, and the alternative of
+     using R_Outputfile does not seem to work for all
+     architectures. Therefore set outfile to NULL, which supresses any
+     output when qh_new_qhull() is called. */
+  FILE *outfile = NULL;          /* No output file */
+   /* qh_fprintf() in userprint.c has been redefined so that a NULL
+      errfile results in printing via REprintf(). */
+  FILE *errfile = NULL;       
 
   if(!isString(options) || length(options) != 1){
     error("Second argument must be a single string.");

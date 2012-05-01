@@ -1,3 +1,11 @@
+CHANGES IN VERSION 0.3-1  - Released 2012/05/01
+
+BUG FIXES
+
+* Fix for Issue #1964: R crashes when using convhulln/delaunayn.
+  Thanks to Thomas Kirschstein, Oskar Knapik and Paolo Piras for
+  reporting this.
+
 CHANGES IN VERSION 0.3-0  - Released 2012/04/17
 
 NEW FEATURES
@@ -11,15 +19,22 @@ NEW FEATURES
 BUG FIXES
 
  * Fix for Issue #1578: convhulln crashes when running 2 instances of
-   R in the same directory: output to qhull_out.txt removed (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1578&group_id=1149&atid=4552)
+   R in the same directory: output to qhull_out.txt removed
+   (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1578&group_id=1149&atid=4552).
+   Thanks to Francois Rousset and Bernd Bischl for reporting this.
 
  * Fix for Issue #1923: Compilation on Windows 64 doesn't work (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1923&group_id=1149&atid=4552)
+
+ * Fix for Issue #1924: Silent operation is not supported (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1924&group_id=1149&atid=4552)
+   Thanks to Raphael Leblois for reporting this.
 
  * Fix for Issue #1930:	delaunayn should always return a matrix (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1930&group_id=1149&atid=4552)
 
  * Fix for Issue #1915: geometry segfaults during tests (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1915&group_id=1149&atid=4552)
 
- * Fix for Issue #1947: convhulln crash when Qhull error reported (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1947&group_id=1149&atid=4552)
+ * Fix for Issue #1947: convhulln crash when Qhull error reported
+   (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1947&group_id=1149&atid=4552).
+   Thanks to Petr Savicky for reporting this.
 
 OTHER CHANGES
 

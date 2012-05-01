@@ -1,16 +1,15 @@
+/* This file is included via Makevars in all C files */
 #include <R.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
-#ifdef WIN32
-/* There doesn't seem to be a Windows header file that includes these
-   definitions - Rinterface.h is not available.  */
-extern FILE * R_Consolefile;
-extern FILE * R_Outputfile;
-#else
-#include <Rinterface.h>
-#endif
+/* R check doesn't like stderr and stdout. They can be redefined to
+   NULL to prevent output. The alternative approach of trying to use
+   R_Outputfile and R_Consolefile doesn't seem to work across also
+   architectures. */
 #undef stderr
-#define stderr R_Consolefile
+#define stderr NULL
 #undef stdout
-#define stdout R_Outputfile
+#define stdout NULL
+/* PI has been defined by the R header files, but the Qhull package
+   defines it again, so undefine it here. */
 #undef PI
