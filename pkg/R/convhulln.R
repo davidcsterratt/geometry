@@ -41,7 +41,7 @@
 ##' # ==> see also surf.tri to avoid unwanted messages printed to the console by qhull
 ##' ps <- matrix(rnorm(3000), ncol=3)  # generate points on a sphere
 ##' ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1, 3)))
-##' ts.surf <- t(convhulln(ps, "QJ"))  # see the qhull documentations for the options
+##' ts.surf <- t(convhulln(ps))  # see the qhull documentations for the options
 ##' \dontrun{
 ##' rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2)
 ##' for(i in 1:(8*360)) rgl.viewpoint(i/8)
@@ -53,6 +53,20 @@ convhulln <- function (p, options = "Tv") {
   ## Input sanitisation
   options <- paste(options, collapse=" ")
 
+  ## Coerce the input to be matrix
+  if (is.data.frame(p)) {
+    p <- as.matrix(p)
+  }
+
+  ## Make sure we have real-valued input
+  storage.mode(p) <- "double"
+
+  ## We need to check for NAs in the input, as these will crash the C
+  ## code.
+  if (any(is.na(p))) {
+    stop("The first argument should not contain any NAs")
+  }
+  
   ## It is essential that delaunayn is called with either the QJ or Qt
   ## option. Otherwise it may return a non-triangulated structure, i.e
   ## one with more than dim+1 points per structure, where dim is the
@@ -60,5 +74,5 @@ convhulln <- function (p, options = "Tv") {
   if (!grepl("Qt", options) & !grepl("QJ", options)) {
     options <- paste(options, "Qt")
   }
-  .Call("convhulln", as.matrix(p), as.character(options), PACKAGE="geometry")
+  .Call("convhulln", p, as.character(options), PACKAGE="geometry")
 }

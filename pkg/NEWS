@@ -1,8 +1,18 @@
+CHANGES IN VERSION 0.3-2  - Released 2012/05/XX
+
+BUG FIXES
+
+* Fix for Issue #1983: NA in an input to delaunay crashes R
+  (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1983&group_id=1149&atid=4552)
+  Thanks to Bill Denny for reporting this and suggestiong a way
+  forward with a fix.
+
 CHANGES IN VERSION 0.3-1  - Released 2012/05/01
 
 BUG FIXES
 
-* Fix for Issue #1964: R crashes when using convhulln/delaunayn.
+* Fix for Issue #1964: R crashes when using convhulln/delaunayn
+  (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1964&group_id=1149&atid=4552).
   Thanks to Thomas Kirschstein, Oskar Knapik and Paolo Piras for
   reporting this.
 

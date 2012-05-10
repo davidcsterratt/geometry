@@ -19,6 +19,8 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > library(geometry)
+Loading required package: magic
+Loading required package: abind
 > d <- c(-1,1)
 > pc <- as.matrix(rbind(expand.grid(d,d,d),0))
 > pct <- delaunayn(pc) 
@@ -41,6 +43,11 @@ Type 'q()' to quit R.
 [15,]    7    6    8    9
 > if (!inherits(pct, "matrix"))
 +   stop("Output of delaunayn should be an array")
+> 
+> ## If the input matrix contains NAs, delaunayn should return an error
+> pc <- rbind(pc, NA)
+> try(delaunayn(pc))
+Error in delaunayn(pc) : The first argument should not contain any NAs
 > 
 > ## In the case of just one triangle, delaunayn should still return a
 > ## matrix

@@ -24,8 +24,10 @@ Loading required package: abind
 > set.seed(1)
 > ps <- matrix(rnorm(3000),ncol=3)
 > ps <- sqrt(3) * ps / drop(sqrt((ps^2) %*% rep(1,3)))
-> ts <- convhulln(ps, "QJ")
-QH7038 qhull warning: joggle('QJ') always produces simplicial output.  Triangulated output('Qt') does nothing.
+> ts <- convhulln(ps)
+
+qhull output completed.  Verifying that 1000 points are
+below 7.2e-15 of the nearest facet.
 > print(ts)
         [,1] [,2] [,3]
    [1,]  494  252  377
@@ -2025,13 +2027,19 @@ QH7038 qhull warning: joggle('QJ') always produces simplicial output.  Triangula
 [1995,]  360  587   60
 [1996,]  360  587  448
 > 
+> ## If the input matrix contains NAs, delaunayn should return an error
+> ps <- rbind(ps, NA)
+> try(convhulln(ps))
+Error in convhulln(ps) : The first argument should not contain any NAs
+> 
 > ## This should throw an error, but not segfault
 > try(convhulln(diag(4)))
 QH6214 qhull input error: not enough points(4) to construct initial simplex(need 5)
 
 While executing:  | qhull Qt Tv Qt
 Options selected for Qhull 2012.1 2012/01/26:
-  run-id 1085589659  Qtriangulate  Tverify  Qtriangulate  _pre-merge
+  run-id 147411157  Qtriangulate  Tverify  Qtriangulate  _pre-merge
   _zero-centrum
 Error in convhulln(diag(4)) : Received error code 1 from qhull.
+> 
 > 
