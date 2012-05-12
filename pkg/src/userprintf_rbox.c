@@ -39,10 +39,13 @@
 
 void qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
-
+    /* CHANGE TO SOURCE: The code has been altered so that if the file
+       pointer is null it is assumed that REprintf(), the R error
+       function, will be used. */
     if (!fp) {
-        fprintf(stderr, "QH6231 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
-        qh_errexit_rbox(6231);
+      /* fprintf(stderr, "QH6231 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf_rbox called.\n"); */
+      REprintf("QH6231 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
+      qh_errexit_rbox(6231);
     }
     if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR)
       fprintf(fp, "QH%.4d ", msgcode);
