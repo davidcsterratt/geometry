@@ -28,6 +28,7 @@
 #include "Rgeometry.h"
 #define qh_QHimport
 #include "qhull_a.h"
+#include <unistd.h>              /* For unlink() */
 
 SEXP convhulln(const SEXP p, const SEXP options)
 {
@@ -48,9 +49,11 @@ SEXP convhulln(const SEXP p, const SEXP options)
 
   /* We cannot print directly to stdout in R, and the alternative of
      using R_Outputfile does not seem to work for all
-     architectures. Therefore set outfile to NULL, which supresses any
-     output when qh_new_qhull() is called. */
-  FILE *outfile = NULL;          /* No output file */
+     architectures. Setting outfile to NULL, is not an option, as an
+     open file handle is required for a call to freopen in the Qhull
+     code when qh_new_qhull() is called. Therefore use the ersatz
+     stdout, tmpstdout (see below). */
+  /* FILE *outfile = NULL; */
    /* qh_fprintf() in userprint.c has been redefined so that a NULL
       errfile results in printing via REprintf(). */
   FILE *errfile = NULL;       
@@ -83,7 +86,17 @@ SEXP convhulln(const SEXP p, const SEXP options)
 
   /* sprintf(flags,"qhull Qt Tcv %s",opts); // removed by Bobby */
   sprintf(flags,"qhull Qt %s",opts); 
-  exitcode = qh_new_qhull (dim,n,pt_array,ismalloc,flags,outfile,errfile);
+
+  /* Jiggery-pokery to create and destroy the ersatz stdout, and the
+     call to qhull itself. */    
+  const char *name;
+  name = R_tmpnam("Rf", R_TempDir);
+  tmpstdout = fopen(name, "w");
+  exitcode = qh_new_qhull (dim,n,pt_array,ismalloc,flags,tmpstdout,errfile);
+  fclose(tmpstdout);
+  unlink(name);
+  free((char *) name); 
+
 
   if (!exitcode) {  /* 0 if no error from qhull */
 
