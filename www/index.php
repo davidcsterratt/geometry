@@ -72,6 +72,12 @@ distribution is subject to <a href=
 this license</a>. The non-qhull sources are subject to the GPL version
 2 or higher.</p>
 
+<h2>Bugs and other issues</h2>
+
+<p>Please look at <a href="https://r-forge.r-project.org/tracker/?group_id=1149">
+geometry's R-forge tracker</a> to view known bugs and to report 
+bugs and feature requests.</p>
+
 <h2>Using the Qhull options</h2>
 
 <p>Qhull provides many options. For instance you may request the
