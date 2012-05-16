@@ -38,7 +38,6 @@ SEXP convhulln(const SEXP p, const SEXP options)
   int exitcode = 1; 
   boolT ismalloc;
   char flags[250];             /* option flags for qhull, see qh_opt.htm */
-  char *opts;
   int *idx;
   double *pt_array;
 
@@ -65,11 +64,14 @@ SEXP convhulln(const SEXP p, const SEXP options)
     error("First argument should be a real matrix.");
   }
 
-  i=LENGTH(STRING_ELT(options,0));
-  opts = (char *) R_alloc( ((i>1)?i:1), sizeof(char) );
-  strcpy(opts, " ");
-  if(i>1) strcpy(opts, CHAR(STRING_ELT(options,0)));
+  /* Read options into command */
+	i = LENGTH(STRING_ELT(options,0)); 
+  if (i > 200) 
+    error("Option string too long");
+  sprintf(flags,"qhull Qt %s", CHAR(STRING_ELT(options,0))); 
+  /* sprintf(flags,"qhull Qt Tcv %s",opts); // removed by Bobby */
 
+  /* Check input matrix */
   dim = ncols(p);
   n   = nrows(p);
   if(dim <= 0 || n <= 0){
@@ -83,9 +85,6 @@ SEXP convhulln(const SEXP p, const SEXP options)
       pt_array[dim*i+j] = REAL(p)[i+n*j]; /* could have been pt_array = REAL(p) if p had been transposed */
 
   ismalloc = False; /* True if qhull should free points in qh_freeqhull() or reallocation */
-
-  /* sprintf(flags,"qhull Qt Tcv %s",opts); // removed by Bobby */
-  sprintf(flags,"qhull Qt %s",opts); 
 
   /* Jiggery-pokery to create and destroy the ersatz stdout, and the
      call to qhull itself. */    
