@@ -22,8 +22,8 @@ Type 'q()' to quit R.
 Loading required package: magic
 Loading required package: abind
 > set.seed(1)
-> ps <- matrix(rnorm(3000),ncol=3)
-> ps <- sqrt(3) * ps / drop(sqrt((ps^2) %*% rep(1,3)))
+> ps <- matrix(rnorm(3000), ncol=3)
+> ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1,3)))
 > ts <- convhulln(ps)
 
 qhull output completed.  Verifying that 1000 points are
@@ -2038,8 +2038,12 @@ QH6214 qhull input error: not enough points(4) to construct initial simplex(need
 
 While executing:  | qhull Qt Tv Qt
 Options selected for Qhull 2012.1 2012/01/26:
-  run-id 147411157  Qtriangulate  Tverify  Qtriangulate  _pre-merge
+  run-id 241653469  Qtriangulate  Tverify  Qtriangulate  _pre-merge
   _zero-centrum
 Error in convhulln(diag(4)) : Received error code 1 from qhull.
 > 
+> ## Output to file should work
+> ps <- matrix(rnorm(3000), ncol=3)
+> ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1, 3)))
+> ts <- convhulln(ps, "TO 'test.txt'")
 > 
