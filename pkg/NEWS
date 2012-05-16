@@ -1,3 +1,10 @@
+CHANGES IN VERSION 0.3-3  - Released 2012/05/16
+
+BUG FIXES
+
+* Fix for Issue #2007: Qt option given to Qhull
+  (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=2007&group_id=1149&atid=4552)
+
 CHANGES IN VERSION 0.3-2  - Released 2012/05/12
 
 BUG FIXES

@@ -2036,10 +2036,9 @@ Error in convhulln(ps) : The first argument should not contain any NAs
 > try(convhulln(diag(4)))
 QH6214 qhull input error: not enough points(4) to construct initial simplex(need 5)
 
-While executing:  | qhull Qt Tv Qt
+While executing:  | qhull Tv Qt
 Options selected for Qhull 2012.1 2012/01/26:
-  run-id 241653469  Qtriangulate  Tverify  Qtriangulate  _pre-merge
-  _zero-centrum
+  run-id 248611567  Tverify  Qtriangulate  _pre-merge  _zero-centrum
 Error in convhulln(diag(4)) : Received error code 1 from qhull.
 > 
 > ## Output to file should work

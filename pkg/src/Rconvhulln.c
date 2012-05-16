@@ -68,7 +68,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
 	i = LENGTH(STRING_ELT(options,0)); 
   if (i > 200) 
     error("Option string too long");
-  sprintf(flags,"qhull Qt %s", CHAR(STRING_ELT(options,0))); 
+  sprintf(flags,"qhull %s", CHAR(STRING_ELT(options,0))); 
   /* sprintf(flags,"qhull Qt Tcv %s",opts); // removed by Bobby */
 
   /* Check input matrix */
