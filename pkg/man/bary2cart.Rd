@@ -2,14 +2,14 @@
 \alias{bary2cart}
 \title{Conversion of Barycentric to Cartesian coordinates}
 \usage{
-  bary2cart(T, Beta)
+  bary2cart(X, Beta)
 }
 \arguments{
-  \item{T}{Reference simplex in \eqn{N} dimensions
+  \item{X}{Reference simplex in \eqn{N} dimensions
   represented by a \eqn{N+1}-by-\eqn{N} matrix}
 
   \item{Beta}{\eqn{M} points in baryocentric coordinates
-  with respect to the simplex \code{T} represented by a
+  with respect to the simplex \code{X} represented by a
   \eqn{M}-by-\eqn{N+1} matrix}
 }
 \value{

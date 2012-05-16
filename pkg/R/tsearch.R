@@ -1,20 +1,3 @@
-## Copyright (C) 2007 David Bateman
-## Copyright (C) 2011 David Sterratt
-
-## This program is free software; you can redistribute it and/or modify it
-## under the terms of the GNU General Public License as published by the
-## Free Software Foundation; either version 3 of the License, or (at your
-## option) any later version.
-
-## This program is distributed in the hope that it will be useful, but WITHOUT
-## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-## FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-## for more details.
-
-## You should have received a copy of the GNU General Public License
-## along with this program. If not, see
-## <http://www.gnu.org/licenses/>.
-
 ##' Search for the enclosing Delaunay convex hull
 ##' 
 ##' For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
@@ -38,6 +21,7 @@
 ##' coordinates with respect to the enclosing triangle of each point code(xi,
 ##' yi).}
 ##' @author David Sterratt
+##' @note Based on the Octave function Copyright (C) 2007-2012 David Bateman.
 ##' @seealso tsearchn, delaunayn
 ##' @export
 tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
@@ -65,7 +49,6 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
 }
 
 
-##'
 ##' Search for the enclosing Delaunay convex hull
 ##' 
 ##' For \code{t = delaunayn(x)}, where \code{x} is a set of points in \code{d}
@@ -73,7 +56,6 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
 ##' containing the points \code{xi}. For points outside the convex hull,
 ##' \code{idx} is \code{NA}. \code{tsearchn} also returns the barycentric
 ##' coordinates \code{p} of the enclosing triangles.
-##' 
 ##' 
 ##' @param x An \code{n}-by-\code{d} matrix.  The rows of \code{x} represent
 ##' \code{n} points in \code{d}-dimensional space.
@@ -91,6 +73,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
 ##' containing the barycentric coordinates with respect to the enclosing
 ##' simplex of each point in \code{xi}.}
 ##' @author David Sterratt
+##' @note Based on the Octave function Copyright (C) 2007-2012 David Bateman.
 ##' @seealso tsearch, delaunayn
 ##' @export
 tsearchn <- function(x, t, xi, fast=TRUE) {
@@ -145,64 +128,74 @@ tsearchn <- function(x, t, xi, fast=TRUE) {
   return(list(idx=idx, p=p))
 }
 
-
-
-
-
 ##' Conversion of Cartesian to Barycentric coordinates.
 ##' 
-##' Given the Cartesian coordinates of one or more points, with compute the
-##' barycentric coordinates of these points with respect to a simplex.
+##' Given the Cartesian coordinates of one or more points, compute
+##' the barycentric coordinates of these points with respect to a
+##' simplex.
 ##' 
 ##' Given a reference simplex in \eqn{N} dimensions represented by a
 ##' \eqn{N+1}-by-\eqn{N} matrix an arbitrary point \eqn{\mathbf{P}} in
 ##' Cartesian coordinates, represented by a 1-by-\eqn{N} row vector, can be
-##' written as \deqn{\mathbf{P} = \mathbf{\beta}\mathbf{T}} where
+##' written as \deqn{\mathbf{P} = \mathbf{\beta}\mathbf{X}} where
 ##' \eqn{\mathbf{\beta}} is a \eqn{N+1} vector of the barycentric coordinates.
 ##' A criterion on \eqn{\mathbf{\beta}} is that \deqn{\sum_i\beta_i = 1} Now
-##' partition the simplex into its first \eqn{N} rows \eqn{\mathbf{T}_N} and
-##' its \eqn{N+1}th row \eqn{\mathbf{T}_{N+1}}. Partition the barycentric
+##' partition the simplex into its first \eqn{N} rows \eqn{\mathbf{X}_N} and
+##' its \eqn{N+1}th row \eqn{\mathbf{X}_{N+1}}. Partition the barycentric
 ##' coordinates into the first \eqn{N} columns \eqn{\mathbf{\beta}_N} and the
 ##' \eqn{N+1}th column \eqn{\beta_{N+1}}. This allows us to write
-##' \deqn{\mathbf{P - T}_{N+1} = \mathbf{\beta}_N\mathbf{T}_N +
-##' \mathbf{\beta}_{N+1}\mathbf{T}_{N+1} - \mathbf{T}_{N+1}} which can be
-##' written \deqn{\mathbf{P - T}_{N+1} = \mathbf{\beta}_N(\mathbf{T}_N -
-##' \mathbf{1}\mathbf{T}_{N+1})} where \eqn{\mathbf{1}} is a \eqn{N}-by-1
+##' \deqn{\mathbf{P - X}_{N+1} = \mathbf{\beta}_N\mathbf{X}_N +
+##' \mathbf{\beta}_{N+1}\mathbf{X}_{N+1} - \mathbf{X}_{N+1}} which can be
+##' written \deqn{\mathbf{P - X}_{N+1} = \mathbf{\beta}_N(\mathbf{X}_N -
+##' \mathbf{1}\mathbf{X}_{N+1})} where \eqn{\mathbf{1}} is a \eqn{N}-by-1
 ##' matrix of ones.  We can then solve for \eqn{\mathbf{\beta}_N}:
-##' \deqn{\mathbf{\beta}_N = \mathbf{P - T}_{N+1}(\mathbf{T}_N -
-##' \mathbf{1}\mathbf{T}_{N+1})^{-1}} and compute \deqn{\beta_{N+1} = 1 -
+##' \deqn{\mathbf{\beta}_N = (\mathbf{P - X}_{N+1})(\mathbf{X}_N -
+##' \mathbf{1}\mathbf{X}_{N+1})^{-1}} and compute \deqn{\beta_{N+1} = 1 -
 ##' \sum_{i=1}^N\beta_i} This can be generalised for multiple values of
 ##' \eqn{\mathbf{P}}, one per row.
 ##' 
-##' @param T Reference simplex in \eqn{N} dimensions represented by a
+##' @param X Reference simplex in \eqn{N} dimensions represented by a
 ##' \eqn{N+1}-by-\eqn{N} matrix
 ##' @param P \eqn{M}-by-\eqn{N} matrix in which each row is the Cartesian
 ##' coordinates of a point.
 ##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the Cartesian
 ##' coordinates of corresponding row of \code{P}
 ##' @author David Sterratt
+##' @note Based on the Octave function by David Bateman.
 ##' @export
-cart2bary <- function(T, P) {
-  M <- dim(P)[1]
-  N <- dim(P)[2]
-  Beta <- (P - matrix(T[N+1,], M, N, byrow=TRUE)) %*% solve(T[1:N,] - matrix(1,N,1) %*% T[N+1,,drop=FALSE])
+cart2bary <- function(X, P) {
+  M <- nrow(P)
+  N <- ncol(P)
+  if (ncol(X) != N) {
+    stop("Simplex X must have same number of columns as point matrix P")
+  }
+  if (nrow(X) != (N+1)) {
+    stop("Simplex X must have N columns and N+1 rows")
+  }
+  X1 <- X[1:N,] - (matrix(1,N,1) %*% X[N+1,,drop=FALSE])
+  if (det(X1) == 0) {
+    stop("Degenerate simplex")
+  }
+  Beta <- (P - matrix(X[N+1,], M, N, byrow=TRUE)) %*% solve(X1)
   Beta <- cbind(Beta, 1 - apply(Beta, 1, sum))
   return(Beta)
 }
 
 ##' Conversion of Barycentric to Cartesian coordinates
 ##' 
-##' Given the baryocentric coordinates of one or more points with respect to a
-##' simplex, compute the Cartesian coordinates of these points.
+##' Given the baryocentric coordinates of one or more points with
+##' respect to a simplex, compute the Cartesian coordinates of these
+##' points.
 ##' 
-##' @param T Reference simplex in \eqn{N} dimensions represented by a
+##' @param X Reference simplex in \eqn{N} dimensions represented by a
 ##' \eqn{N+1}-by-\eqn{N} matrix
-##' @param Beta \eqn{M} points in baryocentric coordinates with respect to the
-##' simplex \code{T} represented by a \eqn{M}-by-\eqn{N+1} matrix
-##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the Cartesian
-##' coordinates of corresponding row of \code{Beta}
+##' @param Beta \eqn{M} points in baryocentric coordinates with
+##' respect to the simplex \code{X} represented by a
+##' \eqn{M}-by-\eqn{N+1} matrix
+##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the
+##' Cartesian coordinates of corresponding row of \code{Beta}
 ##' @author David Sterratt
 ##' @export
-bary2cart <- function(T, Beta) {
-  return(Beta %*% T)
+bary2cart <- function(X, Beta) {
+  return(Beta %*% X)
 }
