@@ -4,9 +4,11 @@
 ##' the points such that no N-sphere defined by the N-triangles
 ##' contains any other points from the set.
 ##' 
-##' The \code{Qt} option is supplied to Qhull by default. The code
-##' ensures that one of \code{Qt} or \code{QJ} is passed to Qhull.
-##' See \url{../doc/html/qdelaun.html} for more details.
+##' If neither of the \code{QJ} or \code{Qt} options are supplied, the
+##' \code{QJ} is passed to Qhull. The \code{QJ} prevents the creation
+##' of degenerate simplicies (i.e. those that lie in a
+##' \code{N-1}-dimensional subspace).   See
+##' \url{../doc/html/qdelaun.html} for more details.
 ##' 
 ##' For slient operation, specify the option \code{Pp}. 
 ##'
@@ -87,7 +89,7 @@ delaunayn <- function (p, options="") {
   ## one with more than dim+1 points per structure, where dim is the
   ## dimension in which the points p reside.
   if (!grepl("Qt", options) & !grepl("QJ", options)) {
-    options <- paste(options, "Qt")
+    options <- paste(options, "QJ")
   }
   .Call("delaunayn", p, as.character(options), PACKAGE="geometry")
 }

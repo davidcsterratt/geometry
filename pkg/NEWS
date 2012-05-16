@@ -2,6 +2,12 @@ CHANGES IN VERSION 0.3-3  - Released 2012/05/16
 
 BUG FIXES
 
+* Fix for Issue #2009: delaunayn can return degenerate simplicies by
+  default
+  (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1993&group_id=1149&atid=4552)
+  This is a follow-on of #1993, so thanks to Bill Denny for
+  highlighting the issue.
+
 * Fix for Issue #1993: Error in solve.default in tsearchn
   (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1993&group_id=1149&atid=4552)
   Thanks to Bill Denny for reporting this and suggestiong a way
