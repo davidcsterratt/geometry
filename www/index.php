@@ -116,16 +116,6 @@ like:
 
 </p>
 
-<h2>Wish list for future releases</h2>
-
-<ul>
-<li>More self-explanatory interface for qhull options (?)</li>
-<li>Wuiet error output</li>
-<li>Translate other functions of the matlab mesh package of
-Per-Olof Persson (http://www-math.mit.edu/~persson/mesh/)</li>
-<li>n-D interpolation with Delaunay triangulation</li>
-</ul>
-
 <h2>Contribute</h2>
 
 <p>If you have ideas for functions, or functions you made and think
