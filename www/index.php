@@ -81,33 +81,46 @@ bugs and feature requests.</p>
 <h2>Using the Qhull options</h2>
 
 <p>Qhull provides many options. For instance you may request the
-volume of a convex hull and its surface area by specifying the 'FS'
+volume of a convex hull and its surface area by specifying the <tt>FS</tt>
 option. Currently the output cannot be accessed directly. However,
-Qhull has the option TO <em>filename</em> which can be used to write
+Qhull has the option <tt>TO</tt> <em>filename</em> which can be used to write
 the output to a file which can then be parsed into R again. For
 instance, if you want to compute the volume of a convex hull of a set
-of points, if you have a matrix with 3 columns, <pre>&gt; ps &lt;-
-matrix(rnorm(30),,3); </pre> say, that might be something like
-<pre>&gt; x = convhulln(ps,"FS TO 'bla.txt'"); # use of the 'TO
-filename' option </pre> This command created the text file 'bla.txt'
-that contains the requested output (i.e. the output specified by the
-Qhull options).  For the Qhull option FS this is the following: [<a
-href=
-"http://web.archive.org/web/20080218222024/http://www.qhull.org/html/qh-optf.htm#FS">from
+of points, if you have a matrix with 3 columns, 
+
+<pre>
+&gt; ps &lt;-matrix(rnorm(30),,3)
+</pre> 
+
+say, that might be something like:
+
+<pre>
+&gt; x = convhulln(ps,"FS TO 'bla.txt'"); # use of the 'TO filename' option 
+</pre> 
+
+This command created the text file <tt>bla.txt</tt> that contains the
+requested output (i.e. the output specified by the Qhull options).
+For the Qhull option <tt>FS</tt> this is the following: [<a href=
+"http://www.qhull.org/html/qh-optf.htm#FS">from
 the doc</a>] "The first line consists of the number of integers
 ("0"). The second line consists of the number of reals ("2"), followed
 by the total facet area, and the total volume. Later versions of Qhull
 may produce additional integers or reals." You can then parse the text
 in the file according to your needs; in your case it will be something
-like <pre>&gt; qh.outp &lt;- scan('bla.txt '); &gt; volume &lt;-
-qh.outp[3];</pre> </p>
+like:
+
+<pre>
+&gt; qh.outp &lt;- scan("bla.txt")
+&gt; volume &lt;- qh.outp[4]
+</pre> 
+
+</p>
 
 <h2>Wish list for future releases</h2>
 
 <ul>
-<li>port __vonoroi__.cc</li>
-<li>more self explaining interface for qhull options (?)</li>
-<li>quiet error output</li>
+<li>More self-explanatory interface for qhull options (?)</li>
+<li>Wuiet error output</li>
 <li>Translate other functions of the matlab mesh package of
 Per-Olof Persson (http://www-math.mit.edu/~persson/mesh/)</li>
 <li>n-D interpolation with Delaunay triangulation</li>
