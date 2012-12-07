@@ -26,37 +26,27 @@ rel="stylesheet" type="text/css" />
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr>
 <td><a href="http://r-forge.r-project.org/"><img src=
-    <?php echo '"http://' . $themeroot . '/images/logo.png"'; ?>
+    <?php echo '"' . $themeroot . '/images/logo.png"'; ?>
 border="0" alt="R-Forge Logo" /></a></td>
 </tr>
 </table>
 
-<!-- get project title  -->
-<!-- own website starts here, the following may be changed as you like -->
-<?php if ($handle=fopen('http://'.$domain.'/export/projtitl.php?group_name='.$group_name,'r')){
-$contents = '';
-while (!feof($handle)) {
-        $contents .= fread($handle, 8192);
-}
-fclose($handle);
-echo $contents; } ?><!-- end of project description -->
-
-<h1>Qhull in R</h1>
+<h1>The R geometry package: Mesh generation and surface tesselation</h1>
 
 <p>The geometry package provides <a href=
-"http://web.archive.org/web/20080218222024/http://www.r-project.org/">
+"http://www.r-project.org/">
 R</a> with several geometry functions available in Octave, Matlab and
 the like. In particular, it provides an interface to the <a href=
 "http://www.qhull.org/">qhull</a> library (which also underlies the
 corresponding Matlab and Octave functions). Currently only part of the
-qhull library is accessible and interface for Delaunay triangulation
-differs from more modern versions of Matlab.</p>
+qhull library is accessible and the interface for Delaunay
+triangulation differs from more modern versions of Matlab.</p>
 
 <p>The geometry package also implements a simple technique to
 refine a given mesh and generate high quality meshes and surface
 triangulations. A description of the technique and a number of
 examples can be found at the site of its inventors <a href=
-"http://web.archive.org/web/20080218222024/http://www-math.mit.edu/~persson/mesh/">
+"http://persson.berkeley.edu/distmesh/">
 Per-Olof Persson and Gilbert Strang</a>.</p>
 
 <h2>Downloads</h2>
@@ -95,7 +85,7 @@ of points, if you have a matrix with 3 columns,
 say, that might be something like:
 
 <pre>
-&gt; x = convhulln(ps,"FS TO 'bla.txt'"); # use of the 'TO filename' option 
+&gt; x &lt;- convhulln(ps,"FS TO 'bla.txt'"); # use of the 'TO filename' option 
 </pre> 
 
 This command created the text file <tt>bla.txt</tt> that contains the
