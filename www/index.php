@@ -68,7 +68,46 @@ this license</a>. The non-qhull sources are subject to the GPL version
 geometry's R-forge tracker</a> to view known bugs and to report 
 bugs and feature requests.</p>
 
-<h2>Using the Qhull options</h2>
+<h2>Contribute</h2>
+
+<p>If you have ideas for functions, or functions you made and think
+would be of value to include in the geometry package (take into
+account that the package is called <code>geometry</code> and
+restricts itself to functions directly related to computational
+geometry), you can e-mail me <a href="mailto:david.c.sterratt@ed.ac.uk">david.c.sterratt@ed.ac.uk</a>.</p>
+
+<h2>Tips and wrinkles</h2>
+
+<h3>Obtaining volume and area of convex hulls</h3>
+
+<p>In older versions of the package, to obtain the volume and area of
+  a convex hull, the procedure outlined in the next section had to be
+  followed. Now it is possible to recover the area as follows:
+<pre>
+&gt; ps &lt;-matrix(rnorm(30),,3)
+&gt; convhulln(ps, "FA")
+&gt; x
+$hull
+     [,1] [,2] [,3]
+[1,]    6    9   10
+[2,]    6    2    9
+[3,]    7    6   10
+[4,]    7    6    2
+[5,]    1    9   10
+[6,]    1    2    9
+[7,]    1    7   10
+[8,]    1    7    2
+
+$area
+[1] 32.55313
+
+$vol
+[1] 11.3083
+</pre> 
+
+</p>
+
+<h3>Using the Qhull options</h3>
 
 <p>Qhull provides many options. For instance you may request the
 volume of a convex hull and its surface area by specifying the <tt>FS</tt>
@@ -105,14 +144,12 @@ like:
 </pre> 
 
 </p>
-
-<h2>Contribute</h2>
-
-<p>If you have ideas for functions, or functions you made and think
-would be of value to include in the geometry package (take into
-account that the package is called <code>geometry</code> and
-restricts itself to functions directly related to computational
-geometry), you can e-mail me <a href="mailto:david.c.sterratt@ed.ac.uk">david.c.sterratt@ed.ac.uk</a>.</p>
-
+<hr>
+<address>
+<a href="mailto:david.c.sterratt@ed.ac.uk">David C Sterratt</a> 
+<p>Last modified: Fri Dec 14:35:09 UTC 2012</p>
+<p>Date: </p>
+</address>
 </body>
+
 </html>
