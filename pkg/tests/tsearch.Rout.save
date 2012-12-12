@@ -8,8 +8,6 @@ R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
 
-  Natural language support but running in an English locale
-
 R is a collaborative project with many contributors.
 Type 'contributors()' for more information and
 'citation()' on how to cite R or R packages in publications.
@@ -40,14 +38,60 @@ Loading required package: abind
 > tsearch(x, y, tri, 1, 1)
 [1] NA
 > 
-> ## Create degenerate simplex
+> ## Create degenerate simplex - thanks to Bill Denney for example
 > ps <- as.matrix(rbind(data.frame(a=0, b=0, d=0),
 +                       merge(merge(data.frame(a=c(-1, 1)),
 +                                   data.frame(b=c(-1, 1))),
 +                             data.frame(d=c(-1, 1)))))
-> ## The Qt option leads to the degnerate simplex
+> 
+> ## The Qt option leads to the degnerate simplices
 > ts <- delaunayn(ps, "Qt")
-> ## tsearchn should return a "degnerate simplex" error.
-> try(tsearchn(ps[ts[1,],], ts, cbind(1, 2, 4)))
-Error in ncol(X) : subscript out of bounds
+> ## tsearchn should return a "degnerate simplex" error here
+> tsearchn(ps, ts, cbind(1, 2, 4))
+$idx
+[1] NA
+
+$p
+     [,1] [,2] [,3] [,4]
+[1,]   NA   NA   NA   NA
+
+Warning message:
+In tsearchn(ps, ts, cbind(1, 2, 4)) : Degenerate simplices: 1, 4, 7
+> ## Encasing this in a try() statement shouldn't make a difference
+> try(tsearchn(ps, ts, cbind(1, 2, 4)))
+$idx
+[1] NA
+
+$p
+     [,1] [,2] [,3] [,4]
+[1,]   NA   NA   NA   NA
+
+Warning message:
+In tsearchn(ps, ts, cbind(1, 2, 4)) : Degenerate simplices: 1, 4, 7
+> 
+> ## The QJ option should lead to no degnerate simplex
+> ts <- delaunayn(ps, "QJ")
+> ## tsearchn shouldn't return a "degnerate simplex" error. FIXME: But
+> ## it does.
+> tsearchn(ps, ts, cbind(1, 2, 4))
+$idx
+[1] NA
+
+$p
+     [,1] [,2] [,3] [,4]
+[1,]   NA   NA   NA   NA
+
+Warning message:
+In tsearchn(ps, ts, cbind(1, 2, 4)) : Degenerate simplices: 10
+> ## Encasing this in a try() statement shouldn't make a difference
+> try(tsearchn(ps, ts, cbind(1, 2, 4)))
+$idx
+[1] NA
+
+$p
+     [,1] [,2] [,3] [,4]
+[1,]   NA   NA   NA   NA
+
+Warning message:
+In tsearchn(ps, ts, cbind(1, 2, 4)) : Degenerate simplices: 10
 > 

@@ -1,7 +1,8 @@
 
-R version 2.11.1 (2010-05-31)
-Copyright (C) 2010 The R Foundation for Statistical Computing
+R version 2.14.0 (2011-10-31)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: x86_64-redhat-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -16,6 +17,8 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > library(geometry)
+Loading required package: magic
+Loading required package: abind
 > x <- c(-1, -1, 1)
 > y <- c(-1, 1, -1)
 > p <- cbind(x, y)
@@ -64,6 +67,36 @@ $idx
 $p
      [,1] [,2] [,3]
 [1,]   NA   NA   NA
+
+> 
+> ## Create a mesh with a zero-area element (degenerate simplex)
+> p <- cbind(c(-1, -1, 0, 1, 2),
++            c(-1,  1, 0, 0, 0))
+> tri <- rbind(c(1, 2, 3),
++              c(3, 4, 5))
+> ## Look for one point in one of the simplices and a point outwith the
+> ## simplices. This forces tsearchn to look in all simplices. It
+> ## shouldn't fail on the degenerate simplex.
+> tsearchn(p, tri, rbind(c(-0.5, 0), c(3, 1)), fast=FALSE)
+$idx
+[1]  1 NA
+
+$p
+     [,1] [,2] [,3]
+[1,] 0.25 0.25  0.5
+[2,]   NA   NA   NA
+
+Warning message:
+In tsearchn(p, tri, rbind(c(-0.5, 0), c(3, 1)), fast = FALSE) :
+  Degenerate simplices: 2
+> tsearchn(p, tri, rbind(c(-0.5, 0), c(3, 1)), fast=TRUE)
+$idx
+[1]  1 NA
+
+$p
+     [,1] [,2] [,3]
+[1,] 0.25 0.25  0.5
+[2,]   NA   NA   NA
 
 > 
 > 

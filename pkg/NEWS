@@ -1,3 +1,14 @@
+CHANGES IN VERSION 0.3-4  - Released 20??/??/??
+
+BUG FIXES
+
+* Fix for recurrence of Issue #1993: Error in solve.default in
+  tsearchn
+  (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1993&group_id=1149&atid=4552)
+  Thanks to John Drake for alerting me to the problem and Jon Clayden
+  on the R-devel list for pointing out the correct way of testing for
+  ill-conditioned matrices.
+
 CHANGES IN VERSION 0.3-3  - Released 2012/05/16
 
 BUG FIXES

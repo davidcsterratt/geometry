@@ -100,30 +100,38 @@ tsearchn <- function(x, t, xi, fast=TRUE) {
   ## Indicies of points that still need to be searched for
   ni <- 1:mi
 
+  degenerate.simplices <- c()
   ## Go through each simplex in turn
   for (i in 1:nt) { 
     ## Only calculate the Barycentric coordinates for points that have not
     ## already been found in a simplex.
-    b <- cart2bary(x[t[i,],], xi[ni,,drop=FALSE]);
+    b <- suppressWarnings(cart2bary(x[t[i,],], xi[ni,,drop=FALSE]))
+    if (is.null(b)) {
+      degenerate.simplices <- c(degenerate.simplices, i)
+    } else {
 
-    ## Our points xi are in the current triangle if (all(b >= 0) &&
-    ## all (b <= 1)). However as we impose that sum(b,2) == 1 we only
-    ## need to test all(b>=0). Note that we need to add a small margin
-    ## for rounding errors
-    intri <- apply(b >= -1e-12, 1, all)
+      ## Our points xi are in the current triangle if (all(b >= 0) &&
+      ## all (b <= 1)). However as we impose that sum(b,2) == 1 we only
+      ## need to test all(b>=0). Note that we need to add a small margin
+      ## for rounding errors
+      intri <- apply(b >= -1e-12, 1, all)
 
-    ## Set the simplex indicies  of the points that have been found to
-    ## this simplex
-    idx[ni[intri]] <- i
+      ## Set the simplex indicies  of the points that have been found to
+      ## this simplex
+      idx[ni[intri]] <- i
 
-    ## Set the baryocentric coordinates of the points that have been found
-    p[ni[intri],] <- b[intri,]
+      ## Set the baryocentric coordinates of the points that have been found
+      p[ni[intri],] <- b[intri,]
 
-    ## Remove these points from the search list
-    ni <- ni[!intri]
+      ## Remove these points from the search list
+      ni <- ni[!intri]
 
-    ## If there are no more points to search for, give up
+      ## If there are no more points to search for, give up
     if (length(ni) == 0) { break }
+    }
+  }
+  if (length(degenerate.simplices) > 0) {
+    warning(paste("Degenerate simplices:", toString(degenerate.simplices)))
   }
   return(list(idx=idx, p=p))
 }
@@ -158,8 +166,10 @@ tsearchn <- function(x, t, xi, fast=TRUE) {
 ##' \eqn{N+1}-by-\eqn{N} matrix
 ##' @param P \eqn{M}-by-\eqn{N} matrix in which each row is the Cartesian
 ##' coordinates of a point.
-##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the Cartesian
-##' coordinates of corresponding row of \code{P}
+##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the
+##' Cartesian coordinates of corresponding row of \code{P}. If the
+##' simplex is degenerate a warning is issued and the function returns
+##' \code{NULL}.
 ##' @author David Sterratt
 ##' @note Based on the Octave function by David Bateman.
 ##' @export
@@ -173,8 +183,9 @@ cart2bary <- function(X, P) {
     stop("Simplex X must have N columns and N+1 rows")
   }
   X1 <- X[1:N,] - (matrix(1,N,1) %*% X[N+1,,drop=FALSE])
-  if (det(X1) == 0) {
-    stop("Degenerate simplex")
+  if (rcond(X1) < .Machine$double.eps) {
+    warning("Degenerate simplex")
+    return(NULL)
   }
   Beta <- (P - matrix(X[N+1,], M, N, byrow=TRUE)) %*% solve(X1)
   Beta <- cbind(Beta, 1 - apply(Beta, 1, sum))
