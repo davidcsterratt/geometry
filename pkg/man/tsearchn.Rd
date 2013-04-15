@@ -39,6 +39,10 @@
   barycentric coordinates \code{p} of the enclosing
   triangles.
 }
+\note{
+  Based on the Octave function Copyright (C) 2007-2012
+  David Bateman.
+}
 \author{
   David Sterratt
 }

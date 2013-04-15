@@ -13,7 +13,9 @@
 }
 \value{
   \eqn{M}-by-\eqn{N} matrix in which each row is the
-  Cartesian coordinates of corresponding row of \code{P}
+  Cartesian coordinates of corresponding row of \code{P}.
+  If the simplex is degenerate a warning is issued and the
+  function returns \code{NULL}.
 }
 \description{
   Given the Cartesian coordinates of one or more points,
@@ -47,6 +49,9 @@
   \deqn{\beta_{N+1} = 1 - \sum_{i=1}^N\beta_i} This can be
   generalised for multiple values of \eqn{\mathbf{P}}, one
   per row.
+}
+\note{
+  Based on the Octave function by David Bateman.
 }
 \author{
   David Sterratt

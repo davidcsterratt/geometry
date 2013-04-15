@@ -37,6 +37,10 @@
   \code{(xi, yi)}.  For points outside the convex hull the
   index is \code{NA}.
 }
+\note{
+  Based on the Octave function Copyright (C) 2007-2012
+  David Bateman.
+}
 \author{
   David Sterratt
 }
