@@ -1,6 +1,6 @@
 library(geometry)
-## multicore isn't available on all operating systems, e.g. Windows
-if (library(multicore, logical.return=TRUE)) {
+## Parallel may not be available on all operating systems, e.g. Windows
+if (library(parallel, logical.return=TRUE)) {
   ## Set seed for replicability
   set.seed(1)
 
