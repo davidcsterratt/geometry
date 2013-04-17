@@ -1,5 +1,6 @@
-/* Copyright (C) 2000  Kai Habel
+/* Copyright (C) 2000 Kai Habel
 ** Copyright R-version (c) 2005 Raoul Grasman
+**                     (c) 2013 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -103,6 +104,10 @@ SEXP delaunayn(const SEXP p, const SEXP options)
     free((char *) name); 
     
 		if (!exitcode) {                    /* 0 if no error from qhull */
+      /* Triangulate non-simplicial facets - this commented out code
+         does not appear to be needed, but retaining in case useful --
+         David Sterratt, 2013-04-17 */
+      /* qh_triangulate (); */
 
 			facetT *facet;                  /* set by FORALLfacets */
 			vertexT *vertex, **vertexp;
@@ -116,6 +121,13 @@ SEXP delaunayn(const SEXP p, const SEXP options)
             nv++;
           }
           printf("Facet %i: %i vertices\n", nf, nv); */
+        }
+        /* Double check. Non-simplicial facets will cause segfault
+           below */
+        if (! facet->simplicial) {
+          error ("Qhull returned non-simplicial facets -- try delaunayn with different options");
+          exitcode = 1;
+          break;
         }
 			}
 
