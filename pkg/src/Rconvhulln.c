@@ -1,5 +1,6 @@
-/* Copyright (C) 2000  Kai Habel
-** Copyright R-version (c) 2005 Raoul Grasman
+/* Copyright (C) 2000 Kai Habel
+** Copyright R-version (c) 2005 Raoul Grasman 
+**                     (c) 2013 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -89,7 +90,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
   /* Jiggery-pokery to create and destroy the ersatz stdout, and the
      call to qhull itself. */    
   const char *name;
-  name = R_tmpnam("Rf", R_TempDir);
+  name = R_tmpnam("Rf", ".");
   tmpstdout = fopen(name, "w");
   exitcode = qh_new_qhull (dim,n,pt_array,ismalloc,flags,tmpstdout,errfile);
   fclose(tmpstdout);

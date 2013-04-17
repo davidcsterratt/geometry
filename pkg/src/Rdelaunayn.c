@@ -96,7 +96,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
     /* Jiggery-pokery to create and destroy the ersatz stdout, and the
        call to qhull itself. */    
     const char *name;
-    name = R_tmpnam("Rf", R_TempDir);
+    name = R_tmpnam("Rf", ".");
     tmpstdout = fopen(name, "w");
 		exitcode = qh_new_qhull(dim, n, pt_array, ismalloc, flags, tmpstdout, errfile); 
     fclose(tmpstdout);

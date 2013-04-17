@@ -2,9 +2,6 @@ CHANGES IN VERSION 0.3-3  - Released 2013/04/16
 
 BUG FIXES
 
-* The use of the multicore package in tests has been replaced by use
-  of the parallel package.
-
 * The License has been changed to GPL (>= 3) + file LICENSE and the
   LICENSE file made clearer. Thanks to Kurt Hornik and the CRAN
   maintainers for alerting me to the problem and helping with a
@@ -26,6 +23,13 @@ BUG FIXES
 
 * Fix for Issue #2007: Qt option given to Qhull
   (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=2007&group_id=1149&atid=4552)
+
+* The use of the multicore package in tests has been replaced by use
+  of the parallel package. Thanks to Kurk Hornik for pointing this
+  out.
+
+* Removed non-API call to R_TempDir.  Thanks to Kurk Hornik for
+  pointing this out.
 
 CHANGES IN VERSION 0.3-2  - Released 2012/05/12
 
