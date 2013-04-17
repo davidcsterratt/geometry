@@ -18,7 +18,7 @@ doc: roxygen
 	rm -f geometry.pdf
 	R CMD Rd2dvi --pdf --output=geometry.pdf pkg 
 
-check:
+check: package
 	R CMD check $(PACKAGE)
 	@ if [ $$(/bin/ls -1 pkg/inst/doc/*htm 2>/dev/null | wc -l) -gt 0 ] ; then echo "ERROR: .htm files in pkg/inst/doc. See Makefile for suggestion of how to fix" ; fi	
 	@ if [ $$(/bin/ls -1 pkg/inst/doc/html/*htm 2>/dev/null | wc -l) -gt 0 ]; then echo "ERROR: .htm files in pkg/inst/doc. See Makefile for suggestion of how to fix" ; fi 
