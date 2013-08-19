@@ -1,4 +1,4 @@
-/* Copyright (C) 2000 Kai Habel
+/* Copyright (C) 2000, 2013 Kai Habel
 ** Copyright R-version (c) 2005 Raoul Grasman
 **                     (c) 2013 David Sterratt
 **
@@ -39,7 +39,10 @@
 
 SEXP delaunayn(const SEXP p, const SEXP options)
 {
-	SEXP retval;
+  SEXP retlist, retnames;       /* Return list and names */
+  int retlen = 2;               /* Length of return list */
+	SEXP tri;                     /* The triangulation */
+  SEXP neighbour, neighbours;   /* List of neighbours */
 	int i;
 	unsigned dim, n;
 	boolT ismalloc;
@@ -47,7 +50,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	double *pt_array;
 
   /* Initialise return values */
-	retval = R_NilValue;
+	tri = neighbours = retlist = R_NilValue;
 
   /* We cannot print directly to stdout in R, and the alternative of
      using R_Outputfile does not seem to work for all
@@ -71,7 +74,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	i = LENGTH(STRING_ELT(options,0)); 
   if (i > 200) 
     error("Option string too long");
-  sprintf(flags,"qhull d Qbb T0 %s", CHAR(STRING_ELT(options,0))); 
+  sprintf(flags,"qhull d Qbb T0 Fn %s", CHAR(STRING_ELT(options,0))); 
 
   /* Check input matrix */
 	dim = ncols(p);
@@ -111,6 +114,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 
 			facetT *facet;                  /* set by FORALLfacets */
 			vertexT *vertex, **vertexp;
+      facetT *neighbor, **neighborp;
 
 			int nf=0;                 /* Number of facets */
 			FORALLfacets {
@@ -131,7 +135,8 @@ SEXP delaunayn(const SEXP p, const SEXP options)
         }
 			}
 
-      PROTECT(retval = allocMatrix(INTSXP, nf, dim+1));
+      PROTECT(tri = allocMatrix(INTSXP, nf, dim+1));
+      PROTECT(neighbours = allocVector(VECSXP, nf));
       int i=0;
 			FORALLfacets {
 				if (!facet->upperdelaunay) {
@@ -142,13 +147,26 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 					FOREACHvertex_ (facet->vertices) {
             if ((i + nf*j) >= nf*(dim+1))
               error("Trying to write to non-existent area of memory i=%i, j=%i, nf=%i, dim=%i", i, j, nf, dim);
-            INTEGER(retval)[i + nf*j] = 1 + qh_pointid(vertex->point);
+            INTEGER(tri)[i + nf*j] = 1 + qh_pointid(vertex->point);
             j++;
 					}
+          /* printf("Facet %d: ", i); */
+          /* printf("%d", qh_setsize(facet->neighbors)); */
+          PROTECT(neighbour = allocVector(INTSXP, qh_setsize(facet->neighbors)));
+          j=0;
+          FOREACHneighbor_(facet) {
+            INTEGER(neighbour)[j] = neighbor->visitid ? neighbor->visitid: 0 - neighbor->id;
+            j++;
+            /* printf(" %d", */
+            /*        neighbor->visitid ? neighbor->visitid: 0 - neighbor->id); */
+          }
+          SET_VECTOR_ELT(neighbours, i, neighbour);
+          UNPROTECT(1);
+          /* printf("\n"); */
 					i++;
 				}
 			}
-      UNPROTECT(1);
+      UNPROTECT(2);
 		} 
     
     /* Do cleanup regardless of whether there is an error */
@@ -164,14 +182,22 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	} else if (n == dim + 1) {
     /* Number of points is one more than the number of dimensions. */
 		/* FIXME. Need to check if nx points span a simplex. */
-    PROTECT(retval = allocMatrix(INTSXP, 1, dim+1));
+    PROTECT(tri = allocMatrix(INTSXP, 1, dim+1));
 		for (int i=0; i<n; i++) {
-			INTEGER(retval)[i] = i + 1;
+			INTEGER(tri)[i] = i + 1;
 		}
 		UNPROTECT(1);
 	}
+  PROTECT(retlist = allocVector(VECSXP, retlen));
+  PROTECT(retnames = allocVector(VECSXP, retlen));
+  SET_VECTOR_ELT(retlist, 0, tri);
+  SET_VECTOR_ELT(retnames, 0, mkChar("tri"));
+  SET_VECTOR_ELT(retlist, 1, neighbours);
+  SET_VECTOR_ELT(retnames, 1, mkChar("neighbours"));
+  setAttrib(retlist, R_NamesSymbol, retnames);
+  UNPROTECT(2);
 
-	return retval;
+	return retlist;
 }
 
 

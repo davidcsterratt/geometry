@@ -14,6 +14,9 @@
 ##'
 ##' @param p \code{p} is an \code{n}-by-\code{dim} matrix. The rows of \code{p}
 ##' represent \code{n} points in \code{dim}-dimensional space.
+##' @param full Return all information asscoiated with triangulation
+##' as a list. At present this is the triangulation (\code{tri}) and a
+##' list of neighbours of each facet (\code{neighbours}).
 ##' @param options String containing extra options for the underlying
 ##' Qhull command.(See the Qhull documentation
 ##' (\url{../doc/html/qdelaun.html}) for the available options.)
@@ -66,7 +69,7 @@
 ##' 
 ##' @export
 ##' @useDynLib geometry
-delaunayn <- function (p, options="") {
+delaunayn <- function (p, full=FALSE, options="") {
   ## Input sanitisation
   options <- paste(options, collapse=" ")
 
@@ -91,5 +94,9 @@ delaunayn <- function (p, options="") {
   if (!grepl("Qt", options) & !grepl("QJ", options)) {
     options <- paste(options, "QJ")
   }
-  .Call("delaunayn", p, as.character(options), PACKAGE="geometry")
+  ret <- .Call("delaunayn", p, as.character(options), PACKAGE="geometry")
+  if (!full) {
+    return(ret$tri)
+  }
+  return(ret)
 }
