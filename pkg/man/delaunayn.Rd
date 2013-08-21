@@ -2,22 +2,22 @@
 \alias{delaunayn}
 \title{Delaunay triangulation in N-dimensions}
 \usage{
-  delaunayn(p, full = FALSE, options = "")
+  delaunayn(p, options = "", full = FALSE)
 }
 \arguments{
   \item{p}{\code{p} is an \code{n}-by-\code{dim} matrix.
   The rows of \code{p} represent \code{n} points in
   \code{dim}-dimensional space.}
 
-  \item{full}{Return all information asscoiated with
-  triangulation as a list. At present this is the
-  triangulation (\code{tri}) and a list of neighbours of
-  each facet (\code{neighbours}).}
-
   \item{options}{String containing extra options for the
   underlying Qhull command.(See the Qhull documentation
   (\url{../doc/html/qdelaun.html}) for the available
   options.)}
+
+  \item{full}{Return all information asscoiated with
+  triangulation as a list. At present this is the
+  triangulation (\code{tri}) and a list of neighbours of
+  each facet (\code{neighbours}).}
 }
 \value{
   The return matrix has \code{m} rows and \code{dim+1}
