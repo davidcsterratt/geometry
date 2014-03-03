@@ -1,1 +1,0 @@
-PKG_CPPFLAGS = -include Rgeometry.h
