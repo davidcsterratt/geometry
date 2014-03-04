@@ -1,3 +1,11 @@
+CHANGES IN VERSION 0.3-4  - Released 20??/??/??
+
+BUG FIXES
+
+* Fix for Issue #5406: Compilation flags in Makevars 
+  Thanks to Kurt Hornik and the CRAN maintainers for alerting me to
+  the problem.
+
 CHANGES IN VERSION 0.3-3  - Released 2013/04/18
 
 BUG FIXES
