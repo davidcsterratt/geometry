@@ -1,1 +1,4 @@
 PKG_CPPFLAGS = -include Rgeometry.h
+# PKG_LIBS = ${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS} #-pthread
+# PKG_CFLAGS = @PKG_CFLAGS@
+
