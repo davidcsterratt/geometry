@@ -2,7 +2,7 @@
 \alias{tsearchn}
 \title{Search for the enclosing Delaunay convex hull}
 \usage{
-  tsearchn(x, t, xi, fast = TRUE)
+tsearchn(x, t, xi, fast = TRUE)
 }
 \arguments{
   \item{x}{An \code{n}-by-\code{d} matrix.  The rows of
@@ -23,30 +23,29 @@
   \code{tsearch} function to produce the results.}
 }
 \value{
-  A list containing: \item{list("idx")}{An \code{ni}-long
-  vector containing the indicies of the row of \code{t} in
-  which each point in \code{xi} is found.}
-  \item{list("p")}{An \code{ni}-by-\code{d+1} matrix
-  containing the barycentric coordinates with respect to
-  the enclosing simplex of each point in \code{xi}.}
+A list containing: \item{list("idx")}{An \code{ni}-long
+vector containing the indicies of the row of \code{t} in
+which each point in \code{xi} is found.}
+\item{list("p")}{An \code{ni}-by-\code{d+1} matrix
+containing the barycentric coordinates with respect to the
+enclosing simplex of each point in \code{xi}.}
 }
 \description{
-  For \code{t = delaunayn(x)}, where \code{x} is a set of
-  points in \code{d} dimensions, \code{tsearchn(x, t, xi)}
-  finds the index in \code{t} containing the points
-  \code{xi}. For points outside the convex hull, \code{idx}
-  is \code{NA}. \code{tsearchn} also returns the
-  barycentric coordinates \code{p} of the enclosing
-  triangles.
+For \code{t = delaunayn(x)}, where \code{x} is a set of
+points in \code{d} dimensions, \code{tsearchn(x, t, xi)}
+finds the index in \code{t} containing the points
+\code{xi}. For points outside the convex hull, \code{idx}
+is \code{NA}. \code{tsearchn} also returns the barycentric
+coordinates \code{p} of the enclosing triangles.
 }
 \note{
-  Based on the Octave function Copyright (C) 2007-2012
-  David Bateman.
+Based on the Octave function Copyright (C) 2007-2012 David
+Bateman.
 }
 \author{
-  David Sterratt
+David Sterratt
 }
 \seealso{
-  tsearch, delaunayn
+tsearch, delaunayn
 }
 

@@ -2,7 +2,7 @@
 \alias{tsearch}
 \title{Search for the enclosing Delaunay convex hull}
 \usage{
-  tsearch(x, y, t, xi, yi, bary = FALSE)
+tsearch(x, y, t, xi, yi, bary = FALSE)
 }
 \arguments{
   \item{x}{X-coordinates of triangluation points}
@@ -20,31 +20,30 @@
   as well as index of triangle.}
 }
 \value{
-  If \code{bary} is \code{FALSE}, the index in \code{t}
-  containing the points \code{(xi, yi)}.  For points
-  outside the convex hull the index is \code{NA}. If
-  \code{bary} is \code{TRUE}, a list containing:
-  \item{list("idx")}{the index in \code{t} containing the
-  points \code{(xi, yi)}} \item{list("p")}{a 3-column
-  matrix containing the barycentric coordinates with
-  respect to the enclosing triangle of each point code(xi,
-  yi).}
+If \code{bary} is \code{FALSE}, the index in \code{t}
+containing the points \code{(xi, yi)}.  For points outside
+the convex hull the index is \code{NA}. If \code{bary} is
+\code{TRUE}, a list containing: \item{list("idx")}{the
+index in \code{t} containing the points \code{(xi, yi)}}
+\item{list("p")}{a 3-column matrix containing the
+barycentric coordinates with respect to the enclosing
+triangle of each point code(xi, yi).}
 }
 \description{
-  For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)}
-  is a 2D set of points, \code{tsearch(x, y, t, xi, yi)}
-  finds the index in \code{t} containing the points
-  \code{(xi, yi)}.  For points outside the convex hull the
-  index is \code{NA}.
+For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)}
+is a 2D set of points, \code{tsearch(x, y, t, xi, yi)}
+finds the index in \code{t} containing the points
+\code{(xi, yi)}.  For points outside the convex hull the
+index is \code{NA}.
 }
 \note{
-  Based on the Octave function Copyright (C) 2007-2012
-  David Bateman.
+Based on the Octave function Copyright (C) 2007-2012 David
+Bateman.
 }
 \author{
-  David Sterratt
+David Sterratt
 }
 \seealso{
-  tsearchn, delaunayn
+tsearchn, delaunayn
 }
 

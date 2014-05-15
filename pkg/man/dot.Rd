@@ -2,7 +2,7 @@
 \alias{dot}
 \title{Compute the dot product of two vectors}
 \usage{
-  dot(x, y, d = NULL)
+dot(x, y, d = NULL)
 }
 \arguments{
   \item{x}{Matrix of vectors}
@@ -13,16 +13,16 @@
   product}
 }
 \value{
-  Vector with length of \code{d}th dimension
+Vector with length of \code{d}th dimension
 }
 \description{
-  If \code{x} and \code{y} are matrices, calculate the
-  dot-product along the first non-singleton dimension.  If
-  the optional argument \code{d} is given, calculate the
-  dot-product along this dimension.
+If \code{x} and \code{y} are matrices, calculate the
+dot-product along the first non-singleton dimension.  If
+the optional argument \code{d} is given, calculate the
+dot-product along this dimension.
 }
 \author{
-  David Sterratt
+David Sterratt
 }
 \keyword{arith}
 \keyword{array}

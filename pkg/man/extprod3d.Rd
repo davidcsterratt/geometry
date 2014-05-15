@@ -2,7 +2,7 @@
 \alias{extprod3d}
 \title{Compute external- or `cross'- product of 3D vectors.}
 \usage{
-  extprod3d(x, y)
+extprod3d(x, y)
 }
 \arguments{
   \item{x}{\code{n}-by-3 matrix. Each row is one
@@ -12,19 +12,18 @@
   \bold{y}-vector}
 }
 \value{
-  \code{n}-by-3 matrix
+\code{n}-by-3 matrix
 }
 \description{
-  Computes the external product \deqn{ }{ (x2 * y3 - x3 *
-  y2, x3 * y1 - x1 * y3, x1 * y2 - x2 * y1) }\deqn{
-  \left(x_2 y_3 - x_3 y_2,\; x_3 y_1 - x_1 y_3,\; x_1 y_2 -
-  x_2 y_1 \right) }{ (x2 * y3 - x3 * y2, x3 * y1 - x1 * y3,
-  x1 * y2 - x2 * y1) }\deqn{ }{ (x2 * y3 - x3 * y2, x3 * y1
-  - x1 * y3, x1 * y2 - x2 * y1) } of the 3D vectors in
-  \bold{x} and \bold{y}.
+Computes the external product \deqn{ }{ (x2 * y3 - x3 * y2,
+x3 * y1 - x1 * y3, x1 * y2 - x2 * y1) }\deqn{ \left(x_2 y_3
+- x_3 y_2,\; x_3 y_1 - x_1 y_3,\; x_1 y_2 - x_2 y_1 \right)
+}{ (x2 * y3 - x3 * y2, x3 * y1 - x1 * y3, x1 * y2 - x2 *
+y1) }\deqn{ }{ (x2 * y3 - x3 * y2, x3 * y1 - x1 * y3, x1 *
+y2 - x2 * y1) } of the 3D vectors in \bold{x} and \bold{y}.
 }
 \author{
-  Raoul Grasman
+Raoul Grasman
 }
 \keyword{arith}
 \keyword{array}

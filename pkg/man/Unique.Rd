@@ -2,7 +2,7 @@
 \alias{Unique}
 \title{Extract Unique Rows}
 \usage{
-  Unique(X, rows.are.sets = FALSE)
+Unique(X, rows.are.sets = FALSE)
 }
 \arguments{
   \item{X}{Numerical matrix.}
@@ -12,19 +12,19 @@
   of the rows does not matter.}
 }
 \value{
-  Matrix of the same number of columns as \code{x}, with
-  the unique rows in \code{x} sorted according to the
-  columns of \code{x}. If \code{rows.are.sets = TRUE} the
-  rows are also sorted.
+Matrix of the same number of columns as \code{x}, with the
+unique rows in \code{x} sorted according to the columns of
+\code{x}. If \code{rows.are.sets = TRUE} the rows are also
+sorted.
 }
 \description{
-  \sQuote{Unique} returns a vector, data frame or array
-  like 'x' but with duplicate elements removed.
+\sQuote{Unique} returns a vector, data frame or array like
+'x' but with duplicate elements removed.
 }
 \note{
-  \sQuote{\code{Unique}} is (under circumstances) much
-  quicker than the more generic base function
-  \sQuote{\code{unique}}.
+\sQuote{\code{Unique}} is (under circumstances) much
+quicker than the more generic base function
+\sQuote{\code{unique}}.
 }
 \examples{
 # `Unique' is faster than `unique'
@@ -39,7 +39,7 @@ x[matorder(x),]
 z[matorder(z),]
 }
 \author{
-  Raoul Grasman
+Raoul Grasman
 }
 \keyword{arith}
 \keyword{array}

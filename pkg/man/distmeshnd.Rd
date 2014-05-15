@@ -2,10 +2,9 @@
 \alias{distmeshnd}
 \title{A simple mesh generator for non-convex regions in n-D space}
 \usage{
-  distmeshnd(fdist, fh, h, box,
-    pfix = array(dim = c(0, ncol(box))), ..., ptol = 0.001,
-    ttol = 0.1, deltat = 0.1, geps = 0.1 * h,
-    deps = sqrt(.Machine$double.eps) * h)
+distmeshnd(fdist, fh, h, box, pfix = array(dim = c(0, ncol(box))), ...,
+  ptol = 0.001, ttol = 0.1, deltat = 0.1, geps = 0.1 * h,
+  deps = sqrt(.Machine$double.eps) * h)
 }
 \arguments{
   \item{fdist}{Vectorized signed distance function, for
@@ -45,47 +44,47 @@
   derivative computation for distance function.}
 }
 \value{
-  \code{m}-by-\code{n} matrix with node positions.
+\code{m}-by-\code{n} matrix with node positions.
 }
 \description{
-  An unstructured simplex requires a choice of meshpoints
-  (vertex nodes) and a triangulation.  This is a simple and
-  short algorithm that improves the quality of a mesh by
-  relocating the meshpoints according to a relaxation
-  scheme of forces in a truss structure. The topology of
-  the truss is reset using Delaunay triangulation. A
-  (sufficiently smooth) user supplied signed distance
-  function (\code{fd}) indicates if a given node is inside
-  or outside the region. Points outside the region are
-  projected back to the boundary.
+An unstructured simplex requires a choice of meshpoints
+(vertex nodes) and a triangulation.  This is a simple and
+short algorithm that improves the quality of a mesh by
+relocating the meshpoints according to a relaxation scheme
+of forces in a truss structure. The topology of the truss
+is reset using Delaunay triangulation. A (sufficiently
+smooth) user supplied signed distance function (\code{fd})
+indicates if a given node is inside or outside the region.
+Points outside the region are projected back to the
+boundary.
 }
 \details{
-  This is an implementation of original Matlab software of
-  Per-Olof Persson.
+This is an implementation of original Matlab software of
+Per-Olof Persson.
 
-  Excerpt (modified) from the reference below:
+Excerpt (modified) from the reference below:
 
-  \sQuote{The algorithm is based on a mechanical analogy
-  between a triangular mesh and a n-D truss structure. In
-  the physical model, the edges of the Delaunay triangles
-  of a set of points correspond to bars of a truss. Each
-  bar has a force-displacement relationship \eqn{f(\ell,
-  \ell_{0})}{F(L,L0)} depending on its current length
-  \eqn{\ell}{L} and its unextended length
-  \eqn{\ell_{0}}{L0}.}
+\sQuote{The algorithm is based on a mechanical analogy
+between a triangular mesh and a n-D truss structure. In the
+physical model, the edges of the Delaunay triangles of a
+set of points correspond to bars of a truss. Each bar has a
+force-displacement relationship \eqn{f(\ell,
+\ell_{0})}{F(L,L0)} depending on its current length
+\eqn{\ell}{L} and its unextended length
+\eqn{\ell_{0}}{L0}.}
 
-  \sQuote{External forces on the structure come at the
-  boundaries, on which external forces have normal
-  orientations. These external forces are just large enough
-  to prevent nodes from moving outside the boundary. The
-  position of the nodes are the unknowns, and are found by
-  solving for a static force equilibrium. The hope is that
-  (when \code{fh = function(p) return(rep(1,nrow(p)))}),
-  the lengths of all the bars at equilibrium will be nearly
-  equal, giving a well-shaped triangular mesh.}
+\sQuote{External forces on the structure come at the
+boundaries, on which external forces have normal
+orientations. These external forces are just large enough
+to prevent nodes from moving outside the boundary. The
+position of the nodes are the unknowns, and are found by
+solving for a static force equilibrium. The hope is that
+(when \code{fh = function(p) return(rep(1,nrow(p)))}), the
+lengths of all the bars at equilibrium will be nearly
+equal, giving a well-shaped triangular mesh.}
 
-  See the references below for all details. Also, see the
-  comments in the source file of \code{distmesh2d}.
+See the references below for all details. Also, see the
+comments in the source file of \code{distmesh2d}.
 }
 \section{Wishlist }{
   \itemize{ \item*Implement in C/Fortran \item*Translate
@@ -107,22 +106,20 @@ p = distmeshnd(fd,fh,0.2,bbox, maxiter=100)
 }
 }
 \author{
-  Raoul Grasman; translated from original Matlab sources of
-  Per-Olof Persson.
+Raoul Grasman; translated from original Matlab sources of
+Per-Olof Persson.
 }
 \references{
-  \url{http://www-math.mit.edu/~persson/mesh/}
+\url{http://www-math.mit.edu/~persson/mesh/}
 
-  \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator
-  in MATLAB. SIAM Review, Volume 46 (2), pp. 329-345, June
-  2004}
+\cite{P.-O. Persson, G. Strang, A Simple Mesh Generator in
+MATLAB. SIAM Review, Volume 46 (2), pp. 329-345, June 2004}
 }
 \seealso{
-  \code{\link{distmesh2d}},
-  \code{\link[tripack]{tri.mesh}}, \code{\link{delaunayn}},
-  \code{\link{mesh.dsphere}}, \code{\link{mesh.hunif}},\cr
-  \code{\link{mesh.diff}}, \code{\link{mesh.union}},
-  \code{\link{mesh.intersect}}
+\code{\link{distmesh2d}}, \code{\link[tripack]{tri.mesh}},
+\code{\link{delaunayn}}, \code{\link{mesh.dsphere}},
+\code{\link{mesh.hunif}},\cr \code{\link{mesh.diff}},
+\code{\link{mesh.union}}, \code{\link{mesh.intersect}}
 }
 \keyword{dplot}
 \keyword{graphs}

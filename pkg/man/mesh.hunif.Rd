@@ -2,7 +2,7 @@
 \alias{mesh.hunif}
 \title{Uniform desired edge length}
 \usage{
-  mesh.hunif(p, ...)
+mesh.hunif(p, ...)
 }
 \arguments{
   \item{p}{A \code{n}-by-\code{m} matrix, each row
@@ -11,19 +11,19 @@
   \item{...}{additional arguments (not used)}
 }
 \value{
-  Vector of ones of length \code{n}.
+Vector of ones of length \code{n}.
 }
 \description{
-  Uniform desired edge length function of position to allow
-  easy definition of regions when passed as the \code{fh}
-  argument of \code{\link{distmesh2d}} or
-  \code{\link{distmeshnd}}.
+Uniform desired edge length function of position to allow
+easy definition of regions when passed as the \code{fh}
+argument of \code{\link{distmesh2d}} or
+\code{\link{distmeshnd}}.
 }
 \author{
-  Raoul Grasman; translated from original Matlab sources of
-  Per-Olof Persson.
+Raoul Grasman; translated from original Matlab sources of
+Per-Olof Persson.
 }
 \seealso{
-  \code{\link{distmesh2d}} and \code{\link{distmeshnd}}.
+\code{\link{distmesh2d}} and \code{\link{distmeshnd}}.
 }
 

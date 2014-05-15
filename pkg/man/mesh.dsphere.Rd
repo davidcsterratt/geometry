@@ -2,7 +2,7 @@
 \alias{mesh.dsphere}
 \title{Sphere distance function}
 \usage{
-  mesh.dsphere(p, radius = 1, ...)
+mesh.dsphere(p, radius = 1, ...)
 }
 \arguments{
   \item{p}{A matrix with 2 columns (3 in
@@ -14,30 +14,29 @@
   \item{...}{additional arguments (not used)}
 }
 \value{
-  A vector of length \code{nrow(p)} containing the signed
-  distances to the sphere
+A vector of length \code{nrow(p)} containing the signed
+distances to the sphere
 }
 \description{
-  Signed distance from points \code{p} to boundary of
-  sphere to allow easy definition of regions in
-  \code{\link{distmeshnd}}.
+Signed distance from points \code{p} to boundary of sphere
+to allow easy definition of regions in
+\code{\link{distmeshnd}}.
 }
 \examples{
 example(distmeshnd)
 }
 \author{
-  Raoul Grasman; translated from original Matlab sources of
-  Per-Olof Persson.
+Raoul Grasman; translated from original Matlab sources of
+Per-Olof Persson.
 }
 \references{
-  \url{http://www-math.mit.edu/~persson/mesh/}
+\url{http://www-math.mit.edu/~persson/mesh/}
 
-  \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator
-  in MATLAB. SIAM Review, Volume 46 (2), pp. 329-345, June
-  2004}
+\cite{P.-O. Persson, G. Strang, A Simple Mesh Generator in
+MATLAB. SIAM Review, Volume 46 (2), pp. 329-345, June 2004}
 }
 \seealso{
-  \code{\link{distmeshnd}}
+\code{\link{distmeshnd}}
 }
 \keyword{arith}
 \keyword{math}

@@ -2,7 +2,7 @@
 \alias{convhulln}
 \title{Compute smallest convex hull that encloses a set of points}
 \usage{
-  convhulln(p, options = "Tv")
+convhulln(p, options = "Tv")
 }
 \arguments{
   \item{p}{An \code{n}-by-\code{dim} matrix.  The rows of
@@ -15,30 +15,30 @@
   \url{http://www.qhull.org/html/qconvex.htm#synopsis}.}
 }
 \value{
-  An \code{m}-by-\code{dim} index matrix of which each row
-  defines a \code{dim}-dimensional \dQuote{triangle}. The
-  indices refer to the rows in \code{p}.  If the option
-  \code{FA} is provided, then the output is a \code{list}
-  with entries \code{$hull} containing the matrix mentioned
-  above, and \code{$area} and \code{$vol} with the area and
-  volume of the hull described by the matrix.
+An \code{m}-by-\code{dim} index matrix of which each row
+defines a \code{dim}-dimensional \dQuote{triangle}. The
+indices refer to the rows in \code{p}.  If the option
+\code{FA} is provided, then the output is a \code{list}
+with entries \code{$hull} containing the matrix mentioned
+above, and \code{$area} and \code{$vol} with the area and
+volume of the hull described by the matrix.
 }
 \description{
-  Returns an index matrix to the points of simplices
-  (\dQuote{triangles}) that form the smallest convex
-  simplicial complex of a set of input points in
-  N-dimensional space. This function interfaces the Qhull
-  library.
+Returns an index matrix to the points of simplices
+(\dQuote{triangles}) that form the smallest convex
+simplicial complex of a set of input points in
+N-dimensional space. This function interfaces the Qhull
+library.
 }
 \details{
-  For slient operation, specify the option \code{Pp}.
+For slient operation, specify the option \code{Pp}.
 }
 \note{
-  This is a port of the Octave's
-  (\url{http://www.octave.org}) geometry library. The
-  Octave source was written by Kai Habel.
+This is a port of the Octave's
+(\url{http://www.octave.org}) geometry library. The Octave
+source was written by Kai Habel.
 
-  See further notes in \code{\link{delaunayn}}.
+See further notes in \code{\link{delaunayn}}.
 }
 \examples{
 # example convhulln
@@ -52,20 +52,20 @@ for(i in 1:(8*360)) rgl.viewpoint(i/8)
 }
 }
 \author{
-  Raoul Grasman, Robert B. Gramacy and David Sterratt
-  \email{david.c.sterratt@ed.ac.uk}
+Raoul Grasman, Robert B. Gramacy and David Sterratt
+\email{david.c.sterratt@ed.ac.uk}
 }
 \references{
-  \cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
-  \dQuote{The Quickhull algorithm for convex hulls,}
-  \emph{ACM Trans. on Mathematical Software,} Dec 1996.}
+\cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
+\dQuote{The Quickhull algorithm for convex hulls,}
+\emph{ACM Trans. on Mathematical Software,} Dec 1996.}
 
-  \url{http://www.qhull.org}
+\url{http://www.qhull.org}
 }
 \seealso{
-  \code{\link[tripack]{convex.hull}},
-  \code{\link{delaunayn}}, \code{\link{surf.tri}},
-  \code{\link{distmesh2d}}
+\code{\link[tripack]{convex.hull}},
+\code{\link{delaunayn}}, \code{\link{surf.tri}},
+\code{\link{distmesh2d}}
 }
 \keyword{dplot}
 \keyword{graphs}

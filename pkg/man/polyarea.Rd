@@ -2,7 +2,7 @@
 \alias{polyarea}
 \title{Determines area of a polygon by triangle method.}
 \usage{
-  polyarea(x, y, d = 1)
+polyarea(x, y, d = 1)
 }
 \arguments{
   \item{x}{X coordinates of verticies.}
@@ -12,20 +12,20 @@
   \item{d}{Dimension of array to work along.}
 }
 \value{
-  Area(s) of polygon(s).
+Area(s) of polygon(s).
 }
 \description{
-  Determines area of a polygon by triangle method.  The
-  variables \code{x} and \code{y} define the vertex pairs,
-  and must therefore have the same shape.  They can be
-  either vectors or arrays.  If they are arrays then the
-  columns of \code{x} and \code{y} are treated separately
-  and an area returned for each.
+Determines area of a polygon by triangle method.  The
+variables \code{x} and \code{y} define the vertex pairs,
+and must therefore have the same shape.  They can be either
+vectors or arrays.  If they are arrays then the columns of
+\code{x} and \code{y} are treated separately and an area
+returned for each.
 }
 \details{
-  If the optional \code{dim} argument is given, then
-  \code{polyarea} works along this dimension of the arrays
-  \code{x} and \code{y}.
+If the optional \code{dim} argument is given, then
+\code{polyarea} works along this dimension of the arrays
+\code{x} and \code{y}.
 }
 \examples{
 x <- c(1, 1, 3, 3, 1)
@@ -36,7 +36,7 @@ polyarea(cbind(x, x), cbind(y,y), 1) ##  c(4, 4)
 polyarea(rbind(x, x), rbind(y,y), 2) ##  c(4, 4)
 }
 \author{
-  David Sterratt based on the octave sources by David M.
-  Doolin
+David Sterratt based on the octave sources by David M.
+Doolin
 }
 

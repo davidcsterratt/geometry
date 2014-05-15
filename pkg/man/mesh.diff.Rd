@@ -4,7 +4,7 @@
 \alias{mesh.union}
 \title{Difference, union and intesection operation on  two regions}
 \usage{
-  mesh.diff(p, regionA, regionB, ...)
+mesh.diff(p, regionA, regionB, ...)
 }
 \arguments{
   \item{p}{A matrix with 2 columns (3 in
@@ -21,25 +21,25 @@
   and \code{regionB}}
 }
 \value{
-  A vector of length \code{nrow(p)} containing the signed
-  distances to the boundary of the region.
+A vector of length \code{nrow(p)} containing the signed
+distances to the boundary of the region.
 }
 \description{
-  Compute the signed distances from points \code{p} to a
-  region defined by the difference, union or intersection
-  of regions specified by the functions \code{regionA} and
-  \code{regionB}. \code{regionA} and \code{regionB} must
-  accept a matrix \code{p} with 2 columns as their first
-  argument, and must return a vector of length
-  \code{nrow(p)} containing the signed distances of the
-  supplied points in \code{p} to their respective regions.
+Compute the signed distances from points \code{p} to a
+region defined by the difference, union or intersection of
+regions specified by the functions \code{regionA} and
+\code{regionB}. \code{regionA} and \code{regionB} must
+accept a matrix \code{p} with 2 columns as their first
+argument, and must return a vector of length \code{nrow(p)}
+containing the signed distances of the supplied points in
+\code{p} to their respective regions.
 }
 \author{
-  Raoul Grasman; translated from original Matlab sources of
-  Per-Olof Persson.
+Raoul Grasman; translated from original Matlab sources of
+Per-Olof Persson.
 }
 \seealso{
-  \code{\link{distmesh2d}}, \code{\link{mesh.dcircle}},
-  \code{\link{mesh.drectangle}} \code{\link{mesh.dsphere}}
+\code{\link{distmesh2d}}, \code{\link{mesh.dcircle}},
+\code{\link{mesh.drectangle}} \code{\link{mesh.dsphere}}
 }
 

@@ -2,8 +2,7 @@
 \alias{mesh.drectangle}
 \title{Rectangle distance function}
 \usage{
-  mesh.drectangle(p, x1 = -1/2, y1 = -1/2, x2 = 1/2,
-    y2 = 1/2, ...)
+mesh.drectangle(p, x1 = -1/2, y1 = -1/2, x2 = 1/2, y2 = 1/2, ...)
 }
 \arguments{
   \item{p}{A matrix with 2 columns, each row representing a
@@ -20,32 +19,31 @@
   \item{\dots}{additional arguments (not used)}
 }
 \value{
-  a vector of length \code{nrow(p)} containing the signed
-  distances
+a vector of length \code{nrow(p)} containing the signed
+distances
 }
 \description{
-  Signed distance from points \code{p} to boundary of
-  rectangle to allow easy definition of regions in
-  \code{\link{distmesh2d}}.
+Signed distance from points \code{p} to boundary of
+rectangle to allow easy definition of regions in
+\code{\link{distmesh2d}}.
 }
 \examples{
 example(distmesh2d)
 }
 \author{
-  Raoul Grasman; translated from original Matlab sources of
-  Per-Olof Persson.
+Raoul Grasman; translated from original Matlab sources of
+Per-Olof Persson.
 }
 \references{
-  \url{http://www-math.mit.edu/~persson/mesh/}
+\url{http://www-math.mit.edu/~persson/mesh/}
 
-  \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator
-  in MATLAB. SIAM Review, Volume 46 (2), pp. 329-345, June
-  2004}
+\cite{P.-O. Persson, G. Strang, A Simple Mesh Generator in
+MATLAB. SIAM Review, Volume 46 (2), pp. 329-345, June 2004}
 }
 \seealso{
-  \code{\link{distmesh2d}}, \code{\link{mesh.drectangle}},
-  \code{\link{mesh.diff}}, \code{\link{mesh.intersect}},
-  \code{\link{mesh.union}}
+\code{\link{distmesh2d}}, \code{\link{mesh.drectangle}},
+\code{\link{mesh.diff}}, \code{\link{mesh.intersect}},
+\code{\link{mesh.union}}
 }
 \keyword{arith}
 \keyword{math}

@@ -2,8 +2,7 @@
 \alias{tetramesh}
 \title{Render tetrahedron mesh (3D)}
 \usage{
-  tetramesh(T, X, col = heat.colors(nrow(T)), clear = TRUE,
-    ...)
+tetramesh(T, X, col = heat.colors(nrow(T)), clear = TRUE, ...)
 }
 \arguments{
   \item{T}{T is a \code{m}-by-3 matrix in trimesh and
@@ -25,11 +24,11 @@
   \link[rgl]{rgl} package.}
 }
 \description{
-  \code{tetramesh(T, X, col)} uses the \link[rgl]{rgl}
-  package to display the tetrahedrons defined in the m-by-4
-  matrix T as mesh. Each row of \code{T} specifies a
-  thetrahedron by giving the 4 indices of its points in
-  \code{X}.
+\code{tetramesh(T, X, col)} uses the \link[rgl]{rgl}
+package to display the tetrahedrons defined in the m-by-4
+matrix T as mesh. Each row of \code{T} specifies a
+thetrahedron by giving the 4 indices of its points in
+\code{X}.
 }
 \examples{
 \dontrun{
@@ -47,12 +46,12 @@ tetramesh(tc,pc,alpha=0.7,col=clr)
 }
 }
 \author{
-  Raoul Grasman
+Raoul Grasman
 }
 \seealso{
-  \code{\link{trimesh}}, \code{\link[rgl]{rgl}},
-  \code{\link{delaunayn}}, \code{\link{convhulln}},
-  \code{\link{surf.tri}}
+\code{\link{trimesh}}, \code{\link[rgl]{rgl}},
+\code{\link{delaunayn}}, \code{\link{convhulln}},
+\code{\link{surf.tri}}
 }
 \keyword{hplot}
 
