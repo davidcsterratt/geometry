@@ -21,7 +21,6 @@ dot <- function(x, y, d=NULL) {
   ## Determine dimension along which to sum
   if (is.null(d)) {
     di <- which(dim(x) > 1)
-    print(di)
     if (length(di == 0)) {
       d <- 1
     } else {
