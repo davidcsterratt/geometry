@@ -166,12 +166,26 @@ tsearchn <- function(x, t, xi, fast=TRUE) {
 ##' \eqn{N+1}-by-\eqn{N} matrix
 ##' @param P \eqn{M}-by-\eqn{N} matrix in which each row is the Cartesian
 ##' coordinates of a point.
-##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the
-##' Cartesian coordinates of corresponding row of \code{P}. If the
+##' @return \eqn{M}-by-\eqn{N+1} matrix in which each row is the
+##' barycentric coordinates of corresponding row of \code{P}. If the
 ##' simplex is degenerate a warning is issued and the function returns
 ##' \code{NULL}.
 ##' @author David Sterratt
 ##' @note Based on the Octave function by David Bateman.
+##' @examples
+##' ## Define simplex in 2D (i.e. a triangle)
+##' X <- rbind(c(0, 0),
+##'            c(0, 1),
+##'            c(1, 0))
+##' ## Cartesian cooridinates of points
+##' P <- rbind(c(0.5, 0.5),
+##'            c(0.1, 0.8))
+##' ## Plot triangle and points
+##' trimesh(rbind(1:3), X)
+##' text(X[,1], X[,2], 1:3) # Label vertices
+##' points(P)
+##' cart2bary(X, P)
+##' @seealso bary2cart
 ##' @export
 cart2bary <- function(X, P) {
   M <- nrow(P)
@@ -205,6 +219,20 @@ cart2bary <- function(X, P) {
 ##' \eqn{M}-by-\eqn{N+1} matrix
 ##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the
 ##' Cartesian coordinates of corresponding row of \code{Beta}
+##' @examples
+##' ## Define simplex in 2D (i.e. a triangle)
+##' X <- rbind(c(0, 0),
+##'            c(0, 1),
+##'            c(1, 0))
+##' ## Cartesian cooridinates of points
+##' beta <- rbind(c(0, 0.5, 0.5),
+##'               c(0.1, 0.8, 0.1))
+##' ## Plot triangle and points
+##' trimesh(rbind(1:3), X)
+##' text(X[,1], X[,2], 1:3) # Label vertices
+##' P <- bary2cart(X, beta)
+##' points(P)
+##' @seealso cart2bary
 ##' @author David Sterratt
 ##' @export
 bary2cart <- function(X, Beta) {

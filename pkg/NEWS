@@ -1,4 +1,14 @@
-CHANGES IN VERSION 0.3-4  - Released 20??/??/??
+CHANGES IN VERSION 0.3-5  - Released 2014/??/??
+
+DOCUMENTATION IMPROVEMENTS
+
+* The meanings of "area" and "vol" in the convhulln return value have
+  been clarified. Thanks to Michael Cole for raising the issue.
+
+* The documentation of "cart2bary" and "bary2cart" has been corrected
+  and improved. Thanks to Francisco Mendoza Torres for raising the issue.
+
+CHANGES IN VERSION 0.3-4  - Released 2014/03/04
 
 BUG FIXES
 
