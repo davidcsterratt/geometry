@@ -8,6 +8,10 @@ DOCUMENTATION IMPROVEMENTS
 * The documentation of "cart2bary" and "bary2cart" has been corrected
   and improved. Thanks to Francisco Mendoza Torres for raising the issue.
 
+* HTML documentation has been for validation errors with HTML tidy.
+  Thanks to Kurt Hornik and the CRAN maintainers for alerting me to
+  the problem.
+
 CHANGES IN VERSION 0.3-4  - Released 2014/03/04
 
 BUG FIXES
