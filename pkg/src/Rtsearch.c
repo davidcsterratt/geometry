@@ -1,7 +1,7 @@
 /*
 
   Copyright (C) 2002-2011 Andreas Stahel
-  Copyright (C) 2011 David Sterratt
+  Copyright (C) 2011,2014 David Sterratt
 
   This program is free software; you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
@@ -28,7 +28,7 @@
 #include <R_ext/Rdynload.h>
 #include <Rinternals.h>
 
-inline double max (double a, double b, double c)
+static inline double max (double a, double b, double c)
 {
   if (a < b)
     return (b < c ? c : b);
@@ -36,7 +36,7 @@ inline double max (double a, double b, double c)
     return (a < c ? c : a);
 }
 
-inline double min (double a, double b, double c)
+static inline double min (double a, double b, double c)
 {
   if (a > b)
     return (b > c ? c : b);

@@ -1,5 +1,11 @@
 CHANGES IN VERSION 0.3-5  - Released 2014/??/??
 
+BUG FIXES
+
+* Fix for Issue #2789: inline functions min/max generate linker error
+  Thanks to Bernd Bischl for reporting the problem and suggesting the
+  fix.
+
 DOCUMENTATION IMPROVEMENTS
 
 * The meanings of "area" and "vol" in the convhulln return value have
