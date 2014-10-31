@@ -17,9 +17,14 @@
 ##' defines a \code{dim}-dimensional \dQuote{triangle}. The indices
 ##' refer to the rows in \code{p}.  If the option \code{FA} is
 ##' provided, then the output is a \code{list} with entries
-##' \code{$hull} containing the matrix mentioned above, and
-##' \code{$area} and \code{$vol} with the area and volume of the hull
-##' described by the matrix.
+##' \code{hull} containing the matrix mentioned above, and \code{area}
+##' and \code{vol} with the generalised area and volume of the hull
+##' described by the matrix. When applying convhulln to a 3D object,
+##' these have the conventional meanings: \code{vol} is the volume of
+##' enclosed by the hull and \code{area} is the total area of the
+##' facets comprising the hull's surface. However, in 2D the facets of
+##' the hull are the lines of the perimeter. Thus \code{area} is the
+##' length of the perimeter and \code{vol} is the area enclosed.
 ##'
 ##' @note This is a port of the Octave's (\url{http://www.octave.org})
 ##' geometry library. The Octave source was written by Kai Habel.
