@@ -5,10 +5,12 @@
 ##' contains any other points from the set.
 ##' 
 ##' If neither of the \code{QJ} or \code{Qt} options are supplied, the
-##' \code{QJ} is passed to Qhull. The \code{QJ} prevents the creation
-##' of degenerate simplicies (i.e. those that lie in a
-##' \code{N-1}-dimensional subspace).   See
-##' \url{../doc/html/qdelaun.html} for more details.
+##' \code{Qt} option is passed to Qhull. The \code{Qt} option ensures
+##' all Delaunay regions are simplical (e.g., triangles in 2-d).  See
+##' \url{../doc/html/qdelaun.html} for more details. Contrary to the
+##' Qhull documentation, no degenerate (zero area) regions are
+##' returned with the \code{Qt} option since the R function removes
+##' them from the triangulation.
 ##' 
 ##' For slient operation, specify the option \code{Pp}. 
 ##'
@@ -18,8 +20,9 @@
 ##' Qhull command.(See the Qhull documentation
 ##' (\url{../doc/html/qdelaun.html}) for the available options.)
 ##' @param full Return all information asscoiated with triangulation
-##' as a list. At present this is the triangulation (\code{tri}) and a
-##' list of neighbours of each facet (\code{neighbours}).
+##' as a list. At present this is the triangulation (\code{tri}), a
+##' vector of facet areas (\code{areas}) and a list of neighbours of
+##' each facet (\code{neighbours}).
 ##' @return The return matrix has \code{m} rows and \code{dim+1}
 ##' columns. It contains for each row a set of indices to the points,
 ##' which describes a simplex of dimension \code{dim}. The 3D simplex
@@ -69,7 +72,20 @@
 ##' 
 ##' @export
 ##' @useDynLib geometry
-delaunayn <- function (p, options="", full=FALSE) {
+delaunayn <- local({
+EnvSupp <- new.env()
+function(p, options="", full=FALSE) {
+  suppressMsge <- FALSE
+  if(exists("delaunaynMsgeDone",envir=EnvSupp)) suppressMsge <- TRUE
+  if(!suppressMsge){
+    message(paste(
+      "\n     PLEASE NOTE:  As of version 0.3-5, no degenerate (zero area)",
+      "\n     regions are returned with the \"Qt\" option since the R",
+      "\n     code removes them from the triangulation.",
+      "\n     See help(\"delaunayn\").\n\n"))
+    assign("delaunaynMsgeDone","xxx",envir=EnvSupp)
+  }
+
   ## Input sanitisation
   options <- paste(options, collapse=" ")
 
@@ -92,11 +108,17 @@ delaunayn <- function (p, options="", full=FALSE) {
   ## one with more than dim+1 points per structure, where dim is the
   ## dimension in which the points p reside.
   if (!grepl("Qt", options) & !grepl("QJ", options)) {
-    options <- paste(options, "QJ")
+    options <- paste(options, "Qt")
   }
   ret <- .Call("delaunayn", p, as.character(options), PACKAGE="geometry")
+
+  ## Remove degenerate simplicies
+  nd <- which(ret$areas != 0)
+  ret$tri <- ret$tri[nd,]
+  ret$areas <- ret$areas[nd]
+  ret$neighbours <- ret$neighbours[nd]
   if (!full) {
     return(ret$tri)
   }
   return(ret)
-}
+}})

@@ -14,8 +14,9 @@ Qhull command.(See the Qhull documentation
 (\url{../doc/html/qdelaun.html}) for the available options.)}
 
 \item{full}{Return all information asscoiated with triangulation
-as a list. At present this is the triangulation (\code{tri}) and a
-list of neighbours of each facet (\code{neighbours}).}
+as a list. At present this is the triangulation (\code{tri}), a
+vector of facet areas (\code{areas}) and a list of neighbours of
+each facet (\code{neighbours}).}
 }
 \value{
 The return matrix has \code{m} rows and \code{dim+1}
@@ -30,10 +31,12 @@ contains any other points from the set.
 }
 \details{
 If neither of the \code{QJ} or \code{Qt} options are supplied, the
-\code{QJ} is passed to Qhull. The \code{QJ} prevents the creation
-of degenerate simplicies (i.e. those that lie in a
-\code{N-1}-dimensional subspace).   See
-\url{../doc/html/qdelaun.html} for more details.
+\code{Qt} option is passed to Qhull. The \code{Qt} option ensures
+all Delaunay regions are simplical (e.g., triangles in 2-d).  See
+\url{../doc/html/qdelaun.html} for more details. Contrary to the
+Qhull documentation, no degenerate (zero area) regions are
+returned with the \code{Qt} option since the R function removes
+them from the triangulation.
 
 For slient operation, specify the option \code{Pp}.
 }

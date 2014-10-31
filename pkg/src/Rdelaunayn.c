@@ -1,6 +1,6 @@
 /* Copyright (C) 2000, 2013 Kai Habel
 ** Copyright R-version (c) 2005 Raoul Grasman
-**                     (c) 2013 David Sterratt
+**                     (c) 2013-2014 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -40,9 +40,10 @@
 SEXP delaunayn(const SEXP p, const SEXP options)
 {
   SEXP retlist, retnames;       /* Return list and names */
-  int retlen = 2;               /* Length of return list */
+  int retlen = 3;               /* Length of return list */
 	SEXP tri;                     /* The triangulation */
   SEXP neighbour, neighbours;   /* List of neighbours */
+  SEXP areas;                    /* Facet areas */
 	int i;
 	unsigned dim, n;
 	boolT ismalloc;
@@ -50,7 +51,7 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	double *pt_array;
 
   /* Initialise return values */
-	tri = neighbours = retlist = R_NilValue;
+	tri = neighbours = retlist = areas = R_NilValue;
 
   /* We cannot print directly to stdout in R, and the alternative of
      using R_Outputfile does not seem to work for all
@@ -116,15 +117,12 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 			vertexT *vertex, **vertexp;
       facetT *neighbor, **neighborp;
 
+      /* Count the number of facets so we know how much space to
+         allocate in R */
 			int nf=0;                 /* Number of facets */
 			FORALLfacets {
 				if (!facet->upperdelaunay) {
           nf++;
-          /* int nv=0;
-          FOREACHvertex_ (facet->vertices) {
-            nv++;
-          }
-          printf("Facet %i: %i vertices\n", nf, nv); */
         }
         /* Double check. Non-simplicial facets will cause segfault
            below */
@@ -134,15 +132,21 @@ SEXP delaunayn(const SEXP p, const SEXP options)
           break;
         }
 			}
-
+      
+      /* Alocate the space in R */
       PROTECT(tri = allocMatrix(INTSXP, nf, dim+1));
       PROTECT(neighbours = allocVector(VECSXP, nf));
+      PROTECT(areas = allocVector(REALSXP, nf));
+
+      /* Iterate through facets to extract information */
       int i=0;
 			FORALLfacets {
 				if (!facet->upperdelaunay) {
           if (i >= nf) {
             error("Trying to access non-existent facet %i", i);
           }
+
+          /* Triangulation */
 					int j=0;
 					FOREACHvertex_ (facet->vertices) {
             if ((i + nf*j) >= nf*(dim+1))
@@ -150,23 +154,30 @@ SEXP delaunayn(const SEXP p, const SEXP options)
             INTEGER(tri)[i + nf*j] = 1 + qh_pointid(vertex->point);
             j++;
 					}
-          /* printf("Facet %d: ", i); */
-          /* printf("%d", qh_setsize(facet->neighbors)); */
+
+          /* Neighbours */
           PROTECT(neighbour = allocVector(INTSXP, qh_setsize(facet->neighbors)));
           j=0;
           FOREACHneighbor_(facet) {
             INTEGER(neighbour)[j] = neighbor->visitid ? neighbor->visitid: 0 - neighbor->id;
             j++;
-            /* printf(" %d", */
-            /*        neighbor->visitid ? neighbor->visitid: 0 - neighbor->id); */
           }
           SET_VECTOR_ELT(neighbours, i, neighbour);
           UNPROTECT(1);
-          /* printf("\n"); */
+          
+          /* Area. Code modified from qh_getarea() in libquhull/geom2.c */
+          if ((facet->normal) && !(facet->upperdelaunay && qh ATinfinity)) {
+            if (!facet->isarea) {
+              facet->f.area= qh_facetarea(facet);
+              facet->isarea= True;
+            }
+            REAL(areas)[i] = facet->f.area;
+          }
+
 					i++;
 				}
 			}
-      UNPROTECT(2);
+      UNPROTECT(3);
 		} 
     
     /* Do cleanup regardless of whether there is an error */
@@ -194,6 +205,8 @@ SEXP delaunayn(const SEXP p, const SEXP options)
   SET_VECTOR_ELT(retnames, 0, mkChar("tri"));
   SET_VECTOR_ELT(retlist, 1, neighbours);
   SET_VECTOR_ELT(retnames, 1, mkChar("neighbours"));
+  SET_VECTOR_ELT(retlist, 2, areas);
+  SET_VECTOR_ELT(retnames, 2, mkChar("areas"));
   setAttrib(retlist, R_NamesSymbol, retnames);
   UNPROTECT(2);
 

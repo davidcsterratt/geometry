@@ -28,8 +28,8 @@ try(tsearchn(ps, ts, cbind(1, 2, 4)))
 
 ## The QJ option should lead to no degnerate simplex
 ts <- delaunayn(ps, "QJ")
-## tsearchn shouldn't return a "degnerate simplex" error. FIXME: But
-## it does.
+## tsearchn should return a "degnerate simplex" error because one
+## simplex is very small
 tsearchn(ps, ts, cbind(1, 2, 4))
 ## Encasing this in a try() statement shouldn't make a difference
 try(tsearchn(ps, ts, cbind(1, 2, 4)))
