@@ -1,3 +1,4 @@
+context("convhulln")
 test_that("Convhull can run on an example with 3000 points", {
   set.seed(1)
   ps <- matrix(rnorm(3000), ncol=3)
