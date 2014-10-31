@@ -54,13 +54,13 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
     if (qh ANNOTATEoutput) {
 #endif
       if (fp) {
-        fprintf(fp, "[QH%.4d]", msgcode);
+        Rprintf("[QH%.4d]", msgcode);
       } else {
         REprintf("[QH%.4d]", msgcode);
       }
     }else if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
       if (fp) {
-        fprintf(fp, "QH%.4d ", msgcode);
+        Rprintf(fp, "QH%.4d ", msgcode);
       } else {
         REprintf("QH%.4d ", msgcode);
       }
