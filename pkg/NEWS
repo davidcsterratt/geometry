@@ -13,7 +13,7 @@ API CHANGE
 NEW FEATURES
 
 * delaunayn() with the "full" option also returns the areas of
-  facets. This is a byproduct of the 
+  facets. This is a byproduct of the API change above.
 
 BUG FIXES
 
