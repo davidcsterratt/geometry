@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.3-5  - Released 2014/??/??
+CHANGES IN VERSION 0.3-5 - Released 2014/10/31
 
 API CHANGE
 
@@ -22,6 +22,12 @@ BUG FIXES
   Thanks to Bernd Bischl for reporting the problem and suggesting the
   fix.
 
+* Partial Fix for Issue #5738: segfault when run from directory
+  lacking write permission
+  (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=5738&group_id=1149&atid=4552)
+  An error is now thrown, rather than a segfault. The underlying
+  problem still needs to be dealth with.
+
 DOCUMENTATION IMPROVEMENTS
 
 * The meanings of "area" and "vol" in the convhulln return value have
@@ -33,6 +39,10 @@ DOCUMENTATION IMPROVEMENTS
 * HTML documentation has been for validation errors with HTML tidy.
   Thanks to Kurt Hornik and the CRAN maintainers for alerting me to
   the problem.
+
+CODE IMPROVEMENTS
+
+* Tests are now all done using the testthat framework.
 
 CHANGES IN VERSION 0.3-4  - Released 2014/03/04
 

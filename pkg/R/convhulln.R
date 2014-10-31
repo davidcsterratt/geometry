@@ -55,6 +55,13 @@
 ##' @export
 ##' @useDynLib geometry
 convhulln <- function (p, options = "Tv") {
+  ## Check directory writable
+  if (file.access(getwd(), 2) == -1) {
+    stop(paste("Unable to write to current directory.\n",
+               "This is a known issue in the geometry package\n",
+               "See https://r-forge.r-project.org/tracker/index.php?func=detail&aid=5738&group_id=1149&atid=4552"))
+  }
+  
   ## Input sanitisation
   options <- paste(options, collapse=" ")
 
