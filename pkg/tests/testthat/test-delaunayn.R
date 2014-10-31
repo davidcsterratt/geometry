@@ -61,3 +61,17 @@ test_that("Output to file works", {
   pst <- delaunayn(ps, "QJ TO 'test1.txt'")
   expect_true(file.exists("test1.txt"))
 })
+
+test_that("The QJ option can give degenerate simplices", {
+  ## Create degenerate simplex - thanks to Bill Denney for example
+  ps <- as.matrix(rbind(data.frame(a=0, b=0, d=0),
+                        merge(merge(data.frame(a=c(-1, 1)),
+                                    data.frame(b=c(-1, 1))),
+                              data.frame(d=c(-1, 1)))))
+
+  ## The QJ option leads to on simplex being very small
+  ts <- delaunayn(ps, "QJ")
+  expect_warning(tsearchn(ps, ts, cbind(1, 2, 4)))
+})
+
+
