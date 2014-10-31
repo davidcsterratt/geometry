@@ -112,11 +112,16 @@ function(p, options="", full=FALSE) {
   }
   ret <- .Call("delaunayn", p, as.character(options), PACKAGE="geometry")
 
+  if (nrow(ret$tri) == 1) {
+    ret$areas <- 1/factorial(ncol(p))*abs(det(cbind(p[ret$tri,], 1)))
+    ret$neighbours <- NULL
+  } 
   ## Remove degenerate simplicies
   nd <- which(ret$areas != 0)
-  ret$tri <- ret$tri[nd,]
+  ret$tri <- ret$tri[nd,,drop=FALSE]
   ret$areas <- ret$areas[nd]
   ret$neighbours <- ret$neighbours[nd]
+
   if (!full) {
     return(ret$tri)
   }

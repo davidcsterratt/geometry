@@ -83,9 +83,11 @@ SEXP delaunayn(const SEXP p, const SEXP options)
 	if(dim <= 0 || n <= 0){
 		error("Invalid input matrix.");
 	}
+  if (n <= dim) {
+    error("Number of points is not greater than the number of dimensions.");
+  }
 
-	if (n > dim+1) {
-
+	if (n > dim + 1) {
 		int i, j;
 		int exitcode = 1;
 		int curlong, totlong;
