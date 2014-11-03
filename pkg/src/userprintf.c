@@ -60,15 +60,18 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
       }
     }else if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
       if (fp) {
-        Rprintf(fp, "QH%.4d ", msgcode);
+        Rprintf("QH%.4d ", msgcode);
       } else {
         REprintf("QH%.4d ", msgcode);
       }
     }
     if (fp) {
-      vfprintf(fp, fmt, args);
+      /* This would print the output, which we don't want */
+      /* Rvprintf(fmt, args); */
     } else {
-      REvprintf(fmt, args);
+      if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
+        REvprintf(fmt, args);
+      }
     }
     va_end(args);
 
