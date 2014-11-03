@@ -43,6 +43,8 @@ tetramesh <- function (T, X, col = heat.colors(nrow(T)), clear = TRUE, ...) {
     stop("Expect second arg `X' to have 3 columns.")
   t = t(rbind(T[, -1], T[, -2], T[, -3], T[, -4]))
   if (clear)
-    rgl.clear()
-  rgl.triangles(X[t, 1], X[t, 2], X[t, 3], col = col, ...)
+    rgl::rgl.clear()
+  rgl::rgl.triangles(X[t, 1], X[t, 2], X[t, 3], col = col, ...)
 }
+
+
