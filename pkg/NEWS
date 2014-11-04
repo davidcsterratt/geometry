@@ -1,6 +1,6 @@
 CHANGES IN VERSION 0.3-5 - Released 2014/11/04
 
-API CHANGE
+API CHANGES
 
 * The default Qhull option to the delaunayn() function is now "Qt"
   rather than "QJ" and degenerate (zero-area) simplices are removed
