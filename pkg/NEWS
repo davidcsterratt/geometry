@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.3-5 - Released 2014/10/31
+CHANGES IN VERSION 0.3-5 - Released 2014/11/04
 
 API CHANGE
 
@@ -10,7 +10,10 @@ API CHANGE
   (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=1993&group_id=1149&atid=4552). Thanks
   to Rolf Turner for alerting me to the issue. 
 
-NEW FEATURES
+* delaunayn() now throws an error if the number of points is less than
+  the number of dimensions + 1.
+
+ FEATURES
 
 * delaunayn() with the "full" option also returns the areas of
   facets. This is a byproduct of the API change above.
