@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.3-5 - Released 2014/11/04
+CHANGES IN VERSION 0.3-5 - Released 2014/11/06
 
 API CHANGES
 
@@ -13,7 +13,7 @@ API CHANGES
 * delaunayn() now throws an error if the number of points is less than
   the number of dimensions + 1.
 
- FEATURES
+FEATURES
 
 * delaunayn() with the "full" option also returns the areas of
   facets. This is a byproduct of the API change above.
@@ -46,6 +46,10 @@ DOCUMENTATION IMPROVEMENTS
 CODE IMPROVEMENTS
 
 * Tests are now all done using the testthat framework.
+
+* There is now a test to make sure output to file works. Thanks to
+  Brian Ripley for identifying the problem while testing the pacakge
+  for CRAN.
 
 CHANGES IN VERSION 0.3-4  - Released 2014/03/04
 

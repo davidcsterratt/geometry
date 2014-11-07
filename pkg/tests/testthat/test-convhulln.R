@@ -27,8 +27,12 @@ test_that("If there are not enough points to construct a simplex, an error is th
 })
 
 test_that("Output to file works", {
-  ps <- matrix(rnorm(3000), ncol=3)
-  ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1, 3)))
-  ts <- convhulln(ps, "TO 'test.txt'")
-  expect_true(file.exists("test.txt"))
+  ## To prevent regression in package betapart
+  unlink("vert.txt")
+  tr <- rbind(c(3,1),c(2,1),c(4,3),c(4,2))
+  convhulln(tr, "Fx TO 'vert.txt'")
+  expect_true(file.exists("vert.txt"))
+  vert <- scan("vert.txt")
+  expect_equal(vert, c(4, 2, 1, 0, 3))
 })
+

@@ -54,20 +54,19 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
     if (qh ANNOTATEoutput) {
 #endif
       if (fp) {
-        Rprintf("[QH%.4d]", msgcode);
+        fprintf(fp, "[QH%.4d]", msgcode);
       } else {
         REprintf("[QH%.4d]", msgcode);
       }
     }else if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
       if (fp) {
-        Rprintf("QH%.4d ", msgcode);
+        fprintf(fp, "QH%.4d ", msgcode);
       } else {
         REprintf("QH%.4d ", msgcode);
       }
     }
     if (fp) {
-      /* This would print the output, which we don't want */
-      /* Rvprintf(fmt, args); */
+      vfprintf(fp, fmt, args);
     } else {
       if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
         REvprintf(fmt, args);
