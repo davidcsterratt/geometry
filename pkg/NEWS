@@ -1,3 +1,10 @@
+CHANGES IN VERSION 0.3-6 - Released 2015/??/??
+
+CODE IMPROVEMENTS
+
+* As per CRAN policies, the title in the DESCRIPTION file is now in title
+  case.
+
 CHANGES IN VERSION 0.3-5 - Released 2014/11/06
 
 API CHANGES
