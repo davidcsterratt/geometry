@@ -64,9 +64,8 @@
 ##' 
 ##' # example tetramesh
 ##' \dontrun{
-##' library(rgl)
-##' rgl.viewpoint(60)
-##' rgl.light(120,60)
+##' rgl::rgl.viewpoint(60)
+##' rgl::rgl.light(120,60)
 ##' tetramesh(tc,pc, alpha=0.9)
 ##' }
 ##' 
