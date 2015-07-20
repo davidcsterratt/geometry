@@ -19,12 +19,16 @@ doc: roxygen
 	rm -f geometry.pdf
 	R CMD Rd2dvi --pdf --output=geometry.pdf pkg 
 
-check: package
-	#	echo "install.packages(c(\"rgl\",\"R.matlab\", \"tripack\", \"geometry\"), repos=\"http://star-www.st-andrews.ac.uk/cran/\")" |	R --no-restore --slave
+deps:
+	echo "if (!library(devtools, logical.return=TRUE)) { install.packages(\"devtools\"); library(devtools) } ; devtools::install_deps(\"pkg/geometry\", dependencies=c(\"Depends\", \"Suggests\"))"  |	R --no-restore --slave
+
+check: package deps
 	R CMD check --as-cran $(PACKAGE)
 	@ if [ $$(/bin/ls -1 pkg/inst/doc/*htm 2>/dev/null | wc -l) -gt 0 ] ; then echo "ERROR: .htm files in pkg/inst/doc. See Makefile for suggestion of how to fix" ; fi	
 	@ if [ $$(/bin/ls -1 pkg/inst/doc/html/*htm 2>/dev/null | wc -l) -gt 0 ]; then echo "ERROR: .htm files in pkg/inst/doc. See Makefile for suggestion of how to fix" ; fi 
 
+quickcheck: package deps
+		R CMD check $(PACKAGE)
 revision:
 	@echo $(GEOMETRY_SVN_REVISION)
 	@echo $(GEOMETRY_SVN_REVISION1)
