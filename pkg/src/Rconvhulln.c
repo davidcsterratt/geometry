@@ -31,7 +31,7 @@
 #include "qhull_a.h"
 #include <unistd.h>              /* For unlink() */
 
-SEXP convhulln(const SEXP p, const SEXP options)
+SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 {
   SEXP retval, area, vol, retlist, retnames;
   int curlong, totlong, i, j, retlen;
@@ -90,7 +90,7 @@ SEXP convhulln(const SEXP p, const SEXP options)
   /* Jiggery-pokery to create and destroy the ersatz stdout, and the
      call to qhull itself. */    
   const char *name;
-  name = R_tmpnam("Rf", ".");
+  name = R_tmpnam("Rf", CHAR(STRING_ELT(tmpdir, 0)));
   tmpstdout = fopen(name, "w");
   exitcode = qh_new_qhull (dim,n,pt_array,ismalloc,flags,tmpstdout,errfile);
   fclose(tmpstdout);

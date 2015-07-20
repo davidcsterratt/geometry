@@ -5,6 +5,16 @@ CODE IMPROVEMENTS
 * As per CRAN policies, the title in the DESCRIPTION file is now in title
   case.
 
+BUG FIXES
+
+* Fix for Issue #5738: segfault when run from directory lacking write
+  permission
+  (https://r-forge.r-project.org/tracker/index.php?func=detail&aid=5738&group_id=1149&atid=4552)
+  Using "." as a temporary directory can cause problems if it is not
+  writeable. Now the geometry package uses tempdir(), which R should
+  guarantee to exist.
+  Thanks to Laura Riggi for reporting this problem.
+
 CHANGES IN VERSION 0.3-5 - Released 2014/11/06
 
 API CHANGES

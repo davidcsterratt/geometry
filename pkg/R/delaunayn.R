@@ -87,8 +87,10 @@ function(p, options="", full=FALSE) {
   }
 
   ## Check directory writable
-  if (file.access(getwd(), 2) == -1) {
-    stop(paste("Unable to write to current directory.\n",
+  tmpdir <- tempdir()
+  ## R should guarantee the tmpdir is writable, but check in any case
+  if (file.access(tmpdir, 2) == -1) {
+    stop(paste("Unable to write to R temporary directory", tmpdir, "\n",
                "This is a known issue in the geometry package\n",
                "See https://r-forge.r-project.org/tracker/index.php?func=detail&aid=5738&group_id=1149&atid=4552"))
   }
@@ -117,7 +119,7 @@ function(p, options="", full=FALSE) {
   if (!grepl("Qt", options) & !grepl("QJ", options)) {
     options <- paste(options, "Qt")
   }
-  ret <- .Call("delaunayn", p, as.character(options), PACKAGE="geometry")
+  ret <- .Call("delaunayn", p, as.character(options), tmpdir, PACKAGE="geometry")
 
   if (nrow(ret$tri) == 1) {
     ret$areas <- 1/factorial(ncol(p))*abs(det(cbind(p[ret$tri,], 1)))
