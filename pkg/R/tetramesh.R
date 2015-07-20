@@ -25,15 +25,14 @@
 ##' tc = delaunayn(pc)
 ##' 
 ##' # example tetramesh
-##' library(rgl)
 ##' clr = rep(1,3) %o% (1:nrow(tc)+1)
-##' rgl.viewpoint(60,fov=20)
-##' rgl.light(270,60)
+##' rgl::rgl.viewpoint(60,fov=20)
+##' rgl::rgl.light(270,60)
 ##' tetramesh(tc,pc,alpha=0.7,col=clr)
 ##' }
 ##' @export
 tetramesh <- function (T, X, col = heat.colors(nrow(T)), clear = TRUE, ...) {
-  if(require(rgl) == FALSE)
+  if(requireNamespace("rgl") == FALSE)
     stop("the rgl package is required for tetramesh")
   if (!is.numeric(T) | !is.numeric(T))
     stop("`T' and `X' should both be numeric.")
