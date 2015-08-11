@@ -15,6 +15,12 @@ BUG FIXES
   guarantee to exist.
   Thanks to Laura Riggi for reporting this problem.
 
+* Put Robert B. Gramacy back in the author list, after he was
+  accidentally omitted when changing to the Authors@R format on
+  2014/10/29 (version 0.3-5).
+  Thanks to Robert B. Gramacy for reporting this, and apologies for
+  the error.
+
 CHANGES IN VERSION 0.3-5 - Released 2014/11/06
 
 API CHANGES

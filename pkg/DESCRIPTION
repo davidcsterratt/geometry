@@ -3,10 +3,10 @@ License: GPL (>= 3) + file LICENSE
 Title: Mesh Generation and Surface Tesselation
 Authors@R: c(person("C. B.", "Barber" , role="cph"), person("Kai", "Habel",
     role=c("cph","aut")), person("Raoul", "Grasman", role=c("cph","aut")),
-    person("Andreas", "Stahel", role=c("cph","aut")), person("Andreas",
+    person("Robert B.", "Gramacy", role=c("cph","aut")), person("Andreas",
     "Stahel", role=c("cph","aut")), person("David C.", "Sterratt",
     role=c("cph","aut","cre"), email="david.c.sterratt@ed.ac.uk"))
-Description: This package makes the qhull library (www.qhull.org)
+Description: Makes the qhull library (www.qhull.org)
     available in R, in a similar manner as in Octave and MATLAB. Qhull
     computes convex hulls, Delaunay triangulations, halfspace
     intersections about a point, Voronoi diagrams, furthest-site
@@ -19,7 +19,7 @@ Description: This package makes the qhull library (www.qhull.org)
     Delaunay triangulation and convex hull computation.
 Version: 0.3-6
 URL: http://geometry.r-forge.r-project.org/
-Date: 2014-12-04
+Date: 2015-07-20
 BugReports: https://r-forge.r-project.org/tracker/?group_id=1149
 Depends:
     R (>= 2.5.0),
