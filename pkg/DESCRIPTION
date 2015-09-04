@@ -19,7 +19,7 @@ Description: Makes the qhull library (www.qhull.org)
     Delaunay triangulation and convex hull computation.
 Version: 0.3-6
 URL: http://geometry.r-forge.r-project.org/
-Date: 2015-07-20
+Date: 2015-09-04
 BugReports: https://r-forge.r-project.org/tracker/?group_id=1149
 Depends:
     R (>= 2.5.0),
