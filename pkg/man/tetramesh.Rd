@@ -4,7 +4,7 @@
 \alias{tetramesh}
 \title{Render tetrahedron mesh (3D)}
 \usage{
-tetramesh(T, X, col = heat.colors(nrow(T)), clear = TRUE, ...)
+tetramesh(T, X, col = grDevices::heat.colors(nrow(T)), clear = TRUE, ...)
 }
 \arguments{
 \item{T}{T is a \code{m}-by-3 matrix in trimesh and \code{m}-by-4 in

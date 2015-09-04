@@ -106,14 +106,14 @@ function (fdist, fh, h, box, pfix = array(dim = c(0, ncol(box))),
     # %2. Remove points outside the region, apply the rejection method
     p = p[fdist(p, ...) < geps, ]
     r0 = fh(p, ...)
-    p = rbind(pfix, p[runif(nrow(p)) < min(r0)^dim/r0^dim, ])
+    p = rbind(pfix, p[stats::runif(nrow(p)) < min(r0)^dim/r0^dim, ])
     N = nrow(p)
     if (N <= dim + 1)
         stop("Not enough starting points inside boundary (is h0 too large?).")
     on.exit(return(invisible(p)))
 
     cat("Press esc if the mesh seems fine but the algorithm hasn't converged.\n")
-    flush.console()
+    utils::flush.console()
     count = 0
 
     p0 = 1/.Machine$double.eps

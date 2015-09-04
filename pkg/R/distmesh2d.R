@@ -114,14 +114,14 @@ function(fd, fh, h0, bbox, p=NULL, pfix=array(0,dim=c(0,2)),
   }
 
   r0 = 1 / fh(p,...)^2                           # acceptance probability
-  p = rbind(pfix, p[runif(nrow(p))<r0/max(r0),]) # rejection sampling
+  p = rbind(pfix, p[stats::runif(nrow(p))<r0/max(r0),]) # rejection sampling
   N = nrow(p)
   if(N<=3)
     stop("Not enough starting points inside boundary (is h0 too large?).")
 
   on.exit(return(invisible(p)));                 # in case we need to stop earlier
   cat("Press esc if the mesh seems fine but the algorithm hasn't converged.\n")
-  flush.console();
+  utils::flush.console();
 
   #%3 main loop: iterative improvement of points
   pold = 1.0/.Machine$double.eps;

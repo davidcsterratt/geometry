@@ -26,6 +26,7 @@
 ##' tt = delaunayn(p)
 ##' trimesh(tt,p)
 ##' @export
+##' @importFrom graphics box plot.new plot.window segments
 trimesh <- function(T, p, p2, add=FALSE, axis=FALSE, boxed=FALSE, ...){
   if(!is.matrix(p)){
      p = cbind(p,p2) # automatically generates error if p2 not present
