@@ -149,7 +149,7 @@ function (fdist, fh, h, box, pfix = array(dim = c(0, ncol(box))),
             }
             else {
                 cat("Retriangulation #", 15, "\n")
-                flush.console()
+                utils::flush.console()
             }
             count = count + 1
         }
