@@ -11,7 +11,7 @@
 ##' @author Raoul Grasman; translated from original Matlab sources of Per-Olof
 ##' Persson.
 ##' @seealso \code{\link{distmeshnd}}
-##' @references \url{http://www-math.mit.edu/~persson/mesh/}
+##' @references \url{http://persson.berkeley.edu/distmesh/}
 ##' 
 ##' \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator in MATLAB. SIAM
 ##' Review, Volume 46 (2), pp. 329-345, June 2004}

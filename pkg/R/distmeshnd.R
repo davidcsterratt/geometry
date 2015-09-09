@@ -60,7 +60,7 @@
 ##' \code{\link{delaunayn}}, \code{\link{mesh.dsphere}},
 ##' \code{\link{mesh.hunif}},\cr \code{\link{mesh.diff}},
 ##' \code{\link{mesh.union}}, \code{\link{mesh.intersect}}
-##' @references \url{http://www-math.mit.edu/~persson/mesh/}
+##' @references \url{http://persson.berkeley.edu/distmesh/}
 ##' 
 ##' \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator in MATLAB. SIAM
 ##' Review, Volume 46 (2), pp. 329-345, June 2004}
