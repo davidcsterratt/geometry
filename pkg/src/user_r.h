@@ -6,8 +6,9 @@
 
    see qh-user.htm.  see COPYING for copyright information.
 
-   before reading any code, review libqhull.h for data structure definitions and
-   the "qh" macro.
+   See user_r.c for sample code.
+
+   before reading any code, review libqhull_r.h for data structure definitions
 
 Sections:
    ============= qhull library constants ======================
@@ -47,12 +48,13 @@ Code flags --
 
   msgcode -- Unique message codes for qh_fprintf
 
-  If add new messages, assign these values and increment.
+  If add new messages, assign these values and increment in user.h and user_r.h
+  See QhullError.h for 10000 errors.
 
   def counters =  [27, 1047, 2059, 3025, 4068, 5003,
-     6239, 7079, 8143, 9410, 10000, 11026]
+     6263, 7079, 8145, 9410, 10000, 11029]
 
-  See: qh_ERR* [libqhull.h]
+  See: qh_ERR* [libqhull_r.h]
 */
 
 #define MSG_TRACE0 0
@@ -65,7 +67,7 @@ Code flags --
 #define MSG_WARNING 7000
 #define MSG_STDERR  8000  /* log messages Written to qh.ferr */
 #define MSG_OUTPUT  9000
-#define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError [QhullError.h] */
+#define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError.cpp */
 #define MSG_FIXUP  11000  /* FIXUP QH11... */
 #define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
 
@@ -155,6 +157,26 @@ Code flags --
 #endif
 
 /*-<a                             href="qh-user.htm#TOC"
+  >--------------------------------</a><a name="countT">-</a>
+
+  countT
+    The type for counts and identifiers (e.g., the number of points, vertex identifiers)
+
+    Typically 'int' or 'long long'.
+
+    FIXUP QH11026 countT may be defined as a unsigned value, but several code issues need to be solved first.  See countT in Changes.txt
+
+    Also defined in qset_r.h
+*/
+
+#ifndef DEFcountT
+#define DEFcountT 1
+typedef int countT;
+#endif
+#define COUNTmax 0x7fffffff
+
+
+/*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="CPUclock">-</a>
 
   qh_CPUclock
@@ -179,7 +201,7 @@ Code flags --
      1          for CLOCKS_PER_SEC, CLOCKS_PER_SECOND, or microsecond
                 Note:  may fail if more than 1 hour elapsed time
 
-     2          use qh_clock() with POSIX times() (see global.c)
+     2          use qh_clock() with POSIX times() (see global_r.c)
 */
 #define qh_CLOCKtype 1  /* change to the desired number */
 
@@ -224,7 +246,7 @@ Code flags --
     2       for rand() with RAND_MAX or 15 bits (system 5)
     3       for rand() with 31 bits (Sun)
     4       for lrand48() with 31 bits (Solaris)
-    5       for qh_rand() with 31 bits (included with Qhull)
+    5       for qh_rand(qh) with 31 bits (included with Qhull, requires 'qh')
 
   notes:
     Random numbers are used by rbox to generate point sets.  Random
@@ -247,7 +269,7 @@ Code flags --
 #if (qh_RANDOMtype == 1)
 #define qh_RANDOMmax ((realT)0x7fffffffUL)  /* 31 bits, random()/MAX */
 #define qh_RANDOMint random()
-#define qh_RANDOMseed_(seed) srandom(seed);
+#define qh_RANDOMseed_(qh, seed) srandom(seed);
 
 #elif (qh_RANDOMtype == 2)
 #ifdef RAND_MAX
@@ -256,22 +278,22 @@ Code flags --
 #define qh_RANDOMmax ((realT)32767)   /* 15 bits (System 5) */
 #endif
 #define qh_RANDOMint  rand()
-#define qh_RANDOMseed_(seed) srand((unsigned)seed);
+#define qh_RANDOMseed_(qh, seed) srand((unsigned)seed);
 
 #elif (qh_RANDOMtype == 3)
 #define qh_RANDOMmax ((realT)0x7fffffffUL)  /* 31 bits, Sun */
 #define qh_RANDOMint  rand()
-#define qh_RANDOMseed_(seed) srand((unsigned)seed);
+#define qh_RANDOMseed_(qh, seed) srand((unsigned)seed);
 
 #elif (qh_RANDOMtype == 4)
 #define qh_RANDOMmax ((realT)0x7fffffffUL)  /* 31 bits, lrand38()/MAX */
 #define qh_RANDOMint lrand48()
-#define qh_RANDOMseed_(seed) srand48(seed);
+#define qh_RANDOMseed_(qh, seed) srand48(seed);
 
-#elif (qh_RANDOMtype == 5)
+#elif (qh_RANDOMtype == 5)  /* 'qh' is an implicit parameter */
 #define qh_RANDOMmax ((realT)2147483646UL)  /* 31 bits, qh_rand/MAX */
-#define qh_RANDOMint qh_rand()
-#define qh_RANDOMseed_(seed) qh_srand(seed);
+#define qh_RANDOMint qh_rand(qh)
+#define qh_RANDOMseed_(qh, seed) qh_srand(qh, seed);
 /* unlike rand(), never returns 0 */
 
 #else
@@ -374,7 +396,7 @@ stop after qh_JOGGLEmaxretry attempts
     total hash slots / used hash slots.  Must be at least 1.1.
 
   notes:
-    =2 for at worst 50% occupancy for qh hash_table and normally 25% occupancy
+    =2 for at worst 50% occupancy for qh.hash_table and normally 25% occupancy
 */
 #define qh_HASHfactor 2
 
@@ -417,11 +439,11 @@ stop after qh_JOGGLEmaxretry attempts
   >--------------------------------</a><a name="MEMalign">-</a>
 
   qh_MEMalign
-    memory alignment for qh_meminitbuffers() in global.c
+    memory alignment for qh_meminitbuffers() in global_r.c
 
   notes:
     to avoid bus errors, memory allocation must consider alignment requirements.
-    malloc() automatically takes care of alignment.   Since mem.c manages
+    malloc() automatically takes care of alignment.   Since mem_r.c manages
     its own memory, we need to explicitly specify alignment in
     qh_meminitbuffers().
 
@@ -429,7 +451,7 @@ stop after qh_JOGGLEmaxretry attempts
     do not occur in data structures and pointers are the same size.  Be careful
     of machines (e.g., DEC Alpha) with large pointers.
 
-    If using gcc, best alignment is
+    If using gcc, best alignment is [fmax_() is defined in geom_r.h]
               #define qh_MEMalign fmax_(__alignof__(realT),__alignof__(void *))
 */
 #define qh_MEMalign ((int)(fmax_(sizeof(realT), sizeof(void *))))
@@ -441,7 +463,7 @@ stop after qh_JOGGLEmaxretry attempts
     size of additional memory buffers
 
   notes:
-    used for qh_meminitbuffers() in global.c
+    used for qh_meminitbuffers() in global_r.c
 */
 #define qh_MEMbufsize 0x10000       /* allocate 64K memory buffers */
 
@@ -452,7 +474,7 @@ stop after qh_JOGGLEmaxretry attempts
     size of initial memory buffer
 
   notes:
-    use for qh_meminitbuffers() in global.c
+    use for qh_meminitbuffers() in global_r.c
 */
 #define qh_MEMinitbuf 0x20000      /* initially allocate 128K buffer */
 
@@ -489,8 +511,8 @@ stop after qh_JOGGLEmaxretry attempts
   __MSC_VER
     defined by Microsoft Visual C++
 
-  __MWERKS__ && __POWERPC__
-    defined by Metrowerks when compiling for the Power Macintosh
+  __MWERKS__ && __INTEL__
+    defined by Metrowerks when compiling for Intel-based Macintosh
 
   __STDC__
     defined for strict ANSI C
@@ -549,9 +571,9 @@ stop after qh_JOGGLEmaxretry attempts
     #define qh_NOmerge
 
   see:
-    <a href="mem.h#NOmem">qh_NOmem</a> in mem.c
+    <a href="mem_r.h#NOmem">qh_NOmem</a> in mem_r.c
 
-    see user.c/user_eg.c for removing io.o
+    see user_r.c/user_eg.c for removing io_r.o
 */
 
 /*-<a                             href="qh-user.htm#TOC"
@@ -566,62 +588,11 @@ stop after qh_JOGGLEmaxretry attempts
     #define qh_NOtrace
 */
 
-/*-<a                             href="qh-user.htm#TOC"
-  >--------------------------------</a><a name="QHpointer">-</a>
-
-  qh_QHpointer
-    access global data with pointer or static structure
-
-  qh_QHpointer  = 1     access globals via a pointer to allocated memory
-                        enables qh_saveqhull() and qh_restoreqhull()
-                        [2010, gcc] costs about 4% in time and 4% in space
-                        [2003, msvc] costs about 8% in time and 2% in space
-
-                = 0     qh_qh and qh_qhstat are static data structures
-                        only one instance of qhull() can be active at a time
-                        default value
-
-  qh_QHpointer_dllimport and qh_dllimport define qh_qh as __declspec(dllimport) [libqhull.h]
-  It is required for msvc-2005.  It is not needed for gcc.
-
-  notes:
-    all global variables for qhull are in qh, qhmem, and qhstat
-    qh is defined in libqhull.h
-    qhmem is defined in mem.h
-    qhstat is defined in stat.h
-    C++ build defines qh_QHpointer [libqhullp.pro, libqhullcpp.pro]
-
-  see:
-    user_eg.c for an example
-*/
-#ifdef qh_QHpointer
-#if qh_dllimport
-#error QH6207 Qhull error: Use qh_QHpointer_dllimport instead of qh_dllimport with qh_QHpointer
-#endif
-#else
-#define qh_QHpointer 0
-#if qh_QHpointer_dllimport
-#error QH6234 Qhull error: Use qh_dllimport instead of qh_QHpointer_dllimport when qh_QHpointer is not defined
-#endif
-#endif
 #if 0  /* sample code */
-    qhT *oldqhA, *oldqhB;
-
-    exitcode= qh_new_qhull(dim, numpoints, points, ismalloc,
+    exitcode= qh_new_qhull(qhT *qh, dim, numpoints, points, ismalloc,
                       flags, outfile, errfile);
-    /* use results from first call to qh_new_qhull */
-    oldqhA= qh_save_qhull();
-    exitcode= qh_new_qhull(dimB, numpointsB, pointsB, ismalloc,
-                      flags, outfile, errfile);
-    /* use results from second call to qh_new_qhull */
-    oldqhB= qh_save_qhull();
-    qh_restore_qhull(&oldqhA);
-    /* use results from first call to qh_new_qhull */
-    qh_freeqhull(qh_ALL);  /* frees all memory used by first call */
-    qh_restore_qhull(&oldqhB);
-    /* use results from second call to qh_new_qhull */
-    qh_freeqhull(!qh_ALL); /* frees long memory used by second call */
-    qh_memfreeshort(&curlong, &totlong);  /* frees short memory and memory allocator */
+    qh_freeqhull(qhT *qh, !qh_ALL); /* frees long memory used by second call */
+    qh_memfreeshort(qhT *qh, &curlong, &totlong);  /* frees short memory and memory allocator */
 #endif
 
 /*-<a                             href="qh-user.htm#TOC"
@@ -744,7 +715,7 @@ stop after qh_JOGGLEmaxretry attempts
     qh_USEfindbestnew -- when to use qh_findbestnew for qh_partitionpoint()
 */
 #define qh_DISToutside ((qh_USEfindbestnew ? 2 : 1) * \
-     fmax_((qh MERGING ? 2 : 1)*qh MINoutside, qh max_outside))
+     fmax_((qh->MERGING ? 2 : 1)*qh->MINoutside, qh->max_outside))
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="RATIOnearinside">-</a>
@@ -773,7 +744,7 @@ stop after qh_JOGGLEmaxretry attempts
     qh_USEfindbestnew -- when to use qh_findbestnew for qh_partitionpoint()
 */
 #define qh_SEARCHdist ((qh_USEfindbestnew ? 2 : 1) * \
-      (qh max_outside + 2 * qh DISTround + fmax_( qh MINvisible, qh MAXcoplanar)));
+      (qh->max_outside + 2 * qh->DISTround + fmax_( qh->MINvisible, qh->MAXcoplanar)));
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="USEfindbestnew">-</a>

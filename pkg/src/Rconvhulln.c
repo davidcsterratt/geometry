@@ -27,8 +27,7 @@
 */
 
 #include "Rgeometry.h"
-#define qh_QHimport
-#include "qhull_a.h"
+#include "qhull_ra.h"
 #include <unistd.h>              /* For unlink() */
 
 SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
@@ -92,7 +91,9 @@ SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
   const char *name;
   name = R_tmpnam("Rf", CHAR(STRING_ELT(tmpdir, 0)));
   tmpstdout = fopen(name, "w");
-  exitcode = qh_new_qhull (dim,n,pt_array,ismalloc,flags,tmpstdout,errfile);
+  qhT *qh= (qhT*)malloc(sizeof(qhT));
+  qh_zero(qh, errfile);
+  exitcode = qh_new_qhull (qh, dim, n, pt_array, ismalloc, flags, tmpstdout, errfile);
   fclose(tmpstdout);
   unlink(name);
   free((char *) name); 
@@ -102,12 +103,12 @@ SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 
     facetT *facet;              /* set by FORALLfacets */
     vertexT *vertex, **vertexp; /* set by FORALLfacets */
-    unsigned int n = qh num_facets;
+    unsigned int n = qh->num_facets;
 
     PROTECT(retval = allocMatrix(INTSXP, n, dim));
     idx = (int *) R_alloc(n*dim,sizeof(int));
 
-    qh_vertexneighbors();
+    qh_vertexneighbors(qh);
 
     i=0;
     FORALLfacets {
@@ -117,9 +118,9 @@ SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
         /* qh_printvertex(stdout,vertex); */
         if (j >= dim)
           warning("extra vertex %d of facet %d = %d",
-                  j++,i,1+qh_pointid(vertex->point));
+                  j++,i,1+qh_pointid(qh, vertex->point));
         else
-          idx[i+n*j++] = 1 + qh_pointid(vertex->point);
+          idx[i+n*j++] = 1 + qh_pointid(qh, vertex->point);
       }
       if (j < dim) warning("facet %d only has %d vertices",i,j);
       i++;
@@ -130,14 +131,14 @@ SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
         INTEGER(retval)[i+nrows(retval)*j] = idx[i+n*j];
 
     /* Return area and volume */
-    if (qh totarea != 0.0) {
+    if (qh->totarea != 0.0) {
       PROTECT(area = allocVector(REALSXP, 1));
-      REAL(area)[0] = qh totarea;
+      REAL(area)[0] = qh->totarea;
       retlen++;
     }
-    if (qh totvol != 0.0) {
+    if (qh->totvol != 0.0) {
       PROTECT(vol = allocVector(REALSXP, 1));
-      REAL(vol)[0] = qh totvol;
+      REAL(vol)[0] = qh->totvol;
       retlen++;
     }
 
@@ -157,9 +158,9 @@ SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 
     UNPROTECT(retlen);
   }
-  qh_freeqhull(!qh_ALL);                /* free long memory */
-  qh_memfreeshort (&curlong, &totlong);	/* free short memory and memory allocator */
-
+  qh_freeqhull(qh, !qh_ALL);                /* free long memory */
+  qh_memfreeshort (qh, &curlong, &totlong);	/* free short memory and memory allocator */
+  qh_free(qh);
   if (curlong || totlong) {
     warning("convhulln: did not free %d bytes of long memory (%d pieces)",
 	    totlong, curlong);
