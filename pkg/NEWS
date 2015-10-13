@@ -1,3 +1,9 @@
+CHANGES IN VERSION 0.4.0 - Released 2015/10/??
+
+* The new reentrant Qhull library is used, as a precursor to allowing
+  Qhull objects to be returned and operated on.
+  https://github.com/davidcsterratt/geometry/issues/3      
+
 CHANGES IN VERSION 0.3-6 - Released 2015/09/04
 
 CODE IMPROVEMENTS
