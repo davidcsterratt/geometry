@@ -41,7 +41,7 @@
 void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
-    if (!fp) {
+    if (!fp || fp == qh_FILEstderr) {
         if(!qh){
             /* CHANGE TO SOURCE: The code has been altered so that if the file
                pointer is null it is assumed that REprintf(), the R error
