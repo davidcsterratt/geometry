@@ -1,6 +1,6 @@
 /* Copyright (C) 2000 Kai Habel
-** Copyright R-version (c) 2005 Raoul Grasman 
-**                     (c) 2013 David Sterratt
+** Copyright R-version (C) 2005 Raoul Grasman 
+**                     (C) 2013-2015 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -30,10 +30,29 @@
 #include "qhull_ra.h"
 #include <unistd.h>              /* For unlink() */
 
+/* Finalizer which R will call when garbage collecting. This is
+   registered at the end of convhulln() */
+static void convhullFinalizer(SEXP ptr)
+{
+  int curlong, totlong;
+  if(!R_ExternalPtrAddr(ptr)) return;
+  qhT *qh;
+  qh = R_ExternalPtrAddr(ptr);
+
+  qh_freeqhull(qh, !qh_ALL);                /* free long memory */
+  qh_memfreeshort (qh, &curlong, &totlong);	/* free short memory and memory allocator */
+  if (curlong || totlong) {
+    warning("convhulln: did not free %d bytes of long memory (%d pieces)",
+	    totlong, curlong);
+  }
+  qh_free(qh);
+  R_ClearExternalPtr(ptr); /* not really needed */
+}
+
 SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 {
   SEXP retval, area, vol, retlist, retnames;
-  int curlong, totlong, i, j, retlen;
+  int i, j, retlen;
   unsigned int dim, n;
   int exitcode = 1; 
   boolT ismalloc;
@@ -158,13 +177,17 @@ SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 
     UNPROTECT(retlen);
   }
-  qh_freeqhull(qh, !qh_ALL);                /* free long memory */
-  qh_memfreeshort (qh, &curlong, &totlong);	/* free short memory and memory allocator */
-  qh_free(qh);
-  if (curlong || totlong) {
-    warning("convhulln: did not free %d bytes of long memory (%d pieces)",
-	    totlong, curlong);
-  }
+
+  /* Register convhullFinalizer() for garbage collection and attach a
+     pointer to the hull as an attribute for future use. */
+  SEXP ptr, tag;
+  PROTECT(tag = allocVector(STRSXP, 1));
+  SET_STRING_ELT(tag, 0, mkChar("convhull"));
+  PROTECT(ptr = R_MakeExternalPtr(qh, tag, R_NilValue));
+  R_RegisterCFinalizerEx(ptr, convhullFinalizer, TRUE);
+  setAttrib(retlist, tag, ptr);
+  UNPROTECT(2);
+
   if (exitcode) {
     error("Received error code %d from qhull.", exitcode);
   }
