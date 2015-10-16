@@ -19,7 +19,7 @@
 */
 
 #include "libqhull_r.h"
-#include "Rgeometry.h"
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,7 +64,7 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     }
     /* CHANGE TO SOURCE */
     /* vfprintf(fp, fmt, args); */
-    if (fp) {
+    if (fp && (fp != qh_FILEstderr)) {
         vfprintf(fp, fmt, args);
     }
     va_end(args);
