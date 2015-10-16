@@ -3,6 +3,6 @@ This is the development version of the [R geometry package](http://geometry.r-fo
 
 To install and test, type the following within R:
 ```
-install(devtools)
+install.packages("devtools")
 devtools::install_github("davidcsterratt/geometry", subdir="pkg")
 ```
