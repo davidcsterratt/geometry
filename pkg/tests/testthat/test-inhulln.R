@@ -10,6 +10,23 @@ test_that("inhulln gives the expected output", {
   ## Should be outside hull
   pout <- inhulln(ch, cbind(1, 1))
   expect_that(pout, equals(FALSE))
+
+  ## Test cube
+  p <- rbox(3, B=1)
+  ch <- convhulln(p)
+  tp <-  cbind(seq(-1.9, 1.9, by=0.2), 0, 0)
+  pin <- inhulln(ch, tp)
+  ## Points on x-axis should be in box only between -1 and 1
+  expect_that(pin, equals(tp[,1] < 1 & tp[,1] > -1))
+
+  ## Test hypercube
+  p <- rbox(4, B=1)
+  ch <- convhulln(p)
+  tp <-  cbind(seq(-1.9, 1.9, by=0.2), 0, 0, 0)
+  pin <- inhulln(ch, tp)
+  ## Points on x-axis should be in box only between -1 and 1
+  expect_that(pin, equals(tp[,1] < 1 & tp[,1] > -1))
+
 })
 
 
