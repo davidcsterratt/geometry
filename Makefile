@@ -67,5 +67,4 @@ qh_diff_q:
 ## These files have changes from qhull
 ## src/mem_r.c
 ## src/usermem_r.c
-## src/userprintf_rbox_r.c
 ## src/userprintf_r.c
