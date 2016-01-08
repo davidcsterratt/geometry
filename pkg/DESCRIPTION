@@ -17,7 +17,7 @@ Description: Makes the qhull library (www.qhull.org)
     non-convex objects, but the package does include some R functions
     that allow for this. Currently the package only gives access to
     Delaunay triangulation and convex hull computation.
-Version: 0.3-6
+Version: 0.4.0
 URL: http://geometry.r-forge.r-project.org/
 Date: 2015-09-04
 BugReports: https://r-forge.r-project.org/tracker/?group_id=1149

@@ -1,4 +1,4 @@
-/* Copyright (C) 2000, 2013 Kai Habel
+/* Copyright (C) 2000, 2013, 2015 Kai Habel
 ** Copyright R-version (c) 2005 Raoul Grasman
 **                     (c) 2013-2014 David Sterratt
 **
@@ -33,8 +33,7 @@
 */
 
 #include "Rgeometry.h"
-#define qh_QHimport
-#include "qhull_a.h"
+#include "qhull_ra.h"
 #include <unistd.h>              /* For unlink() */
 
 SEXP delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
@@ -104,11 +103,15 @@ SEXP delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     const char *name;
     name = R_tmpnam("Rf", CHAR(STRING_ELT(tmpdir, 0)));
     tmpstdout = fopen(name, "w");
-		exitcode = qh_new_qhull(dim, n, pt_array, ismalloc, flags, tmpstdout, errfile); 
+    qhT *qh= (qhT*)malloc(sizeof(qhT));
+    qh_zero(qh, errfile);
+		exitcode = qh_new_qhull(qh, dim, n, pt_array, ismalloc, flags, tmpstdout, errfile); 
     fclose(tmpstdout);
     unlink(name);
     free((char *) name); 
-    
+    if (exitcode) {
+      error ("non-zero exitcode");
+    }
 		if (!exitcode) {                    /* 0 if no error from qhull */
       /* Triangulate non-simplicial facets - this commented out code
          does not appear to be needed, but retaining in case useful --
@@ -153,12 +156,12 @@ SEXP delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
 					FOREACHvertex_ (facet->vertices) {
             if ((i + nf*j) >= nf*(dim+1))
               error("Trying to write to non-existent area of memory i=%i, j=%i, nf=%i, dim=%i", i, j, nf, dim);
-            INTEGER(tri)[i + nf*j] = 1 + qh_pointid(vertex->point);
+            INTEGER(tri)[i + nf*j] = 1 + qh_pointid(qh, vertex->point);
             j++;
 					}
 
           /* Neighbours */
-          PROTECT(neighbour = allocVector(INTSXP, qh_setsize(facet->neighbors)));
+          PROTECT(neighbour = allocVector(INTSXP, qh_setsize(qh, facet->neighbors)));
           j=0;
           FOREACHneighbor_(facet) {
             INTEGER(neighbour)[j] = neighbor->visitid ? neighbor->visitid: 0 - neighbor->id;
@@ -168,9 +171,9 @@ SEXP delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
           UNPROTECT(1);
           
           /* Area. Code modified from qh_getarea() in libquhull/geom2.c */
-          if ((facet->normal) && !(facet->upperdelaunay && qh ATinfinity)) {
+          if ((facet->normal) && !(facet->upperdelaunay && qh->ATinfinity)) {
             if (!facet->isarea) {
-              facet->f.area= qh_facetarea(facet);
+              facet->f.area= qh_facetarea(qh, facet);
               facet->isarea= True;
             }
             REAL(areas)[i] = facet->f.area;
@@ -183,9 +186,10 @@ SEXP delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
 		} 
     
     /* Do cleanup regardless of whether there is an error */
-		qh_freeqhull(!qh_ALL);                  /* free long memory */
-		qh_memfreeshort (&curlong, &totlong);   /* free short memory and memory allocator */
-
+		qh_freeqhull(qh, !qh_ALL);                  /* free long memory */
+		qh_memfreeshort (qh, &curlong, &totlong);   /* free short memory and memory allocator */
+    qh_free(qh);
+    
 		if (curlong || totlong) {
 			warning("delaunay: did not free %d bytes of long memory (%d pieces)", totlong, curlong);
 		}
