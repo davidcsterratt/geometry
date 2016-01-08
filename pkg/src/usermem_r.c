@@ -40,7 +40,7 @@ void qh_exit(int exitcode) {
      needs to be replaced to fix warnings about exit being called. --
      David Sterratt 3/4/12. */
     /* exit(exitcode); */
-    error("Qhull exit, code $i", exitcode);
+    error("Qhull exit, code %i", exitcode);
 } /* exit */
 
 /*-<a                             href="qh-user_r.htm#TOC"
