@@ -20,6 +20,7 @@
 
 #include "libqhull_r.h"
 
+#include <stdarg.h>
 #include <stdlib.h>
 
 /*-<a                             href="qh-user_r.htm#TOC"
@@ -30,7 +31,9 @@
 
   notes:
     qh_exit() is called when qh_errexit() and longjmp() are not available.
-    same as exit()
+
+    This is the only use of exit() in Qhull
+    To replace qh_exit with 'throw', see libqhullcpp/usermem_r-cpp.cpp
 */
 void qh_exit(int exitcode) {
     /* CHANGE TO SOURCE: The commented line below is the original. It
@@ -39,6 +42,35 @@ void qh_exit(int exitcode) {
     /* exit(exitcode); */
     error("Qhull exit, code $i", exitcode);
 } /* exit */
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >-------------------------------</a><a name="qh_fprintf_stderr">-</a>
+
+  qh_fprintf_stderr( msgcode, format, list of args )
+    fprintf to stderr with msgcode (non-zero)
+
+  notes:
+    qh_fprintf_stderr() is called when qh->ferr is not defined, usually due to an initialization error
+    
+    It is typically followed by qh_errexit().
+
+    Redefine this function to avoid using stderr
+
+    Use qh_fprintf [userprintf_r.c] for normal printing
+*/
+void qh_fprintf_stderr(int msgcode, const char *fmt, ... ) {
+    va_list args;
+
+    va_start(args, fmt);
+    if(msgcode)
+      /* CHANGE TO SOURCE */
+      /* fprintf(stderr, "QH%.4d ", msgcode); */
+      REprintf("QH%.4d", msgcode);
+    /* CHANGE TO SOURCE */
+    /* vfprintf(stderr, fmt, args); */
+    REvprintf(fmt, args);
+    va_end(args);
+} /* fprintf_stderr */
 
 /*-<a                             href="qh-user_r.htm#TOC"
 >-------------------------------</a><a name="qh_free">-</a>

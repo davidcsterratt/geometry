@@ -59,13 +59,12 @@ qh_version:
 	@grep 'char qh_version2' ../qhull/src/libqhull_r/global_r.c 
 
 qh_diff:
-	diff -u -r pkg/src/ ../qhull/src/libqhull_r
+	diff -u -r -x '*.htm' -x '*.pro' -x '*.def' pkg/src/ ../qhull/src/libqhull_r
 
 qh_diff_q:
-	diff -u -r -q pkg/src/ ../qhull/src/libqhull_r
+	diff -u -r -x '*.htm' -x '*.pro' -x '*.def' -q pkg/src/ ../qhull/src/libqhull_r
 
 ## These files have changes from qhull
 ## src/mem_r.c
 ## src/usermem_r.c
-## src/userprintf_rbox_r.c
 ## src/userprintf_r.c
