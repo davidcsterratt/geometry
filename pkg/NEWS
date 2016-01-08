@@ -9,7 +9,18 @@ CHANGES IN VERSION 0.4.0 - Released 2015/10/??
 
 * The new reentrant Qhull library is used, as a precursor to allowing
   Qhull objects to be returned and operated on
-  https://github.com/davidcsterratt/geometry/issues/3      
+  https://github.com/davidcsterratt/geometry/issues/3
+
+* Fix for Issue #6072: distmesh2d - convergence problem
+  (https://r-forge.r-project.org/tracker/?func=detail&atid=4552&aid=6072&group_id=1149)
+  Some parts of the original Matlab implementation of distmesh2d were
+  omitted during the translation to R. The effect is not obvious on
+  some problems, except for long convergence times due to excessive
+  iterations - some do not converge at all. Graham Griffiths made
+  changes to the code which appears to have fixed the problem as
+  example problems now appear to run significantly faster - even
+  faster than those I have run using Matlab. Graham's example code is now included in a test.
+  Thanks to Graham Griffiths for reporting this problem and supplying the fix.
 
 CHANGES IN VERSION 0.3-6 - Released 2015/09/04
 
