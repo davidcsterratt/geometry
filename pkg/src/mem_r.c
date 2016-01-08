@@ -181,7 +181,9 @@ void qh_memcheck(qhT *qh) {
   void *object;
 
   if (!qh) {
-    fprintf(stderr, "QH6243 qh_memcheck(qh): qh is 0.  It does not point to a qhT");
+    /* CHANGE TO CODE */
+    /* fprintf(stderr, "QH6243 qh_memcheck(qh): qh is 0.  It does not point to a qhT"); */
+    REprintf("QH6243 qh_memcheck(qh): qh is 0.  It does not point to a qhT");
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   if (qh->qhmem.ferr == 0 || qh->qhmem.IStracing < 0 || qh->qhmem.IStracing > 10 || (((qh->qhmem.ALIGNmask+1) & qh->qhmem.ALIGNmask) != 0)) {
