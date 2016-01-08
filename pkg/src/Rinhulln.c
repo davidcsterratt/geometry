@@ -51,14 +51,13 @@ SEXP inhulln(const SEXP ch, const SEXP p)
   PROTECT(inside = allocVector(LGLSXP, n));
   double *point;
   point = (double *) R_alloc(dim, sizeof(double));
-  facetT *facet= NULL;
   boolT isoutside;
   realT bestdist;
   int i, j;
   for(i=0; i < n; i++) {
     for(j=0; j < dim; j++)
       point[j] = REAL(p)[i+n*j]; /* could have been pt_array = REAL(p) if p had been transposed */
-    facet = qh_findbestfacet(qh, point, !qh_ALL, &bestdist, &isoutside);
+    qh_findbestfacet(qh, point, !qh_ALL, &bestdist, &isoutside);
     LOGICAL(inside)[i] = !isoutside;
   }
   UNPROTECT(1);
