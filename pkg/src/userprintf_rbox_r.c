@@ -40,7 +40,7 @@
 void qh_fprintf_rbox(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
-    if (!fp) {
+    if (!fp || fp == qh_FILEstderr) {
         /* CHANGE TO CODE: using REprintf to avoid use of stderr */
         /* fprintf(stderr, "QH6231 Qhull internal error (userprintf_r.c): fp is 0.  Wrong qh_fprintf_rbox called.\n"); */
         REprintf("QH6231 Qhull internal error (userprintf_r.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
