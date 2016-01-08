@@ -52,3 +52,20 @@ htmldoc:
 ## Generate test results like this:
 ## R --vanilla < pkg/tests/delaunayn.R > pkg/tests/delaunayn.Rout.save
 
+qh_version:
+	@echo "R version"
+	@grep 'char qh_version2' pkg/src/global_r.c
+	@echo "qhull version"
+	@grep 'char qh_version2' ../qhull/src/libqhull_r/global_r.c 
+
+qh_diff:
+	diff -u -r pkg/src/ ../qhull/src/libqhull_r
+
+qh_diff_q:
+	diff -u -r -q pkg/src/ ../qhull/src/libqhull_r
+
+## These files have changes from qhull
+## src/mem_r.c
+## src/usermem_r.c
+## src/userprintf_rbox_r.c
+## src/userprintf_r.c
