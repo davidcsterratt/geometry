@@ -54,6 +54,7 @@ Per-Olof Persson and Gilbert Strang</a>.</p>
 <ul>
 <li>The latest stable version is available from <a href="http://cran.r-project.org/web/packages/geometry/index.html">CRAN</a>.</li>
 <li>The latest development version is available from <a href="https://r-forge.r-project.org/R/?group_id=1149">R-Forge project page</a>.</li>
+<li>The latest development version is also available on github <a href="https://github.com/davidcsterratt/geometry">davidcsterratt/geometry</a>.</li>
 </ul>
 
 <p>Original qhull sources are included in the distribution. The
@@ -64,9 +65,10 @@ this license</a>. The non-qhull sources are subject to the GPL version
 
 <h2>Bugs and other issues</h2>
 
-<p>Please look at <a href="https://r-forge.r-project.org/tracker/?group_id=1149">
-geometry's R-forge tracker</a> to view known bugs and to report 
-bugs and feature requests.</p>
+<p>Please look at <a
+href="https://github.com/davidcsterratt/geometry/issues"> geometry's
+R-forge tracker</a> to view known bugs and to report bugs and feature
+requests.</p>
 
 <h2>Contribute</h2>
 
