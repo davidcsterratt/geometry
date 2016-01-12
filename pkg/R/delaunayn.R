@@ -75,20 +75,8 @@
 ##' 
 ##' @export
 ##' @useDynLib geometry
-delaunayn <- local({
-EnvSupp <- new.env()
+delaunayn <-
 function(p, options=NULL, full=FALSE) {
-  suppressMsge <- FALSE
-  if(exists("delaunaynMsgeDone",envir=EnvSupp)) suppressMsge <- TRUE
-  if(!suppressMsge){
-    message(paste(
-      "\n     PLEASE NOTE:  As of version 0.3-5, no degenerate (zero area)",
-      "\n     regions are returned with the \"Qt\" option since the R",
-      "\n     code removes them from the triangulation.",
-      "\n     See help(\"delaunayn\").\n\n"))
-    assign("delaunaynMsgeDone","xxx",envir=EnvSupp)
-  }
-
   ## Check directory writable
   tmpdir <- tempdir()
   ## R should guarantee the tmpdir is writable, but check in any case
@@ -147,4 +135,4 @@ function(p, options=NULL, full=FALSE) {
     return(ret$tri)
   }
   return(ret)
-}})
+}
