@@ -1,44 +1,48 @@
-##' Delaunay triangulation in N-dimensions
+##' @title Delaunay triangulation in N-dimensions
 ##' 
 ##' The Delaunay triangulation is a tessellation of the convex hull of
 ##' the points such that no N-sphere defined by the N-triangles
 ##' contains any other points from the set.
-##' 
-##' If neither of the \code{QJ} or \code{Qt} options are supplied, the
-##' \code{Qt} option is passed to Qhull. The \code{Qt} option ensures
-##' all Delaunay regions are simplical (e.g., triangles in 2-d).  See
-##' \url{../doc/html/qdelaun.html} for more details. Contrary to the
-##' Qhull documentation, no degenerate (zero area) regions are
-##' returned with the \code{Qt} option since the R function removes
-##' them from the triangulation.
-##' 
-##' For slient operation, specify the option \code{Pp}. 
 ##'
-##' @param p \code{p} is an \code{n}-by-\code{dim} matrix. The rows of \code{p}
-##' represent \code{n} points in \code{dim}-dimensional space.
+##' @param p \code{p} is an \code{n}-by-\code{dim} matrix. The rows of
+##'   \code{p} represent \code{n} points in \code{dim}-dimensional
+##'   space.
+##'
 ##' @param options String containing extra options for the underlying
-##' Qhull command.(See the Qhull documentation
-##' (\url{../doc/html/qdelaun.html}) for the available options.)
+##'   Qhull command.(See the Qhull documentation
+##'   (\url{../doc/html/qdelaun.html}) for the available options.) The
+##'   \code{Qbb} option is always passed to Qhull. The default options
+##'   are \code{Qcc Qc Qt Qz} for \code{dim} <4 and \code{Qcc Qc Qt
+##'   Qx} for \code{dim}>=4.  If neither of the \code{QJ} or \code{Qt}
+##'   options are supplied, the \code{Qt} option is passed to Qhull.
+##'   The \code{Qt} option ensures all Delaunay regions are simplical
+##'   (e.g., triangles in 2-d).  See \url{../doc/html/qdelaun.html}
+##'   for more details. Contrary to the Qhull documentation, no
+##'   degenerate (zero area) regions are returned with the \code{Qt}
+##'   option since the R function removes them from the triangulation.
+##'   For slient operation, specify the option \code{Pp}.
+##'
 ##' @param full Return all information asscoiated with triangulation
-##' as a list. At present this is the triangulation (\code{tri}), a
-##' vector of facet areas (\code{areas}) and a list of neighbours of
-##' each facet (\code{neighbours}).
+##'   as a list. At present this is the triangulation (\code{tri}), a
+##'   vector of facet areas (\code{areas}) and a list of neighbours of
+##'   each facet (\code{neighbours}).
+##'
 ##' @return The return matrix has \code{m} rows and \code{dim+1}
-##' columns. It contains for each row a set of indices to the points,
-##' which describes a simplex of dimension \code{dim}. The 3D simplex
-##' is a tetrahedron.
+##'   columns. It contains for each row a set of indices to the
+##'   points, which describes a simplex of dimension \code{dim}. The
+##'   3D simplex is a tetrahedron.
 ##' 
-##' @note This function interfaces the Qhull library and is a port from
-##' Octave (\url{http://www.octave.org}) to R. Qhull computes convex
-##' hulls, Delaunay triangulations, halfspace intersections about a
-##' point, Voronoi diagrams, furthest-site Delaunay triangulations,
-##' and furthest-site Voronoi diagrams. It runs in 2-d, 3-d, 4-d, and
-##' higher dimensions. It implements the Quickhull algorithm for
-##' computing the convex hull. Qhull handles roundoff errors from
-##' floating point arithmetic. It computes volumes, surface areas, and
-##' approximations to the convex hull. See the Qhull documentation
-##' included in this distribution (the doc directory
-##' \url{../doc/index.html}).
+##' @note This function interfaces the Qhull library and is a port
+##'   from Octave (\url{http://www.octave.org}) to R. Qhull computes
+##'   convex hulls, Delaunay triangulations, halfspace intersections
+##'   about a point, Voronoi diagrams, furthest-site Delaunay
+##'   triangulations, and furthest-site Voronoi diagrams. It runs in
+##'   2-d, 3-d, 4-d, and higher dimensions. It implements the
+##'   Quickhull algorithm for computing the convex hull. Qhull handles
+##'   roundoff errors from floating point arithmetic. It computes
+##'   volumes, surface areas, and approximations to the convex
+##'   hull. See the Qhull documentation included in this distribution
+##'   (the doc directory \url{../doc/index.html}).
 ##'
 ##' Qhull does not support constrained Delaunay triangulations, triangulation
 ##' of non-convex surfaces, mesh generation of non-convex objects, or
@@ -73,7 +77,7 @@
 ##' @useDynLib geometry
 delaunayn <- local({
 EnvSupp <- new.env()
-function(p, options="", full=FALSE) {
+function(p, options=NULL, full=FALSE) {
   suppressMsge <- FALSE
   if(exists("delaunaynMsgeDone",envir=EnvSupp)) suppressMsge <- TRUE
   if(!suppressMsge){
@@ -93,9 +97,6 @@ function(p, options="", full=FALSE) {
                "This is a known issue in the geometry package\n",
                "See https://r-forge.r-project.org/tracker/index.php?func=detail&aid=5738&group_id=1149&atid=4552"))
   }
-  
-  ## Input sanitisation
-  options <- paste(options, collapse=" ")
 
   ## Coerce the input to be matrix
   if (is.data.frame(p)) {
@@ -110,6 +111,18 @@ function(p, options="", full=FALSE) {
   if (any(is.na(p))) {
     stop("The first argument should not contain any NAs")
   }
+
+  ## Default options
+  if (is.null(options)) {
+    if (ncol(p) < 4) {
+      options <- "Qt Qc Qz"
+    } else {
+      options <- "Qt Qc Qx"
+    }
+  }
+  
+  ## Input sanitisation
+  options <- paste(options, collapse=" ")
   
   ## It is essential that delaunayn is called with either the QJ or Qt
   ## option. Otherwise it may return a non-triangulated structure, i.e
