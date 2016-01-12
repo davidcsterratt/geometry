@@ -1,5 +1,17 @@
 CHANGES IN VERSION 0.4.0 - Released 2015/10/??
 
+API CHANGES
+
+* Default options to delaunayn have been changed
+  https://github.com/davidcsterratt/geometry/issues/4
+  The Qc and Qz or Qx options have been added as defaults, making the
+  default options "Qbb Qc Qt Qz" for 3 dimensions or less and "Qbb Qc
+  Qt Qx" for 4 or more dimensions. This brings the R implementation
+  into line with Octave, and very similar to matlab and
+  scipy.spatial.Delaunayn .
+
+NEW FUNCTIONS
+
 * New function inhulln() to test if points are in a hull
   https://github.com/davidcsterratt/geometry/issues/1
 
@@ -7,9 +19,7 @@ CHANGES IN VERSION 0.4.0 - Released 2015/10/??
   the hull
   https://github.com/davidcsterratt/geometry/issues/2
 
-* The new reentrant Qhull library is used, as a precursor to allowing
-  Qhull objects to be returned and operated on
-  https://github.com/davidcsterratt/geometry/issues/3
+BUG FIXES
 
 * Fix for Issue #6072: distmesh2d - convergence problem
   (https://r-forge.r-project.org/tracker/?func=detail&atid=4552&aid=6072&group_id=1149)
@@ -21,6 +31,12 @@ CHANGES IN VERSION 0.4.0 - Released 2015/10/??
   example problems now appear to run significantly faster - even
   faster than those I have run using Matlab. Graham's example code is now included in a test.
   Thanks to Graham Griffiths for reporting this problem and supplying the fix.
+
+CODE IMPROVEMENTS
+
+* The new reentrant Qhull library is used, as a precursor to allowing
+  Qhull objects to be returned and operated on
+  https://github.com/davidcsterratt/geometry/issues/3
 
 * Test added for polyarea()
   Thanks to Toby Hocking for suggesting adding one

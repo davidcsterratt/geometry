@@ -74,4 +74,10 @@ test_that("The QJ option can give degenerate simplices", {
   expect_warning(tsearchn(ps, ts, cbind(1, 2, 4)))
 })
 
-
+test_that("A square is triangulated", {
+  ## This doesn't work if the Qz options isn't supplied
+  square <- rbind(c(0, 0), c(0, 1), c(1, 0), c(1, 1))
+  expect_that(delaunayn(square), equals(rbind(c(4, 2, 1),
+                                              c(4, 3, 1))))
+  expect_error(delaunayn(square, ""))
+})
