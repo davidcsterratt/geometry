@@ -1,4 +1,10 @@
-##' @title Test if points lie in convex hull
+##' Test if points lie in convex hull
+##'
+##' Tests if a set of points lies within a convex hull, returning a
+##' boolean vector in which each element is \code{TRUE} if the
+##' corresponding point lies within the hull and \code{FALSE} if it
+##' lies outwith the hull or on one of its facets.
+##' 
 ##' @param ch Convex hull produced using \code{\link{convhulln}}
 ##' @param p An \code{n}-by-\code{dim} matrix of points to test.  The rows of \code{p} represent
 ##' \code{n} points in \code{dim}-dimensional space.

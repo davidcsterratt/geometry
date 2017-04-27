@@ -1,4 +1,4 @@
-##' @title Delaunay triangulation in N-dimensions
+##' Delaunay triangulation in N-dimensions
 ##' 
 ##' The Delaunay triangulation is a tessellation of the convex hull of
 ##' the points such that no N-sphere defined by the N-triangles
