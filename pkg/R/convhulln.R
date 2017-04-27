@@ -88,5 +88,5 @@ convhulln <- function (p, options = "Tv") {
   if (!grepl("Qt", options) & !grepl("QJ", options)) {
     options <- paste(options, "Qt")
   }
-  .Call("convhulln", p, as.character(options), tmpdir, PACKAGE="geometry")
+  .Call("C_convhulln", p, as.character(options), tmpdir, PACKAGE="geometry")
 }

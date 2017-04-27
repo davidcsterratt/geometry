@@ -40,7 +40,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
     stop(paste(deparse(substitute(t)), "does not have three columns"))
   }
   storage.mode(t) <- "integer"
-  out <- .Call("tsearch", as.double(x), as.double(y), t,
+  out <- .Call("C_tsearch", as.double(x), as.double(y), t,
                as.double(xi), as.double(yi), as.logical(bary))
   if (bary) {
     names(out) <- c("idx", "p")

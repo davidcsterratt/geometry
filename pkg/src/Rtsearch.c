@@ -1,7 +1,7 @@
 /*
 
   Copyright (C) 2002-2011 Andreas Stahel
-  Copyright (C) 2011,2014 David Sterratt
+  Copyright (C) 2011-2017 David Sterratt
 
   This program is free software; you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
@@ -54,7 +54,7 @@ static inline double min (double a, double b, double c)
  method to traverse it
 */
 
-SEXP tsearch(SEXP x,  SEXP y, SEXP elem, 
+SEXP C_tsearch(SEXP x,  SEXP y, SEXP elem, 
              SEXP xi, SEXP yi,
              SEXP bary)
 {

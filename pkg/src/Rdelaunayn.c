@@ -1,4 +1,4 @@
-/* Copyright (C) 2000, 2013, 2015 Kai Habel
+/* Copyright (C) 2000, 2013, 2015, 2017 Kai Habel
 ** Copyright R-version (c) 2005 Raoul Grasman
 **                     (c) 2013-2014 David Sterratt
 **
@@ -36,7 +36,7 @@
 #include "qhull_ra.h"
 #include <unistd.h>              /* For unlink() */
 
-SEXP delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
+SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
 {
   SEXP retlist, retnames;       /* Return list and names */
   int retlen = 3;               /* Length of return list */

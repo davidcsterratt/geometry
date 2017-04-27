@@ -119,7 +119,7 @@ function(p, options=NULL, full=FALSE) {
   if (!grepl("Qt", options) & !grepl("QJ", options)) {
     options <- paste(options, "Qt")
   }
-  ret <- .Call("delaunayn", p, as.character(options), tmpdir, PACKAGE="geometry")
+  ret <- .Call("C_delaunayn", p, as.character(options), tmpdir, PACKAGE="geometry")
 
   if (nrow(ret$tri) == 1) {
     ret$areas <- 1/factorial(ncol(p))*abs(det(cbind(p[ret$tri,], 1)))

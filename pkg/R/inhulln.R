@@ -28,5 +28,5 @@
 ##' ## Points on x-axis should be in box only between -1 and 1
 ##' pin == (tp[,1] < 1 & tp[,1] > -1)
 inhulln <- function(ch, p) {
-  return(.Call("inhulln", ch, p, PACKAGE="geometry"))
+  return(.Call("C_inhulln", ch, p, PACKAGE="geometry"))
 }

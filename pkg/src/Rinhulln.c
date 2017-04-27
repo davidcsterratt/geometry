@@ -1,4 +1,4 @@
-/* Copyright (C) 2015 David Sterratt
+/* Copyright (C) 2015, 2017 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 /*  ch is the hull object produced by convhulln()
     p are the test points */
-SEXP inhulln(const SEXP ch, const SEXP p)
+SEXP C_inhulln(const SEXP ch, const SEXP p)
 {
   /* Get the qh object from the convhulln object */
   SEXP ptr, tag;

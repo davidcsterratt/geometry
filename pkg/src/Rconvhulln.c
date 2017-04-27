@@ -1,6 +1,6 @@
 /* Copyright (C) 2000 Kai Habel
 ** Copyright R-version (C) 2005 Raoul Grasman 
-**                     (C) 2013-2015 David Sterratt
+**                     (C) 2013-2015, 2017 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ static void convhullFinalizer(SEXP ptr)
   R_ClearExternalPtr(ptr); /* not really needed */
 }
 
-SEXP convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
+SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 {
   SEXP retval, area, vol, retlist, retnames;
   int i, j, retlen;
