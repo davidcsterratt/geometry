@@ -184,8 +184,12 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
   PROTECT(tag = allocVector(STRSXP, 1));
   SET_STRING_ELT(tag, 0, mkChar("convhull"));
   PROTECT(ptr = R_MakeExternalPtr(qh, tag, R_NilValue));
-  R_RegisterCFinalizerEx(ptr, convhullFinalizer, TRUE);
-  setAttrib(retlist, tag, ptr);
+  if (exitcode) {
+    convhullFinalizer(ptr);
+  } else {
+    R_RegisterCFinalizerEx(ptr, convhullFinalizer, TRUE);
+    setAttrib(retlist, tag, ptr);
+  }
   UNPROTECT(2);
 
   if (exitcode) {
