@@ -161,7 +161,7 @@ SEXP C_tsearch(SEXP x,  SEXP y, SEXP elem,
             rp[kp+np] = c1; 
             rp[kp+2*np] = c2;
           }
-          break;
+          k = nelem + 1;
         }
       } //endif # examine this element closely
     } //endfor # each element
