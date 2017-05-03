@@ -21,7 +21,7 @@
 ##' coordinates with respect to the enclosing triangle of each point code(xi,
 ##' yi).}
 ##' @author David Sterratt
-##' @note Based on the Octave function Copyright (C) 2007-2012 David Bateman.
+##' @note Based on the Octave function Copyright (C) 2007-2012, 2017 David Bateman.
 ##' @seealso tsearchn, delaunayn
 ##' @export
 tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
@@ -48,6 +48,10 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
   return(out)
 }
 
+##' @export
+tsearchn <- function(x, t, xi, ...) {
+  UseMethod("tsearchn")
+}
 
 ##' Search for the enclosing Delaunay convex hull
 ##' 
@@ -65,8 +69,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
 ##' @param xi An \code{ni}-by-\code{d} matrix.  The rows of \code{xi} represent
 ##' \code{n} points in \code{d}-dimensional space whose positions in the mesh
 ##' are being sought.
-##' @param fast If the data is in 2D, use the fast C-based \code{tsearch}
-##' function to produce the results.
+##' @param ... Additional arguments
 ##' @return A list containing: \item{list("idx")}{An \code{ni}-long vector
 ##' containing the indicies of the row of \code{t} in which each point in
 ##' \code{xi} is found.} \item{list("p")}{An \code{ni}-by-\code{d+1} matrix
@@ -76,7 +79,11 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
 ##' @note Based on the Octave function Copyright (C) 2007-2012 David Bateman.
 ##' @seealso tsearch, delaunayn
 ##' @export
-tsearchn <- function(x, t, xi, fast=TRUE) {
+tsearchn.default <- function(x, t, xi, ...) {
+  fast <- TRUE
+  if (!is.null(list(...)$fast) & is.logical(list(...)$fast))
+    fast <- list(...)$fast
+
   ## Check input
   if (!is.matrix(x))  {stop(paste(deparse(substitute(x)), "is not a matrix"))}
   if (!is.matrix(t))  {stop(paste(deparse(substitute(t)), "is not a matrix"))}
@@ -237,4 +244,9 @@ cart2bary <- function(X, P) {
 ##' @export
 bary2cart <- function(X, Beta) {
   return(Beta %*% X)
+}
+
+##' @export
+tsearchn.delaunayTriangulation <- function(x, t, xi, ...) {
+  return(.Call("C_tsearchn", x, xi))
 }
