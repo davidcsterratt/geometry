@@ -66,7 +66,19 @@ bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary)
 //' @importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
 SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary = false)
-{
+{  
+  // Shift the point cloud to the origin to avoid computer precision error
+  // The shift is done by reference to save memory. The original data is shift back at the end
+  
+  double minx = min(x);
+  double miny = min(y);
+  x = x - minx;
+  y = y - miny;
+  xi = xi - minx;
+  yi = yi - miny;
+
+  // Algorithm
+  
   QuadTree *tree = QuadTree::create(as< std::vector<double> >(xi),as< std::vector<double> >(yi));
 
   int nelem = elem.nrow();
@@ -143,6 +155,12 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
   }
 
   delete tree;
+  
+  // Shift back the data
+  x = x + minx;
+  y = y + miny;
+  xi = xi + minx;
+  yi = yi + miny;
   
   if (bary)
   {
