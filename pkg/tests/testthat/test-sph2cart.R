@@ -1,3 +1,4 @@
+context("sph2cart")
 test_that("sph2cart works correctly", {
   t <- c(0, 0, 0)
   p <- c(0, 0, 0)

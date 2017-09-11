@@ -40,15 +40,19 @@ cart2sph <- function(x, y=NULL, z=NULL) {
   }
 
   if (is.null(y) & is.null(z)) {
-    if (is.matrix(x) & ncol(x) == 3) {
-      z <- x[,3]
-      y <- x[,2]    
-      x <- x[,1]    
-    } else {
+    if (!(is.numeric(x))) {
+      stop("input must be matrix with 3 columns [x, y, z]")
+    }
+    if (!(is.matrix(x) & ncol(x) == 3)) {
       stop("matrix input must have 3 columns [x, y, z]")
     }
-  }
-  if (!is.null(x) & !is.null(y) & !is.null(z)) {
+    z <- x[,3]
+    y <- x[,2]    
+    x <- x[,1]    
+  } else {
+    if (!is.numeric(x) | !is.numeric(y) | !is.numeric (z))
+      stop("x, y, z must be numeric arrays of the same size, or scalar")
+
     if ( !(((length(x) == length(y)) | (length(x) == 1) | (length(y) == 1)) &
            ((length(x) == length(z)) | (length(x) == 1) | (length(z) == 1)) &
            ((length(y) == length(z)) | (length(y) == 1) | (length(z) == 1)))) {
