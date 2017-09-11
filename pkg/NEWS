@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.4.0 - Released 2017/05/10
+CHANGES IN VERSION 0.4.0 - Released 2017/09/??
 
 API CHANGES
 
@@ -9,6 +9,13 @@ API CHANGES
   Qt Qx" for 4 or more dimensions. This brings the R implementation
   into line with Octave, and very similar to matlab and
   scipy.spatial.Delaunayn .
+
+* distmesh2d() has a plot option
+  https://github.com/davidcsterratt/geometry/issues/15
+  The new plot option (TRUE by default) allows plotting to during mesh
+  generation to be suspended, which is useful for running tests. The
+  use of cat() has been replaced by message(), meaning messages can be
+  supressed, for example during tests.
 
 NEW FUNCTIONS
 
