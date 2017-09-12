@@ -50,7 +50,7 @@ test_that("tsearchn gives the expected output", {
   tri <- delaunayn(p, full=TRUE)
   ## Should be in triangle #1
   ts <- tsearchn(tri, NA, cbind(-1, -1))
-  expect_that(ts, equals(1))
+  expect_equal(ts, 1)
   ## expect_that(ts$idx, equals(1))
   ## expect_that(ts$p, equals(cbind(1, 0, 0)))
   ## Should be in triangle #1
@@ -70,6 +70,14 @@ test_that("tsearchn gives the expected output", {
   ## expect_true(is.na(ts$idx))
   ## expect_true(all(is.na(ts$p)))
 
+  p <- cbind(c(0, 0, 1, 1, 0.5),
+             c(0, 1, 1, 0, 0.5))
+  dt <- delaunayn(p, full=TRUE)
+  xi <- c(0.1, 0.5, 0.9, 0.5)
+  yi <- c(0.5, 0.9, 0.5, 0.1)
+  expect_equal(tsearchn(dt, NA, cbind(xi, yi)),
+    tsearch(p[,1], p[,2], dt$tri,  xi, yi, method="orig"))
+  
   ## ## Create a mesh with a zero-area element (degenerate simplex)
   ## p <- cbind(c(-1, -1, 0, 1, 2),
   ##            c(-1,  1, 0, 0, 0))

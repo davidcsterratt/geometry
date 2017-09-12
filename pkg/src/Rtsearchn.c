@@ -43,12 +43,46 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
     error("Second argument should be a real matrix.");
   }
   unsigned int dim, n;
-  dim = ncols(p);
+  dim = ncols(p) + 1;
   n   = nrows(p);
   if(dim <= 0 || n <= 0){
     error("Invalid input matrix.");
   }
 
+  /* Construct map from facet id to index */ 
+  facetT *facet;
+
+  /* Count the number of facets so we know how much space to
+     allocate in R */
+  int nf = 0;                   /* Number of facets */
+  int max_facet_id = 0;
+  int exitcode = 0;
+  FORALLfacets {
+    if (!facet->upperdelaunay) {
+      nf++;
+      if (facet->id > max_facet_id)
+        max_facet_id = facet->id;
+
+      /* Double check. Non-simplicial facets will cause segfault
+         below */
+      if (!facet->simplicial) {
+        Rprintf("Qhull returned non-simplicial facets -- try delaunayn with different options");
+        exitcode = 1;
+        break;
+      }
+    }
+  }
+
+  int *idmap = (int *) R_alloc(max_facet_id, sizeof(int));
+  int i = 0;
+  FORALLfacets {
+    if (!facet->upperdelaunay) {
+      i++;
+      printf("Facet id %d; index %d\n;", facet->id, i);
+      idmap[facet->id] = i;
+    }
+  }
+    
   /* Make space for output */
   SEXP values;
   PROTECT(values = allocVector(INTSXP, n));
@@ -60,14 +94,13 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   point = (coordT *) R_alloc(dim, sizeof(coordT));
   boolT isoutside;
   realT bestdist;
-  facetT *facet;
   vertexT *vertex, **vertexp;
-  int exitcode = 0;
 
-  int i, j;
+  int k;
   for(i=0; i < n; i++) {
-    for(j=0; j < dim; j++) {
-      point[j] = REAL(p)[i+n*j]; /* could have been pt_array = REAL(p) if p had been transposed */
+    for(k=0; k < dim - 1; k++) {
+      point[k] = (coordT)REAL(p)[i+n*k]; /* could have been pt_array = REAL(p) if p had been transposed */
+      printf(" %f %f", point[k], REAL(p)[i+n*k]);
     }
     qh_setdelaunay(qh, dim, 1, point);
     facet = qh_findbestfacet(qh, point, qh_ALL, &bestdist, &isoutside);
@@ -75,7 +108,8 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
       exitcode = 1;
       break;
     }
-    ivalues[i] = facet->id;
+    printf(": Facet id %d; index %d\n;", facet->id, idmap[facet->id]);
+    ivalues[i] = idmap[facet->id];
   }
   UNPROTECT(1);
 
