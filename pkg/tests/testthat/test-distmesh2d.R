@@ -9,5 +9,9 @@ test_that("distmesh2d can create a mesh on an ellipse", {
   }
   ## Solve using distmesh2d()
   fh <- function(p,...)  rep(1,nrow(p))
-  expect_warning(p <- distmesh2d(fd=fd1,fh=fh,p=NULL,h0=0.05,bbox=bbox,maxiter=1000, plot=FALSE))
+  ## This is the original line, which throws a warning. New one does
+  ## too, but runs faster p <-
+  ## distmesh2d(fd=fd1,fh=fh,p=NULL,h0=0.05,bbox=bbox,maxiter=1000,
+  ## plot=FALSE)
+  expect_warning(p <- distmesh2d(fd=fd1,fh=fh,p=NULL,h0=0.05,bbox=bbox,maxiter=10, plot=FALSE))
 })
