@@ -8,23 +8,28 @@
 ##' 
 ##' @param x X-coordinates of triangluation points
 ##' @param y Y-coordinates of triangluation points
-##' @param t Triangulation, e.g. produced by \code{t = delaunayn(cbind(x, y))}
+##' @param t Triangulation, e.g. produced by \code{t =
+##'   delaunayn(cbind(x, y))}
 ##' @param xi X-coordinates of points to test
 ##' @param yi Y-coordinates of points to test
-##' @param bary If \code{TRUE} return barycentric coordinates as well as index
-##' of triangle.
-##' @return If \code{bary} is \code{FALSE}, the index in \code{t} containing
-##' the points \code{(xi, yi)}.  For points outside the convex hull the index
-##' is \code{NA}. If \code{bary} is \code{TRUE}, a list containing:
-##' \item{list("idx")}{the index in \code{t} containing the points \code{(xi,
-##' yi)}} \item{list("p")}{a 3-column matrix containing the barycentric
-##' coordinates with respect to the enclosing triangle of each point code(xi,
-##' yi).}
+##' @param bary If \code{TRUE} return barycentric coordinates as well
+##'   as index of triangle.
+##' @param method One of \code{"quadtree"} or \code{"orig"}. Quadtree
+##'   is faster but not tested as much.
+##' @return If \code{bary} is \code{FALSE}, the index in \code{t}
+##'   containing the points \code{(xi, yi)}.  For points outside the
+##'   convex hull the index is \code{NA}. If \code{bary} is
+##'   \code{TRUE}, a list containing: \item{list("idx")}{the index in
+##'   \code{t} containing the points \code{(xi, yi)}}
+##'   \item{list("p")}{a 3-column matrix containing the barycentric
+##'   coordinates with respect to the enclosing triangle of each point
+##'   code(xi, yi).}
 ##' @author David Sterratt
-##' @note Based on the Octave function Copyright (C) 2007-2012, 2017 David Bateman.
+##' @note Based on the Octave function Copyright (C) 2007-2012, 2017
+##'   David Bateman.
 ##' @seealso tsearchn, delaunayn
 ##' @export
-tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
+tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   if (!is.vector(x))  {stop(paste(deparse(substitute(x)), "is not a vector"))}
   if (!is.vector(y))  {stop(paste(deparse(substitute(y)), "is not a vector"))}
   if (!is.matrix(t))  {stop(paste(deparse(substitute(t)), "is not a matrix"))}
@@ -40,8 +45,12 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
     stop(paste(deparse(substitute(t)), "does not have three columns"))
   }
   storage.mode(t) <- "integer"
-  out <- .Call("C_tsearch", as.double(x), as.double(y), t,
-               as.double(xi), as.double(yi), as.logical(bary))
+  if (method == "quadtree") {
+    out <- C_tsearch(x, y, t, xi, yi, bary)
+  } else {
+    out <- .Call("C_tsearch_orig", x, y, t, xi, yi, bary, package="geometry")
+  }
+
   if (bary) {
     names(out) <- c("idx", "p")
   }

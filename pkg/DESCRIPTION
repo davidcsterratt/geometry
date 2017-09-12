@@ -1,11 +1,13 @@
 Package: geometry
 License: GPL (>= 3) + file LICENSE
 Title: Mesh Generation and Surface Tesselation
-Authors@R: c(person("C. B.", "Barber" , role="cph"), person("Kai", "Habel",
-    role=c("cph","aut")), person("Raoul", "Grasman", role=c("cph","aut")),
-    person("Robert B.", "Gramacy", role=c("cph","aut")), person("Andreas",
-    "Stahel", role=c("cph","aut")), person("David C.", "Sterratt",
-    role=c("cph","aut","cre"), email="david.c.sterratt@ed.ac.uk"))
+Authors@R: c(
+    person("Jean-Romain", "Roussel" , role=c("cph", "ctb"), comment = "wrote tsearch function with QuadTrees"),
+    person("C. B.", "Barber" , role="cph"), 
+    person("Kai", "Habel", role=c("cph","aut")), 
+    person("Raoul", "Grasman", role=c("cph","aut")),
+    person("Robert B.", "Gramacy", role=c("cph","aut")), 
+    person("David C.", "Sterratt", role=c("cph","aut","cre"), email="david.c.sterratt@ed.ac.uk"))
 Description: Makes the qhull library (www.qhull.org)
     available in R, in a similar manner as in Octave and MATLAB. Qhull
     computes convex hulls, Delaunay triangulations, halfspace
@@ -19,14 +21,20 @@ Description: Makes the qhull library (www.qhull.org)
     Delaunay triangulation and convex hull computation.
 Version: 0.4.0
 URL: https://github.com/davidcsterratt/geometry
-Date: 2016-04-27
+Date: 2017-09-08
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:
     R (>= 2.5.0),
     magic
+Imports:
+    Rcpp,
+    RcppProgress
 Suggests:
     testthat,
     rgl,
     R.matlab,
     tripack
 RoxygenNote: 6.0.1
+LinkingTo: 
+    Rcpp,
+    RcppProgress

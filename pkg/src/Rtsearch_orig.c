@@ -46,6 +46,7 @@ static inline double min (double a, double b, double c)
     return (a > c ? c : a);
 }
 
+
 #define REF(x,k,i) x[ielem[k + i*nelem] - 1]
 
 /* for large data set the algorithm is very slow one should presort
@@ -56,13 +57,12 @@ static inline double min (double a, double b, double c)
  method to traverse it
 */
 
-SEXP C_tsearch(SEXP x,  SEXP y, SEXP elem, 
-             SEXP xi, SEXP yi,
-             SEXP bary)
-{
+SEXP C_tsearch_orig(SEXP x,  SEXP y, SEXP elem,
+                    SEXP xi, SEXP yi,
+                    SEXP bary) {
   int ibary = 0;
-  if (isLogical(bary)) 
-    if (*LOGICAL(bary) == TRUE) 
+  if (isLogical(bary))
+    if (*LOGICAL(bary) == TRUE)
       ibary = 1;
 
   /* printf("Here 1\n"); */
@@ -127,7 +127,7 @@ SEXP C_tsearch(SEXP x,  SEXP y, SEXP elem,
         ivalues[kp] = k+1;
         if (ibary) {
           rp[kp] = 1 - c1 - c2;
-          rp[kp+np] = c1; 
+          rp[kp+np] = c1;
           rp[kp+2*np] = c2;
         }
         continue;
@@ -160,7 +160,7 @@ SEXP C_tsearch(SEXP x,  SEXP y, SEXP elem,
           ivalues[kp] = k+1;
           if (ibary) {
             rp[kp] = 1 - c1 - c2;
-            rp[kp+np] = c1; 
+            rp[kp+np] = c1;
             rp[kp+2*np] = c2;
           }
           break;
@@ -184,64 +184,4 @@ SEXP C_tsearch(SEXP x,  SEXP y, SEXP elem,
     UNPROTECT(5);
     return(values);
   }
-}
-
-/* This works on n-dimensional delaunay triangulations */
-
-SEXP C_tsearchn(const SEXP dt, const SEXP p)
-{
-  /* Get the qh object from the delaunayTriangulation object */
-  SEXP ptr, tag;
-  qhT *qh;
-  PROTECT(tag = allocVector(STRSXP, 1));
-  SET_STRING_ELT(tag, 0, mkChar("delaunayTriangulation"));
-  PROTECT(ptr = getAttrib(dt, tag));
-  qh = R_ExternalPtrAddr(ptr);
-  UNPROTECT(2);
-
-  /* Check input matrix */
-  if(!isMatrix(p) || !isReal(p)){
-    error("Second argument should be a real matrix.");
-  }
-  unsigned int dim, n;
-  dim = ncols(p);
-  n   = nrows(p);
-  if(dim <= 0 || n <= 0){
-    error("Invalid input matrix.");
-  }
-
-  /* Make space for output */
-  SEXP values;
-  PROTECT(values = allocVector(INTSXP, n));
-  int *ivalues = INTEGER(values);
-  
-  /* Run through the matrix using qh_findbestfacet to determine
-     whether in hull or not */
-  coordT *point;
-  point = (coordT *) R_alloc(dim, sizeof(coordT));
-  boolT isoutside;
-  realT bestdist;
-  facetT *facet;
-  vertexT *vertex, **vertexp;
-  int exitcode = 0;
-
-  int i, j;
-  for(i=0; i < n; i++) {
-    for(j=0; j < dim; j++) {
-      point[j] = REAL(p)[i+n*j]; /* could have been pt_array = REAL(p) if p had been transposed */
-    }
-    qh_setdelaunay(qh, dim, 1, point);
-    facet = qh_findbestfacet(qh, point, qh_ALL, &bestdist, &isoutside);
-    if (facet->tricoplanar) {
-      exitcode = 1;
-      break;
-    }
-    ivalues[i] = facet->id;
-  }
-  UNPROTECT(1);
-
-  if (exitcode)
-    error("findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).", facet->id);
-  
-  return values;
 }

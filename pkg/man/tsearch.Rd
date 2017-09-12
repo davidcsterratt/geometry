@@ -4,30 +4,35 @@
 \alias{tsearch}
 \title{Search for the enclosing Delaunay convex hull}
 \usage{
-tsearch(x, y, t, xi, yi, bary = FALSE)
+tsearch(x, y, t, xi, yi, bary = FALSE, method = "quadtree")
 }
 \arguments{
 \item{x}{X-coordinates of triangluation points}
 
 \item{y}{Y-coordinates of triangluation points}
 
-\item{t}{Triangulation, e.g. produced by \code{t = delaunayn(cbind(x, y))}}
+\item{t}{Triangulation, e.g. produced by \code{t =
+delaunayn(cbind(x, y))}}
 
 \item{xi}{X-coordinates of points to test}
 
 \item{yi}{Y-coordinates of points to test}
 
-\item{bary}{If \code{TRUE} return barycentric coordinates as well as index
-of triangle.}
+\item{bary}{If \code{TRUE} return barycentric coordinates as well
+as index of triangle.}
+
+\item{method}{One of \code{"quadtree"} or \code{"orig"}. Quadtree
+is faster but not tested as much.}
 }
 \value{
-If \code{bary} is \code{FALSE}, the index in \code{t} containing
-the points \code{(xi, yi)}.  For points outside the convex hull the index
-is \code{NA}. If \code{bary} is \code{TRUE}, a list containing:
-\item{list("idx")}{the index in \code{t} containing the points \code{(xi,
-yi)}} \item{list("p")}{a 3-column matrix containing the barycentric
-coordinates with respect to the enclosing triangle of each point code(xi,
-yi).}
+If \code{bary} is \code{FALSE}, the index in \code{t}
+  containing the points \code{(xi, yi)}.  For points outside the
+  convex hull the index is \code{NA}. If \code{bary} is
+  \code{TRUE}, a list containing: \item{list("idx")}{the index in
+  \code{t} containing the points \code{(xi, yi)}}
+  \item{list("p")}{a 3-column matrix containing the barycentric
+  coordinates with respect to the enclosing triangle of each point
+  code(xi, yi).}
 }
 \description{
 For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
@@ -36,7 +41,8 @@ containing the points \code{(xi, yi)}.  For points outside the convex hull
 the index is \code{NA}.
 }
 \note{
-Based on the Octave function Copyright (C) 2007-2012, 2017 David Bateman.
+Based on the Octave function Copyright (C) 2007-2012, 2017
+  David Bateman.
 }
 \seealso{
 tsearchn, delaunayn

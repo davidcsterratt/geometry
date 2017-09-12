@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.4.0 - Released 2017/04/27
+CHANGES IN VERSION 0.4.0 - Released 2017/09/??
 
 API CHANGES
 
@@ -9,6 +9,18 @@ API CHANGES
   Qt Qx" for 4 or more dimensions. This brings the R implementation
   into line with Octave, and very similar to matlab and
   scipy.spatial.Delaunayn .
+
+* distmesh2d() has a plot option
+  https://github.com/davidcsterratt/geometry/issues/15
+  The new plot option (TRUE by default) allows plotting to during mesh
+  generation to be suspended, which is useful for running tests. The
+  use of cat() has been replaced by message(), meaning messages can be
+  supressed, for example during tests.
+
+* extprod3d() has a "drop" option
+  https://github.com/davidcsterratt/geometry/issues/16
+  Setting drop=FALSE guarantees that the output of extprod3d() is an
+  array rather than a vector, even when presented with two vectors.
 
 NEW FUNCTIONS
 
@@ -33,6 +45,14 @@ BUG FIXES
   Thanks to Graham Griffiths for reporting this problem and supplying the fix.
 
 CODE IMPROVEMENTS
+
+* The 2D tsearch C code has been replaced by a much more efficient
+  QuadTree algorithm written in C++ by Jean-Romain Roussel. The
+  speedup with uniformly distribued mesh points and search points is
+  of the order of 40x. Many thanks to Jean-Romain for the
+  contribution.
+  https://github.com/davidcsterratt/geometry/issues/9
+  https://github.com/davidcsterratt/geometry/pull/8
 
 * The new reentrant Qhull library is used, as a precursor to allowing
   Qhull objects to be returned and operated on
