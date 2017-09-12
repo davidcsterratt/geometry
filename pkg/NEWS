@@ -17,6 +17,11 @@ API CHANGES
   use of cat() has been replaced by message(), meaning messages can be
   supressed, for example during tests.
 
+* extprod3d() has a "drop" option
+  https://github.com/davidcsterratt/geometry/issues/16
+  Setting drop=FALSE guarantees that the output of extprod3d() is an
+  array rather than a vector, even when presented with two vectors.
+
 NEW FUNCTIONS
 
 * New function inhulln() to test if points are in a hull

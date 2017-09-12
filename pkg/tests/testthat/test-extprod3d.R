@@ -8,6 +8,7 @@ test_that("extprod3d gives the expected output", {
   y <- c(0, 1, 0)
   r <- c(0, 0, 1)
   expect_equal(extprod3d(x, y), r)
+  expect_equal(extprod3d(x, y, drop=FALSE), t(r))
   
   x <- c(1, 2, 3)
   y <- c(4, 5, 6)
