@@ -100,7 +100,7 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   int k;
   for(i=0; i < n; i++) {
     for(k=0; k < (dim - 1); k++) {
-      testpoint[k] = 0.4; /* REAL(p)[i+n*k]; /* could have been pt_array = REAL(p) if p had been transposed */
+      testpoint[k] = REAL(p)[i+n*k]; /* could have been pt_array = REAL(p) if p had been transposed */
       printf(" %f", testpoint[k]);
     }
     printf("\n");
