@@ -90,20 +90,22 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   
   /* Run through the matrix using qh_findbestfacet to determine
      whether in hull or not */
-  coordT *point;
-  point = (coordT *) R_alloc(dim, sizeof(coordT));
+  coordT *testpoint;
+  testpoint = (coordT *) R_alloc(dim, sizeof(coordT));
+  /* coordT testpoint[100]; */
   boolT isoutside;
   realT bestdist;
   vertexT *vertex, **vertexp;
 
   int k;
   for(i=0; i < n; i++) {
-    for(k=0; k < dim - 1; k++) {
-      point[k] = (coordT)REAL(p)[i+n*k]; /* could have been pt_array = REAL(p) if p had been transposed */
-      printf(" %f %f", point[k], REAL(p)[i+n*k]);
+    for(k=0; k < (dim - 1); k++) {
+      testpoint[k] = 0.4; /* REAL(p)[i+n*k]; /* could have been pt_array = REAL(p) if p had been transposed */
+      printf(" %f", testpoint[k]);
     }
-    qh_setdelaunay(qh, dim, 1, point);
-    facet = qh_findbestfacet(qh, point, qh_ALL, &bestdist, &isoutside);
+    printf("\n");
+    qh_setdelaunay(qh, dim, 1, testpoint);
+    facet = qh_findbestfacet(qh, testpoint, qh_ALL, &bestdist, &isoutside);
     if (facet->tricoplanar) {
       exitcode = 1;
       break;
