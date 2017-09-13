@@ -1,14 +1,14 @@
-/*<html><pre>  -<a                             href="qh-qhull.htm"
+/*<html><pre>  -<a                             href="qh-qhull_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    libqhull_r.h
    user-level header file for using qhull.a library
 
-   see qh-qhull.htm, qhull_ra.h
+   see qh-qhull_r.htm, qhull_ra.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.h#2 $$Change: 2010 $
-   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.h#8 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 
    includes function prototypes for libqhull_r.c, geom_r.c, global_r.c, io_r.c, user.c
 
@@ -25,10 +25,12 @@
 
 /*=========================== -included files ==============*/
 
-#include "user_r.h"      /* user definable constants (e.g., realT) */
+/* user_r.h first for QHULL_CRTDBG */
+#include "user_r.h"      /* user definable constants (e.g., realT). */
 
-#include "mem_r.h"
-/* stat_r.h included realT */
+#include "mem_r.h"   /* Needed for qhT in libqhull_r.h */
+#include "qset_r.h"   /* Needed for QHULL_LIB_CHECK */
+/* include stat_r.h after defining boolT.  statT needed for qhT in libqhull_r.h */
 
 #include <setjmp.h>
 #include <float.h>
@@ -50,7 +52,7 @@
 extern const char qh_version[]; /* defined in global_r.c */
 extern const char qh_version2[]; /* defined in global_r.c */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="coordT">-</a>
 
   coordT
@@ -65,7 +67,7 @@ extern const char qh_version2[]; /* defined in global_r.c */
 */
 #define coordT realT
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="pointT">-</a>
 
   pointT
@@ -86,7 +88,7 @@ typedef enum
 }
 qh_pointT;
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="flagT">-</a>
 
   flagT
@@ -94,7 +96,7 @@ qh_pointT;
 */
 #define flagT unsigned int
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="boolT">-</a>
 
   boolT
@@ -116,9 +118,9 @@ qh_pointT;
 #define qh_False 0
 #define qh_True 1
 
-#include "stat_r.h"
+#include "stat_r.h"  /* needs boolT */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="CENTERtype">-</a>
 
   qh_CENTER
@@ -126,11 +128,13 @@ qh_pointT;
 */
 typedef enum
 {
-    qh_ASnone = 0, qh_ASvoronoi, qh_AScentrum
+    qh_ASnone = 0,   /* If not MERGING and not VORONOI */
+    qh_ASvoronoi,    /* Set by qh_clearcenters on qh_prepare_output, or if not MERGING and VORONOI */
+    qh_AScentrum     /* If MERGING (assumed during merging) */
 }
 qh_CENTER;
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="qh_PRINT">-</a>
 
   qh_PRINT
@@ -155,7 +159,7 @@ typedef enum {qh_PRINTnone= 0,
   qh_PRINTvertices, qh_PRINTvneighbors, qh_PRINTextremes,
   qh_PRINTEND} qh_PRINT;
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="qh_ALL">-</a>
 
   qh_ALL
@@ -167,7 +171,7 @@ typedef enum {qh_PRINTnone= 0,
 #define qh_ISnewfacets  True     /* argument for qh_findbest */
 #define qh_RESETvisible  True     /* argument for qh_resetlists */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="qh_ERR">-</a>
 
   qh_ERR
@@ -181,7 +185,7 @@ typedef enum {qh_PRINTnone= 0,
 #define qh_ERRmem   4    /* insufficient memory, matches mem_r.h */
 #define qh_ERRqhull 5    /* internal error detected, matches mem_r.h */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
 >--------------------------------</a><a name="qh_FILEstderr">-</a>
 
 qh_FILEstderr
@@ -196,8 +200,8 @@ For C++ interface.  Must redefine qh_fprintf_qhull
         (otherwise space may be wasted due to alignment)
    define all flags together and pack into 32-bit number
 
-   DEFqhT, DEFsetT, and DEFqhstatT are likewise defined in
-   mem_r.h, qset_r.h, stat_r.h.  They are not needed for libqhull.
+   DEFqhT and DEFsetT are likewise defined in
+   mem_r.h, qset_r.h, and stat_r.h.
 
 */
 
@@ -215,12 +219,7 @@ typedef struct qhT qhT;          /* defined below */
 typedef struct setT setT;          /* defined in qset_r.h */
 #endif
 
-#ifndef DEFqhstatT
-#define DEFqhstatT 1
-typedef struct qhstatT qhstatT;    /* defined in stat_r.h */
-#endif
-
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="facetT">-</a>
 
   facetT
@@ -239,7 +238,7 @@ typedef struct qhstatT qhstatT;    /* defined in stat_r.h */
   geometric information:
     f.offset,normal     hyperplane equation
     f.maxoutside        offset to outer plane -- all points inside
-    f.center            centrum for testing convexity
+    f.center            centrum for testing convexity or Voronoi center for output
     f.simplicial        True if facet is simplicial
     f.flipped           True if facet does not include qh.interior_point
 
@@ -269,7 +268,7 @@ struct facetT {
 #endif
   coordT   offset;      /* exact offset of hyperplane from origin */
   coordT  *normal;      /* normal of hyperplane, hull_dim coefficients */
-                        /*   if tricoplanar, shared with a neighbor */
+                        /*   if ->tricoplanar, shared with a neighbor */
   union {               /* in order of testing */
    realT   area;        /* area of facet, only in io_r.c if  ->isarea */
    facetT *replace;     /*  replacement facet if ->visible and NEWfacets
@@ -280,9 +279,13 @@ struct facetT {
    facetT *trivisible;  /* visible facet for ->tricoplanar facets during qh_triangulate() */
    facetT *triowner;    /* owner facet for ->tricoplanar, !isarea facets w/ ->keepcentrum */
   }f;
-  coordT  *center;      /*  centrum for convexity, qh.CENTERtype == qh_AScentrum */
-                        /*  Voronoi center, qh.CENTERtype == qh_ASvoronoi */
-                        /*   if tricoplanar, shared with a neighbor */
+  coordT  *center;      /* set according to qh.CENTERtype */
+                        /*   qh_ASnone:    no center (not MERGING) */
+                        /*   qh_AScentrum: centrum for testing convexity (qh_getcentrum) */
+                        /*                 assumed qh_AScentrum while merging */
+                        /*   qh_ASvoronoi: Voronoi center (qh_facetcenter) */
+                        /* after constructing the hull, it may be changed (qh_clearcenter) */
+                        /* if tricoplanar and !keepcentrum, shared with a neighbor */
   facetT  *previous;    /* previous facet in the facet_list */
   facetT  *next;        /* next facet in the facet_list */
   setT    *vertices;    /* vertices for this facet, inverse sorted by ID
@@ -305,10 +308,10 @@ struct facetT {
   unsigned nummerge:9;  /* number of merges */
 #define qh_MAXnummerge 511 /*     2^9-1, 32 flags total, see "flags:" in io_r.c */
   flagT    tricoplanar:1; /* True if TRIangulate and simplicial and coplanar with a neighbor */
-                          /*   all tricoplanars share the same ->center, ->normal, ->offset, ->maxoutside */
                           /*   all tricoplanars share the same apex */
+                          /*   all tricoplanars share the same ->center, ->normal, ->offset, ->maxoutside */
+                          /*     ->keepcentrum is true for the owner.  It has the ->coplanareset */
                           /*   if ->degenerate, does not span facet (one logical ridge) */
-                          /*   one tricoplanar has ->keepcentrum and ->coplanarset */
                           /*   during qh_triangulate, f.trivisible points to original facet */
   flagT    newfacet:1;  /* True if facet on qh.newfacet_list (new or merged) */
   flagT    visible:1;   /* True if visible facet (will be deleted) */
@@ -341,7 +344,7 @@ struct facetT {
 };
 
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="ridgeT">-</a>
 
   ridgeT
@@ -373,7 +376,7 @@ struct ridgeT {
                            only one ridge between neighbors may have nonconvex */
 };
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="vertexT">-</a>
 
   vertexT
@@ -394,8 +397,8 @@ struct vertexT {
                            inits in io_r.c or after first merge */
   unsigned id;          /* unique identifier.  Same size as qh.vertex_id and qh.ridge_id */
   unsigned visitid;    /* for use with qh.vertex_visit, size must match */
-  flagT    seen2:1;     /* another seen flag */
   flagT    seen:1;      /* used to perform operations only once */
+  flagT    seen2:1;     /* another seen flag */
   flagT    delridge:1;  /* vertex was part of a deleted ridge */
   flagT    deleted:1;   /* true if vertex on qh.del_vertices */
   flagT    newlist:1;   /* true if vertex on qh.newvertex_list */
@@ -403,7 +406,7 @@ struct vertexT {
 
 /*======= -global variables -qh ============================*/
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh">-</a>
 
   qhT
@@ -428,7 +431,7 @@ struct vertexT {
 
 struct qhT {
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh-const">-</a>
 
   qh constants
@@ -436,7 +439,7 @@ struct qhT {
 
   notes:
     The user configures Qhull by defining flags.  They are
-    copied into qh by qh_setflags().  qh-quick.htm#options defines the flags.
+    copied into qh by qh_setflags().  qh-quick_r.htm#options defines the flags.
 */
   boolT ALLpoints;        /* true 'Qs' if search all points for initial simplex */
   boolT ANGLEmerge;       /* true 'Qa' if sort potential merges by angle */
@@ -482,6 +485,7 @@ struct qhT {
   boolT NOnarrow;         /* true 'Q10' if no special processing for narrow distributions */
   boolT NOnearinside;     /* true 'Q8' if ignore near-inside points when partitioning */
   boolT NOpremerge;       /* true 'Q0' if no defaults for C-0 or Qx */
+  boolT NOwide;           /* true 'Q12' if no error on wide merge due to duplicate ridge */
   boolT ONLYgood;         /* true 'Qg' if process points with good visible or horizon facets */
   boolT ONLYmax;          /* true 'Qm' if only process points that increase max_outside */
   boolT PICKfurthest;     /* true 'Q9' if process furthest of furthest points*/
@@ -537,7 +541,7 @@ struct qhT {
   realT TRACEdist;        /* 'TWn' start tracing when merge distance too big */
   int   TRACEmerge;       /* 'TMn' start tracing before this merge */
   boolT TRIangulate;      /* true 'Qt' if triangulate non-simplicial facets */
-  boolT TRInormals;       /* true 'Q11' if triangulate duplicates normals (sets Qt) */
+  boolT TRInormals;       /* true 'Q11' if triangulate duplicates ->normal and ->center (sets Qt) */
   boolT UPPERdelaunay;    /* true 'Qu' if computing furthest-site Delaunay */
   boolT USEstdout;        /* true 'Tz' if using stdout instead of stderr */
   boolT VERIFYoutput;     /* true 'Tv' if verify output at end of qhull */
@@ -576,7 +580,7 @@ struct qhT {
   realT *lower_bound;     /* scale point[k] to new lower bound
                              project if both upper_ and lower_bound == 0 */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh-prec">-</a>
 
   qh precision constants
@@ -609,7 +613,7 @@ struct qhT {
   realT WIDEfacet;        /* size of wide facet for skipping ridge in
                              area computation and locking centrum */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh-codetern">-</a>
 
   qh internal constants
@@ -628,7 +632,7 @@ struct qhT {
   int center_size;     /* size in bytes for Voronoi centers */
   int   TEMPsize;         /* size for small, temporary sets (in quick mem) */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh-lists">-</a>
 
   qh facet and vertex lists
@@ -655,7 +659,7 @@ struct qhT {
   vertexT *newvertex_list; /* list of vertices in newfacet_list, to vertex_tail
                              all vertices have 'newlist' set */
   int   num_facets;       /* number of facets in facet_list
-                             includes visble faces (num_visible) */
+                             includes visible faces (num_visible) */
   int   num_vertices;     /* number of vertices in facet_list */
   int   num_outside;      /* number of points in outsidesets (for tracing and RANDOMoutside)
                                includes coplanar outsideset points for NARROWhull/qh_outcoplanar() */
@@ -664,7 +668,7 @@ struct qhT {
   unsigned ridge_id;      /* ID of next, new ridge from newridge() */
   unsigned vertex_id;     /* ID of next, new vertex from newvertex() */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh-var">-</a>
 
   qh global variables
@@ -697,7 +701,7 @@ struct qhT {
                               from makecone/attachnewfacets to deletevisible */
   boolT findbestnew;      /* true if partitioning calls qh_findbestnew */
   boolT findbest_notsharp; /* true if new facets are at least 90 degrees */
-  boolT NOerrexit;        /* true if qh.errexit is not available */
+  boolT NOerrexit;        /* true if qh.errexit is not available, cleared after setjmp */
   realT PRINTcradius;     /* radius for printing centrums */
   realT PRINTradius;      /* radius for printing vertex spheres and points */
   boolT POSTmerging;      /* true when post merging */
@@ -711,7 +715,7 @@ struct qhT {
   boolT ZEROall_ok;       /* True if qh_checkzero always succeeds */
   boolT WAScoplanar;      /* True if qh_partitioncoplanar (qhT *qh, qh_check_maxout) */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh-set">-</a>
 
   qh global sets
@@ -726,7 +730,7 @@ struct qhT {
   setT *del_vertices;     /* vertices to partition and delete with visible
                              facets.  Have deleted set for checkfacet */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh-buf">-</a>
 
   qh global buffers
@@ -763,7 +767,7 @@ struct qhT {
   setT *old_tempstack;    /* for saving qh->qhmem.tempstack in save_qhull */
   int   ridgeoutnum;      /* number of ridges for 4OFF output (qh_printbegin,etc) */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh-const">-</a>
 
   qh memory management, rbox globals, and statistics
@@ -785,7 +789,7 @@ struct qhT {
 
 /*=========== -macros- =========================*/
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="otherfacet_">-</a>
 
   otherfacet_(ridge, facet)
@@ -794,7 +798,7 @@ struct qhT {
 #define otherfacet_(ridge, facet) \
                         (((ridge)->top == (facet)) ? (ridge)->bottom : (ridge)->top)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="getid_">-</a>
 
   getid_(p)
@@ -805,7 +809,7 @@ struct qhT {
 
 /*============== FORALL macros ===================*/
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLfacets">-</a>
 
   FORALLfacets { ... }
@@ -821,7 +825,7 @@ struct qhT {
 */
 #define FORALLfacets for (facet=qh->facet_list;facet && facet->next;facet=facet->next)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLpoints">-</a>
 
   FORALLpoints { ... }
@@ -835,7 +839,7 @@ struct qhT {
 */
 #define FORALLpoints FORALLpoint_(qh, qh->first_point, qh->num_points)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLpoint_">-</a>
 
   FORALLpoint_( qh, points, num) { ... }
@@ -847,7 +851,7 @@ struct qhT {
 #define FORALLpoint_(qh, points, num) for (point= (points), \
       pointtemp= (points)+qh->hull_dim*(num); point < pointtemp; point += qh->hull_dim)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLvertices">-</a>
 
   FORALLvertices { ... }
@@ -862,7 +866,7 @@ struct qhT {
 */
 #define FORALLvertices for (vertex=qh->vertex_list;vertex && vertex->next;vertex= vertex->next)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHfacet_">-</a>
 
   FOREACHfacet_( facets ) { ... }
@@ -876,7 +880,7 @@ struct qhT {
 */
 #define FOREACHfacet_(facets)    FOREACHsetelement_(facetT, facets, facet)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHneighbor_">-</a>
 
   FOREACHneighbor_( facet ) { ... }
@@ -893,7 +897,7 @@ struct qhT {
 */
 #define FOREACHneighbor_(facet)  FOREACHsetelement_(facetT, facet->neighbors, neighbor)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHpoint_">-</a>
 
   FOREACHpoint_( points ) { ... }
@@ -907,7 +911,7 @@ struct qhT {
 */
 #define FOREACHpoint_(points)    FOREACHsetelement_(pointT, points, point)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHridge_">-</a>
 
   FOREACHridge_( ridges ) { ... }
@@ -921,7 +925,7 @@ struct qhT {
 */
 #define FOREACHridge_(ridges)    FOREACHsetelement_(ridgeT, ridges, ridge)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHvertex_">-</a>
 
   FOREACHvertex_( vertices ) { ... }
@@ -935,7 +939,7 @@ struct qhT {
 */
 #define FOREACHvertex_(vertices) FOREACHsetelement_(vertexT, vertices,vertex)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHfacet_i_">-</a>
 
   FOREACHfacet_i_( qh, facets ) { ... }
@@ -950,7 +954,7 @@ struct qhT {
 */
 #define FOREACHfacet_i_(qh, facets)    FOREACHsetelement_i_(qh, facetT, facets, facet)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHneighbor_i_">-</a>
 
   FOREACHneighbor_i_( qh, facet ) { ... }
@@ -968,7 +972,7 @@ struct qhT {
 */
 #define FOREACHneighbor_i_(qh, facet)  FOREACHsetelement_i_(qh, facetT, facet->neighbors, neighbor)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHpoint_i_">-</a>
 
   FOREACHpoint_i_( qh, points ) { ... }
@@ -983,7 +987,7 @@ struct qhT {
 */
 #define FOREACHpoint_i_(qh, points)    FOREACHsetelement_i_(qh, pointT, points, point)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHridge_i_">-</a>
 
   FOREACHridge_i_( qh, ridges ) { ... }
@@ -998,7 +1002,7 @@ struct qhT {
 */
 #define FOREACHridge_i_(qh, ridges)    FOREACHsetelement_i_(qh, ridgeT, ridges, ridge)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHvertex_i_">-</a>
 
   FOREACHvertex_i_( qh, vertices ) { ... }
@@ -1012,6 +1016,10 @@ struct qhT {
     <a href="qset_r.h#FOREACHsetelement_i_">FOREACHsetelement_i_</a>
 */
 #define FOREACHvertex_i_(qh, vertices) FOREACHsetelement_i_(qh, vertexT, vertices,vertex)
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /********* -libqhull_r.c prototypes (duplicated from qhull_ra.h) **********************/
 
@@ -1118,5 +1126,9 @@ void    qh_errexit_rbox(qhT *qh, int exitcode);
 
 void    qh_collectstatistics(qhT *qh);
 void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* qhDEFlibqhull */
