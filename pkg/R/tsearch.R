@@ -263,5 +263,11 @@ tsearchn.delaunayTriangulation <- function(x, t, xi, ...) {
                lapply(1:nrow(xi), function(i) {
                  cart2bary(ts$P[x$tri[ts$idx[i],],], xi[i,,drop=FALSE])
                }))
-  return(list(idx=ts$idx, p=p, P=ts$P))
+  ## C_tsearchn will return the *best* facet. Need to check it is
+  ## actully in the triangulation
+  outwith_facet_inds <- which(apply(p < 0, 1, any))
+  idx <- ts$idx
+  idx[outwith_facet_inds] <- NA
+  p[outwith_facet_inds,] <- NA
+  return(list(idx=idx, p=p, P=ts$P))
 }
