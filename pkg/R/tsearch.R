@@ -257,5 +257,11 @@ bary2cart <- function(X, Beta) {
 
 ##' @export
 tsearchn.delaunayTriangulation <- function(x, t, xi, ...) {
-  return(.Call("C_tsearchn", x, xi))
+  ts <- .Call("C_tsearchn", x, xi)
+  print(class(x))
+  p <- do.call(rbind,
+               lapply(1:nrow(xi), function(i) {
+                 cart2bary(ts$P[x$tri[ts$idx[i],],], xi[i,,drop=FALSE])
+               }))
+  return(list(idx=ts$idx, p=p, P=ts$P))
 }

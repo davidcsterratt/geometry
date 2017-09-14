@@ -44,15 +44,14 @@ test_that("tsearchn gives the expected output", {
 
 context("tsearchn.delaunayTriangulation")
 test_that("tsearchn gives the expected output", {
-  x <- c(-1, -1, 1)
-  y <- c(-1, 1, -1)
-  p <- cbind(x, y)
-  tri <- delaunayn(p, full=TRUE)
+  x <- cbind(c(-1, -1, 1),
+             c(-1, 1, -1))
+  dt <- delaunayn(x, full=TRUE)
   ## Should be in triangle #1
-  ts <- tsearchn(tri, NA, cbind(-1, -1))
-  expect_equal(ts, 1)
-  ## expect_that(ts$idx, equals(1))
-  ## expect_that(ts$p, equals(cbind(1, 0, 0)))
+  xi <- cbind(-1, 1)
+  ts <- tsearchn(dt, NA, xi)
+  expect_equal(ts$idx, 1)
+  expect_equal(bary2cart(x[dt$tri[ts$idx,],], ts$p[ts$idx,]), xi)
   ## Should be in triangle #1
   ## ts <- tsearchn(p, tri, cbind(1, -1), fast=FALSE)
   ## expect_that(ts$idx, equals(1))
@@ -75,7 +74,7 @@ test_that("tsearchn gives the expected output", {
   dt <- delaunayn(p, full=TRUE)
   xi <- c(0.1, 0.5, 0.9, 0.5)
   yi <- c(0.5, 0.9, 0.5, 0.1)
-  expect_equal(tsearchn(dt, NA, cbind(xi, yi)),
+  expect_equal(tsearchn(dt, NA, cbind(xi, yi))$idx,
     tsearch(p[,1], p[,2], dt$tri,  xi, yi, method="orig"))
   
   ## ## Create a mesh with a zero-area element (degenerate simplex)

@@ -48,7 +48,9 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   if(dim <= 0 || n <= 0){
     error("Invalid input matrix.");
   }
-
+  if (dim != qh->hull_dim)
+    error("Invalid input matrix.");
+  
   /* Construct map from facet id to index */ 
   facetT *facet;
 
@@ -84,20 +86,39 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   }
     
   /* Make space for output */
-  SEXP values;
-  PROTECT(values = allocVector(INTSXP, n));
-  int *ivalues = INTEGER(values);
+  SEXP retlist, retnames;       /* Return list and names */
+  int retlen = 2;               /* Length of return list */
+  SEXP idx, points;
+  PROTECT(idx = allocVector(INTSXP, n));
+  int *iidx = INTEGER(idx);
+  PROTECT(points = allocMatrix(REALSXP, qh->num_points, dim - 1));
+
+  int j, k;
+
+  /* Output points */
+  pointT *point;
+  pointT *pointtemp;
+  printf("%d POINTS\n", qh->num_points);
+  i = 0;
+  FORALLpoints {
+    for (k=0; k<(dim - 1); k++) {
+      REAL(points)[i+k*qh->num_points] = point[k];
+      printf("%f ", point[k]);
+    }
+    i++;
+    printf("\n");
+  }
   
   /* Run through the matrix using qh_findbestfacet to determine
      whether in hull or not */
-  coordT *testpoint;
-  testpoint = (coordT *) R_alloc(dim, sizeof(coordT));
-  /* coordT testpoint[100]; */
   boolT isoutside;
   realT bestdist;
   vertexT *vertex, **vertexp;
 
-  int k;
+  /* The name point is reserved for use with FORALLpoints */
+  coordT *testpoint;
+  testpoint = (coordT *) R_alloc(dim, sizeof(coordT));
+  
   for(i=0; i < n; i++) {
     for(k=0; k < (dim - 1); k++) {
       testpoint[k] = REAL(p)[i+n*k]; /* could have been pt_array = REAL(p) if p had been transposed */
@@ -110,13 +131,33 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
       exitcode = 1;
       break;
     }
-    printf(": Facet id %d; index %d\n;", facet->id, idmap[facet->id]);
-    ivalues[i] = idmap[facet->id];
+    /* printf(": Facet id %d; index %d\n;", facet->id, idmap[facet->id]); */
+    /* Convert facet id to id of triangle */
+    iidx[i] = idmap[facet->id];
+    /* /\* Return vertices of triangle *\/ */
+    /* j = 0; */
+    /* FOREACHvertex_ (facet->vertices) { */
+    /*   if ((i + nf*j) >= nf*(dim+1)) */
+    /*     error("Trying to write to non-existent area of memory i=%i, j=%i, nf=%i, dim=%i", i, j, nf, dim); */
+    /*   REAL(vertices)[i + nf*j] = 1 + qh_pointid(qh, vertex->point); */
+    /*   j++; */
+    /* } */
   }
-  UNPROTECT(1);
 
+  UNPROTECT(2);
+
+  
+  PROTECT(retlist = allocVector(VECSXP, retlen));
+  PROTECT(retnames = allocVector(VECSXP, retlen));
+  SET_VECTOR_ELT(retlist, 0, idx);
+  SET_VECTOR_ELT(retnames, 0, mkChar("idx"));
+  SET_VECTOR_ELT(retlist, 1, points);
+  SET_VECTOR_ELT(retnames, 1, mkChar("P"));
+  setAttrib(retlist, R_NamesSymbol, retnames);
+  UNPROTECT(2);
+  
   if (exitcode)
     error("findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).", facet->id);
   
-  return values;
+  return retlist;
 }
