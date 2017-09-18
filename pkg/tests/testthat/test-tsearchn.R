@@ -51,7 +51,7 @@ test_that("tsearchn gives the expected output", {
   xi <- cbind(-1, 1)
   ts <- tsearchn(dt, NA, xi)
   expect_equal(ts$idx, 1)
-  expect_equal(bary2cart(x[dt$tri[ts$idx,],], ts$p[ts$idx,]), xi)
+  expect_equal(bary2cart(x[dt$tri[ts$idx,],], ts$p), xi)
 
   ## Centroid
   xi <- cbind(-1/3, -1/3)
@@ -65,6 +65,17 @@ test_that("tsearchn gives the expected output", {
   expect_true(is.na(ts$idx))
   expect_true(all(is.na(ts$p)))
 
+  ## Check mutliple points work
+  xi <- rbind(c(-1, 1),
+              c(-1/3, -1/3))
+  ts <- tsearchn(dt, NA, xi)
+  expect_equal(ts$idx, c(1, 1))
+  expect_equal(do.call(rbind, lapply(1:2, function(i) {
+    bary2cart(x[dt$tri[ts$idx[i],],], ts$p[i,])
+  })), xi)
+
+
+  ## Test against original version
   p <- cbind(c(0, 0, 1, 1, 0.5),
              c(0, 1, 1, 0, 0.5))
   dt <- delaunayn(p, full=TRUE)
@@ -72,6 +83,18 @@ test_that("tsearchn gives the expected output", {
   yi <- c(0.5, 0.9, 0.5, 0.1)
   expect_equal(tsearchn(dt, NA, cbind(xi, yi))$idx,
                tsearch(p[,1], p[,2], dt$tri,  xi, yi, method="orig"))
+
+  ## 3D test
+  x <- rbox(D=3, B=1)
+  dt <- delaunayn(x, full=TRUE)
+
+  xi <- rbind(c(0.5, 0.5, 0.5),
+              c(-0.5, -0.5, -0.5),
+              c(0.9, 0, 0))
+  ts <- tsearchn(dt, NA, xi)
+  expect_equal(do.call(rbind, lapply(1:3, function(i) {
+    bary2cart(x[dt$tri[ts$idx[i],],], ts$p[i,])
+  })), xi)
   
   ## We don't need to test whne creating a mesh with a zero-area
   ## element (degenerate simplex), as these shouldn't be produced by
