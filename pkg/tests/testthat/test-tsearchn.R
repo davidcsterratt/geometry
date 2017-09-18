@@ -95,6 +95,19 @@ test_that("tsearchn gives the expected output", {
   expect_equal(do.call(rbind, lapply(1:3, function(i) {
     bary2cart(x[dt$tri[ts$idx[i],],], ts$p[i,])
   })), xi)
+
+  ## 4D test
+  x <- rbox(D=4, B=1)
+  dt <- delaunayn(x, full=TRUE)
+
+  xi <- rbind(c(0.5, 0.5, 0.5, 0.5),
+              c(-0.5, -0.5, -0.5, -0.5),
+              c(0.9, 0, 0, 0))
+  ts <- tsearchn(dt, NA, xi)
+  expect_equal(do.call(rbind, lapply(1:3, function(i) {
+    bary2cart(x[dt$tri[ts$idx[i],],], ts$p[i,])
+  })), xi)
+
   
   ## We don't need to test whne creating a mesh with a zero-area
   ## element (degenerate simplex), as these shouldn't be produced by
