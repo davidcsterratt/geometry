@@ -4,12 +4,16 @@
 \alias{rbox}
 \title{Generate various point distributions}
 \usage{
-rbox(D = 2, B = 0.5)
+rbox(n = 3000, D = 3, B = 0.5, C = NA)
 }
 \arguments{
+\item{n}{number of random points in hypercube}
+
 \item{D}{number of dimensions of hypercube}
 
 \item{B}{bounding box coordinate - faces will be \code{-B} and \code{B} from origin}
+
+\item{C}{add a unit hypercube to the output - faces will be \code{-C} and \code{C} from origin}
 }
 \value{
 Matrix of points
