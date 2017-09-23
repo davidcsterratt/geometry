@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // C_tsearch
-SEXP C_tsearch(NumericVector x, NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary);
-RcppExport SEXP geometry_C_tsearch(SEXP xSEXP, SEXP ySEXP, SEXP elemSEXP, SEXP xiSEXP, SEXP yiSEXP, SEXP barySEXP) {
+SEXP C_tsearch(NumericVector x, NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary, double eps);
+RcppExport SEXP _geometry_C_tsearch(SEXP xSEXP, SEXP ySEXP, SEXP elemSEXP, SEXP xiSEXP, SEXP yiSEXP, SEXP barySEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -17,7 +17,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type xi(xiSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type yi(yiSEXP);
     Rcpp::traits::input_parameter< bool >::type bary(barySEXP);
-    rcpp_result_gen = Rcpp::wrap(C_tsearch(x, y, elem, xi, yi, bary));
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    rcpp_result_gen = Rcpp::wrap(C_tsearch(x, y, elem, xi, yi, bary, eps));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -13,8 +13,9 @@
 
 // Originally written for package lidR by Jean-Romain Roussel
 // Author: Jean-Romain Roussel
-// 3 may 2017: copy from package lidR to package geometry by Jean-Romain Roussel to replace former code of tsearch
-// 4 may 2017: Add barycentric coordinates support to reproduce original tsearch function
+//  3  may 2017: copy from package lidR to package geometry by Jean-Romain Roussel to replace former code of tsearch
+//  4  may 2017: Add barycentric coordinates support to reproduce original tsearch function
+// 23 sept 2017: fix bug of computeur precision by Jean-Romain Roussel
 
 
 // [[Rcpp::depends(RcppProgress)]]
@@ -40,45 +41,45 @@ static inline double min (double a, double b, double c)
     return (a > c ? c : a);
 }
 
-bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary)
+double distanceSquarePointToSegment(const Point& p1, const Point& p2, const Point& p)
 {
-    float s = p0.y * p2.x - p0.x * p2.y + (p2.y - p0.y) * p.x + (p0.x - p2.x) * p.y;
-    float t = p0.x * p1.y - p0.y * p1.x + (p0.y - p1.y) * p.x + (p1.x - p0.x) * p.y;
+  double p1_p2_squareLength = (p2.x - p1.x)*(p2.x - p1.x) + (p2.y - p1.y)*(p2.y - p1.y);
+  double dotProduct = ((p.x - p1.x)*(p2.x - p1.x) + (p.y - p1.y)*(p2.y - p1.y)) / p1_p2_squareLength;
+  
+  if ( dotProduct < 0 )
+  {
+    return (p.x - p1.x)*(p.x - p1.x) + (p.y - p1.y)*(p.y - p1.y);
+  }
+  else if ( dotProduct <= 1 )
+  {
+    double p_p1_squareLength = (p1.x - p.x)*(p1.x - p.x) + (p1.y - p.y)*(p1.y - p.y);
+    return p_p1_squareLength - dotProduct * dotProduct * p1_p2_squareLength;
+  }
+  else
+  {
+    return (p.x - p2.x)*(p.x - p2.x) + (p.y - p2.y)*(p.y - p2.y);
+  }
+}
 
-    if ((s <= 0) != (t <= 0))
-        return false;
-
-    float  A = -p1.y * p2.x + p0.y * (p2.x - p1.x) + p0.x * (p1.y - p2.y) + p1.x * p2.y;
-
-    if (A < 0)
-    {
-        s = -s;
-        t = -t;
-        A = -A;
-    }
-    
-    bary->x = t/A;
-    bary->y = s/A;
-
-    return s >= 0 && t >= 0 && (s + t) <= A;
+bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary, double eps)
+{
+  double det = ((p1.y - p2.y)*(p0.x - p2.x) + (p2.x - p1.x)*(p0.y - p2.y));
+  double a = ((p1.y - p2.y)*(p.x - p2.x) + (p2.x - p1.x)*(p.y - p2.y)) / det;
+  double b = ((p2.y - p0.y)*(p.x - p2.x) + (p0.x - p2.x)*(p.y - p2.y)) / det;
+  double c = 1 - a - b;
+  
+  bary->x = c;
+  bary->y = b;
+  
+  Rcout << (-eps <= a && a <= 1+eps && -eps <= b && b <= 1+eps && -eps <= c && c <= 1+eps) << std::endl;
+  
+  return -eps <= a && a <= 1+eps && -eps <= b && b <= 1+eps && -eps <= c && c <= 1+eps;
 }
 
 //' @importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
-SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary = false)
-{  
-  // Shift the point cloud to the origin to avoid computer precision error
-  // The shift is done by reference to save memory. The original data is shift back at the end
-  
-  double minx = min(x);
-  double miny = min(y);
-  x = x - minx;
-  y = y - miny;
-  xi = xi - minx;
-  yi = yi - miny;
-
-  // Algorithm
-  
+SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary = false, double eps = 1.0e-12)
+{ 
   QuadTree *tree = QuadTree::create(as< std::vector<double> >(xi),as< std::vector<double> >(yi));
 
   int nelem = elem.nrow();
@@ -131,7 +132,7 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
     // QuadTree search of points in enclosing boundingbox
 
     std::vector<Point*> points;
-    tree->rect_lookup(xcenter, ycenter, half_width, half_height, points);
+    tree->rect_lookup(xcenter, ycenter, half_width + eps, half_height + eps, points);
 
     // Compute if the points are in A B C
 
@@ -139,7 +140,7 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
     {
       Point pbary;
       
-      if (PointInTriangle(A, B, C, *points[i], &pbary))
+      if (PointInTriangle(A, B, C, *points[i], &pbary, eps))
       {
         int id = points[i]->id;
         indexes(id) = k + 1;
@@ -155,12 +156,6 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
   }
 
   delete tree;
-  
-  // Shift back the data
-  x = x + minx;
-  y = y + miny;
-  xi = xi + minx;
-  yi = yi + miny;
   
   if (bary)
   {
