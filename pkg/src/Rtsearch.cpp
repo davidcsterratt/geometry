@@ -71,8 +71,6 @@ bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary, double 
   bary->x = c;
   bary->y = b;
   
-  Rcout << (-eps <= a && a <= 1+eps && -eps <= b && b <= 1+eps && -eps <= c && c <= 1+eps) << std::endl;
-  
   return -eps <= a && a <= 1+eps && -eps <= b && b <= 1+eps && -eps <= c && c <= 1+eps;
 }
 
