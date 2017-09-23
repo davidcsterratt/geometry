@@ -25,19 +25,32 @@
 ##' @seealso tsearchn, delaunayn
 ##' @export
 tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
-  if (!is.vector(x))  {stop(paste(deparse(substitute(x)), "is not a vector"))}
-  if (!is.vector(y))  {stop(paste(deparse(substitute(y)), "is not a vector"))}
-  if (!is.matrix(t))  {stop(paste(deparse(substitute(t)), "is not a matrix"))}
-  if (!is.vector(xi))  {stop(paste(deparse(substitute(xi)), "is not a vector"))}
-  if (!is.vector(yi))  {stop(paste(deparse(substitute(yi)), "is not a vector"))}
+  
+  xtxt  = deparse(substitute(x))
+  ytxt  = deparse(substitute(y))
+  xitxt = deparse(substitute(xi))
+  yitxt = deparse(substitute(yi))
+  ttxt  = deparse(substitute(t))
+  
+  if (length(x) == 0) {stop(paste(xtxt, "is empty"))}
+  if (length(y) == 0) {stop(paste(ytxt, "is empty"))}
+  if (length(xi) == 0) {stop(paste(xitxt, "is empty"))}
+  if (length(yi) == 0) {stop(paste(yitxt, "is empty"))}
+  
+  if (!is.vector(x))  {stop(paste(xtxt, "is not a vector"))}
+  if (!is.vector(y))  {stop(paste(ytxt, "is not a vector"))}
+  if (!is.matrix(t))  {stop(paste(ttxt, "is not a matrix"))}
+  if (!is.vector(xi)) {stop(paste(xitxt, "is not a vector"))}
+  if (!is.vector(yi)) {stop(paste(yitxt, "is not a vector"))}
+  
   if (length(x) != length(y)) {
-    stop(paste(deparse(substitute(x)), "is not same length as ", deparse(substitute(y))))
+    stop(paste(xtxt, "is not same length as", ytxt))
   }
   if (length(xi) != length(yi)) {
-    stop(paste(deparse(substitute(xi)), "is not same length as ", deparse(substitute(yi))))
+    stop(paste(xitxt, "is not same length as", yitxt))
   }
   if (ncol(t) != 3) {
-    stop(paste(deparse(substitute(t)), "does not have three columns"))
+    stop(paste(ttxt, "does not have three columns"))
   }
   storage.mode(t) <- "integer"
   out <- C_tsearch(x, y, t, xi, yi, bary)
