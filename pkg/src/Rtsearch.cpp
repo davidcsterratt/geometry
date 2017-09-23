@@ -41,26 +41,6 @@ static inline double min (double a, double b, double c)
     return (a > c ? c : a);
 }
 
-double distanceSquarePointToSegment(const Point& p1, const Point& p2, const Point& p)
-{
-  double p1_p2_squareLength = (p2.x - p1.x)*(p2.x - p1.x) + (p2.y - p1.y)*(p2.y - p1.y);
-  double dotProduct = ((p.x - p1.x)*(p2.x - p1.x) + (p.y - p1.y)*(p2.y - p1.y)) / p1_p2_squareLength;
-  
-  if ( dotProduct < 0 )
-  {
-    return (p.x - p1.x)*(p.x - p1.x) + (p.y - p1.y)*(p.y - p1.y);
-  }
-  else if ( dotProduct <= 1 )
-  {
-    double p_p1_squareLength = (p1.x - p.x)*(p1.x - p.x) + (p1.y - p.y)*(p1.y - p.y);
-    return p_p1_squareLength - dotProduct * dotProduct * p1_p2_squareLength;
-  }
-  else
-  {
-    return (p.x - p2.x)*(p.x - p2.x) + (p.y - p2.y)*(p.y - p2.y);
-  }
-}
-
 bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary, double eps)
 {
   double det = ((p1.y - p2.y)*(p0.x - p2.x) + (p2.x - p1.x)*(p0.y - p2.y));
