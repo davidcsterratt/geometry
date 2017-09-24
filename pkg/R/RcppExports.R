@@ -3,6 +3,6 @@
 
 #' @importFrom Rcpp sourceCpp
 C_tsearch <- function(x, y, elem, xi, yi, bary = FALSE) {
-    .Call('geometry_C_tsearch', PACKAGE = 'geometry', x, y, elem, xi, yi, bary)
+    .Call('_geometry_C_tsearch', PACKAGE = 'geometry', x, y, elem, xi, yi, bary)
 }
 
