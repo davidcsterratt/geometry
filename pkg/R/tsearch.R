@@ -57,11 +57,6 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   return(out)
 }
 
-##' @export
-tsearchn <- function(x, t, xi, ...) {
-  UseMethod("tsearchn")
-}
-
 ##' Search for the enclosing Delaunay convex hull
 ##' 
 ##' For \code{t = delaunayn(x)}, where \code{x} is a set of points in \code{d}
@@ -69,26 +64,40 @@ tsearchn <- function(x, t, xi, ...) {
 ##' containing the points \code{xi}. For points outside the convex hull,
 ##' \code{idx} is \code{NA}. \code{tsearchn} also returns the barycentric
 ##' coordinates \code{p} of the enclosing triangles.
+##'
+##' If \code{x} is \code{NA} and the \code{t} is a
+##' \code{delaunayTriangulation} object produced by
+##' \code{\link{delaunayn}} with the \code{full} option, then use the
+##' Qhull library to perform the search. Please note that this is
+##' experimental in geomtry version 0.4.0 and is only partly tested
+##' for 3D hulls, and does not yet work for hulls of 4 dimensions and
+##' above.
 ##' 
-##' @param x An \code{n}-by-\code{d} matrix.  The rows of \code{x} represent
-##' \code{n} points in \code{d}-dimensional space.
-##' @param t A \code{m}-by-\code{d+1} matrix. A row of \code{t} contains
-##' indices into \code{x} of the vertices of a \code{d}-dimensional simplex.
-##' \code{t} is usually the output of delaunayn.
-##' @param xi An \code{ni}-by-\code{d} matrix.  The rows of \code{xi} represent
-##' \code{n} points in \code{d}-dimensional space whose positions in the mesh
-##' are being sought.
+##' @param x An \code{n}-by-\code{d} matrix.  The rows of \code{x}
+##'   represent \code{n} points in \code{d}-dimensional space.
+##' @param t A \code{m}-by-\code{d+1} matrix. A row of \code{t}
+##'   contains indices into \code{x} of the vertices of a
+##'   \code{d}-dimensional simplex.  \code{t} is usually the output of
+##'   delaunayn.
+##' @param xi An \code{ni}-by-\code{d} matrix.  The rows of \code{xi}
+##'   represent \code{n} points in \code{d}-dimensional space whose
+##'   positions in the mesh are being sought.
 ##' @param ... Additional arguments
-##' @return A list containing: \item{list("idx")}{An \code{ni}-long vector
-##' containing the indicies of the row of \code{t} in which each point in
-##' \code{xi} is found.} \item{list("p")}{An \code{ni}-by-\code{d+1} matrix
-##' containing the barycentric coordinates with respect to the enclosing
-##' simplex of each point in \code{xi}.}
+##' @return A list containing: \item{list("idx")}{An \code{ni}-long
+##'   vector containing the indicies of the row of \code{t} in which
+##'   each point in \code{xi} is found.} \item{list("p")}{An
+##'   \code{ni}-by-\code{d+1} matrix containing the barycentric
+##'   coordinates with respect to the enclosing simplex of each point
+##'   in \code{xi}.}
 ##' @author David Sterratt
-##' @note Based on the Octave function Copyright (C) 2007-2012 David Bateman.
+##' @note Based on the Octave function Copyright (C) 2007-2012 David
+##'   Bateman.
 ##' @seealso tsearch, delaunayn
 ##' @export
-tsearchn.default <- function(x, t, xi, ...) {
+tsearchn <- function(x, t, xi, ...) {
+  if (is.na(x) && inherits(t, "delaunayTriangulation")) {
+    return(tsearchn_delaunayTriangulation(t, xi))
+  }
   fast <- TRUE
   if (!is.null(list(...)$fast) & is.logical(list(...)$fast))
     fast <- list(...)$fast
@@ -255,16 +264,15 @@ bary2cart <- function(X, Beta) {
   return(Beta %*% X)
 }
 
-##' @export
-tsearchn.delaunayTriangulation <- function(x, t, xi, ...) {
-  ts <- .Call("C_tsearchn", x, xi)
-  print(class(x))
+tsearchn_delaunayTriangulation <- function(t, xi) {
+  warning("tsearchn using the Qhull library is currently an experimental feature. It has been tested somewhat for 3D triangulations, but it does not work reliably for 4D triangulations. See https://github.com/davidcsterratt/geometry/issues/6")
+  ts <- .Call("C_tsearchn", t, xi)
   p <- do.call(rbind,
                lapply(1:nrow(xi), function(i) {
-                 cart2bary(ts$P[x$tri[ts$idx[i],],], xi[i,,drop=FALSE])
+                 cart2bary(ts$P[t$tri[ts$idx[i],],], xi[i,,drop=FALSE])
                }))
   ## C_tsearchn will return the *best* facet. Need to check it is
-  ## actully in the triangulation
+  ## actually in the triangulation
   outwith_facet_inds <- which(apply(p < 0, 1, any))
   idx <- ts$idx
   idx[outwith_facet_inds] <- NA

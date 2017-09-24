@@ -25,10 +25,9 @@
 #include "Rgeometry.h"
 #include "qhull_ra.h"
 
-/* This works on n-dimensional delaunay triangulations */
-
 SEXP C_tsearchn(const SEXP dt, const SEXP p)
 {
+  int debug = 0;
   /* Get the qh object from the delaunayTriangulation object */
   SEXP ptr, tag;
   qhT *qh;
@@ -80,7 +79,7 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   FORALLfacets {
     if (!facet->upperdelaunay) {
       i++;
-      printf("Facet id %d; index %d\n;", facet->id, i);
+      if (debug & 1) Rprintf("Facet id %d; index %d\n;", facet->id, i);
       idmap[facet->id] = i;
     }
   }
@@ -98,15 +97,15 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   /* Output points */
   pointT *point;
   pointT *pointtemp;
-  printf("%d POINTS\n", qh->num_points);
+  if (debug & 2) Rprintf("%d POINTS\n", qh->num_points);
   i = 0;
   FORALLpoints {
     for (k=0; k<(dim - 1); k++) {
       REAL(points)[i+k*qh->num_points] = point[k];
-      printf("%f ", point[k]);
+      if (debug & 2) Rprintf("%f ", point[k]);
     }
     i++;
-    printf("\n");
+    if (debug & 2) Rprintf("\n");
   }
   
   /* Run through the matrix using qh_findbestfacet to determine
@@ -118,30 +117,32 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   /* The name point is reserved for use with FORALLpoints */
   coordT *testpoint;
   testpoint = (coordT *) R_alloc(dim, sizeof(coordT));
-  
+
   for(i=0; i < n; i++) {
+    if (debug) Rprintf("\nTestpoint\n");
     for(k=0; k < (dim - 1); k++) {
       testpoint[k] = REAL(p)[i+n*k]; /* could have been pt_array = REAL(p) if p had been transposed */
-      printf(" %f", testpoint[k]);
+      if (debug) Rprintf(" %f", testpoint[k]);
     }
-    printf("\n");
+    if (debug) Rprintf("\n");
     qh_setdelaunay(qh, dim, 1, testpoint);
     facet = qh_findbestfacet(qh, testpoint, qh_ALL, &bestdist, &isoutside);
     if (facet->tricoplanar) {
       exitcode = 1;
       break;
     }
-    /* printf(": Facet id %d; index %d\n;", facet->id, idmap[facet->id]); */
+    if (debug) Rprintf("Facet id %d; index %d\n", facet->id, idmap[facet->id]);
     /* Convert facet id to id of triangle */
     iidx[i] = idmap[facet->id];
     /* /\* Return vertices of triangle *\/ */
-    /* j = 0; */
-    /* FOREACHvertex_ (facet->vertices) { */
-    /*   if ((i + nf*j) >= nf*(dim+1)) */
-    /*     error("Trying to write to non-existent area of memory i=%i, j=%i, nf=%i, dim=%i", i, j, nf, dim); */
-    /*   REAL(vertices)[i + nf*j] = 1 + qh_pointid(qh, vertex->point); */
-    /*   j++; */
-    /* } */
+    j = 0;
+    FOREACHvertex_ (facet->vertices) {
+      for (j=0; j<dim - 1; j++) {
+        if (debug) Rprintf("%f ", vertex->point[j]);
+      }
+      if (debug) Rprintf("\n");
+    }
+
   }
 
   UNPROTECT(2);
