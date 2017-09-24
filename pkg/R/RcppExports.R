@@ -2,7 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @importFrom Rcpp sourceCpp
-C_tsearch <- function(x, y, elem, xi, yi, bary = FALSE) {
-    .Call('geometry_C_tsearch', PACKAGE = 'geometry', x, y, elem, xi, yi, bary)
+C_tsearch <- function(x, y, elem, xi, yi, bary = FALSE, eps = 1.0e-12) {
+    .Call('_geometry_C_tsearch', PACKAGE = 'geometry', x, y, elem, xi, yi, bary, eps)
 }
 

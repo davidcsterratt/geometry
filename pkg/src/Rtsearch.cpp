@@ -13,8 +13,9 @@
 
 // Originally written for package lidR by Jean-Romain Roussel
 // Author: Jean-Romain Roussel
-// 3 may 2017: copy from package lidR to package geometry by Jean-Romain Roussel to replace former code of tsearch
-// 4 may 2017: Add barycentric coordinates support to reproduce original tsearch function
+//  3  may 2017: copy from package lidR to package geometry by Jean-Romain Roussel to replace former code of tsearch
+//  4  may 2017: Add barycentric coordinates support to reproduce original tsearch function
+// 23 sept 2017: fix bug of computeur precision by Jean-Romain Roussel
 
 
 // [[Rcpp::depends(RcppProgress)]]
@@ -40,33 +41,23 @@ static inline double min (double a, double b, double c)
     return (a > c ? c : a);
 }
 
-bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary)
+bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary, double eps)
 {
-    double s = p0.y * p2.x - p0.x * p2.y + (p2.y - p0.y) * p.x + (p0.x - p2.x) * p.y;
-    double t = p0.x * p1.y - p0.y * p1.x + (p0.y - p1.y) * p.x + (p1.x - p0.x) * p.y;
-
-    if ((s <= 0) != (t <= 0))
-        return false;
-
-    double  A = -p1.y * p2.x + p0.y * (p2.x - p1.x) + p0.x * (p1.y - p2.y) + p1.x * p2.y;
-
-    if (A < 0)
-    {
-        s = -s;
-        t = -t;
-        A = -A;
-    }
-    
-    bary->x = t/A;
-    bary->y = s/A;
-
-    return s >= 0 && t >= 0 && (s + t) <= A;
+  double det = ((p1.y - p2.y)*(p0.x - p2.x) + (p2.x - p1.x)*(p0.y - p2.y));
+  double a = ((p1.y - p2.y)*(p.x - p2.x) + (p2.x - p1.x)*(p.y - p2.y)) / det;
+  double b = ((p2.y - p0.y)*(p.x - p2.x) + (p0.x - p2.x)*(p.y - p2.y)) / det;
+  double c = 1 - a - b;
+  
+  bary->x = c;
+  bary->y = b;
+  
+  return -eps <= a && a <= 1+eps && -eps <= b && b <= 1+eps && -eps <= c && c <= 1+eps;
 }
 
 //' @importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
-SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary = false)
-{
+SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary = false, double eps = 1.0e-12)
+{ 
   QuadTree *tree = QuadTree::create(as< std::vector<double> >(xi),as< std::vector<double> >(yi));
 
   int nelem = elem.nrow();
@@ -119,7 +110,7 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
     // QuadTree search of points in enclosing boundingbox
 
     std::vector<Point*> points;
-    tree->rect_lookup(xcenter, ycenter, half_width, half_height, points);
+    tree->rect_lookup(xcenter, ycenter, half_width + eps, half_height + eps, points);
 
     // Compute if the points are in A B C
 
@@ -127,7 +118,7 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
     {
       Point pbary;
       
-      if (PointInTriangle(A, B, C, *points[i], &pbary))
+      if (PointInTriangle(A, B, C, *points[i], &pbary, eps))
       {
         int id = points[i]->id;
         indexes(id) = k + 1;
