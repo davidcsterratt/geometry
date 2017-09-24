@@ -12,7 +12,7 @@ test_that("inhulln gives the expected output", {
   expect_that(pout, equals(FALSE))
 
   ## Test cube
-  p <- rbox(3, B=1)
+  p <- rbox(n=0, D=3, C=1)
   ch <- convhulln(p)
   tp <-  cbind(seq(-1.9, 1.9, by=0.2), 0, 0)
   pin <- inhulln(ch, tp)
@@ -20,7 +20,7 @@ test_that("inhulln gives the expected output", {
   expect_that(pin, equals(tp[,1] < 1 & tp[,1] > -1))
 
   ## Test hypercube
-  p <- rbox(4, B=1)
+  p <- rbox(n=0, D=4, C=1)
   ch <- convhulln(p)
   tp <-  cbind(seq(-1.9, 1.9, by=0.2), 0, 0, 0)
   pin <- inhulln(ch, tp)

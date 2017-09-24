@@ -1,14 +1,14 @@
-/*<html><pre>  -<a                             href="qh-merge.htm"
+/*<html><pre>  -<a                             href="qh-merge_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    merge_r.h
    header file for merge_r.c
 
-   see qh-merge.htm and merge_r.c
+   see qh-merge_r.htm and merge_r.c
 
    Copyright (c) 1993-2015 C.B. Barber.
-   $Id: //main/2015/qhull/src/libqhull_r/merge_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/merge_r.h#3 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 */
 
 #ifndef qhDEFmerge
@@ -19,7 +19,7 @@
 
 /*============ -constants- ==============*/
 
-/*-<a                             href="qh-merge.htm#TOC"
+/*-<a                             href="qh-merge_r.htm#TOC"
   >--------------------------------</a><a name="qh_ANGLEredundant">-</a>
 
   qh_ANGLEredundant
@@ -27,7 +27,7 @@
 */
 #define qh_ANGLEredundant 6.0
 
-/*-<a                             href="qh-merge.htm#TOC"
+/*-<a                             href="qh-merge_r.htm#TOC"
   >--------------------------------</a><a name="qh_ANGLEdegen">-</a>
 
   qh_ANGLEdegen
@@ -35,7 +35,7 @@
 */
 #define qh_ANGLEdegen     5.0
 
-/*-<a                             href="qh-merge.htm#TOC"
+/*-<a                             href="qh-merge_r.htm#TOC"
   >--------------------------------</a><a name="qh_ANGLEconcave">-</a>
 
   qh_ANGLEconcave
@@ -47,7 +47,7 @@
 */
 #define qh_ANGLEconcave  1.5
 
-/*-<a                             href="qh-merge.htm#TOC"
+/*-<a                             href="qh-merge_r.htm#TOC"
   >--------------------------------</a><a name="MRG">-</a>
 
   MRG... (mergeType)
@@ -69,7 +69,7 @@ typedef enum {  /* in sort order for facet_mergeset */
   ENDmrg
 } mergeType;
 
-/*-<a                             href="qh-merge.htm#TOC"
+/*-<a                             href="qh-merge_r.htm#TOC"
   >--------------------------------</a><a name="qh_MERGEapex">-</a>
 
   qh_MERGEapex
@@ -79,7 +79,7 @@ typedef enum {  /* in sort order for facet_mergeset */
 
 /*============ -structures- ====================*/
 
-/*-<a                             href="qh-merge.htm#TOC"
+/*-<a                             href="qh-merge_r.htm#TOC"
   >--------------------------------</a><a name="mergeT">-</a>
 
   mergeT
@@ -97,7 +97,7 @@ struct mergeT {         /* initialize in qh_appendmergeset */
 
 /*=========== -macros- =========================*/
 
-/*-<a                             href="qh-merge.htm#TOC"
+/*-<a                             href="qh-merge_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHmerge_">-</a>
 
   FOREACHmerge_( merges ) {...}
@@ -112,6 +112,10 @@ struct mergeT {         /* initialize in qh_appendmergeset */
 #define FOREACHmerge_( merges ) FOREACHsetelement_(mergeT, merges, merge)
 
 /*============ prototypes in alphabetical order after pre/postmerge =======*/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void    qh_premerge(qhT *qh, vertexT *apex, realT maxcentrum, realT maxangle);
 void    qh_postmerge(qhT *qh, const char *reason, realT maxcentrum, realT maxangle,
@@ -174,5 +178,9 @@ void    qh_updatetested(qhT *qh, facetT *facet1, facetT *facet2);
 setT   *qh_vertexridges(qhT *qh, vertexT *vertex);
 void    qh_vertexridges_facet(qhT *qh, vertexT *vertex, facetT *facet, setT **ridges);
 void    qh_willdelete(qhT *qh, facetT *facet, facetT *replace);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* qhDEFmerge */

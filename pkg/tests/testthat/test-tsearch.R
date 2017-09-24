@@ -21,6 +21,10 @@ test_that("tsearch gives the expected output", {
   expect_true(is.na(ts))
 })
 
+## See
+## http://totologic.blogspot.co.uk/2014/01/accurate-point-in-triangle-test.html
+## for inspiration for the test below
+
 test_that("tsearch gives the expected output when computer precision problem arise", {
   
   # ==== Hand made test ====

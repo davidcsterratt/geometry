@@ -7,8 +7,8 @@
    see qh-stat_r.htm and stat_r.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/stat_r.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/stat_r.c#5 $$Change: 2062 $
+   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -143,6 +143,8 @@ void qh_allstatE(qhT *qh) {
   zdef_(zinc, Zcoplanarinside, "  inside points that were coplanar with a facet", -1);
   zdef_(zinc, Zbestlower, "calls to findbestlower", -1);
   zdef_(zinc, Zbestlowerv, "  with search of vertex neighbors", -1);
+  zdef_(zinc, Zbestlowerall, "  with rare search of all facets", -1);
+  zdef_(zmax, Zbestloweralln, "  facets per search of all facets", -1);
   zdef_(wadd, Wmaxout, "difference in max_outside at final check", -1);
   zzdef_(zinc, Zpartitionall, "distance tests for initial partition", -1);
   zdef_(zinc, Ztotpartition, "partitions of a point", -1);
@@ -415,7 +417,6 @@ void qh_collectstatistics(qhT *qh) {
 
   qh_initstatistics(qh)
     initialize statistics
-    Requires
 
   notes:
   NOerrors -- qh_initstatistics can not use qh_errexit(), qh_fprintf, or qh.ferr
@@ -599,9 +600,8 @@ void qh_printstatistics(qhT *qh, FILE *fp, const char *string) {
   notes:
     nop if id >= ZEND, printed, or same as initial value
 */
-void qh_printstatlevel(qhT *qh, FILE *fp, int id, int start) {
+void qh_printstatlevel(qhT *qh, FILE *fp, int id) {
 #define NULLfield "       "
-  QHULL_UNUSED(start)
 
   if (id >= ZEND || qh->qhstat.printed[id])
     return;
@@ -642,7 +642,7 @@ void qh_printstats(qhT *qh, FILE *fp, int idx, int *nextindex) {
   if (qh_newstats(qh, idx, &nexti)) {
     qh_fprintf(qh, fp, 9367, "\n");
     for (j=idx; j<nexti; j++)
-      qh_printstatlevel(qh, fp, qh->qhstat.id[j], 0);
+      qh_printstatlevel(qh, fp, qh->qhstat.id[j]);
   }
   if (nextindex)
     *nextindex= nexti;

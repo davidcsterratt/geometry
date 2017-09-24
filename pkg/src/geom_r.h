@@ -1,14 +1,14 @@
-/*<html><pre>  -<a                             href="qh-geom.htm"
+/*<html><pre>  -<a                             href="qh-geom_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
   geom_r.h
     header file for geometric routines
 
-   see qh-geom.htm and geom_r.c
+   see qh-geom_r.htm and geom_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/geom_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/geom_r.h#3 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 */
 
 #ifndef qhDEFgeom
@@ -18,7 +18,7 @@
 
 /* ============ -macros- ======================== */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="fabs_">-</a>
 
   fabs_(a)
@@ -26,7 +26,7 @@
 */
 #define fabs_( a ) ((( a ) < 0 ) ? -( a ):( a ))
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="fmax_">-</a>
 
   fmax_(a,b)
@@ -34,7 +34,7 @@
 */
 #define fmax_( a,b )  ( ( a ) < ( b ) ? ( b ) : ( a ) )
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="fmin_">-</a>
 
   fmin_(a,b)
@@ -42,7 +42,7 @@
 */
 #define fmin_( a,b )  ( ( a ) > ( b ) ? ( b ) : ( a ) )
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="maximize_">-</a>
 
   maximize_(maxval, val)
@@ -50,7 +50,7 @@
 */
 #define maximize_( maxval, val ) { if (( maxval ) < ( val )) ( maxval )= ( val ); }
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="minimize_">-</a>
 
   minimize_(minval, val)
@@ -58,7 +58,7 @@
 */
 #define minimize_( minval, val ) { if (( minval ) > ( val )) ( minval )= ( val ); }
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="det2_">-</a>
 
   det2_(a1, a2,
@@ -68,7 +68,7 @@
 */
 #define det2_( a1,a2,b1,b2 ) (( a1 )*( b2 ) - ( a2 )*( b1 ))
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="det3_">-</a>
 
   det3_(a1, a2, a3,
@@ -80,7 +80,7 @@
 #define det3_( a1,a2,a3,b1,b2,b3,c1,c2,c3 ) ( ( a1 )*det2_( b2,b3,c2,c3 ) \
                 - ( b1 )*det2_( a2,a3,c2,c3 ) + ( c1 )*det2_( a2,a3,b2,b3 ) )
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="dX">-</a>
 
   dX( p1, p2 )
@@ -97,6 +97,10 @@
 #define dW( p1,p2 )  ( *( rows[p1]+3 ) - *( rows[p2]+3 ))
 
 /*============= prototypes in alphabetical order, infrequent at end ======= */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void    qh_backnormal(qhT *qh, realT **rows, int numrow, int numcol, boolT sign, coordT *normal, boolT *nearzero);
 void    qh_distplane(qhT *qh, pointT *point, facetT *facet, realT *dist);
@@ -169,6 +173,10 @@ boolT   qh_sethalfspace(qhT *qh, int dim, coordT *coords, coordT **nextp,
               coordT *normal, coordT *offset, coordT *feasible);
 coordT *qh_sethalfspace_all(qhT *qh, int dim, int count, coordT *halfspaces, pointT *feasible);
 pointT *qh_voronoi_center(qhT *qh, int dim, setT *points);
+
+#ifdef __cplusplus
+} /* extern "C"*/
+#endif
 
 #endif /* qhDEFgeom */
 

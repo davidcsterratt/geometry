@@ -27,10 +27,6 @@ NEW FUNCTIONS
 * New function inhulln() to test if points are in a hull
   https://github.com/davidcsterratt/geometry/issues/1
 
-* convhulln() now returns a pointer to the qhull object representing
-  the hull
-  https://github.com/davidcsterratt/geometry/issues/2
-
 BUG FIXES
 
 * Fix for Issue #6072: distmesh2d - convergence problem
@@ -57,6 +53,21 @@ CODE IMPROVEMENTS
 * The new reentrant Qhull library is used, as a precursor to allowing
   Qhull objects to be returned and operated on
   https://github.com/davidcsterratt/geometry/issues/3
+
+* convhulln() now returns a pointer to the qhull object representing
+  the hull.
+  https://github.com/davidcsterratt/geometry/issues/2
+  This is used in the inhull() implementation
+
+* delaunayn() now returns a pointer to the qhull object representing
+  the triangulation
+  https://github.com/davidcsterratt/geometry/issues/7
+
+* tsearchn() can take an delaunay object, which should give fast
+  performance
+  https://github.com/davidcsterratt/geometry/issues/6
+  NOTE: This feature is experimental and has only been tested
+  on 3D triangulations
 
 * Test added for polyarea()
   Thanks to Toby Hocking for suggesting adding one

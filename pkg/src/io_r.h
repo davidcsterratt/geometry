@@ -1,4 +1,4 @@
-/*<html><pre>  -<a                             href="qh-io.htm"
+/*<html><pre>  -<a                             href="qh-io_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    io_r.h
@@ -7,8 +7,8 @@
    see README, libqhull_r.h and io_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/io_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/io_r.h#3 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 */
 
 #ifndef qhDEFio
@@ -18,7 +18,7 @@
 
 /*============ constants and flags ==================*/
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-io_r.htm#TOC"
   >--------------------------------</a><a name="qh_MAXfirst">-</a>
 
   qh_MAXfirst
@@ -26,7 +26,7 @@
 */
 #define qh_MAXfirst  200
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-io_r.htm#TOC"
   >--------------------------------</a><a name="qh_MINradius">-</a>
 
   qh_MINradius
@@ -34,7 +34,7 @@
 */
 #define qh_MINradius 0.02
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-io_r.htm#TOC"
   >--------------------------------</a><a name="qh_GEOMepsilon">-</a>
 
   qh_GEOMepsilon
@@ -43,7 +43,7 @@
 */
 #define qh_GEOMepsilon 2e-3
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-io_r.htm#TOC"
   >--------------------------------</a><a name="qh_WHITESPACE">-</a>
 
   qh_WHITESPACE
@@ -52,7 +52,7 @@
 #define qh_WHITESPACE " \n\t\v\r\f"
 
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-io_r.htm#TOC"
   >--------------------------------</a><a name="RIDGE">-</a>
 
   qh_RIDGE
@@ -64,7 +64,7 @@ typedef enum
 }
 qh_RIDGE;
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-io_r.htm#TOC"
   >--------------------------------</a><a name="printvridgeT">-</a>
 
   printvridgeT
@@ -76,6 +76,10 @@ qh_RIDGE;
 typedef void (*printvridgeT)(qhT *qh, FILE *fp, vertexT *vertex, vertexT *vertexA, setT *centers, boolT unbounded);
 
 /*============== -prototypes in alphabetical order =========*/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void    qh_dfacet(qhT *qh, unsigned id);
 void    qh_dvertex(qhT *qh, unsigned id);
@@ -155,5 +159,9 @@ coordT *qh_readpoints(qhT *qh, int *numpoints, int *dimension, boolT *ismalloc);
 void    qh_setfeasible(qhT *qh, int dim);
 boolT   qh_skipfacet(qhT *qh, facetT *facet);
 char   *qh_skipfilename(qhT *qh, char *filename);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* qhDEFio */
