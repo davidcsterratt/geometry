@@ -28,11 +28,12 @@ test_that("If there are not enough points to construct a simplex, an error is th
 
 test_that("Output to file works", {
   ## To prevent regression in package betapart
-  unlink("vert.txt")
+  fname <- path.expand(file.path(tempdir(), "vert.txt"))
+  unlink(fname)
   tr <- rbind(c(3,1),c(2,1),c(4,3),c(4,2))
-  convhulln(tr, "Fx TO 'vert.txt'")
-  expect_true(file.exists("vert.txt"))
-  vert <- scan("vert.txt")
+  convhulln(tr, paste0("Fx TO '", fname, "'"))
+  expect_true(file.exists(fname))
+  vert <- scan(fname)
   expect_equal(vert, c(4, 2, 1, 0, 3))
 })
 

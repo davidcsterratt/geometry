@@ -58,8 +58,9 @@ test_that("In the case of just one tetrahaedron, delaunayn returns a matrix", {
 test_that("Output to file works", {
   ps <-  matrix(rnorm(3000), ncol=3)
   ps <-  sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1, 3)))
-  pst <- delaunayn(ps, "QJ TO 'test1.txt'")
-  expect_true(file.exists("test1.txt"))
+  fname <- path.expand(file.path(tempdir(), "test1.txt"))
+  pst <- delaunayn(ps, paste0("QJ TO '", fname, "'"))
+  expect_true(file.exists(fname))
 })
 
 test_that("The QJ option can give degenerate simplices", {
