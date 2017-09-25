@@ -38,11 +38,6 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   yitxt = deparse(substitute(yi))
   ttxt  = deparse(substitute(t))
   
-  if (length(x) == 0) {stop(paste(xtxt, "is empty"))}
-  if (length(y) == 0) {stop(paste(ytxt, "is empty"))}
-  if (length(xi) == 0) {stop(paste(xitxt, "is empty"))}
-  if (length(yi) == 0) {stop(paste(yitxt, "is empty"))}
-  
   if (!is.vector(x))  {stop(paste(xtxt, "is not a vector"))}
   if (!is.vector(y))  {stop(paste(ytxt, "is not a vector"))}
   if (!is.matrix(t))  {stop(paste(ttxt, "is not a matrix"))}
@@ -58,6 +53,17 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   if (ncol(t) != 3) {
     stop(paste(ttxt, "does not have three columns"))
   }
+  
+  if (length(x) == 0) {stop(paste(xtxt, "is empty"))}
+  if (length(y) == 0) {stop(paste(ytxt, "is empty"))}}
+  
+  if (length(xi) == 0 | length(yi) == 0) {
+    if (!bary)
+      return (integer(0))
+    else
+      return (list(idx = integer(0), p = matrix(0,0,3)))
+  }
+  
   storage.mode(t) <- "integer"
   if (method == "quadtree") {
     out <- C_tsearch(x, y, t, xi, yi, bary)
