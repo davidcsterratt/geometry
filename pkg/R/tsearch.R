@@ -1,31 +1,37 @@
 ##' Search for the enclosing Delaunay convex hull
 ##' 
-##' For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
+##' For \code{t <- delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
 ##' points, \code{tsearch(x, y, t, xi, yi)} finds the index in \code{t}
 ##' containing the points \code{(xi, yi)}.  For points outside the convex hull
 ##' the index is \code{NA}.
 ##' 
-##' 
 ##' @param x X-coordinates of triangluation points
 ##' @param y Y-coordinates of triangluation points
-##' @param t Triangulation, e.g. produced by \code{t = delaunayn(cbind(x, y))}
+##' @param t Triangulation, e.g. produced by \code{t <-
+##'   delaunayn(cbind(x, y))}
 ##' @param xi X-coordinates of points to test
 ##' @param yi Y-coordinates of points to test
-##' @param bary If \code{TRUE} return barycentric coordinates as well as index
-##' of triangle.
-##' @return If \code{bary} is \code{FALSE}, the index in \code{t} containing
-##' the points \code{(xi, yi)}.  For points outside the convex hull the index
-##' is \code{NA}. If \code{bary} is \code{TRUE}, a list containing:
-##' \item{list("idx")}{the index in \code{t} containing the points \code{(xi,
-##' yi)}} \item{list("p")}{a 3-column matrix containing the barycentric
-##' coordinates with respect to the enclosing triangle of each point code(xi,
-##' yi).}
-##' @author David Sterratt
-##' @note Based on the Octave function Copyright (C) 2007-2012 David Bateman.
+##' @param bary If \code{TRUE} return barycentric coordinates as well
+##'   as index of triangle.
+##' @param method One of \code{"quadtree"} or \code{"orig"}. The
+##'   Quadtree algorithm is much faster and new from version
+##'   0.4.0. The \code{orig} option uses the tsearch algorithm adapted
+##'   from Octave code. Its use is deprecated and it may be removed
+##'   from a future version of the package.
+##' @return If \code{bary} is \code{FALSE}, the index in \code{t}
+##'   containing the points \code{(xi, yi)}.  For points outside the
+##'   convex hull the index is \code{NA}. If \code{bary} is
+##'   \code{TRUE}, a list containing: \item{list("idx")}{the index in
+##'   \code{t} containing the points \code{(xi, yi)}}
+##'   \item{list("p")}{a 3-column matrix containing the barycentric
+##'   coordinates with respect to the enclosing triangle of each point
+##'   code(xi, yi).}
+##' @author Jean-Romain Roussel (Quadtee algorithm), David Sterratt (Octave-based implementation)
+##' @note The orginal Octave function is Copyright (C) 2007-2012, 2017
+##'   David Bateman.
 ##' @seealso tsearchn, delaunayn
 ##' @export
-tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
-  
+tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   xtxt  = deparse(substitute(x))
   ytxt  = deparse(substitute(y))
   xitxt = deparse(substitute(xi))
@@ -53,13 +59,17 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
     stop(paste(ttxt, "does not have three columns"))
   }
   storage.mode(t) <- "integer"
-  out <- C_tsearch(x, y, t, xi, yi, bary)
+  if (method == "quadtree") {
+    out <- C_tsearch(x, y, t, xi, yi, bary)
+  } else {
+    out <- .Call("C_tsearch_orig", x, y, t, xi, yi, bary, package="geometry")
+  }
+
   if (bary) {
     names(out) <- c("idx", "p")
   }
   return(out)
 }
-
 
 ##' Search for the enclosing Delaunay convex hull
 ##' 
@@ -68,27 +78,44 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE) {
 ##' containing the points \code{xi}. For points outside the convex hull,
 ##' \code{idx} is \code{NA}. \code{tsearchn} also returns the barycentric
 ##' coordinates \code{p} of the enclosing triangles.
+##'
+##' If \code{x} is \code{NA} and the \code{t} is a
+##' \code{delaunayTriangulation} object produced by
+##' \code{\link{delaunayn}} with the \code{full} option, then use the
+##' Qhull library to perform the search. Please note that this is
+##' experimental in geometry version 0.4.0 and is only partly tested
+##' for 3D hulls, and does not yet work for hulls of 4 dimensions and
+##' above.
 ##' 
-##' @param x An \code{n}-by-\code{d} matrix.  The rows of \code{x} represent
-##' \code{n} points in \code{d}-dimensional space.
-##' @param t A \code{m}-by-\code{d+1} matrix. A row of \code{t} contains
-##' indices into \code{x} of the vertices of a \code{d}-dimensional simplex.
-##' \code{t} is usually the output of delaunayn.
-##' @param xi An \code{ni}-by-\code{d} matrix.  The rows of \code{xi} represent
-##' \code{n} points in \code{d}-dimensional space whose positions in the mesh
-##' are being sought.
-##' @param fast If the data is in 2D, use the fast C-based \code{tsearch}
-##' function to produce the results.
-##' @return A list containing: \item{list("idx")}{An \code{ni}-long vector
-##' containing the indicies of the row of \code{t} in which each point in
-##' \code{xi} is found.} \item{list("p")}{An \code{ni}-by-\code{d+1} matrix
-##' containing the barycentric coordinates with respect to the enclosing
-##' simplex of each point in \code{xi}.}
+##' @param x An \code{n}-by-\code{d} matrix.  The rows of \code{x}
+##'   represent \code{n} points in \code{d}-dimensional space.
+##' @param t A \code{m}-by-\code{d+1} matrix. A row of \code{t}
+##'   contains indices into \code{x} of the vertices of a
+##'   \code{d}-dimensional simplex.  \code{t} is usually the output of
+##'   delaunayn.
+##' @param xi An \code{ni}-by-\code{d} matrix.  The rows of \code{xi}
+##'   represent \code{n} points in \code{d}-dimensional space whose
+##'   positions in the mesh are being sought.
+##' @param ... Additional arguments
+##' @return A list containing: \item{list("idx")}{An \code{ni}-long
+##'   vector containing the indicies of the row of \code{t} in which
+##'   each point in \code{xi} is found.} \item{list("p")}{An
+##'   \code{ni}-by-\code{d+1} matrix containing the barycentric
+##'   coordinates with respect to the enclosing simplex of each point
+##'   in \code{xi}.}
 ##' @author David Sterratt
-##' @note Based on the Octave function Copyright (C) 2007-2012 David Bateman.
+##' @note Based on the Octave function Copyright (C) 2007-2012 David
+##'   Bateman.
 ##' @seealso tsearch, delaunayn
 ##' @export
-tsearchn <- function(x, t, xi, fast=TRUE) {
+tsearchn <- function(x, t, xi, ...) {
+  if (is.na(x) && inherits(t, "delaunayTriangulation")) {
+    return(tsearchn_delaunayTriangulation(t, xi))
+  }
+  fast <- TRUE
+  if (!is.null(list(...)$fast) & is.logical(list(...)$fast))
+    fast <- list(...)$fast
+
   ## Check input
   if (!is.matrix(x))  {stop(paste(deparse(substitute(x)), "is not a matrix"))}
   if (!is.matrix(t))  {stop(paste(deparse(substitute(t)), "is not a matrix"))}
@@ -249,4 +276,20 @@ cart2bary <- function(X, P) {
 ##' @export
 bary2cart <- function(X, Beta) {
   return(Beta %*% X)
+}
+
+tsearchn_delaunayTriangulation <- function(t, xi) {
+  warning("tsearchn using the Qhull library is currently an experimental feature. It has been tested somewhat for 3D triangulations, but it does not work reliably for 4D triangulations. See https://github.com/davidcsterratt/geometry/issues/6")
+  ts <- .Call("C_tsearchn", t, xi)
+  p <- do.call(rbind,
+               lapply(1:nrow(xi), function(i) {
+                 cart2bary(ts$P[t$tri[ts$idx[i],],], xi[i,,drop=FALSE])
+               }))
+  ## C_tsearchn will return the *best* facet. Need to check it is
+  ## actually in the triangulation
+  outwith_facet_inds <- which(apply(p < 0, 1, any))
+  idx <- ts$idx
+  idx[outwith_facet_inds] <- NA
+  p[outwith_facet_inds,] <- NA
+  return(list(idx=idx, p=p, P=ts$P))
 }

@@ -9,16 +9,26 @@
 ##' 
 ##' @param x \code{n}-by-3 matrix. Each row is one \bold{x}-vector
 ##' @param y \code{n}-by-3 matrix. Each row is one \bold{y}-vector
-##' @return \code{n}-by-3 matrix
+##' @param drop logical. If \code{TRUE} and if the inputs are one row
+##'   matricies or vectors, then delete the dimensions of the array
+##'   returned.
+##' @return If \code{n} is greater than 1 or \code{drop} is
+##'   \code{FALSE}, \code{n}-by-3 matrix; if \code{n} is 1 and
+##'   \code{drop} is \code{TRUE}, a vector of length 3.
 ##' @author Raoul Grasman
 ##' @keywords arith math array
+##' @seealso drop
 ##' @export
 "extprod3d" <-
-function (x, y) 
+function (x, y, drop=TRUE) 
 {
     x = matrix(x, ncol = 3)
     y = matrix(y, ncol = 3)
-    drop(cbind(x[, 2] * y[, 3] - x[, 3] * y[, 2], x[, 3] * y[, 
+    z = cbind(x[, 2] * y[, 3] - x[, 3] * y[, 2], x[, 3] * y[, 
         1] - x[, 1] * y[, 3], x[, 1] * y[, 2] - x[, 2] * y[, 
-        1]))
+                                                           1])
+    if (drop) {
+      return(drop(z))
+    }
+    return(z)
 }

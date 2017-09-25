@@ -6,7 +6,8 @@
 \usage{
 distmesh2d(fd, fh, h0, bbox, p = NULL, pfix = array(0, dim = c(0, 2)), ...,
   dptol = 0.001, ttol = 0.1, Fscale = 1.2, deltat = 0.2, geps = 0.001
-  * h0, deps = sqrt(.Machine$double.eps) * h0, maxiter = 1000)
+  * h0, deps = sqrt(.Machine$double.eps) * h0, maxiter = 1000,
+  plot = TRUE)
 }
 \arguments{
 \item{fd}{Vectorized signed distance function, for example
@@ -14,28 +15,28 @@ distmesh2d(fd, fh, h0, bbox, p = NULL, pfix = array(0, dim = c(0, 2)), ...,
 an \code{n}-by-\code{2} matrix, where \code{n} is arbitrary, as
 the first argument.}
 
-\item{fh}{Vectorized function, for example \code{\link{mesh.hunif}},
-that returns desired edge length as a function of position.
-Accepts an \code{n}-by-\code{2} matrix, where \code{n} is
-arbitrary, as its first argument.}
+\item{fh}{Vectorized function, for example
+\code{\link{mesh.hunif}}, that returns desired edge length as a
+function of position.  Accepts an \code{n}-by-\code{2} matrix,
+where \code{n} is arbitrary, as its first argument.}
 
-\item{h0}{Initial distance between mesh nodes. (Ignored of \code{p} is
-supplied)}
+\item{h0}{Initial distance between mesh nodes. (Ignored of
+\code{p} is supplied)}
 
 \item{bbox}{Bounding box cbind(c(xmin,xmax), c(ymin,ymax))}
 
-\item{p}{An \code{n}-by-\code{2} matrix. The rows of \code{p} represent
-locations of starting mesh nodes.}
+\item{p}{An \code{n}-by-\code{2} matrix. The rows of \code{p}
+represent locations of starting mesh nodes.}
 
 \item{pfix}{\code{nfix}-by-2 matrix with fixed node positions.}
 
 \item{\dots}{parameters to be passed to \code{fd} and/or \code{fh}}
 
-\item{dptol}{Algorithm stops when all node movements are smaller than
-\code{dptol}}
+\item{dptol}{Algorithm stops when all node movements are smaller
+than \code{dptol}}
 
-\item{ttol}{Controls how far the points can move (relatively) before a
-retriangulation with \code{\link{delaunayn}}.}
+\item{ttol}{Controls how far the points can move (relatively)
+before a retriangulation with \code{\link{delaunayn}}.}
 
 \item{Fscale}{\dQuote{Internal pressure} in the edges.}
 
@@ -43,10 +44,13 @@ retriangulation with \code{\link{delaunayn}}.}
 
 \item{geps}{Tolerance in the geometry evaluations.}
 
-\item{deps}{Stepsize \eqn{\Delta x} in numerical derivative computation for
-distance function.}
+\item{deps}{Stepsize \eqn{\Delta x} in numerical derivative
+computation for distance function.}
 
 \item{maxiter}{Maximum iterations.}
+
+\item{plot}{logical.  If \code{TRUE} (default), the mesh is
+plotted as it is generated.}
 }
 \value{
 \code{n}-by-\code{2} matrix with node positions.
@@ -85,9 +89,9 @@ See the references below for all details. Also, see the comments in the
 source file.
 }
 \section{Wishlist }{
- \itemize{ \item*Implement in C/Fortran \item*Implement
-an \code{n}D version as provided in the matlab package \item*Translate
-other functions of the matlab package }
+ \itemize{ \item*Implement in C/Fortran
+  \item*Implement an \code{n}D version as provided in the matlab
+  package \item*Translate other functions of the matlab package }
 }
 
 \examples{
@@ -117,9 +121,9 @@ Review, Volume 46 (2), pp. 329-345, June 2004}
 }
 \seealso{
 \code{\link[tripack]{tri.mesh}}, \code{\link{delaunayn}},
-\code{\link{mesh.dcircle}}, \code{\link{mesh.drectangle}},\cr
-\code{\link{mesh.diff}}, \code{\link{mesh.union}},
-\code{\link{mesh.intersect}}
+  \code{\link{mesh.dcircle}}, \code{\link{mesh.drectangle}},
+  \code{\link{mesh.diff}}, \code{\link{mesh.union}},
+  \code{\link{mesh.intersect}}
 }
 \author{
 Raoul Grasman

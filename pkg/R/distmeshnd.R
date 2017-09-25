@@ -112,7 +112,7 @@ function (fdist, fh, h, box, pfix = array(dim = c(0, ncol(box))),
         stop("Not enough starting points inside boundary (is h0 too large?).")
     on.exit(return(invisible(p)))
 
-    cat("Press esc if the mesh seems fine but the algorithm hasn't converged.\n")
+    message("Press esc if the mesh seems fine but the algorithm hasn't converged.")
     utils::flush.console()
     count = 0
 
@@ -148,7 +148,7 @@ function (fdist, fh, h, box, pfix = array(dim = c(0, ncol(box))),
                 }
             }
             else {
-                cat("Retriangulation #", 15, "\n")
+                message("Retriangulation #", 15)
                 utils::flush.console()
             }
             count = count + 1

@@ -1,10 +1,10 @@
-/*<html><pre>  -<a                             href="qh-mem.htm"
+/*<html><pre>  -<a                             href="qh-mem_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    mem_r.h
      prototypes for memory management functions
 
-   see qh-mem.htm, mem_r.c and qset_r.h
+   see qh-mem_r.htm, mem_r.c and qset_r.h
 
    for error handling, writes message and calls
      qh_errexit(qhT *qh, qhmem_ERRmem, NULL, NULL) if insufficient memory
@@ -12,8 +12,8 @@
      qh_errexit(qhT *qh, qhmem_ERRqhull, NULL, NULL) otherwise
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/mem_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/mem_r.h#4 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -31,7 +31,7 @@ typedef struct setT setT;          /* defined in qset_r.h */
 typedef struct qhT qhT;          /* defined in libqhull_r.h */
 #endif
 
-/*-<a                             href="qh-mem.htm#TOC"
+/*-<a                             href="qh-mem_r.htm#TOC"
   >-------------------------------</a><a name="NOmem">-</a>
 
   qh_NOmem
@@ -46,7 +46,7 @@ typedef struct qhT qhT;          /* defined in libqhull_r.h */
    #define qh_NOmem
 */
 
-/*-<a                             href="qh-mem.htm#TOC"
+/*-<a                             href="qh-mem_r.htm#TOC"
 >-------------------------------</a><a name="TRACEshort">-</a>
 
 qh_TRACEshort
@@ -72,7 +72,7 @@ Trace short and quick memory allocations at T5
 #define qhmem_ERRmem 4    /* matches qh_ERRmem in libqhull_r.h */
 #define qhmem_ERRqhull 5  /* matches qh_ERRqhull in libqhull_r.h */
 
-/*-<a                             href="qh-mem.htm#TOC"
+/*-<a                             href="qh-mem_r.htm#TOC"
   >--------------------------------</a><a name="ptr_intT">-</a>
 
   ptr_intT
@@ -96,7 +96,7 @@ typedef long long ptr_intT;
 typedef long ptr_intT;
 #endif
 
-/*-<a                             href="qh-mem.htm#TOC"
+/*-<a                             href="qh-mem_r.htm#TOC"
   >--------------------------------</a><a name="qhmemT">-</a>
 
   qhmemT
@@ -153,10 +153,10 @@ struct qhmemT {               /* global memory management variables */
 
 /*==================== -macros ====================*/
 
-/*-<a                             href="qh-mem.htm#TOC"
+/*-<a                             href="qh-mem_r.htm#TOC"
   >--------------------------------</a><a name="memalloc_">-</a>
 
-  qh_memalloc_(qh, freelistp, insize, object, type)
+  qh_memalloc_(qh, insize, freelistp, object, type)
     returns object of size bytes
         assumes size<=qh->qhmem.LASTsize and void **freelistp is a temp
 */
@@ -180,7 +180,7 @@ struct qhmemT {               /* global memory management variables */
   }else object= (type*)qh_memalloc(qh, insize);}
 #endif
 
-/*-<a                             href="qh-mem.htm#TOC"
+/*-<a                             href="qh-mem_r.htm#TOC"
   >--------------------------------</a><a name="memfree_">-</a>
 
   qh_memfree_(qh, object, insize, freelistp)
@@ -211,6 +211,10 @@ struct qhmemT {               /* global memory management variables */
 
 /*=============== prototypes in alphabetical order ============*/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void *qh_memalloc(qhT *qh, int insize);
 void qh_memcheck(qhT *qh);
 void qh_memfree(qhT *qh, void *object, int insize);
@@ -222,5 +226,9 @@ void qh_memsetup(qhT *qh);
 void qh_memsize(qhT *qh, int size);
 void qh_memstatistics(qhT *qh, FILE *fp);
 void qh_memtotal(qhT *qh, int *totlong, int *curlong, int *totshort, int *curshort, int *maxlong, int *totbuffer);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* qhDEFmem */

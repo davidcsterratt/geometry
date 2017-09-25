@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.4.0 - Released 2017/05/10
+CHANGES IN VERSION 0.4.0 - Released 2017/09/??
 
 API CHANGES
 
@@ -10,14 +10,22 @@ API CHANGES
   into line with Octave, and very similar to matlab and
   scipy.spatial.Delaunayn .
 
+* distmesh2d() has a plot option
+  https://github.com/davidcsterratt/geometry/issues/15
+  The new plot option (TRUE by default) allows plotting to during mesh
+  generation to be suspended, which is useful for running tests. The
+  use of cat() has been replaced by message(), meaning messages can be
+  supressed, for example during tests.
+
+* extprod3d() has a "drop" option
+  https://github.com/davidcsterratt/geometry/issues/16
+  Setting drop=FALSE guarantees that the output of extprod3d() is an
+  array rather than a vector, even when presented with two vectors.
+
 NEW FUNCTIONS
 
 * New function inhulln() to test if points are in a hull
   https://github.com/davidcsterratt/geometry/issues/1
-
-* convhulln() now returns a pointer to the qhull object representing
-  the hull
-  https://github.com/davidcsterratt/geometry/issues/2
 
 BUG FIXES
 
@@ -45,6 +53,21 @@ CODE IMPROVEMENTS
 * The new reentrant Qhull library is used, as a precursor to allowing
   Qhull objects to be returned and operated on
   https://github.com/davidcsterratt/geometry/issues/3
+
+* convhulln() now returns a pointer to the qhull object representing
+  the hull.
+  https://github.com/davidcsterratt/geometry/issues/2
+  This is used in the inhull() implementation
+
+* delaunayn() now returns a pointer to the qhull object representing
+  the triangulation
+  https://github.com/davidcsterratt/geometry/issues/7
+
+* tsearchn() can take an delaunay object, which should give fast
+  performance
+  https://github.com/davidcsterratt/geometry/issues/6
+  NOTE: This feature is experimental and has only been tested
+  on 3D triangulations
 
 * Test added for polyarea()
   Thanks to Toby Hocking for suggesting adding one

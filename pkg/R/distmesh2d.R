@@ -32,39 +32,41 @@
 ##' source file.
 ##' 
 ##' @param fd Vectorized signed distance function, for example
-##' \code{\link{mesh.dcircle}} or \code{\link{mesh.diff}}, accepting
-##' an \code{n}-by-\code{2} matrix, where \code{n} is arbitrary, as
-##' the first argument.
-##' @param fh Vectorized function, for example \code{\link{mesh.hunif}},
-##' that returns desired edge length as a function of position.
-##' Accepts an \code{n}-by-\code{2} matrix, where \code{n} is
-##' arbitrary, as its first argument.
-##' @param h0 Initial distance between mesh nodes. (Ignored of \code{p} is
-##' supplied)
+##'   \code{\link{mesh.dcircle}} or \code{\link{mesh.diff}}, accepting
+##'   an \code{n}-by-\code{2} matrix, where \code{n} is arbitrary, as
+##'   the first argument.
+##' @param fh Vectorized function, for example
+##'   \code{\link{mesh.hunif}}, that returns desired edge length as a
+##'   function of position.  Accepts an \code{n}-by-\code{2} matrix,
+##'   where \code{n} is arbitrary, as its first argument.
+##' @param h0 Initial distance between mesh nodes. (Ignored of
+##'   \code{p} is supplied)
 ##' @param bbox Bounding box cbind(c(xmin,xmax), c(ymin,ymax))
-##' @param p An \code{n}-by-\code{2} matrix. The rows of \code{p} represent
-##' locations of starting mesh nodes.
+##' @param p An \code{n}-by-\code{2} matrix. The rows of \code{p}
+##'   represent locations of starting mesh nodes.
 ##' @param pfix \code{nfix}-by-2 matrix with fixed node positions.
 ##' @param \dots parameters to be passed to \code{fd} and/or \code{fh}
-##' @param dptol Algorithm stops when all node movements are smaller than
-##' \code{dptol}
-##' @param ttol Controls how far the points can move (relatively) before a
-##' retriangulation with \code{\link{delaunayn}}.
+##' @param dptol Algorithm stops when all node movements are smaller
+##'   than \code{dptol}
+##' @param ttol Controls how far the points can move (relatively)
+##'   before a retriangulation with \code{\link{delaunayn}}.
 ##' @param Fscale \dQuote{Internal pressure} in the edges.
 ##' @param deltat Size of the time step in Eulers method.
 ##' @param geps Tolerance in the geometry evaluations.
-##' @param deps Stepsize \eqn{\Delta x} in numerical derivative computation for
-##' distance function.
+##' @param deps Stepsize \eqn{\Delta x} in numerical derivative
+##'   computation for distance function.
 ##' @param maxiter Maximum iterations.
+##' @param plot logical.  If \code{TRUE} (default), the mesh is
+##'   plotted as it is generated.
 ##' @return \code{n}-by-\code{2} matrix with node positions.
-##' @section Wishlist : \itemize{ \item*Implement in C/Fortran \item*Implement
-##' an \code{n}D version as provided in the matlab package \item*Translate
-##' other functions of the matlab package }
+##' @section Wishlist : \itemize{ \item*Implement in C/Fortran
+##'   \item*Implement an \code{n}D version as provided in the matlab
+##'   package \item*Translate other functions of the matlab package }
 ##' @author Raoul Grasman
 ##' @seealso \code{\link[tripack]{tri.mesh}}, \code{\link{delaunayn}},
-##' \code{\link{mesh.dcircle}}, \code{\link{mesh.drectangle}},\cr
-##' \code{\link{mesh.diff}}, \code{\link{mesh.union}},
-##' \code{\link{mesh.intersect}}
+##'   \code{\link{mesh.dcircle}}, \code{\link{mesh.drectangle}},
+##'   \code{\link{mesh.diff}}, \code{\link{mesh.union}},
+##'   \code{\link{mesh.intersect}}
 ##' @references \url{http://persson.berkeley.edu/distmesh/}
 ##' 
 ##' \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator in MATLAB. SIAM
@@ -93,7 +95,7 @@
 distmesh2d <- function(fd, fh, h0, bbox, p=NULL, pfix=array(0,dim=c(0,2)), ...,
                        dptol=0.001, ttol=0.1, Fscale=1.2, deltat=0.2,
                        geps=0.001*h0, deps=sqrt(.Machine$double.eps)*h0,
-                       maxiter=1000)
+                       maxiter=1000, plot=TRUE)
 {
   rownorm2 = function(x) drop(sqrt((x^2)%*%c(1, 1)))
 
@@ -126,8 +128,8 @@ distmesh2d <- function(fd, fh, h0, bbox, p=NULL, pfix=array(0,dim=c(0,2)), ...,
     stop("Not enough starting points inside boundary (is h0 too large?).")
 
   on.exit(return(invisible(p)));                 # in case we need to stop earlier
-  cat("Press esc if the mesh seems fine but the algorithm hasn't converged.\n")
-  utils::flush.console();
+  message("Press esc if the mesh seems fine but the algorithm hasn't converged.")
+  utils::flush.console()
 
   #%3 main loop: iterative improvement of points
   pold = 1.0/.Machine$double.eps;
@@ -151,7 +153,8 @@ distmesh2d <- function(fd, fh, h0, bbox, p=NULL, pfix=array(0,dim=c(0,2)), ...,
         bars = Unique(matsort(bars))                          # order the edges according to the node indices
 
         #%5 Graphical display
-        trimesh(T, p, asp=1)         # a la Matlab
+        if (plot)
+          trimesh(T, p, asp=1)         # a la Matlab
     }
 
     #%6 compute force F on the basis of edge lenghts
@@ -207,8 +210,8 @@ distmesh2d <- function(fd, fh, h0, bbox, p=NULL, pfix=array(0,dim=c(0,2)), ...,
     if(max(rownorm2(deltat*Ftot[d < (-geps),])/h0) < dptol | iter>=maxiter) break;
     iter = iter + 1
   }
-  cat(sprintf("Number of density control ops = %d\n",count2))
-  cat(sprintf("Number of iterations = %d\n",iter))
+  message(sprintf("Number of density control ops = %d",count2))
+  message(sprintf("Number of iterations = %d",iter))
   if (iter >= maxiter) 
     warning(" Maximum iterations reached. Relaxation process not \n completed")
   return(p)

@@ -1,8 +1,9 @@
-/*<html><pre>  -<a                             href="qh-qhull.htm"
+/*<html><pre>  -<a                             href="qh-qhull_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    qhull_ra.h
    all header files for compiling qhull with reentrant code
+   included before C++ headers for user_r.h:QHULL_CRTDBG
 
    see qh-qhull.htm
 
@@ -13,8 +14,8 @@
    defines internal functions for libqhull_r.c global_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/qhull_ra.h#2 $$Change: 1995 $
-   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/qhull_ra.h#6 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -24,7 +25,7 @@
 #ifndef qhDEFqhulla
 #define qhDEFqhulla 1
 
-#include "libqhull_r.h"  /* Defines data types */
+#include "libqhull_r.h"  /* Includes user_r.h and data types */
 
 #include "stat_r.h"
 #include "random_r.h"
@@ -64,7 +65,7 @@
 
 /* ======= -macros- =========== */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="traceN">-</a>
 
   traceN((qh, qh->ferr, 0Nnnn, "format\n", vars));
@@ -91,23 +92,25 @@
 #define trace5(args) {}
 #endif /* qh_NOtrace */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="QHULL_UNUSED">-</a>
+
+  Define an unused variable to avoid compiler warnings
+
+  Derived from Qt's corelib/global/qglobal.h
 
 */
 
-/* See Qt's qglobal.h */
-#if !defined(SAG_COM) && (defined(WIN64) || defined(_WIN64) || defined(__WIN64__) || defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__))
-#   define QHULL_OS_WIN
-#elif defined(__MWERKS__) && defined(__INTEL__)
-#   define QHULL_OS_WIN
-#endif
 #if defined(__cplusplus) && defined(__INTEL_COMPILER) && !defined(QHULL_OS_WIN)
 template <typename T>
-inline void qhullUnused(typename T &x) { (void)x; }
+inline void qhullUnused(T &x) { (void)x; }
 #  define QHULL_UNUSED(x) qhullUnused(x);
 #else
 #  define QHULL_UNUSED(x) (void)x;
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 /***** -libqhull_r.c prototypes (alphabetical after qhull) ********************/
@@ -147,5 +150,9 @@ void    qh_allstatG(qhT *qh);
 void    qh_allstatH(qhT *qh);
 void    qh_freebuffers(qhT *qh);
 void    qh_initbuffers(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* qhDEFqhulla */

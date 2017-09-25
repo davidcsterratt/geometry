@@ -134,5 +134,6 @@ function(p, options=NULL, full=FALSE) {
   if (!full) {
     return(ret$tri)
   }
+  class(ret) <- "delaunayTriangulation"
   return(ret)
 }

@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2015 C.B. Barber.
-   $Id: //main/2015/qhull/src/libqhull_r/merge_r.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/merge_r.c#5 $$Change: 2064 $
+   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -893,6 +893,7 @@ void qh_findbest_test(qhT *qh, boolT testcentrum, facetT *facet, facetT *neighbo
     returns min and max distances and their max absolute value
 
   notes:
+    error if qh_ASvoronoi
     avoids merging old into new
     assumes ridge->nonconvex only set on one ridge between a pair of facets
     could use an early out predicate but not worth it
@@ -915,6 +916,10 @@ facetT *qh_findbestneighbor(qhT *qh, facetT *facet, realT *distp, realT *mindist
   boolT nonconvex= True, testcentrum= False;
   int size= qh_setsize(qh, facet->vertices);
 
+  if(qh->CENTERtype==qh_ASvoronoi){
+    qh_fprintf(qh, qh->ferr, 6272, "qhull error: cannot call qh_findbestneighor for f%d while qh.CENTERtype is qh_ASvoronoi\n", facet->id);
+    qh_errexit(qh, qh_ERRqhull, facet, NULL);
+  }
   *distp= REALmax;
   if (size > qh_BESTcentrum2 * qh->hull_dim + qh_BESTcentrum) {
     testcentrum= True;
@@ -939,7 +944,6 @@ facetT *qh_findbestneighbor(qhT *qh, facetT *facet, realT *distp, realT *mindist
   }
   if (!bestfacet) {
     qh_fprintf(qh, qh->ferr, 6095, "qhull internal error (qh_findbestneighbor): no neighbors for f%d\n", facet->id);
-
     qh_errexit(qh, qh_ERRqhull, facet, NULL);
   }
   if (testcentrum)
@@ -1043,6 +1047,7 @@ void qh_flippedmerges(qhT *qh, facetT *facetlist, boolT *wasmerge) {
   design:
     for each duplicate ridge
       find current facets by chasing f.replace links
+      check for wide merge due to duplicate ridge
       determine best direction for facet
       merge one facet into the other
       remove duplicate ridges from qh.facet_mergeset
@@ -1063,6 +1068,8 @@ void qh_forcedmerges(qhT *qh, boolT *wasmerge) {
   FOREACHmerge_(othermerges) {
     if (merge->type != MRGridge)
         continue;
+    if (qh->TRACEmerge-1 == zzval_(Ztotmerge))
+        qh->qhmem.IStracing= qh->IStracing= qh->TRACElevel;
     facet1= merge->facet1;
     facet2= merge->facet2;
     while (facet1->visible)      /* must exist, no qh_merge_degenredunant */
@@ -1076,12 +1083,9 @@ void qh_forcedmerges(qhT *qh, boolT *wasmerge) {
                merge->facet1->id, merge->facet2->id, facet1->id, facet2->id);
       qh_errexit2(qh, qh_ERRqhull, facet1, facet2);
     }
-    if (qh->TRACEmerge-1 == zzval_(Ztotmerge))
-      qh->qhmem.IStracing= qh->IStracing= qh->TRACElevel;
     dist1= qh_getdistance(qh, facet1, facet2, &mindist1, &maxdist1);
     dist2= qh_getdistance(qh, facet2, facet1, &mindist2, &maxdist2);
-    trace0((qh, qh->ferr, 16, "qh_forcedmerges: duplicate ridge between f%d and f%d, dist %2.2g and reverse dist %2.2g during p%d\n",
-            facet1->id, facet2->id, dist1, dist2, qh->furthest_id));
+    qh_check_dupridge(qh, facet1, dist1, facet2, dist2);
     if (dist1 < dist2)
       qh_mergefacet(qh, facet1, facet2, &mindist1, &maxdist1, !qh_MERGEapex);
     else {
@@ -1432,7 +1436,7 @@ void qh_makeridges(qhT *qh, facetT *facet) {
   notes:
     duplicate ridges occur when the horizon is pinched,
         i.e. a subridge occurs in more than two horizon ridges.
-    could rename vertices that pinch the horizon
+    could rename vertices that pinch the horizon (thus removing subridge)
     uses qh.visit_id
 
   design:
