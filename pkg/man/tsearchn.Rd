@@ -41,7 +41,7 @@ If \code{x} is \code{NA} and the \code{t} is a
 \code{delaunayTriangulation} object produced by
 \code{\link{delaunayn}} with the \code{full} option, then use the
 Qhull library to perform the search. Please note that this is
-experimental in geomtry version 0.4.0 and is only partly tested
+experimental in geometry version 0.4.0 and is only partly tested
 for 3D hulls, and does not yet work for hulls of 4 dimensions and
 above.
 }

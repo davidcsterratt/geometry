@@ -11,7 +11,7 @@ tsearch(x, y, t, xi, yi, bary = FALSE, method = "quadtree")
 
 \item{y}{Y-coordinates of triangluation points}
 
-\item{t}{Triangulation, e.g. produced by \code{t =
+\item{t}{Triangulation, e.g. produced by \code{t <-
 delaunayn(cbind(x, y))}}
 
 \item{xi}{X-coordinates of points to test}
@@ -21,8 +21,11 @@ delaunayn(cbind(x, y))}}
 \item{bary}{If \code{TRUE} return barycentric coordinates as well
 as index of triangle.}
 
-\item{method}{One of \code{"quadtree"} or \code{"orig"}. Quadtree
-is faster but not tested as much.}
+\item{method}{One of \code{"quadtree"} or \code{"orig"}. The
+Quadtree algorithm is much faster and new from version
+0.4.0. The \code{orig} option uses the tsearch algorithm adapted
+from Octave code. Its use is deprecated and it may be removed
+from a future version of the package.}
 }
 \value{
 If \code{bary} is \code{FALSE}, the index in \code{t}
@@ -35,18 +38,18 @@ If \code{bary} is \code{FALSE}, the index in \code{t}
   code(xi, yi).}
 }
 \description{
-For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
+For \code{t <- delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
 points, \code{tsearch(x, y, t, xi, yi)} finds the index in \code{t}
 containing the points \code{(xi, yi)}.  For points outside the convex hull
 the index is \code{NA}.
 }
 \note{
-Based on the Octave function Copyright (C) 2007-2012, 2017
+The orginal Octave function is Copyright (C) 2007-2012, 2017
   David Bateman.
 }
 \seealso{
 tsearchn, delaunayn
 }
 \author{
-David Sterratt
+Jean-Romain Roussel (Quadtee algorithm), David Sterratt (Octave-based implementation)
 }
