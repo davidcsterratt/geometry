@@ -1,21 +1,23 @@
 ##' Search for the enclosing Delaunay convex hull
 ##' 
-##' For \code{t = delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
+##' For \code{t <- delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
 ##' points, \code{tsearch(x, y, t, xi, yi)} finds the index in \code{t}
 ##' containing the points \code{(xi, yi)}.  For points outside the convex hull
 ##' the index is \code{NA}.
 ##' 
-##' 
 ##' @param x X-coordinates of triangluation points
 ##' @param y Y-coordinates of triangluation points
-##' @param t Triangulation, e.g. produced by \code{t =
+##' @param t Triangulation, e.g. produced by \code{t <-
 ##'   delaunayn(cbind(x, y))}
 ##' @param xi X-coordinates of points to test
 ##' @param yi Y-coordinates of points to test
 ##' @param bary If \code{TRUE} return barycentric coordinates as well
 ##'   as index of triangle.
-##' @param method One of \code{"quadtree"} or \code{"orig"}. Quadtree
-##'   is faster but not tested as much.
+##' @param method One of \code{"quadtree"} or \code{"orig"}. The
+##'   Quadtree algorithm is much faster and new from version
+##'   0.4.0. The \code{orig} option uses the tsearch algorithm adapted
+##'   from Octave code. Its use is deprecated and it may be removed
+##'   from a future version of the package.
 ##' @return If \code{bary} is \code{FALSE}, the index in \code{t}
 ##'   containing the points \code{(xi, yi)}.  For points outside the
 ##'   convex hull the index is \code{NA}. If \code{bary} is
@@ -24,8 +26,8 @@
 ##'   \item{list("p")}{a 3-column matrix containing the barycentric
 ##'   coordinates with respect to the enclosing triangle of each point
 ##'   code(xi, yi).}
-##' @author David Sterratt
-##' @note Based on the Octave function Copyright (C) 2007-2012, 2017
+##' @author Jean-Romain Roussel (Quadtee algorithm), David Sterratt (Octave-based implementation)
+##' @note The orginal Octave function is Copyright (C) 2007-2012, 2017
 ##'   David Bateman.
 ##' @seealso tsearchn, delaunayn
 ##' @export
@@ -69,7 +71,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
 ##' \code{delaunayTriangulation} object produced by
 ##' \code{\link{delaunayn}} with the \code{full} option, then use the
 ##' Qhull library to perform the search. Please note that this is
-##' experimental in geomtry version 0.4.0 and is only partly tested
+##' experimental in geometry version 0.4.0 and is only partly tested
 ##' for 3D hulls, and does not yet work for hulls of 4 dimensions and
 ##' above.
 ##' 
