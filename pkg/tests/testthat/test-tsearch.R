@@ -21,6 +21,41 @@ test_that("tsearch gives the expected output", {
   expect_true(is.na(ts))
 })
 
+test_that("tsearch can deal with faulty input", {
+  x <- c(-1, -1, 1)
+  y <- c(-1, 1, -1)
+  p <- cbind(x, y)
+  tri <- matrix(c(1, 2, 3), 1, 3)
+
+  ## NULLs and NAs
+  ## expect_error(tsearch(x, y, tri, NA, NA))
+  expect_error(tsearch(x, y, NA, -1, 1))
+  expect_error(tsearch(NA, NA, tri, -1, 1))
+  expect_error(tsearch(x, y, tri, NULL, NULL))
+  expect_error(tsearch(x, y, NULL, -1, 1))
+  expect_error(tsearch(NULL, NULL, tri, -1, 1))
+
+  ## Wrong number of columns
+  expect_error(tsearch(p, 0, tri, -1, 1))
+
+  ## Non-integer triangulation
+  expect_error(tsearch(x, y, matrix(runif(15), 5, 3), -1, 1))
+
+  ## Wrong number of columns in triangulation
+  expect_error(tsearch(x, y, matrix(1:4, 4, 2), -1, 1))
+
+  ## Mismatch in x and y lengths
+  expect_error(tsearch(x, y[-1], tri, -1, 1))
+
+  ## Mismatch in xi and yi lengths
+  expect_error(tsearch(x, y, tri, c(-1, 1), 1))
+
+  ## A subtle one! This gives numeric(0) as the final arguments...
+  ## ps <- matrix(0, 0, 2)
+  ## expect_error(tsearch(x, y, tri, ps[,1], ps[,2]))
+  
+})
+
 ## See
 ## http://totologic.blogspot.co.uk/2014/01/accurate-point-in-triangle-test.html
 ## for inspiration for the test below
