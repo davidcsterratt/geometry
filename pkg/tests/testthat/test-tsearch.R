@@ -50,9 +50,11 @@ test_that("tsearch can deal with faulty input", {
   ## Mismatch in xi and yi lengths
   expect_error(tsearch(x, y, tri, c(-1, 1), 1))
 
-  ## A subtle one! This gives numeric(0) as the final arguments...
-  ## ps <- matrix(0, 0, 2)
-  ## expect_error(tsearch(x, y, tri, ps[,1], ps[,2]))
+  ## A subtle one! This gives numeric(0) as the final arguments and
+  ## should give idx with no elements and a 0x3 matrix for p
+  ps <- matrix(0, 0, 2)
+  expect_equal(tsearch(x, y, tri, ps[,1], ps[,2], bary=TRUE),
+               list(idx=integer(0), p=matrix(0, 0, 3)))
   
 })
 

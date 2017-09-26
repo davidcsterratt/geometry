@@ -55,7 +55,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   }
   
   if (length(x) == 0) {stop(paste(xtxt, "is empty"))}
-  if (length(y) == 0) {stop(paste(ytxt, "is empty"))}}
+  if (length(y) == 0) {stop(paste(ytxt, "is empty"))}
   
   if (length(xi) == 0 | length(yi) == 0) {
     if (!bary)
