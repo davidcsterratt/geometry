@@ -5,8 +5,8 @@
 ##' containing the points \code{(xi, yi)}.  For points outside the convex hull
 ##' the index is \code{NA}.
 ##' 
-##' @param x X-coordinates of triangluation points
-##' @param y Y-coordinates of triangluation points
+##' @param x X-coordinates of triangulation points
+##' @param y Y-coordinates of triangulation points
 ##' @param t Triangulation, e.g. produced by \code{t <-
 ##'   delaunayn(cbind(x, y))}
 ##' @param xi X-coordinates of points to test
