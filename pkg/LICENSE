@@ -1,7 +1,8 @@
 This package is available under GPL (>= 3).
 
 All files in src/ apart from Rgeometry.h, Rconvhulln.c, Rdelaunayn.c
-and Rtsearch.c are taken from or based on Qhull
+Rtsearchn.c, Rtsearch_orig.c, Rtsearch.cpp, RcppExports.cpp,
+Rinhulln.c and geometry_init.c are taken from or based on Qhull
 (http://www.qhull.org/), and covered by the following license from
 Qhull 2012.1:
 
