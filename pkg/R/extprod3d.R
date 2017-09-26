@@ -10,7 +10,7 @@
 ##' @param x \code{n}-by-3 matrix. Each row is one \bold{x}-vector
 ##' @param y \code{n}-by-3 matrix. Each row is one \bold{y}-vector
 ##' @param drop logical. If \code{TRUE} and if the inputs are one row
-##'   matricies or vectors, then delete the dimensions of the array
+##'   matrices or vectors, then delete the dimensions of the array
 ##'   returned.
 ##' @return If \code{n} is greater than 1 or \code{drop} is
 ##'   \code{FALSE}, \code{n}-by-3 matrix; if \code{n} is 1 and

@@ -1,11 +1,11 @@
 ##' Compute smallest convex hull that encloses a set of points
 ##' 
 ##' Returns an index matrix to the points of simplices
-##' (\dQuote{triangles}) that form the smallest convex simplicial
+##' (\dQuote{triangles}) that form the smallest convex simplical
 ##' complex of a set of input points in N-dimensional space. This
 ##' function interfaces the Qhull library.
 ##' 
-##' For slient operation, specify the option \code{Pp}. 
+##' For silent operation, specify the option \code{Pp}. 
 ##'
 ##' @param p An \code{n}-by-\code{dim} matrix.  The rows of \code{p} represent
 ##' \code{n} points in \code{dim}-dimensional space.

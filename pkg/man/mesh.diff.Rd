@@ -4,7 +4,7 @@
 \alias{mesh.diff}
 \alias{mesh.union}
 \alias{mesh.intersect}
-\title{Difference, union and intesection operation on  two regions}
+\title{Difference, union and intersection operation on  two regions}
 \usage{
 mesh.diff(p, regionA, regionB, ...)
 }

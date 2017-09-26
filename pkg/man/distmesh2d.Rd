@@ -23,7 +23,7 @@ where \code{n} is arbitrary, as its first argument.}
 \item{h0}{Initial distance between mesh nodes. (Ignored of
 \code{p} is supplied)}
 
-\item{bbox}{Bounding box cbind(c(xmin,xmax), c(ymin,ymax))}
+\item{bbox}{Bounding box \code{cbind(c(xmin,xmax), c(ymin,ymax))}}
 
 \item{p}{An \code{n}-by-\code{2} matrix. The rows of \code{p}
 represent locations of starting mesh nodes.}
@@ -40,7 +40,7 @@ before a retriangulation with \code{\link{delaunayn}}.}
 
 \item{Fscale}{\dQuote{Internal pressure} in the edges.}
 
-\item{deltat}{Size of the time step in Eulers method.}
+\item{deltat}{Size of the time step in Euler's method.}
 
 \item{geps}{Tolerance in the geometry evaluations.}
 
@@ -56,9 +56,9 @@ plotted as it is generated.}
 \code{n}-by-\code{2} matrix with node positions.
 }
 \description{
-An unstructured simplex requires a choice of meshpoints (vertex nodes) and
+An unstructured simplex requires a choice of mesh points (vertex nodes) and
 a triangulation.  This is a simple and short algorithm that improves the
-quality of a mesh by relocating the meshpoints according to a relaxation
+quality of a mesh by relocating the mesh points according to a relaxation
 scheme of forces in a truss structure. The topology of the truss is reset
 using Delaunay triangulation. A (sufficiently smooth) user supplied signed
 distance function (\code{fd}) indicates if a given node is inside or
@@ -90,8 +90,8 @@ source file.
 }
 \section{Wishlist }{
  \itemize{ \item*Implement in C/Fortran
-  \item*Implement an \code{n}D version as provided in the matlab
-  package \item*Translate other functions of the matlab package }
+  \item*Implement an \code{n}D version as provided in the Matlab
+  package \item*Translate other functions of the Matlab package }
 }
 
 \examples{

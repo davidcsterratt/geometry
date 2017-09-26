@@ -25,9 +25,9 @@
 ##'   \code{t} containing the points \code{(xi, yi)}}
 ##'   \item{list("p")}{a 3-column matrix containing the barycentric
 ##'   coordinates with respect to the enclosing triangle of each point
-##'   code(xi, yi).}
-##' @author Jean-Romain Roussel (Quadtee algorithm), David Sterratt (Octave-based implementation)
-##' @note The orginal Octave function is Copyright (C) 2007-2012, 2017
+##'   \code{(xi, yi)}.
+##' @author Jean-Romain Roussel (Quadtree algorithm), David Sterratt (Octave-based implementation)
+##' @note The original Octave function is Copyright (C) 2007-2012, 2017
 ##'   David Bateman.
 ##' @seealso tsearchn, delaunayn
 ##' @export
@@ -104,7 +104,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
 ##'   positions in the mesh are being sought.
 ##' @param ... Additional arguments
 ##' @return A list containing: \item{list("idx")}{An \code{ni}-long
-##'   vector containing the indicies of the row of \code{t} in which
+##'   vector containing the indices of the row of \code{t} in which
 ##'   each point in \code{xi} is found.} \item{list("p")}{An
 ##'   \code{ni}-by-\code{d+1} matrix containing the barycentric
 ##'   coordinates with respect to the enclosing simplex of each point

@@ -2,13 +2,13 @@
 % Please edit documentation in R/cart2sph.R
 \name{cart2sph}
 \alias{cart2sph}
-\title{If called with a single matrix argument then each row of @var{c} 
-represents the Cartesian coordinate (@var{x}, @var{y}, @var{z}).}
+\title{If called with a single matrix argument then each row of \code{c} 
+represents the Cartesian coordinate (\code{x}, \code{y}, \code{z}).}
 \usage{
 cart2sph(x, y = NULL, z = NULL)
 }
 \arguments{
-\item{x}{x-coordinates or matrix with three columnms}
+\item{x}{x-coordinates or matrix with three columns}
 
 \item{y}{y-coordinates (optional, if \code{x}) is a matrix}
 

@@ -14,7 +14,7 @@ of a triangle/tetrahedron. \code{T} is usually the output of delaunayn.}
 \item{X}{X is an n-by-2/n-by-3 matrix. The rows of X represent \code{n}
 points in 2D/3D space.}
 
-\item{col}{The tetrahedron color. See rgl documentation for details.}
+\item{col}{The tetrahedron colour. See rgl documentation for details.}
 
 \item{clear}{Should the current rendering device be cleared?}
 
@@ -24,7 +24,7 @@ package.}
 \description{
 \code{tetramesh(T, X, col)} uses the \link[rgl]{rgl} package to
 display the tetrahedrons defined in the m-by-4 matrix T as mesh.
-Each row of \code{T} specifies a thetrahedron by giving the 4
+Each row of \code{T} specifies a tetrahedron by giving the 4
 indices of its points in \code{X}.
 }
 \examples{

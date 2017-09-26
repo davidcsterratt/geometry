@@ -23,7 +23,7 @@ positions in the mesh are being sought.}
 }
 \value{
 A list containing: \item{list("idx")}{An \code{ni}-long
-  vector containing the indicies of the row of \code{t} in which
+  vector containing the indices of the row of \code{t} in which
   each point in \code{xi} is found.} \item{list("p")}{An
   \code{ni}-by-\code{d+1} matrix containing the barycentric
   coordinates with respect to the enclosing simplex of each point

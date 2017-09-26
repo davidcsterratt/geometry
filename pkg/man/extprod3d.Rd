@@ -12,7 +12,7 @@ extprod3d(x, y, drop = TRUE)
 \item{y}{\code{n}-by-3 matrix. Each row is one \bold{y}-vector}
 
 \item{drop}{logical. If \code{TRUE} and if the inputs are one row
-matricies or vectors, then delete the dimensions of the array
+matrices or vectors, then delete the dimensions of the array
 returned.}
 }
 \value{

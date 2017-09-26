@@ -24,13 +24,13 @@
 ##' scalar.  If called with a single matrix argument then each row of \code{C}
 ##' represents the Cartesian coordinate (\code{x}, \code{y} (, \code{z})).
 ##'
-##' @param x x-coordinates or matrix with three columnms
+##' @param x x-coordinates or matrix with three columns
 ##' @param y y-coordinates (optional, if \code{x}) is a matrix 
 ##' @param z z-coordinates (optional, if \code{x}) is a matrix 
 ##' @return A matrix \code{P} where each row represents one
 ##'   polar/(cylindrical) coordinate (\code{theta}, \code{r}, (,
 ##'   \code{z})).
-##' @seealso{pol2cart, cart2sph, sph2cart}
+##' @seealso pol2cart, cart2sph, sph2cart
 ##' @author Kai Habel <kai.habel@gmx.de>
 ##' @author David Sterratt <david.c.sterratt@ed.ac.uk>
 ##' @export

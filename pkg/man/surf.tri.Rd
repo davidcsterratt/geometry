@@ -29,7 +29,7 @@ diagnostic output on the console as \code{convhulln} does at the Rterm
 console--i.e., \code{surf.tri} is silent.
 }
 \note{
-\code{surf.tri} was based on matlab code for mesh of Per-Olof Persson
+\code{surf.tri} was based on Matlab code for mesh of Per-Olof Persson
 (\url{http://persson.berkeley.edu/distmesh/}).
 }
 \examples{

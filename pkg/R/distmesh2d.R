@@ -1,8 +1,8 @@
 ##' A simple mesh generator for non-convex regions
 ##' 
-##' An unstructured simplex requires a choice of meshpoints (vertex nodes) and
+##' An unstructured simplex requires a choice of mesh points (vertex nodes) and
 ##' a triangulation.  This is a simple and short algorithm that improves the
-##' quality of a mesh by relocating the meshpoints according to a relaxation
+##' quality of a mesh by relocating the mesh points according to a relaxation
 ##' scheme of forces in a truss structure. The topology of the truss is reset
 ##' using Delaunay triangulation. A (sufficiently smooth) user supplied signed
 ##' distance function (\code{fd}) indicates if a given node is inside or
@@ -41,7 +41,7 @@
 ##'   where \code{n} is arbitrary, as its first argument.
 ##' @param h0 Initial distance between mesh nodes. (Ignored of
 ##'   \code{p} is supplied)
-##' @param bbox Bounding box cbind(c(xmin,xmax), c(ymin,ymax))
+##' @param bbox Bounding box \code{cbind(c(xmin,xmax), c(ymin,ymax))}
 ##' @param p An \code{n}-by-\code{2} matrix. The rows of \code{p}
 ##'   represent locations of starting mesh nodes.
 ##' @param pfix \code{nfix}-by-2 matrix with fixed node positions.
@@ -51,7 +51,7 @@
 ##' @param ttol Controls how far the points can move (relatively)
 ##'   before a retriangulation with \code{\link{delaunayn}}.
 ##' @param Fscale \dQuote{Internal pressure} in the edges.
-##' @param deltat Size of the time step in Eulers method.
+##' @param deltat Size of the time step in Euler's method.
 ##' @param geps Tolerance in the geometry evaluations.
 ##' @param deps Stepsize \eqn{\Delta x} in numerical derivative
 ##'   computation for distance function.
@@ -60,8 +60,8 @@
 ##'   plotted as it is generated.
 ##' @return \code{n}-by-\code{2} matrix with node positions.
 ##' @section Wishlist : \itemize{ \item*Implement in C/Fortran
-##'   \item*Implement an \code{n}D version as provided in the matlab
-##'   package \item*Translate other functions of the matlab package }
+##'   \item*Implement an \code{n}D version as provided in the Matlab
+##'   package \item*Translate other functions of the Matlab package }
 ##' @author Raoul Grasman
 ##' @seealso \code{\link[tripack]{tri.mesh}}, \code{\link{delaunayn}},
 ##'   \code{\link{mesh.dcircle}}, \code{\link{mesh.drectangle}},

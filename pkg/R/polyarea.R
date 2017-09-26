@@ -14,8 +14,8 @@
 ##' works along this dimension of the arrays \code{x} and \code{y}.
 ##'
 ##' @title Determines area of a polygon by triangle method. 
-##' @param x X coordinates of verticies.
-##' @param y Y coordinates of verticies.
+##' @param x X coordinates of vertices.
+##' @param y Y coordinates of vertices.
 ##' @param d Dimension of array to work along.
 ##' @return Area(s) of polygon(s).
 ##' @author David Sterratt based on the octave sources by David M. Doolin

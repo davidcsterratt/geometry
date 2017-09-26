@@ -20,9 +20,9 @@
 ##'   for more details. Contrary to the Qhull documentation, no
 ##'   degenerate (zero area) regions are returned with the \code{Qt}
 ##'   option since the R function removes them from the triangulation.
-##'   For slient operation, specify the option \code{Pp}.
+##'   For silent operation, specify the option \code{Pp}.
 ##'
-##' @param full Return all information asscoiated with triangulation
+##' @param full Return all information associated with triangulation
 ##'   as a list. At present this is the triangulation (\code{tri}), a
 ##'   vector of facet areas (\code{areas}) and a list of neighbours of
 ##'   each facet (\code{neighbours}).
@@ -39,7 +39,7 @@
 ##'   triangulations, and furthest-site Voronoi diagrams. It runs in
 ##'   2-d, 3-d, 4-d, and higher dimensions. It implements the
 ##'   Quickhull algorithm for computing the convex hull. Qhull handles
-##'   roundoff errors from floating point arithmetic. It computes
+##'   round-off errors from floating point arithmetic. It computes
 ##'   volumes, surface areas, and approximations to the convex
 ##'   hull. See the Qhull documentation included in this distribution
 ##'   (the doc directory \url{../doc/index.html}).

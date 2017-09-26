@@ -6,7 +6,7 @@
 ##' of length \code{nrow(p)} containing the signed distances of the
 ##' supplied points in \code{p} to their respective regions.
 ##'
-##' @title Difference, union and intesection operation on  two regions
+##' @title Difference, union and intersection operation on  two regions
 ##' @return A vector of length \code{nrow(p)} containing the signed
 ##' distances to the boundary of the region.
 ##' @author Raoul Grasman; translated from original Matlab sources of Per-Olof

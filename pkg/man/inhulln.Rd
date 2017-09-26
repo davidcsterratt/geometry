@@ -13,7 +13,7 @@ inhulln(ch, p)
 \code{n} points in \code{dim}-dimensional space.}
 }
 \value{
-A booean vector with \code{n} elements
+A boolean vector with \code{n} elements
 }
 \description{
 Tests if a set of points lies within a convex hull, returning a

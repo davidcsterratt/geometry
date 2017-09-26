@@ -7,9 +7,9 @@
 polyarea(x, y, d = 1)
 }
 \arguments{
-\item{x}{X coordinates of verticies.}
+\item{x}{X coordinates of vertices.}
 
-\item{y}{Y coordinates of verticies.}
+\item{y}{Y coordinates of vertices.}
 
 \item{d}{Dimension of array to work along.}
 }

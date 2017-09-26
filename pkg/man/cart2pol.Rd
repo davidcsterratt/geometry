@@ -7,7 +7,7 @@
 cart2pol(x, y = NULL, z = NULL)
 }
 \arguments{
-\item{x}{x-coordinates or matrix with three columnms}
+\item{x}{x-coordinates or matrix with three columns}
 
 \item{y}{y-coordinates (optional, if \code{x}) is a matrix}
 
@@ -24,7 +24,7 @@ scalar.  If called with a single matrix argument then each row of \code{C}
 represents the Cartesian coordinate (\code{x}, \code{y} (, \code{z})).
 }
 \seealso{
-{pol2cart, cart2sph, sph2cart}
+pol2cart, cart2sph, sph2cart
 }
 \author{
 Kai Habel <kai.habel@gmx.de>

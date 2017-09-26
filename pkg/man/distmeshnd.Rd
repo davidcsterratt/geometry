@@ -33,7 +33,7 @@ arbitrary, as its first argument.}
 \item{ttol}{Controls how far the points can move (relatively) before a
 retriangulation with \code{\link{delaunayn}}.}
 
-\item{deltat}{Size of the time step in Eulers method.}
+\item{deltat}{Size of the time step in Euler's method.}
 
 \item{geps}{Tolerance in the geometry evaluations.}
 
@@ -44,9 +44,9 @@ distance function.}
 \code{m}-by-\code{n} matrix with node positions.
 }
 \description{
-An unstructured simplex requires a choice of meshpoints (vertex nodes) and
+An unstructured simplex requires a choice of mesh points (vertex nodes) and
 a triangulation.  This is a simple and short algorithm that improves the
-quality of a mesh by relocating the meshpoints according to a relaxation
+quality of a mesh by relocating the mesh points according to a relaxation
 scheme of forces in a truss structure. The topology of the truss is reset
 using Delaunay triangulation. A (sufficiently smooth) user supplied signed
 distance function (\code{fd}) indicates if a given node is inside or
@@ -78,7 +78,7 @@ source file of \code{distmesh2d}.
 }
 \section{Wishlist }{
  \itemize{ \item*Implement in C/Fortran \item*Translate
-other functions of the matlab package }
+other functions of the Matlab package }
 }
 
 \examples{

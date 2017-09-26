@@ -30,12 +30,12 @@ length of the perimeter and \code{vol} is the area enclosed.
 }
 \description{
 Returns an index matrix to the points of simplices
-(\dQuote{triangles}) that form the smallest convex simplicial
+(\dQuote{triangles}) that form the smallest convex simplical
 complex of a set of input points in N-dimensional space. This
 function interfaces the Qhull library.
 }
 \details{
-For slient operation, specify the option \code{Pp}.
+For silent operation, specify the option \code{Pp}.
 }
 \note{
 This is a port of the Octave's (\url{http://www.octave.org})

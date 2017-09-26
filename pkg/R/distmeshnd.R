@@ -1,8 +1,8 @@
 ##' A simple mesh generator for non-convex regions in n-D space
 ##' 
-##' An unstructured simplex requires a choice of meshpoints (vertex nodes) and
+##' An unstructured simplex requires a choice of mesh points (vertex nodes) and
 ##' a triangulation.  This is a simple and short algorithm that improves the
-##' quality of a mesh by relocating the meshpoints according to a relaxation
+##' quality of a mesh by relocating the mesh points according to a relaxation
 ##' scheme of forces in a truss structure. The topology of the truss is reset
 ##' using Delaunay triangulation. A (sufficiently smooth) user supplied signed
 ##' distance function (\code{fd}) indicates if a given node is inside or
@@ -47,13 +47,13 @@
 ##' \code{dptol}
 ##' @param ttol Controls how far the points can move (relatively) before a
 ##' retriangulation with \code{\link{delaunayn}}.
-##' @param deltat Size of the time step in Eulers method.
+##' @param deltat Size of the time step in Euler's method.
 ##' @param geps Tolerance in the geometry evaluations.
 ##' @param deps Stepsize \eqn{\Delta x} in numerical derivative computation for
 ##' distance function.
 ##' @return \code{m}-by-\code{n} matrix with node positions.
 ##' @section Wishlist : \itemize{ \item*Implement in C/Fortran \item*Translate
-##' other functions of the matlab package }
+##' other functions of the Matlab package }
 ##' @author Raoul Grasman; translated from original Matlab sources of Per-Olof
 ##' Persson.
 ##' @seealso \code{\link{distmesh2d}}, \code{\link[tripack]{tri.mesh}},
