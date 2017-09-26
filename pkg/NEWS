@@ -27,6 +27,9 @@ NEW FUNCTIONS
 * New function inhulln() to test if points are in a hull
   https://github.com/davidcsterratt/geometry/issues/1
 
+* Functions cart2sph, sph2cart, cart2pol, pol2cart ported from Octave
+  https://github.com/davidcsterratt/geometry/issues/14
+
 BUG FIXES
 
 * Fix for Issue #6072: distmesh2d - convergence problem
