@@ -20,7 +20,7 @@ Description: Makes the qhull library (www.qhull.org)
     that allow for this. Currently the package only gives access to
     Delaunay triangulation and convex hull computation.
 Version: 0.4.0
-URL: https://github.com/davidcsterratt/geometry
+URL: https://davidcsterratt.github.io/geometry
 Date: 2017-09-08
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:
