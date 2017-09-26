@@ -1,14 +1,14 @@
-# The R geometry package: Mesh generation and surface tesselation
+# The R geometry package: Mesh generation and surface tessellation
 
 The geometry package provides <a href= "http://www.r-project.org/">
 R</a> with several geometry functions available in Octave, Matlab and
-the SciPy. In particular, it provides an interface to the <a href=
+SciPy. In particular, it provides an interface to the <a href=
 "http://www.qhull.org/">qhull</a> library (which also underlies the
 corresponding Matlab and Octave functions). Currently only part of the
 qhull library is accessible and the interface for Delaunay
 triangulation differs from more modern versions of Matlab.
 
-he geometry package also implements a simple technique to refine a
+The geometry package also implements a simple technique to refine a
 given mesh and generate high quality meshes and surface
 triangulations. A description of the technique and a number of
 examples can be found at the site of its inventors <a href=
@@ -19,7 +19,7 @@ Strang</a>.
 
 * The latest stable version is available from <a href="http://cran.r-project.org/web/packages/geometry/index.html">CRAN</a>.
 
-* The latest development version is available on github <a
+* The latest development version is available on Github <a
 href="https://github.com/davidcsterratt/geometry">davidcsterratt/geometry</a>.
 
 Original qhull sources are included in the distribution. The
@@ -44,7 +44,7 @@ functions directly related to computational geometry), you can e-mail
 me <a
 href="mailto:david.c.sterratt@ed.ac.uk">david.c.sterratt@ed.ac.uk</a>.
 
-## Tips and wrinkles<
+## Tips and wrinkles
 
 ### Obtaining volume and area of convex hulls
 
@@ -108,3 +108,10 @@ like:
 > qh.outp <- scan("bla.txt")
 > volume <- qh.outp[4]
 ```
+
+<!--  LocalWords:  href Matlab SciPy qhull Olof Persson Strang CRAN
+ -->
+<!--  LocalWords:  davidcsterratt GPL ps rnorm convhulln FS bla txt
+ -->
+<!--  LocalWords:  qh outp
+ -->
