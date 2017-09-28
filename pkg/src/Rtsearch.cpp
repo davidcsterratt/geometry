@@ -81,7 +81,10 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
   for (int k = 0; k < nelem; k++)
   {
     if (Progress::check_abort() )
+    {
+      delete tree;
       return indexes;
+    }
     else
       p.update(k);
 

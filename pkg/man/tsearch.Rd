@@ -27,6 +27,16 @@ Quadtree algorithm is much faster and new from version
 from Octave code. Its use is deprecated and it may be removed
 from a future version of the package.}
 }
+\value{
+If \code{bary} is \code{FALSE}, the index in \code{t} containing the points 
+\code{(xi, yi)}.  For points outside the convex hull the index is \code{NA}. 
+If \code{bary} is \code{TRUE}, a list containing: 
+  \describe{
+   \item{list("idx")}{the index in \code{t} containing the points \code{(xi, yi)}}
+   \item{list("p")}{a 3-column matrix containing the barycentric coordinates with 
+   respect to the enclosing triangle of each point \code{(xi, yi)}.}
+  }
+}
 \description{
 For \code{t <- delaunay(cbind(x, y))}, where \code{(x, y)} is a 2D set of
 points, \code{tsearch(x, y, t, xi, yi)} finds the index in \code{t}
