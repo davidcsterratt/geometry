@@ -5,8 +5,8 @@
 ##' containing the points \code{(xi, yi)}.  For points outside the convex hull
 ##' the index is \code{NA}.
 ##' 
-##' @param x X-coordinates of triangluation points
-##' @param y Y-coordinates of triangluation points
+##' @param x X-coordinates of triangulation points
+##' @param y Y-coordinates of triangulation points
 ##' @param t Triangulation, e.g. produced by \code{t <-
 ##'   delaunayn(cbind(x, y))}
 ##' @param xi X-coordinates of points to test
@@ -18,14 +18,14 @@
 ##'   0.4.0. The \code{orig} option uses the tsearch algorithm adapted
 ##'   from Octave code. Its use is deprecated and it may be removed
 ##'   from a future version of the package.
-##' @return If \code{bary} is \code{FALSE}, the index in \code{t}
-##'   containing the points \code{(xi, yi)}.  For points outside the
-##'   convex hull the index is \code{NA}. If \code{bary} is
-##'   \code{TRUE}, a list containing: \item{list("idx")}{the index in
-##'   \code{t} containing the points \code{(xi, yi)}}
-##'   \item{list("p")}{a 3-column matrix containing the barycentric
-##'   coordinates with respect to the enclosing triangle of each point
-##'   \code{(xi, yi)}.
+##' @return If \code{bary} is \code{FALSE}, the index in \code{t} containing the points 
+##' \code{(xi, yi)}.  For points outside the convex hull the index is \code{NA}. 
+##' If \code{bary} is \code{TRUE}, a list containing: 
+##'   \describe{
+##'    \item{list("idx")}{the index in \code{t} containing the points \code{(xi, yi)}}
+##'    \item{list("p")}{a 3-column matrix containing the barycentric coordinates with 
+##'    respect to the enclosing triangle of each point \code{(xi, yi)}.}
+##'   }
 ##' @author Jean-Romain Roussel (Quadtree algorithm), David Sterratt (Octave-based implementation)
 ##' @note The original Octave function is Copyright (C) 2007-2012, 2017
 ##'   David Bateman.
@@ -57,6 +57,23 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   if (length(x) == 0) {stop(paste(xtxt, "is empty"))}
   if (length(y) == 0) {stop(paste(ytxt, "is empty"))}
   
+  if (any(is.na(x)))   {stop(paste(xtxt, "contains NAs"))}
+  if (any(is.na(y)))   {stop(paste(ytxt, "contains NAs"))}
+  
+  if (length(x) < 3 | length(y) < 3) {
+    stop("A triangulation should have at least 3 points")
+  }
+  
+  storage.mode(t) <- "integer"
+  
+  if (max(t) > length(x)) {
+    stop(paste(ttxt, "has indexes greater than the number of points"))
+  }
+  
+  if (min(t) <= 0) {
+    stop(paste(ttxt, "has indexes which refer to non-existing points"))
+  }
+
   if (length(xi) == 0 | length(yi) == 0) {
     if (!bary)
       return (integer(0))
@@ -64,7 +81,6 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
       return (list(idx = integer(0), p = matrix(0,0,3)))
   }
   
-  storage.mode(t) <- "integer"
   if (method == "quadtree") {
     out <- C_tsearch(x, y, t, xi, yi, bary)
   } else {
