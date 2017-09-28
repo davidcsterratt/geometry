@@ -53,6 +53,9 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   if (ncol(t) != 3) {
     stop(paste(ttxt, "does not have three columns"))
   }
+  if (any(as.integer(t) != t)) {
+    stop(paste(ttxt, "does not have integer elements"))
+  }
   
   if (length(x) == 0) {stop(paste(xtxt, "is empty"))}
   if (length(y) == 0) {stop(paste(ytxt, "is empty"))}

@@ -27,8 +27,7 @@ Depends:
     R (>= 2.5.0),
     magic
 Imports:
-    Rcpp,
-    RcppProgress
+    Rcpp
 Suggests:
     testthat,
     rgl,

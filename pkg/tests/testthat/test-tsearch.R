@@ -39,7 +39,7 @@ test_that("tsearch can deal with faulty input", {
   expect_error(tsearch(p, 0, tri, -1, 1))
 
   ## Non-integer triangulation
-  expect_error(tsearch(x, y, matrix(runif(15), 5, 3), -1, 1))
+  expect_error(tsearch(x, y, matrix(runif(15), 5, 3), -1, 1), regexp="does not have integer elements")
 
   ## Wrong number of columns in triangulation
   expect_error(tsearch(x, y, matrix(1:4, 4, 2), -1, 1))
