@@ -1,7 +1,7 @@
-##' Find surface triangles from tetrahedra mesh
+##' Find surface triangles from tetrahedral mesh
 ##' 
-##' Find surface triangles from tetrahedron mesh typically obtained with
-##' \code{\link{delaunayn}}.
+##' Find surface triangles from tetrahedral mesh typically obtained
+##' with \code{\link{delaunayn}}.
 ##' 
 ##' \code{surf.tri} and \code{\link{convhulln}} serve a similar purpose in 3D,
 ##' but \code{surf.tri} also works for non-convex meshes obtained e.g. with

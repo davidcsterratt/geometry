@@ -2,7 +2,7 @@
 % Please edit documentation in R/surf.tri.R
 \name{surf.tri}
 \alias{surf.tri}
-\title{Find surface triangles from tetrahedra mesh}
+\title{Find surface triangles from tetrahedral mesh}
 \usage{
 surf.tri(p, t)
 }
@@ -18,8 +18,8 @@ An \code{m}-by-\code{3} index matrix of which each row defines a
 triangle. The indices refer to the rows in \code{p}.
 }
 \description{
-Find surface triangles from tetrahedron mesh typically obtained with
-\code{\link{delaunayn}}.
+Find surface triangles from tetrahedral mesh typically obtained
+with \code{\link{delaunayn}}.
 }
 \details{
 \code{surf.tri} and \code{\link{convhulln}} serve a similar purpose in 3D,

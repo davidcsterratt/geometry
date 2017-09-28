@@ -7,9 +7,9 @@
 tsearch(x, y, t, xi, yi, bary = FALSE, method = "quadtree")
 }
 \arguments{
-\item{x}{X-coordinates of triangluation points}
+\item{x}{X-coordinates of triangulation points}
 
-\item{y}{Y-coordinates of triangluation points}
+\item{y}{Y-coordinates of triangulation points}
 
 \item{t}{Triangulation, e.g. produced by \code{t <-
 delaunayn(cbind(x, y))}}
