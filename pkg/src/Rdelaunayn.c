@@ -195,12 +195,14 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
         i++;
       }
     }
-    UNPROTECT(3);
   } else { /* exitcode != 1 */
     /* There has been an error; Qhull will print the error
        message */
-    PROTECT(tri = allocMatrix(INTSXP, 0, dim+1)); 
-    UNPROTECT(1);
+    PROTECT(tri = allocMatrix(INTSXP, 0, dim+1));
+    PROTECT(neighbours = allocVector(VECSXP, 0));
+    PROTECT(areas = allocVector(REALSXP, 0));
+
+
     /* If the error been because the points are colinear, coplanar
        &c., then avoid mentioning an error by setting exitcode=2*/
     /* Rprintf("dim %d; n %d\n", dim, n); */
@@ -218,7 +220,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   SET_VECTOR_ELT(retlist, 2, areas);
   SET_VECTOR_ELT(retnames, 2, mkChar("areas"));
   setAttrib(retlist, R_NamesSymbol, retnames);
-  UNPROTECT(2);
+  UNPROTECT(5);
 
   /* Register delaunaynFinalizer() for garbage collection and attach a
      pointer to the hull as an attribute for future use. */

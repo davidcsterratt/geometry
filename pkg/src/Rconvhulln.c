@@ -4,7 +4,7 @@
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
+** the Free Software Foundation; either version 3 of the License, or
 ** (at your option) any later version.
 **
 ** This program is distributed in the hope that it will be useful,
@@ -124,7 +124,7 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
     vertexT *vertex, **vertexp; /* set by FORALLfacets */
     unsigned int n = qh->num_facets;
 
-    PROTECT(retval = allocMatrix(INTSXP, n, dim));
+    retval = PROTECT(allocMatrix(INTSXP, n, dim));
     idx = (int *) R_alloc(n*dim,sizeof(int));
 
     qh_vertexneighbors(qh);
@@ -151,20 +151,20 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 
     /* Return area and volume */
     if (qh->totarea != 0.0) {
-      PROTECT(area = allocVector(REALSXP, 1));
+      area = PROTECT(allocVector(REALSXP, 1));
       REAL(area)[0] = qh->totarea;
       retlen++;
     }
     if (qh->totvol != 0.0) {
-      PROTECT(vol = allocVector(REALSXP, 1));
+      vol = PROTECT(allocVector(REALSXP, 1));
       REAL(vol)[0] = qh->totvol;
       retlen++;
     }
 
     /* Make a list if there is area or volume */
     if(retlen > 1) {
-      PROTECT(retlist = allocVector(VECSXP, retlen));
-      PROTECT(retnames = allocVector(VECSXP, retlen));
+      retlist = PROTECT(allocVector(VECSXP, retlen));
+      retnames = PROTECT(allocVector(VECSXP, retlen));
       retlen += 2;
       SET_VECTOR_ELT(retlist, 0, retval);
       SET_VECTOR_ELT(retnames, 0, mkChar("hull"));
@@ -175,22 +175,21 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
       setAttrib(retlist, R_NamesSymbol, retnames);
     } else retlist = retval;
 
-    UNPROTECT(retlen);
   }
 
   /* Register convhullFinalizer() for garbage collection and attach a
      pointer to the hull as an attribute for future use. */
   SEXP ptr, tag;
-  PROTECT(tag = allocVector(STRSXP, 1));
+  tag = PROTECT(allocVector(STRSXP, 1));
   SET_STRING_ELT(tag, 0, mkChar("convhull"));
-  PROTECT(ptr = R_MakeExternalPtr(qh, tag, R_NilValue));
+  ptr = PROTECT(R_MakeExternalPtr(qh, tag, R_NilValue));
   if (exitcode) {
     convhullFinalizer(ptr);
   } else {
     R_RegisterCFinalizerEx(ptr, convhullFinalizer, TRUE);
     setAttrib(retlist, tag, ptr);
   }
-  UNPROTECT(2);
+  UNPROTECT(retlen + 2);
 
   if (exitcode) {
     error("Received error code %d from qhull.", exitcode);
