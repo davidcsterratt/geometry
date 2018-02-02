@@ -4,7 +4,7 @@
 \alias{convhulln}
 \title{Compute smallest convex hull that encloses a set of points}
 \usage{
-convhulln(p, options = "Tv")
+convhulln(p, options = "Tv", return.non.triangulated.facets = FALSE)
 }
 \arguments{
 \item{p}{An \code{n}-by-\code{dim} matrix.  The rows of \code{p} represent
@@ -13,10 +13,18 @@ convhulln(p, options = "Tv")
 \item{options}{String containing extra options for the underlying
 Qhull command; see details below and Qhull documentation at
 \url{http://www.qhull.org/html/qconvex.htm#synopsis}.}
+
+\item{return.non.triangulated.facets}{logical defining whether the output
+facets should be triangulated, \code{FALSE} by default.}
 }
 \value{
 An \code{m}-by-\code{dim} index matrix of which each row
-defines a \code{dim}-dimensional \dQuote{triangle}. The indices
+defines a \code{dim}-dimensional \dQuote{triangle} in case if 
+\code{return.non.triangulated.facets} is \code{FALSE} (by default); 
+if \code{return.non.triangulated.facets} is \code{TRUE} the number of
+columns equals maximum number of vertices in a facet and then each row
+defines a polygon corresponding to a facet of the convex hull with its 
+vertices followed by \code{NA}s untill the end of the row. The indices
 refer to the rows in \code{p}.  If the option \code{FA} is
 provided, then the output is a \code{list} with entries
 \code{hull} containing the matrix mentioned above, and \code{area}
