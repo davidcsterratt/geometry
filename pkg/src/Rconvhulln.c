@@ -24,6 +24,8 @@
 
 23. May 2005 - Raoul Grasman: ported to R
 * Changed the interface for R
+
+02. February 2018 - Pavlo Mozharovskyi: added non-triangulated output
 */
 
 #include "Rgeometry.h"
@@ -49,7 +51,7 @@ static void convhullFinalizer(SEXP ptr)
   R_ClearExternalPtr(ptr); /* not really needed */
 }
 
-SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
+SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP returnNonTriangulatedFacets, const SEXP tmpdir)
 {
   SEXP retval, area, vol, retlist, retnames;
   int i, j, retlen;
@@ -123,9 +125,29 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
     facetT *facet;              /* set by FORALLfacets */
     vertexT *vertex, **vertexp; /* set by FORALLfacets */
     unsigned int n = qh->num_facets;
+    unsigned int nVertexMax = 0;
 
-    retval = PROTECT(allocMatrix(INTSXP, n, dim));
-    idx = (int *) R_alloc(n*dim,sizeof(int));
+    /* If parameter (flag) returnNonTriangulatedFacets is set, count the
+       number of columns in the output matrix of vertices as the maximal
+       number of vertices in a facet, then allocate the matrix. */
+    if (INTEGER(returnNonTriangulatedFacets)[0] > 0){
+      i=0;
+      FORALLfacets {
+        j=0;
+        FOREACHvertex_ (facet->vertices) {
+          j++;
+        }
+        if (j > nVertexMax){
+          nVertexMax = j;
+        }
+      }
+    }else{
+      /* If parameter (flag) returnNonTriangulatedFacets is not set, the
+         number of columns equals dimension. */
+      nVertexMax = dim;
+    }
+    retval = PROTECT(allocMatrix(INTSXP, n, nVertexMax));
+    idx = (int *) R_alloc(n*nVertexMax,sizeof(int));
 
     qh_vertexneighbors(qh);
 
@@ -135,19 +157,26 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
       /* qh_printfacet(stdout,facet); */
       FOREACHvertex_ (facet->vertices) {
         /* qh_printvertex(stdout,vertex); */
-        if (j >= dim)
+        if (INTEGER(returnNonTriangulatedFacets)[0] == 0 && j >= dim)
           warning("extra vertex %d of facet %d = %d",
                   j++,i,1+qh_pointid(qh, vertex->point));
         else
           idx[i+n*j++] = 1 + qh_pointid(qh, vertex->point);
       }
       if (j < dim) warning("facet %d only has %d vertices",i,j);
+      while (j < nVertexMax){
+        idx[i+n*j++] = 0; /* Fill with zeros for the moment */
+      }
       i++;
     }
     j=0;
     for(i=0;i<nrows(retval);i++)
       for(j=0;j<ncols(retval);j++)
-        INTEGER(retval)[i+nrows(retval)*j] = idx[i+n*j];
+        if (idx[i+n*j] > 0){
+          INTEGER(retval)[i+nrows(retval)*j] = idx[i+n*j];
+        }else{
+          INTEGER(retval)[i+nrows(retval)*j] = NA_INTEGER;
+        }
 
     /* Return area and volume */
     if (qh->totarea != 0.0) {
