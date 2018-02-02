@@ -12,9 +12,16 @@
 ##' @param options String containing extra options for the underlying
 ##' Qhull command; see details below and Qhull documentation at
 ##' \url{http://www.qhull.org/html/qconvex.htm#synopsis}.
+##' @param return.non.triangulated.facets logical defining whether the output
+##' facets should be triangulated, \code{FALSE} by default.
 ##' 
 ##' @return An \code{m}-by-\code{dim} index matrix of which each row
-##' defines a \code{dim}-dimensional \dQuote{triangle}. The indices
+##' defines a \code{dim}-dimensional \dQuote{triangle} in case if 
+##' \code{return.non.triangulated.facets} is \code{FALSE} (by default); 
+##' if \code{return.non.triangulated.facets} is \code{TRUE} the number of
+##' columns equals maximum number of vertices in a facet and then each row
+##' defines a polygon corresponding to a facet of the convex hull with its 
+##' vertices followed by \code{NA}s untill the end of the row. The indices
 ##' refer to the rows in \code{p}.  If the option \code{FA} is
 ##' provided, then the output is a \code{list} with entries
 ##' \code{hull} containing the matrix mentioned above, and \code{area}
@@ -54,7 +61,7 @@
 ##'
 ##' @export
 ##' @useDynLib geometry
-convhulln <- function (p, options = "Tv") {
+convhulln <- function (p, options = "Tv", return.non.triangulated.facets = FALSE) {
   ## Check directory writable
   tmpdir <- tempdir()
   ## R should guarantee the tmpdir is writable, but check in any case
@@ -81,12 +88,14 @@ convhulln <- function (p, options = "Tv") {
     stop("The first argument should not contain any NAs")
   }
   
-  ## It is essential that delaunayn is called with either the QJ or Qt
-  ## option. Otherwise it may return a non-triangulated structure, i.e
-  ## one with more than dim+1 points per structure, where dim is the
-  ## dimension in which the points p reside.
-  if (!grepl("Qt", options) & !grepl("QJ", options)) {
-    options <- paste(options, "Qt")
+  if (!return.non.triangulated.facets){
+    ## It is essential that delaunayn is called with either the QJ or Qt
+    ## option. Otherwise it may return a non-triangulated structure, i.e
+    ## one with more than dim+1 points per structure, where dim is the
+    ## dimension in which the points p reside.
+    if (!grepl("Qt", options) & !grepl("QJ", options)) {
+      options <- paste(options, "Qt")
+    }
   }
-  .Call("C_convhulln", p, as.character(options), tmpdir, PACKAGE="geometry")
+  .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmpdir, PACKAGE="geometry")
 }
