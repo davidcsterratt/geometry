@@ -21,7 +21,7 @@ Description: Makes the Qhull library (www.qhull.org)
     Delaunay triangulation and convex hull computation.
 Version: 0.4.0
 URL: https://davidcsterratt.github.io/geometry
-Date: 2017-09-08
+Date: 2018-04-02
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:
     R (>= 2.5.0),

@@ -7,26 +7,31 @@
 convhulln(p, options = "Tv")
 }
 \arguments{
-\item{p}{An \code{n}-by-\code{dim} matrix.  The rows of \code{p} represent
-\code{n} points in \code{dim}-dimensional space.}
+\item{p}{An \code{n}-by-\code{dim} matrix. The rows of \code{p}
+represent \code{n} points in \code{dim}-dimensional space.}
 
-\item{options}{String containing extra options for the underlying
-Qhull command; see details below and Qhull documentation at
+\item{options}{String containing extra options, separated by
+spaces, for the underlying Qhull command; see details below
+and Qhull documentation at
 \url{http://www.qhull.org/html/qconvex.htm#synopsis}.}
 }
 \value{
 An \code{m}-by-\code{dim} index matrix of which each row
-defines a \code{dim}-dimensional \dQuote{triangle}. The indices
-refer to the rows in \code{p}.  If the option \code{FA} is
-provided, then the output is a \code{list} with entries
-\code{hull} containing the matrix mentioned above, and \code{area}
-and \code{vol} with the generalised area and volume of the hull
-described by the matrix. When applying convhulln to a 3D object,
-these have the conventional meanings: \code{vol} is the volume of
-enclosed by the hull and \code{area} is the total area of the
-facets comprising the hull's surface. However, in 2D the facets of
-the hull are the lines of the perimeter. Thus \code{area} is the
-length of the perimeter and \code{vol} is the area enclosed.
+  defines a \code{dim}-dimensional \dQuote{triangle}. The indices
+  refer to the rows in \code{p}. If \code{FA} is in the
+  \code{options} string, then the output is a list with entries
+  \code{hull} containing the matrix mentioned above, and
+  \code{area} and \code{vol} with the generalised area and volume
+  of the hull described by the matrix. When applying convhulln to
+  a 3D object, these have the conventional meanings: \code{vol} is
+  the volume of enclosed by the hull and \code{area} is the total
+  area of the facets comprising the hull's surface. However, in 2D
+  the facets of the hull are the lines of the perimeter. Thus
+  \code{area} is the length of the perimeter and \code{vol} is the
+  area enclosed. If \code{n} is in the \code{options} string, then
+  the output is a list with with entries \code{hull} containing
+  the matrix mentioned above, and \code{normals} containing
+  hyperplane normals with offsets \url{../doc/html/qh-opto.html#n}.
 }
 \description{
 Returns an index matrix to the points of simplices

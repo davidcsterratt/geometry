@@ -49,9 +49,18 @@ static void convhullFinalizer(SEXP ptr)
   R_ClearExternalPtr(ptr); /* not really needed */
 }
 
+boolT hasPrintOption(qhT *qh, qh_PRINT format) {
+  for (int i=0; i < qh_PRINTEND; i++) {
+    if (qh->PRINTout[i] == format) {
+      return(True);
+    }
+  }
+  return(False);
+}
+
 SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 {
-  SEXP retval, area, vol, retlist, retnames;
+  SEXP retval, area, vol, normals, retlist, retnames;
   int i, j, retlen;
   unsigned int dim, n;
   int exitcode = 1; 
@@ -62,8 +71,10 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 
   /* Initialise return values */
   area = vol = retlist = R_NilValue;
-  retlen = 1;
+  retlen = 1; /* Indicies are output by default. If other outputs are
+                 selected this value is incremented */
   retval = R_NilValue;
+  normals = R_NilValue;
 
   /* We cannot print directly to stdout in R, and the alternative of
      using R_Outputfile does not seem to work for all
@@ -126,10 +137,14 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 
     retval = PROTECT(allocMatrix(INTSXP, n, dim));
     idx = (int *) R_alloc(n*dim,sizeof(int));
+    if (hasPrintOption(qh, qh_PRINTnormals)) {
+      normals = PROTECT(allocMatrix(REALSXP, n, dim+1));
+      retlen++;
+    }
 
     qh_vertexneighbors(qh);
 
-    i=0;
+    i=0; /* Facet counter */
     FORALLfacets {
       j=0;
       /* qh_printfacet(stdout,facet); */
@@ -142,7 +157,22 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
           idx[i+n*j++] = 1 + qh_pointid(qh, vertex->point);
       }
       if (j < dim) warning("facet %d only has %d vertices",i,j);
-      i++;
+
+      /* Output normals */
+      if (hasPrintOption(qh, qh_PRINTnormals)) {
+        if (facet->normal) {
+          for (j=0; j<dim; j++) {
+            REAL(normals)[i+nrows(normals)*j] = facet->normal[j];
+          }
+          REAL(normals)[i+nrows(normals)*dim] = facet->offset;
+        } else {
+          for (j=0; j<=dim; j++) {
+            REAL(normals)[i+nrows(normals)*j] = 0;
+          }
+        }
+      }
+
+      i++; /* Increment facet counter */
     }
     j=0;
     for(i=0;i<nrows(retval);i++)
@@ -162,18 +192,32 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
     }
 
     /* Make a list if there is area or volume */
-    if(retlen > 1) {
+    i = 0;                      /* Output counter */
+    if (retlen > 1) {
       retlist = PROTECT(allocVector(VECSXP, retlen));
       retnames = PROTECT(allocVector(VECSXP, retlen));
       retlen += 2;
-      SET_VECTOR_ELT(retlist, 0, retval);
-      SET_VECTOR_ELT(retnames, 0, mkChar("hull"));
-      SET_VECTOR_ELT(retlist, 1, area);
-      SET_VECTOR_ELT(retnames, 1, mkChar("area"));
-      SET_VECTOR_ELT(retlist, 2, vol);
-      SET_VECTOR_ELT(retnames, 2, mkChar("vol"));
+      SET_VECTOR_ELT(retlist, i, retval);
+      SET_VECTOR_ELT(retnames, i, mkChar("hull"));
+      if (qh->totarea != 0.0) {
+        i++;
+        SET_VECTOR_ELT(retlist, i, area);
+        SET_VECTOR_ELT(retnames, i, mkChar("area"));
+      }
+      if (qh->totvol != 0.0) {
+        i++;
+        SET_VECTOR_ELT(retlist, i, vol);
+        SET_VECTOR_ELT(retnames, i, mkChar("vol"));
+      }
+      if (hasPrintOption(qh, qh_PRINTnormals)) {
+        i++;
+        SET_VECTOR_ELT(retlist, i, normals);
+        SET_VECTOR_ELT(retnames, i, mkChar("normals"));
+      }
       setAttrib(retlist, R_NamesSymbol, retnames);
-    } else retlist = retval;
+    } else {
+      retlist = retval;
+    }
 
   }
 
