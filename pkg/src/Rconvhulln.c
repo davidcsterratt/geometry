@@ -27,36 +27,7 @@
 */
 
 #include "Rgeometry.h"
-#include "qhull_ra.h"
 #include <unistd.h>              /* For unlink() */
-
-/* Finalizer which R will call when garbage collecting. This is
-   registered at the end of convhulln() */
-static void convhullFinalizer(SEXP ptr)
-{
-  int curlong, totlong;
-  if(!R_ExternalPtrAddr(ptr)) return;
-  qhT *qh;
-  qh = R_ExternalPtrAddr(ptr);
-
-  qh_freeqhull(qh, !qh_ALL);                /* free long memory */
-  qh_memfreeshort (qh, &curlong, &totlong);	/* free short memory and memory allocator */
-  if (curlong || totlong) {
-    warning("convhulln: did not free %d bytes of long memory (%d pieces)",
-	    totlong, curlong);
-  }
-  qh_free(qh);
-  R_ClearExternalPtr(ptr); /* not really needed */
-}
-
-boolT hasPrintOption(qhT *qh, qh_PRINT format) {
-  for (int i=0; i < qh_PRINTEND; i++) {
-    if (qh->PRINTout[i] == format) {
-      return(True);
-    }
-  }
-  return(False);
-}
 
 SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 {
@@ -221,16 +192,16 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP tmpdir)
 
   }
 
-  /* Register convhullFinalizer() for garbage collection and attach a
+  /* Register qhullFinalizer() for garbage collection and attach a
      pointer to the hull as an attribute for future use. */
   SEXP ptr, tag;
   tag = PROTECT(allocVector(STRSXP, 1));
   SET_STRING_ELT(tag, 0, mkChar("convhull"));
   ptr = PROTECT(R_MakeExternalPtr(qh, tag, R_NilValue));
   if (exitcode) {
-    convhullFinalizer(ptr);
+    qhullFinalizer(ptr);
   } else {
-    R_RegisterCFinalizerEx(ptr, convhullFinalizer, TRUE);
+    R_RegisterCFinalizerEx(ptr, qhullFinalizer, TRUE);
     setAttrib(retlist, tag, ptr);
   }
   UNPROTECT(retlen + 2);

@@ -20,3 +20,9 @@ FILE * tmpstdout;
 /* PI has been defined by the R header files, but the Qhull package
    defines it again, so undefine it here. */
 #undef PI
+
+#include "qhull_ra.h"
+
+void freeQhull(qhT *qh);
+void qhullFinalizer(SEXP ptr);
+boolT hasPrintOption(qhT *qh, qh_PRINT format);

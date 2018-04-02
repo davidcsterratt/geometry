@@ -33,27 +33,7 @@
 */
 
 #include "Rgeometry.h"
-#include "qhull_ra.h"
 #include <unistd.h>              /* For unlink() */
-
-/* Finalizer which R will call when garbage collecting. This is
-   registered at the end of delaunaynn() */
-static void delaunaynFinalizer(SEXP ptr)
-{
-  int curlong, totlong;
-  if(!R_ExternalPtrAddr(ptr)) return;
-  qhT *qh;
-  qh = R_ExternalPtrAddr(ptr);
-
-  qh_freeqhull(qh, !qh_ALL);                /* free long memory */
-  qh_memfreeshort (qh, &curlong, &totlong);	/* free short memory and memory allocator */
-  if (curlong || totlong) {
-    warning("delaunaynn: did not free %d bytes of long memory (%d pieces)",
-	    totlong, curlong);
-  }
-  qh_free(qh);
-  R_ClearExternalPtr(ptr); /* not really needed */
-}
 
 SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
 {
@@ -222,16 +202,16 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   setAttrib(retlist, R_NamesSymbol, retnames);
   UNPROTECT(5);
 
-  /* Register delaunaynFinalizer() for garbage collection and attach a
+  /* Register qhullFinalizer() for garbage collection and attach a
      pointer to the hull as an attribute for future use. */
   SEXP ptr, tag;
   PROTECT(tag = allocVector(STRSXP, 1));
   SET_STRING_ELT(tag, 0, mkChar("delaunayTriangulation"));
   PROTECT(ptr = R_MakeExternalPtr(qh, tag, R_NilValue));
   if (exitcode) {
-    delaunaynFinalizer(ptr);
+    qhullFinalizer(ptr);
   } else {
-    R_RegisterCFinalizerEx(ptr, delaunaynFinalizer, TRUE);
+    R_RegisterCFinalizerEx(ptr, qhullFinalizer, TRUE);
     setAttrib(retlist, tag, ptr);
   }
   UNPROTECT(2);
