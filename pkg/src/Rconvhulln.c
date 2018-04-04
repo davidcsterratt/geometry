@@ -1,6 +1,7 @@
 /* Copyright (C) 2000 Kai Habel
 ** Copyright R-version (C) 2005 Raoul Grasman 
-**                     (C) 2013-2015, 2017 David Sterratt
+**                     (C) 2013-2015, 2017, 2018 David Sterratt
+**                     (C) 2018 Pavlo Mozharovskyi
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by

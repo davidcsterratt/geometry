@@ -30,6 +30,12 @@ NEW FUNCTIONS
 * Functions cart2sph, sph2cart, cart2pol, pol2cart ported from Octave
   https://github.com/davidcsterratt/geometry/issues/14
 
+NEW FEATURES
+
+* convhulln() can produce non-triangulated output
+  https://github.com/davidcsterratt/geometry/issues/22
+  Thanks to Pavlo Mozharovskyi for pushing code to achive this
+
 BUG FIXES
 
 * Fix for Issue #6072: distmesh2d - convergence problem

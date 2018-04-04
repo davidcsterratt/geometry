@@ -80,7 +80,7 @@ Mathematical Software,} Dec 1996.}
 \code{\link{surf.tri}}, \code{\link{distmesh2d}}
 }
 \author{
-Raoul Grasman, Robert B. Gramacy and David Sterratt
+Raoul Grasman, Robert B. Gramacy, Pavlo Mozharovskyi and David Sterratt
 \email{david.c.sterratt@ed.ac.uk}
 }
 \keyword{dplot}

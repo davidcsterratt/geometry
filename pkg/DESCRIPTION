@@ -6,7 +6,8 @@ Authors@R: c(
     person("C. B.", "Barber" , role="cph"), 
     person("Kai", "Habel", role=c("cph","aut")), 
     person("Raoul", "Grasman", role=c("cph","aut")),
-    person("Robert B.", "Gramacy", role=c("cph","aut")), 
+    person("Robert B.", "Gramacy", role=c("cph","aut")),
+    person("Pavlo", "Mozharovskyi", role=c("cph","aut")),
     person("David C.", "Sterratt", role=c("cph","aut","cre"), email="david.c.sterratt@ed.ac.uk"))
 Description: Makes the Qhull library (www.qhull.org)
     available in R, in a similar manner as in Octave and MATLAB. Qhull
@@ -21,7 +22,7 @@ Description: Makes the Qhull library (www.qhull.org)
     Delaunay triangulation and convex hull computation.
 Version: 0.4.0
 URL: https://davidcsterratt.github.io/geometry
-Date: 2018-04-02
+Date: 2018-04-04
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:
     R (>= 2.5.0),

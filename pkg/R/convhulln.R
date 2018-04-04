@@ -45,7 +45,7 @@
 ##' 
 ##' See further notes in \code{\link{delaunayn}}.
 ##' 
-##' @author Raoul Grasman, Robert B. Gramacy and David Sterratt
+##' @author Raoul Grasman, Robert B. Gramacy, Pavlo Mozharovskyi and David Sterratt
 ##' \email{david.c.sterratt@ed.ac.uk}
 ##' @seealso \code{\link[tripack]{convex.hull}}, \code{\link{delaunayn}},
 ##' \code{\link{surf.tri}}, \code{\link{distmesh2d}}
