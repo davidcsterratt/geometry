@@ -69,3 +69,19 @@ test_that("Output to file works", {
   vert <- scan(fname)
   expect_equal(vert, c(4, 2, 1, 0, 3))
 })
+
+test_that("Output of non-triangulated facets works", {
+  X1 <- matrix(c( 1,  1,  1, 
+                  1,  1, -1,
+                  1, -1,  1,
+                  1, -1, -1,
+                 -1,  1,  1,
+                 -1,  1, -1,
+                 -1, -1,  1,
+                 -1, -1, -1, 
+                  3,  0,  0), ncol=3, byrow = TRUE)
+  ts1 <- convhulln(X1, return.non.triangulated.facets = TRUE)
+  tbl1 <- table(rowSums(!is.na(ts1)))
+  expect_equal(names(tbl1), c("3", "4"))
+  expect_equal(as.numeric(tbl1), c(4, 5))
+})

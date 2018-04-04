@@ -5,31 +5,40 @@
 ##' complex of a set of input points in N-dimensional space. This
 ##' function interfaces the Qhull library.
 ##' 
-##' For silent operation, specify the option \code{Pp}. 
+##' For silent operation, specify the option \code{Pp}.
 ##'
 ##' @param p An \code{n}-by-\code{dim} matrix. The rows of \code{p}
 ##'   represent \code{n} points in \code{dim}-dimensional space.
-##' @param options String containing extra options, separated by
-##'   spaces, for the underlying Qhull command; see details below
-##'   and Qhull documentation at
+##'
+##' @param options String containing extra options for the underlying
+##'   Qhull command; see details below and Qhull documentation at
 ##'   \url{http://www.qhull.org/html/qconvex.htm#synopsis}.
+##'
+##' @param return.non.triangulated.facets logical defining whether the
+##'   output facets should be triangulated; \code{FALSE} by default.
 ##' 
-##' @return An \code{m}-by-\code{dim} index matrix of which each row
-##'   defines a \code{dim}-dimensional \dQuote{triangle}. The indices
-##'   refer to the rows in \code{p}. If \code{FA} is in the
-##'   \code{options} string, then the output is a list with entries
-##'   \code{hull} containing the matrix mentioned above, and
-##'   \code{area} and \code{vol} with the generalised area and volume
-##'   of the hull described by the matrix. When applying convhulln to
-##'   a 3D object, these have the conventional meanings: \code{vol} is
-##'   the volume of enclosed by the hull and \code{area} is the total
-##'   area of the facets comprising the hull's surface. However, in 2D
-##'   the facets of the hull are the lines of the perimeter. Thus
-##'   \code{area} is the length of the perimeter and \code{vol} is the
-##'   area enclosed. If \code{n} is in the \code{options} string, then
-##'   the output is a list with with entries \code{hull} containing
-##'   the matrix mentioned above, and \code{normals} containing
-##'   hyperplane normals with offsets \url{../doc/html/qh-opto.html#n}.
+##' @return If \code{return.non.triangulated.facets} is \code{FALSE}
+##'   (default), an \code{m}-by-\code{dim} index matrix of which each
+##'   row defines a \code{dim}-dimensional \dQuote{triangle}. If
+##'   \code{return.non.triangulated.facets} is \code{TRUE} the number
+##'   of columns equals the maximum number of vertices in a facet, and
+##'   each row defines a polygon corresponding to a facet of the
+##'   convex hull with its vertices followed by \code{NA}s until the
+##'   end of the row. The indices refer to the rows in \code{p}. If
+##'   the option \code{FA} is provided, then the output is a
+##'   \code{list} with entries \code{hull} containing the matrix
+##'   mentioned above, and \code{area} and \code{vol} with the
+##'   generalised area and volume of the hull described by the matrix.
+##'   When applying convhulln to a 3D object, these have the
+##'   conventional meanings: \code{vol} is the volume of enclosed by
+##'   the hull and \code{area} is the total area of the facets
+##'   comprising the hull's surface. However, in 2D the facets of the
+##'   hull are the lines of the perimeter. Thus \code{area} is the
+##'   length of the perimeter and \code{vol} is the area enclosed. If
+##'   \code{n} is in the \code{options} string, then the output is a
+##'   list with with entries \code{hull} containing the matrix
+##'   mentioned above, and \code{normals} containing hyperplane
+##'   normals with offsets \url{../doc/html/qh-opto.html#n}.
 ##'
 ##' @note This is a port of the Octave's (\url{http://www.octave.org})
 ##' geometry library. The Octave source was written by Kai Habel.
@@ -59,7 +68,7 @@
 ##'
 ##' @export
 ##' @useDynLib geometry
-convhulln <- function (p, options = "Tv") {
+convhulln <- function (p, options = "Tv", return.non.triangulated.facets = FALSE) {
   ## Check directory writable
   tmpdir <- tempdir()
   ## R should guarantee the tmpdir is writable, but check in any case
@@ -86,12 +95,14 @@ convhulln <- function (p, options = "Tv") {
     stop("The first argument should not contain any NAs")
   }
   
-  ## It is essential that delaunayn is called with either the QJ or Qt
-  ## option. Otherwise it may return a non-triangulated structure, i.e
-  ## one with more than dim+1 points per structure, where dim is the
-  ## dimension in which the points p reside.
-  if (!grepl("Qt", options) & !grepl("QJ", options)) {
-    options <- paste(options, "Qt")
+  if (!return.non.triangulated.facets){
+    ## It is essential that delaunayn is called with either the QJ or Qt
+    ## option. Otherwise it may return a non-triangulated structure, i.e
+    ## one with more than dim+1 points per structure, where dim is the
+    ## dimension in which the points p reside.
+    if (!grepl("Qt", options) & !grepl("QJ", options)) {
+      options <- paste(options, "Qt")
+    }
   }
-  .Call("C_convhulln", p, as.character(options), tmpdir, PACKAGE="geometry")
+  .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmpdir, PACKAGE="geometry")
 }
