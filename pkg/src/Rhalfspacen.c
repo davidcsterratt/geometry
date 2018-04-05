@@ -94,12 +94,15 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
        int num;
        qh_countfacets(qh, NULL, facets, printall, &numfacets, &numsimplicial,
        &totneighbors, &numridges, &numcoplanars, &numtricoplanars); */
-    unsigned int n;
+    int nf = 0;
     FORALLfacets {
-      n++;
+      nf++;
     }
 
-    retval = PROTECT(allocMatrix(REALSXP, n, dim-1));
+    /* Output of intersections based on case qh_PRINTpointintersect:
+       qh_printafacet() in io_r.c . This corresponds to the "Fp"
+       option to the qhull program */
+    retval = PROTECT(allocMatrix(REALSXP, nf, dim-1));
     int k;
     i=0; /* Facet counter */
     FORALLfacets {
@@ -128,7 +131,7 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
       }
       /* qh_printpoint(qh, fp, NULL, point); */
       for (k=0; k<qh->hull_dim; k++) {
-        REAL(retval)[i + k*n] = point[k];
+        REAL(retval)[i + k*nf] = point[k];
       }
       qh_memfree(qh, point, qh->normal_size);
       i++; /* Increment facet counter */
