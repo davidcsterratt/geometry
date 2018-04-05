@@ -28,9 +28,9 @@ Compute convex hull of intersection of two sets of points
 ps1 <- rbox(0, C=0.5)
 ps2 <- rbox(0, C=0.5) + 0.5
 out <- intersectn(ps1, ps2)
-out$ch1$volume
-out$ch2$volume
-out$ch$volume
+message(paste("Volume of 1st convex hull:", out$ch1$vol))
+message(paste("Volume of 2nd convex hull:", out$ch2$vol))
+message(paste("Volume of intersection convex hull:", out$ch$vol))
 }
 \seealso{
 convhulln, halfspacen, inhulln
