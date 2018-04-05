@@ -27,6 +27,14 @@ NEW FUNCTIONS
 * New function inhulln() to test if points are in a hull
   https://github.com/davidcsterratt/geometry/issues/1
 
+* New function halfspacen() to compute intersection points of
+  halfspaces about an interior point
+  https://github.com/davidcsterratt/geometry/issues/25
+
+* New function intersectn() to compute intersection of convex hulls of
+  two sets of points
+  https://github.com/davidcsterratt/geometry/issues/26
+
 * Functions cart2sph, sph2cart, cart2pol, pol2cart ported from Octave
   https://github.com/davidcsterratt/geometry/issues/14
 
