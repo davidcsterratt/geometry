@@ -33,19 +33,13 @@
 SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
 {
   SEXP retval, retnames;
-  int i, j, retlen;
+  int i, j;
   unsigned int dim, n;
   int exitcode = 1; 
   boolT ismalloc;
   char flags[250];             /* option flags for qhull, see qh_opt.htm */
   int *idx;
   double *pt_array;
-
-  /* Initialise return values */
-  retlen = 1; /* Verticies of the halfspace intersection are output by
-                 default. If other outputs are selected this value is
-                 incremented */
-  retval = R_NilValue;
 
   /* We cannot print directly to stdout in R, and the alternative of
      using R_Outputfile does not seem to work for all
@@ -76,7 +70,6 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
     error("Invalid input matrix.");
   }
 
-  j=0;
   pt_array = (double *) R_alloc(n*dim, sizeof(double)); 
   for(i=0; i < n; i++)
     for(j=0; j < dim; j++)
@@ -89,7 +82,7 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
   const char *name;
   name = R_tmpnam("Rf", CHAR(STRING_ELT(tmpdir, 0)));
   tmpstdout = fopen(name, "w");
-  qhT *qh= (qhT*)malloc(sizeof(qhT));
+  qhT *qh = (qhT*)malloc(sizeof(qhT));
   qh_zero(qh, errfile);
   exitcode = qh_new_qhull (qh, dim, n, pt_array, ismalloc, flags, tmpstdout, errfile);
   fclose(tmpstdout);
@@ -122,9 +115,10 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
     int k;
     i=0; /* Facet counter */
     FORALLfacets {
+      point = coordp = (coordT*)qh_memalloc(qh, qh->normal_size);
       if (facet->offset > 0) {
         for (k=qh->hull_dim; k--; ) {
-          Rprintf("Inf ");
+          point[k] = R_PosInf;
         }
         Rprintf("\n");
       }
@@ -144,7 +138,6 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
             for (k=qh->hull_dim; k--; ) {
               Rprintf("Inf ");
             }
-            Rprintf("\n");
           }
         }
       }
@@ -153,31 +146,10 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
         REAL(retval)[i + k*n] = point[k];
       }
       qh_memfree(qh, point, qh->normal_size);
-      i++;
+      i++; /* Increment facet counter */
     }
-      /*   j=0; */
-    /*   /\* qh_printfacet(stdout,facet); *\/ */
-    /*   FOREACHvertex_ (facet->vertices) { */
-    /*     /\* qh_printvertex(stdout,vertex); *\/ */
-    /*     if (j >= dim) */
-    /*       warning("extra vertex %d of facet %d = %d", */
-    /*               j++,i,1+qh_pointid(qh, vertex->point)); */
-    /*     else */
-    /*       idx[i+n*j++] = 1 + qh_pointid(qh, vertex->point); */
-    /*   } */
-    /*   if (j < dim) warning("facet %d only has %d vertices",i,j); */
-
-    /*   i++; /\* Increment facet counter *\/ */
-    /* } */
-    /* j=0; */
-    /* for(i=0;i<nrows(retval);i++) */
-    /*   for(j=0;j<ncols(retval);j++) */
-    /*     INTEGER(retval)[i+nrows(retval)*j] = idx[i+n*j]; */
-
   }
 
-  /* Register convhullFinalizer() for garbage collection and attach a
-     pointer to the hull as an attribute for future use. */
   freeQhull(qh);
   UNPROTECT(1);
 
