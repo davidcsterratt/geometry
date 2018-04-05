@@ -105,13 +105,12 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
        int num;
        qh_countfacets(qh, NULL, facets, printall, &numfacets, &numsimplicial,
        &totneighbors, &numridges, &numcoplanars, &numtricoplanars); */
-
     unsigned int n;
     FORALLfacets {
       n++;
     }
-    retval = PROTECT(allocMatrix(REALSXP, n, dim-1));
 
+    retval = PROTECT(allocMatrix(REALSXP, n, dim-1));
     int k;
     i=0; /* Facet counter */
     FORALLfacets {
@@ -120,23 +119,20 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
         for (k=qh->hull_dim; k--; ) {
           point[k] = R_PosInf;
         }
-        Rprintf("\n");
-      }
-
-      point= coordp= (coordT*)qh_memalloc(qh, qh->normal_size);
-      normp= facet->normal;
-      feasiblep= qh->feasible_point;
-      if (facet->offset < -qh->MINdenom) {
-        for (k=qh->hull_dim; k--; )
-          *(coordp++)= (*(normp++) / - facet->offset) + *(feasiblep++);
-      }else {
-        for (k=qh->hull_dim; k--; ) {
-          *(coordp++)= qh_divzero(*(normp++), facet->offset, qh->MINdenom_1,
-                                  &zerodiv) + *(feasiblep++);
-          if (zerodiv) {
-            qh_memfree(qh, point, qh->normal_size);
-            for (k=qh->hull_dim; k--; ) {
-              Rprintf("Inf ");
+      } else {
+        normp = facet->normal;
+        feasiblep = qh->feasible_point;
+        if (facet->offset < -qh->MINdenom) {
+          for (k=qh->hull_dim; k--; )
+            *(coordp++) = (*(normp++) / - facet->offset) + *(feasiblep++);
+        } else {
+          for (k=qh->hull_dim; k--; ) {
+            *(coordp++) = qh_divzero(*(normp++), facet->offset, qh->MINdenom_1,
+                                    &zerodiv) + *(feasiblep++);
+            if (zerodiv) {
+              for (k=qh->hull_dim; k--; ) {
+                point[k] = R_PosInf;
+              }
             }
           }
         }
