@@ -1,5 +1,5 @@
 # R geometry package
-This is the development version of the [R geometry package](https://davidcsterratt.github.io/geometryo).
+This is the development version of the [R geometry package](https://davidcsterratt.github.io/geometry).
 
 To install and test, type the following within R:
 ```
