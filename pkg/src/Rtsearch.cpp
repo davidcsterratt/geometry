@@ -117,7 +117,7 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
 
     // Compute if the points are in A B C
 
-    for (int i = 0 ; i < points.size() ; i++)
+    for (unsigned int i = 0 ; i < points.size() ; i++)
     {
       Point pbary;
       
