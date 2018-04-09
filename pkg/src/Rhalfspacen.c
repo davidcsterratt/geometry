@@ -21,13 +21,12 @@
 
 SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
 {
-  SEXP retval, retnames;
+  SEXP retval;
   int i, j;
   unsigned int dim, n;
   int exitcode = 1; 
   boolT ismalloc;
   char flags[250];             /* option flags for qhull, see qh_opt.htm */
-  int *idx;
   double *pt_array;
 
   /* We cannot print directly to stdout in R, and the alternative of
@@ -78,10 +77,9 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
   unlink(name);
   free((char *) name); 
 
-  coordT *coords;
-  facetT *facet, **facetp;
+  facetT *facet;
   boolT zerodiv;
-  coordT *point, *normp, *coordp, **pointp, *feasiblep;
+  coordT *point, *normp, *coordp, *feasiblep;
 
   if (!exitcode) {  /* 0 if no error from qhull */
     if (!qh->feasible_point) {
