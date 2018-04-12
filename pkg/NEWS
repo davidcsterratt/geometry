@@ -1,5 +1,12 @@
 CHANGES IN VERSION 0.4.0 - Released 2017/09/26
 
+LICENSE CHANGES
+
+* Following requests by the CRAN maintainers and disucssion on the
+  r-package-devel email list, the entire package is now released under
+  GPL (>= 3).
+  https://github.com/davidcsterratt/geometry/issues/27
+
 API CHANGES
 
 * Default options to delaunayn have been changed

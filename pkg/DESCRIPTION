@@ -1,5 +1,5 @@
 Package: geometry
-License: GPL (>= 3) + file LICENSE
+License: GPL (>= 3)
 Title: Mesh Generation and Surface Tessellation
 Authors@R: c(
     person("Jean-Romain", "Roussel" , role=c("cph", "ctb"), comment = "wrote tsearch function with QuadTrees"),
