@@ -84,6 +84,7 @@ separating.axis <- function(ch1, ch2) {
 
 ##' @export
 feasible.point <- function(ps1, ps2,   tol=1E2*.Machine$double.eps) {
+  debug <- FALSE
   ch1 <- convhulln(ps1, "n")
   ch2 <- convhulln(ps2, "n")
   d <- ncol(ps1)
@@ -94,20 +95,20 @@ feasible.point <- function(ps1, ps2,   tol=1E2*.Machine$double.eps) {
   bvec <- rep(NA, n1 + n2)
   Dmat <- matrix(0, d, d)
   dvec <- rep(0, d)
-  message("Normals of ch1")
+  if (debug) message("Normals of ch1")
   for (i in 1:n1) {
-    message("Range of all points in ch1")
+    if (debug) message("Range of all points in ch1")
     proj1 <- range(colSums(t(ps1) * ch1$normals[i,1:d]))
-    print(proj1)
-    message("Range of all points in ch2")
+    if (debug) print(proj1)
+    if (debug) message("Range of all points in ch2")
     proj2 <- range(colSums(t(ps2) * ch1$normals[i,1:d]))
-    print(proj2)
+    if (debug) print(proj2)
     if ((max(proj1) + tol <= min(proj2)) | (max(proj2) + tol <= min(proj1))) {
-      message("No overlap")
+      if (debug) message("No overlap")
       return(NA)
     }
     projs <- sort(c(proj1, proj2))
-    message(paste("Attracting towards", paste(projs[2:3], collapse=",")))
+    if (debug) message(paste("Attracting towards", paste(projs[2:3], collapse=",")))
     ## Normals point outwards. Inside convhull it is true that
     ## r dot n + d <=0 , i.e. r dot n <= -d
     ##
@@ -140,20 +141,20 @@ feasible.point <- function(ps1, ps2,   tol=1E2*.Machine$double.eps) {
     ## Dmat <- Dmat + outer(ch2$normals[i,1:d], ch2$normals[i,1:d])
     ## dvec <- dvec + ch2$normals[i,1:d] * ch2$normals[i,d+1]
   }
-  message("Normals of ch2")
+  if (debug) message("Normals of ch2")
   for (i in 1:n2) {
-    message("Range of all points in ch1")
+    if (debug) message("Range of all points in ch1")
     proj1 <- range(colSums(t(ps1) * ch2$normals[i,1:d]))
-    print(proj1)
-    message("Range of all points in ch2")
+    if (debug) print(proj1)
+    if (debug) message("Range of all points in ch2")
     proj2 <- range(colSums(t(ps2) * ch2$normals[i,1:d]))
-    print(proj2)
+    if (debug) print(proj2)
     if ((max(proj1) + tol <= min(proj2)) | (max(proj2) + tol  <= min(proj1))) {
-      message("No overlap")
+      if (debug) message("No overlap")
       return(NA)
     }
     projs <- sort(c(proj1, proj2))
-    message(paste("Attracting towards", paste(projs[2:3], collapse=",")))
+    if (debug) message(paste("Attracting towards", paste(projs[2:3], collapse=",")))
     Amat[n1 + i,] <- ch2$normals[i,1:d]
     bvec[n1 + i] <- -ch2$normals[i,d+1] - tol
     Dmat <- Dmat + outer(ch2$normals[i,1:d], ch2$normals[i,1:d])
