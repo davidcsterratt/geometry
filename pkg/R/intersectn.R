@@ -26,18 +26,11 @@ intersectn <- function(ps1, ps2) {
 
   fp <- NA
   ## Find feasible point
-  in2 <- inhulln(ch2, ps1)
-  in1 <- inhulln(ch1, ps2)
-  if (any(in2) & any(in2)) {
-    fp <- colMeans(rbind(ps2[in1,], ps1[in2,]))
-  } else {
-    fp <- feasible.point(ps1, ps2)
-    if (all(is.na(fp))) {
-      return(list(ch1=ch1, ch2=ch2, ch=list(vol=0)))
-    }
-    fp <- fp$fp
+  fp <- feasible.point(ps1, ps2)
+  if (all(is.na(fp))) {
+    return(list(ch1=ch1, ch2=ch2, ch=list(vol=0)))
   }
-
+  fp <- fp$fp
   
   ## Find intesections of halfspaces about feasible point
   ps <- halfspacen(rbind(ch1$normals, ch2$normals), fp)
@@ -90,19 +83,15 @@ separating.axis <- function(ch1, ch2) {
 }
 
 ##' @export
-feasible.point <- function(ps1, ps2) {
-  ## Make sure all coordinates are positive
-  pmin <- apply(rbind(ps1, ps2), 2, min)
-  ps1 <- t(t(ps1) - pmin)
-  ps2 <- t(t(ps2) - pmin)
+feasible.point <- function(ps1, ps2,   tol=1E2*.Machine$double.eps) {
   ch1 <- convhulln(ps1, "n")
   ch2 <- convhulln(ps2, "n")
   d <- ncol(ps1)
   n1 <- nrow(ch1$hull)
   n2 <- nrow(ch2$hull)
   
-  Amat <- matrix(NA, 2*(n1 + n2), d)
-  bvec <- rep(NA, 2*(n1 + n2))
+  Amat <- matrix(NA, n1 + n2, d)
+  bvec <- rep(NA, n1 + n2)
   Dmat <- matrix(0, d, d)
   dvec <- rep(0, d)
   message("Normals of ch1")
@@ -113,10 +102,12 @@ feasible.point <- function(ps1, ps2) {
     message("Range of all points in ch2")
     proj2 <- range(colSums(t(ps2) * ch1$normals[i,1:d]))
     print(proj2)
-    if ((max(proj1) <= min(proj2)) | (max(proj2) <= min(proj1))) {
+    if ((max(proj1) + tol <= min(proj2)) | (max(proj2) + tol <= min(proj1))) {
       message("No overlap")
       return(NA)
     }
+    projs <- sort(c(proj1, proj2))
+    message(paste("Attracting towards", paste(projs[2:3], collapse=",")))
     ## Normals point outwards. Inside convhull it is true that
     ## r dot n + d <=0 , i.e. r dot n <= -d
     ##
@@ -132,15 +123,22 @@ feasible.point <- function(ps1, ps2) {
     ## r dot -n <= -d2
     ## The feasible point has to be in the convex hull itself
     ## FIXME - put in epsilon?
-    Amat[2*i-1,] <- ch1$normals[i,1:d]
-    bvec[2*i-1]  <- -ch1$normals[i,d+1]
+    Amat[i,] <-  ch1$normals[i,1:d]
+    bvec[i]  <- -ch1$normals[i,d+1] - tol
+    ## Want to minimise the sum of squares of distances from the
+    ## feasible point to the hyperplanes of each side
+    ## For each side this is ( r dot n + d )^2
     Dmat <- Dmat + outer(ch1$normals[i,1:d], ch1$normals[i,1:d])
-    dvec <- dvec + ch1$normals[i,1:d] * ch1$normals[i,d+1]
-    ## The feasible point has to lie withing the projection of the second 
-    Amat[2*i,]   <- -ch1$normals[i,1:d]
-    bvec[2*i]    <- -min(proj2)
-    Dmat <- Dmat + outer(ch2$normals[i,1:d], ch2$normals[i,1:d])
-    dvec <- dvec + ch2$normals[i,1:d] * ch2$normals[i,d+1]
+    ## dvec <- dvec + ch1$normals[i,1:d]*ch1$normals[i,d+1]
+    dvec <- dvec + -ch1$normals[i,1:d]*projs[2]
+    
+    ## Minimise the distance to the hyperplane of the projection of
+    ## the second convhull onto the normal
+    Dmat <- Dmat + outer(ch1$normals[i,1:d], ch1$normals[i,1:d])
+    dvec <- dvec + -ch1$normals[i,1:d]*projs[3]
+
+    ## Dmat <- Dmat + outer(ch2$normals[i,1:d], ch2$normals[i,1:d])
+    ## dvec <- dvec + ch2$normals[i,1:d] * ch2$normals[i,d+1]
   }
   message("Normals of ch2")
   for (i in 1:n2) {
@@ -150,29 +148,35 @@ feasible.point <- function(ps1, ps2) {
     message("Range of all points in ch2")
     proj2 <- range(colSums(t(ps2) * ch2$normals[i,1:d]))
     print(proj2)
-    if ((max(proj1) <= min(proj2)) | (max(proj2) <= min(proj1))) {
+    if ((max(proj1) + tol <= min(proj2)) | (max(proj2) + tol  <= min(proj1))) {
       message("No overlap")
       return(NA)
     }
-    Amat[2*n1 + 2*i - 1,] <- ch2$normals[i,1:d]
-    bvec[2*n1 + 2*i - 1]  <- -ch2$normals[i,d+1]
-    ## The feasible point has to lie withing the projection of the second 
-    Amat[2*n1 + 2*i,]   <- -ch2$normals[i,1:d]
-    bvec[2*n1 + 2*i]    <- -min(proj1)
+    projs <- sort(c(proj1, proj2))
+    message(paste("Attracting towards", paste(projs[2:3], collapse=",")))
+    Amat[n1 + i,] <- ch2$normals[i,1:d]
+    bvec[n1 + i] <- -ch2$normals[i,d+1] - tol
+    Dmat <- Dmat + outer(ch2$normals[i,1:d], ch2$normals[i,1:d])
+    ## dvec <- dvec + ch2$normals[i,1:d]*ch2$normals[i,d+1]
+    dvec <- dvec + -ch2$normals[i,1:d]*projs[2]
+
+    ## Minimise the distance to the hyperplane of the projection of
+    ## the second convhull onto the normal
+    Dmat <- Dmat + outer(ch2$normals[i,1:d], ch2$normals[i,1:d])
+    dvec <- dvec + -ch2$normals[i,1:d]*projs[3]
+
   }
-  xmax <- linprog::solveLP(cve=c(1, 1), bvec=bvec, Amat=Amat, maximum=TRUE)$solution
-  xmin <- linprog::solveLP(cve=c(1, 1), bvec=bvec, Amat=Amat, maximum=FALSE)$solution
-  print("xmax")
-  print(xmax)
-  print("xmin")
-  print(xmin)
-  print("pmin")
-  print(pmin)
-  print(rbind(xmax + pmin, xmin + pmin))
-  fp <- colMeans(rbind(xmax + pmin, xmin + pmin))
-  fp <- quadprog::solve.QP(Dmat=Dmat, dvec=dvec, Amat=t(Amat), bvec=bvec)
-  print(fp)
-  print(paste(n1, n2))
+  fp <- tryCatch(quadprog::solve.QP(Dmat=Dmat, dvec=-dvec, Amat=t(-Amat), bvec=-bvec)$solution,
+                 error=function(e) {
+                   if (e$message == "constraints are inconsistent, no solution!") {
+                     return(NA)
+                   }
+                   stop(e)
+                 })
+  if (all(is.na(fp))) {return(NA)}
+  if (!inhulln(ch1, matrix(fp, 1, d)) | !inhulln(ch2, matrix(fp, 1, d))) {
+    stop("Feasible point does not lie in convexhulls of ps1 and ps2")
+  }
   return(list(Amat=Amat, bvec=bvec, Dmat=Dmat, dvec=dvec, ch1=ch1, ch2=ch2, fp=fp))
   
 }

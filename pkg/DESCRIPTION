@@ -28,7 +28,8 @@ Depends:
     R (>= 2.5.0),
     magic
 Imports:
-    Rcpp
+    Rcpp,
+    quadprog
 Suggests:
     testthat,
     rgl,

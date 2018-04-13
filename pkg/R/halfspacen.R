@@ -67,4 +67,14 @@ halfspacen <- function (p, fp, options = "Tv") {
 
   
   .Call("C_halfspacen", p, as.character(options), tmpdir, PACKAGE="geometry")
+
+  ## If there is an error, it could be because of two very similar halfspaces.
+  ## n1 = ch1$normals[1,1:3]
+  ## n2 = ch2$normals[1,1:3]
+  ## d1 = ch1$normals[1,4]
+  ## d2 = ch2$normals[1,4]
+  ## solve(rbind(n1, n2, extprod3d(n1, n2)), c(d1, d2, 0))
+  ## sqrt(sum(solve(rbind(n1, n2, extprod3d(n1, n2)), c(-d1, -d2, 0))^2))
+  ## dot(n1+ n2, extprod3d(n1, n2))
+  
 }
