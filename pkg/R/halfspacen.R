@@ -65,16 +65,36 @@ halfspacen <- function (p, fp, options = "Tv") {
   ## Put in fixed point
   options <- paste(options, paste0("H",paste(fp, collapse=",")))
 
-  
-  .Call("C_halfspacen", p, as.character(options), tmpdir, PACKAGE="geometry")
-
-  ## If there is an error, it could be because of two very similar halfspaces.
-  ## n1 = ch1$normals[1,1:3]
-  ## n2 = ch2$normals[1,1:3]
-  ## d1 = ch1$normals[1,4]
-  ## d2 = ch2$normals[1,4]
-  ## solve(rbind(n1, n2, extprod3d(n1, n2)), c(d1, d2, 0))
-  ## sqrt(sum(solve(rbind(n1, n2, extprod3d(n1, n2)), c(-d1, -d2, 0))^2))
-  ## dot(n1+ n2, extprod3d(n1, n2))
-  
+  ## This is ugly - if halspacen fails because of similar hyperplanes,
+  ## remove the most similar ones
+  out <- tryCatch(.Call("C_halfspacen", p, as.character(options), tmpdir, PACKAGE="geometry"),
+                  error=function(e) {
+                    if (e$message == "Received error code 2 from qhull.") {
+                      dpmax <- 0
+                      for (i in 1:(nrow(p)-1)) {
+                        for (j in (i+1):nrow(p)) {
+                          dp <- abs(dot(p[i,-ncol(p)], p[j,-ncol(p)]))
+                          if (dp > dpmax) {
+                            imax <- i
+                            jmax <- j
+                            dpmax <- dp
+                          }
+                        }
+                      }
+                      return(halfspacen(p[-imax,], fp, options))
+                    } else {
+                      stop("Unrecoverable error")
+                    }
+                  })
+  return(out)
 }
+
+## If there is an error, it could be because of two very similar halfspaces.
+## n1 = ch1$normals[1,1:3]
+## n2 = ch2$normals[1,1:3]
+## d1 = ch1$normals[1,4]
+## d2 = ch2$normals[1,4]
+## solve(rbind(n1, n2, extprod3d(n1, n2)), c(d1, d2, 0))
+## sqrt(sum(solve(rbind(n1, n2, extprod3d(n1, n2)), c(-d1, -d2, 0))^2))
+## dot(n1+ n2, extprod3d(n1, n2))
+

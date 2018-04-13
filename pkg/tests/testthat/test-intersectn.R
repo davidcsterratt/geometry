@@ -76,17 +76,17 @@ test_that("intersectn can run on overlapping tetrahedra", {
   
 })
 
-## test_that("intersectn can run on  tetrahedra with a common point", {
-##   ps1 <- rbind(c(-0.4015654, -0.1084358, -0.3727391),
-##                c( 0.2384763,  0.3896078, -0.4447473),
-##                c( 0.5000000, -0.5000000, -0.5000000),
-##                c(-0.5000000, -0.5000000, -0.5000000))
-##   ps2 <- rbind(c(-0.1392469,  0.03303547, -0.2436112),
-##                c( 0.3434195, -0.20338201, -0.4638141),
-##                c(-0.5000000,  0.50000000, -0.5000000),
-##                c(-0.5000000, -0.50000000, -0.5000000))
-##   is <-  intersectn(ps1, ps2)
-## })
+test_that("intersectn can run on  tetrahedra with a common point", {
+  ps1 <- rbind(c(-0.4015654, -0.1084358, -0.3727391),
+               c( 0.2384763,  0.3896078, -0.4447473),
+               c( 0.5000000, -0.5000000, -0.5000000),
+               c(-0.5000000, -0.5000000, -0.5000000))
+  ps2 <- rbind(c(-0.1392469,  0.03303547, -0.2436112),
+               c( 0.3434195, -0.20338201, -0.4638141),
+               c(-0.5000000,  0.50000000, -0.5000000),
+               c(-0.5000000, -0.50000000, -0.5000000))
+  is <-  intersectn(ps1, ps2)
+})
 
 test_that("intersectn can compute the volume of overlapping delaunay triangulations of boxes", {
   ## Volume of overlap should be 1/8
