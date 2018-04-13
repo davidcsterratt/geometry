@@ -7,12 +7,12 @@ test_that("convhulln works on a cube", {
   expect_equal(nrow(ts), 12)
   ## When "FA" is specified area and volume should be returned
   ts <- convhulln(ps, "FA")
-  expect_equal(length(ts), 3)
+  expect_equal(length(ts), 4)
   expect_equal(ts$area, 6)
   expect_equal(ts$vol, 1)
   ## When "n" is specified normals should be returned
   ts <- convhulln(ps, "n")
-  expect_equal(length(ts), 2)
+  expect_equal(length(ts), 3)
   ## There are 12 normals, one for each facet. There are 6 *unique*
   ## normals, since for each face of the cube there are two triangular
   ## facets with the same normal

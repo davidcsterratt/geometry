@@ -104,5 +104,32 @@ convhulln <- function (p, options = "Tv", return.non.triangulated.facets = FALSE
       options <- paste(options, "Qt")
     }
   }
-  .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmpdir, PACKAGE="geometry")
+  out <- .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmpdir, PACKAGE="geometry")
+  if (is.list(out)) {
+    class(out) <- "convhulln"
+    out$p <- p
+  }
+  return(out)
+}
+
+##' @importFrom graphics plot
+##' @method plot convhulln
+##' @export 
+plot.convhulln <- function(x, y, ...) {
+  args <- list(...)
+  add <- FALSE
+  if ("add" %in% names(args)) {
+    add <- args$add
+    args$add <- NULL
+    print(args)
+  }
+  if (ncol(x$p) == 2) {
+    if (!add) {
+      plot(x$p[,1], x$p[,2], ...)      
+    }
+    m <- x$hull
+    p <- x$p
+    do.call(segments, c(list(p[m[,1],1],p[m[,1],2],p[m[,2],1],p[m[,2],2]),
+                        args))
+  }
 }

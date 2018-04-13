@@ -10,7 +10,6 @@ test_that("halfspacen works on a cube", {
 
   ## Convex hull of these points should have same characteristics as original cube
   ts <- convhulln(pn, "FA")
-  expect_equal(length(ts), 3)
   expect_equal(ts$area, 6)
   expect_equal(ts$vol, 1)
 
@@ -31,7 +30,6 @@ test_that("halfspacen works on a cube with non triangulated facets", {
 
   ## Convex hull of these points should have same characteristics as original cube
   ts <- convhulln(pn, "FA")
-  expect_equal(length(ts), 3)
   expect_equal(ts$area, 6)
   expect_equal(ts$vol, 1)
 
