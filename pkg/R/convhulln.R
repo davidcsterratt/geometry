@@ -116,6 +116,8 @@ convhulln <- function (p, options = "Tv", return.non.triangulated.facets = FALSE
 ##' @method plot convhulln
 ##' @export 
 plot.convhulln <- function(x, y, ...) {
+  if (ncol(x$p) < 2 || ncol(x$p) > 3)
+    stop("Only 2D and 3D convhulls can be plotted")
   args <- list(...)
   add <- FALSE
   if ("add" %in% names(args)) {
@@ -131,5 +133,17 @@ plot.convhulln <- function(x, y, ...) {
     p <- x$p
     do.call(segments, c(list(p[m[,1],1],p[m[,1],2],p[m[,2],1],p[m[,2],2]),
                         args))
+  }
+  if (ncol(x$p) == 3) {
+    if(requireNamespace("rgl") == FALSE)
+      stop("the rgl package is required for tetramesh")
+    if (!add) rgl::rgl.clear()
+    if (ncol(x$hull) == 3) {
+      do.call(rgl::rgl.triangles,
+              c(list(x$p[t(x$hull),1], x$p[t(x$hull),2], x$p[t(x$hull),3]),
+                args))
+    } else {
+      stop("At present only convhulls with triangulated facets can be plotted")
+    }
   }
 }
