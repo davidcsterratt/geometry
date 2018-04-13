@@ -123,7 +123,6 @@ plot.convhulln <- function(x, y, ...) {
   if ("add" %in% names(args)) {
     add <- args$add
     args$add <- NULL
-    print(args)
   }
   if (ncol(x$p) == 2) {
     if (!add) {
