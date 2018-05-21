@@ -1,4 +1,6 @@
-modified function			file		line#		date		by			reason
-=================			====		=====		====		==			======
-qh_exit			usermem_r.c		43		2012/04/03	David Sterratt		To fix warnings about exit being called
-
+modified function			file            line#		date        by              reason
+=================			====		        =====		====		    ==			        ======
+qh_exit               usermem_r.c		  43		  2012/04/03	David Sterratt	To fix warnings about exit being called
+qh_printf             userprintf_r.c  55      2018/05/21  David Sterratt  Printing error messages
+qh_printf             userprintf_r.c  63      2018/05/21  David Sterratt  Printing error messages
+qh_printf             userprintf_r.c  72      2018/05/21  David Sterratt  Printing error messages
