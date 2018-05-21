@@ -59,15 +59,16 @@ test_that("halfspacen can compute volume of intersection of halfspaces", {
   expect_equal(ts$vol, 1*0.5^3)
 })
 
-test_that("convhulln can run on an example with 3000 points", {
+test_that("halfspacen can do the round trip on an example with 3000 points",
+{
   set.seed(1)
   ps <- matrix(rnorm(3000), ncol=3)
   ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1,3)))
   ch <- convhulln(ps, "n FA")
-
+  
   pn <- halfspacen(ch$normals, c(0, 0, 0))
   chn <- convhulln(pn, "n FA")
-
+  
   expect_equal(ch$area, chn$area)
   expect_equal(ch$vol, chn$vol)
 })

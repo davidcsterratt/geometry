@@ -98,7 +98,8 @@ test_that("intersectn can compute the volume of overlapping delaunay triangulati
   vol <- 0
   for (i in 1:nrow(dt1)) {
     for (j in 1:nrow(dt2)) {
-      is <- suppressMessages(intersectn(ps1[dt1[i,],], ps2[dt2[j,],]))
+      print(paste(i, j))
+      is <- intersectn(ps1[dt1[i,],], ps2[dt2[j,],])
       vol <- vol + is$ch$vol
     }
   }

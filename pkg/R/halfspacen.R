@@ -69,7 +69,7 @@ halfspacen <- function (p, fp, options = "Tv") {
   ## remove the most similar ones
   out <- tryCatch(.Call("C_halfspacen", p, as.character(options), tmpdir, PACKAGE="geometry"),
                   error=function(e) {
-                    if (e$message == "Received error code 2 from qhull.") {
+                    if (grepl("^Received error code 2 from qhull.", e$message)) {
                       dpmax <- 0
                       for (i in 1:(nrow(p)-1)) {
                         for (j in (i+1):nrow(p)) {
@@ -82,10 +82,12 @@ halfspacen <- function (p, fp, options = "Tv") {
                         }
                       }
                       return(halfspacen(p[-imax,], fp, options))
-                    } else {
-                      stop("Unrecoverable error")
                     }
+                    return(e)
                   })
+  if (inherits(out, "error")) {
+    stop(out$message)
+  }
   return(out)
 }
 

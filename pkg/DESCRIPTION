@@ -29,7 +29,7 @@ Depends:
     magic
 Imports:
     Rcpp,
-    quadprog
+    lpSolve
 Suggests:
     testthat,
     rgl,
