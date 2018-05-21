@@ -168,7 +168,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   UNPROTECT(2);
   
   if (exitcode & (exitcode != 2)) {
-    error("Received error code %d from qhull.", exitcode);
+    error("Received error code %d from qhull. Qhull error:\n    %s    %s", exitcode, errstr1, errstr2);
   } 
 
   
