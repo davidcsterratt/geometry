@@ -21,62 +21,20 @@
 
 SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
 {
+  /* Return value*/
   SEXP retval;
-  int i, j;
+
+  /* Run Qhull */
+  
+  qhT *qh= (qhT*)malloc(sizeof(qhT));
+  char errstr1[100], errstr2[100];
   unsigned int dim, n;
-  int exitcode = 1; 
-  boolT ismalloc;
-  char flags[250];             /* option flags for qhull, see qh_opt.htm */
-  double *pt_array;
+  char cmd[50] = "qhull H";
+  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr1, errstr2);
 
-  /* We cannot print directly to stdout in R, and the alternative of
-     using R_Outputfile does not seem to work for all
-     architectures. Setting outfile to NULL, is not an option, as an
-     open file handle is required for a call to freopen in the Qhull
-     code when qh_new_qhull() is called. Therefore use the ersatz
-     stdout, tmpstdout (see below). */
-  FILE *errfile = NULL;       
-
-  if(!isString(options) || length(options) != 1){
-    error("Second argument must be a single string.");
-  }
-  if(!isMatrix(p) || !isReal(p)){
-    error("First argument should be a real matrix.");
-  }
-
-  /* Read options into command */
-	i = LENGTH(STRING_ELT(options,0)); 
-  if (i > 200) 
-    error("Option string too long");
-  /* H specifies the halfspace method */
-  sprintf(flags,"qhull H %s", CHAR(STRING_ELT(options,0))); 
-
-  /* Check input matrix */
-  dim = ncols(p);
-  n   = nrows(p);
-  if(dim <= 0 || n <= 0){
-    error("Invalid input matrix.");
-  }
-
-  pt_array = (double *) R_alloc(n*dim, sizeof(double)); 
-  for(i=0; i < n; i++)
-    for(j=0; j < dim; j++)
-      pt_array[dim*i+j] = REAL(p)[i+n*j]; /* could have been pt_array = REAL(p) if p had been transposed */
-
-  ismalloc = False; /* True if qhull should free points in qh_freeqhull() or reallocation */
-
-  /* Jiggery-pokery to create and destroy the ersatz stdout, and the
-     call to qhull itself. */    
-  const char *name;
-  name = R_tmpnam("Rf", CHAR(STRING_ELT(tmpdir, 0)));
-  tmpstdout = fopen(name, "w");
-  qhT *qh = (qhT*)malloc(sizeof(qhT));
-  qh_zero(qh, errfile);
-  exitcode = qh_new_qhull (qh, dim, n, pt_array, ismalloc, flags, tmpstdout, errfile);
-  fclose(tmpstdout);
-  unlink(name);
-  free((char *) name); 
-
+  /* Extract information from output */
+  
+  int i, j;
   facetT *facet;
   boolT zerodiv;
   coordT *point, *normp, *coordp, *feasiblep;
@@ -140,7 +98,7 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
   UNPROTECT(1);
 
   if (exitcode) {
-    error("Received error code %d from qhull.", exitcode);
+    error("Received error code %d from qhull. Qhull error:\n    %s    %s", exitcode, errstr1, errstr2);
   }
   return retval;
 }

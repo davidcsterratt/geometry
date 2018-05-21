@@ -51,6 +51,9 @@ NEW FEATURES
   https://github.com/davidcsterratt/geometry/issues/22
   Thanks to Pavlo Mozharovskyi for pushing code to achive this
 
+* delaunayn() and convhulln() throw Qhull error messages when Qhull fails
+  https://github.com/davidcsterratt/geometry/issues/28
+
 BUG FIXES
 
 * Fix for Issue #6072: distmesh2d - convergence problem

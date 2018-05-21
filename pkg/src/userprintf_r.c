@@ -54,16 +54,25 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     if (qh && qh->ANNOTATEoutput) {
       /* CHANGE TO SOURCE */
       /* fprintf(fp, "[QH%.4d]", msgcode); */
-      REprintf("[QH%.4d]", msgcode);
+      if (fp && (fp != qh_FILEstderr)) {
+        fprintf(fp, "[QH%.4d]", msgcode);
+      } else {
+        REprintf("[QH%.4d]", msgcode);
+      }
     }else if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
       /* CHANGE TO SOURCE */
       /* fprintf(fp, "QH%.4d ", msgcode); */
-      REvprintf(fmt, args);
+      if (fp && (fp != qh_FILEstderr)) {
+        fprintf(fp, "QH%.4d ", msgcode);
+      } else {
+        REprintf("QH%.4d ", msgcode);
+        REvprintf(fmt, args);
+      }
     }
     /* CHANGE TO SOURCE */
     /* vfprintf(fp, fmt, args); */
     if (fp && (fp != qh_FILEstderr)) {
-        vfprintf(fp, fmt, args);
+      vfprintf(fp, fmt, args);
     }
     va_end(args);
 

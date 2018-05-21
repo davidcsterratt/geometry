@@ -4,7 +4,7 @@
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
+** the Free Software Foundation; either version 3 of the License, or
 ** (at your option) any later version.
 **
 ** This program is distributed in the hope that it will be useful,
@@ -37,74 +37,25 @@
 
 SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
 {
+  /* Initialise return values */ 
+
   SEXP retlist, retnames;       /* Return list and names */
   int retlen = 3;               /* Length of return list */
 	SEXP tri;                     /* The triangulation */
   SEXP neighbour, neighbours;   /* List of neighbours */
-  SEXP areas;                    /* Facet areas */
-	int i, j;
-	unsigned dim, n;
-  int exitcode = 1;
-	boolT ismalloc;
-	char flags[250];             /* option flags for qhull, see qh_opt.htm */
-	double *pt_array;
-
-  /* Initialise return values */
+  SEXP areas;                   /* Facet areas */
 	tri = neighbours = retlist = areas = R_NilValue;
 
-  /* We cannot print directly to stdout in R, and the alternative of
-     using R_Outputfile does not seem to work for all
-     architectures. Setting outfile to NULL, is not an option, as an
-     open file handle is required for a call to freopen in the Qhull
-     code when qh_new_qhull() is called. Therefore use the ersatz
-     stdout, tmpstdout (see below). */
-  /* FILE *outfile = NULL; */
-  /* qh_fprintf() in userprint.c has been redefined so that a NULL
-     errfile results in printing via REprintf(). */
-  FILE *errfile = NULL;       
-
-	if(!isString(options) || length(options) != 1){
-		error("Second argument must be a single string.");
-	}
-	if(!isMatrix(p) || !isReal(p)){
-		error("First argument should be a real matrix.");
-	}
+  /* Run Qhull */
   
-  /* Read options into command */
-	i = LENGTH(STRING_ELT(options,0)); 
-  if (i > 200) 
-    error("Option string too long");
-  sprintf(flags,"qhull d Qbb T0 Fn %s", CHAR(STRING_ELT(options,0))); 
-
-  /* Check input matrix */
-	dim = ncols(p);
-	n   = nrows(p);
-	if(dim <= 0 || n <= 0){
-		error("Invalid input matrix.");
-	}
-  if (n <= dim) {
-    error("Number of points is not greater than the number of dimensions.");
-  }
-
-  i = 0, j = 0;
-  pt_array = (double *) R_alloc(n*dim, sizeof(double)); 
-  for(i=0; i < n; i++)
-    for(j=0; j < dim; j++)
-      pt_array[dim*i+j] = REAL(p)[i+n*j];
-  ismalloc = False;   /* True if qhull should free points in qh_freeqhull() or reallocation */
-
-  /* Jiggery-pokery to create and destroy the ersatz stdout, and the
-     call to qhull itself. */    
-  const char *name;
-  name = R_tmpnam("Rf", CHAR(STRING_ELT(tmpdir, 0)));
-  tmpstdout = fopen(name, "w");
   qhT *qh= (qhT*)malloc(sizeof(qhT));
-  qh_zero(qh, errfile);
-  exitcode = qh_new_qhull(qh, dim, n, pt_array, ismalloc, flags, tmpstdout, errfile); 
-  fclose(tmpstdout);
-  unlink(name);
-  free((char *) name); 
+  char errstr1[100], errstr2[100];
+  unsigned int dim, n;
+  char cmd[50] = "qhull d Qbb T0 Fn";
+  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr1, errstr2);
 
+  /* Extract information from output */
+  
   if (!exitcode) {                    /* 0 if no error from qhull */
     /* Triangulate non-simplicial facets - this commented out code
        does not appear to be needed, but retaining in case useful --
