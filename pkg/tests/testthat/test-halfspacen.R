@@ -72,4 +72,9 @@ test_that("convhulln can run on an example with 3000 points", {
   expect_equal(ch$vol, chn$vol)
 })
 
+test_that("halfspacen throws an error when the feasible point is not clearly inside the halfspace",
+{
+  load(file.path(system.file(package="geometry"), "extdata", "halfspacen.RData"))
+  expect_error(halfspacen(normals, fp), "QH6023 qhull input error")
+})
 
