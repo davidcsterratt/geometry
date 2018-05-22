@@ -78,9 +78,9 @@ feasible.point <- function(ps1, ps2, tol=0) {
   N <- ncol(ps1)
 
   objective.in <- c(rep(0, N), 1)
-  const.mat <- rbind(cbind(ch1$normals[,-(N + 1)], 1),
-                     cbind(ch2$normals[,-(N + 1)], 1),
-                     c(rep(0, N), -1))
+  const.mat <- round(rbind(cbind(ch1$normals[,-(N + 1)], 1),
+                           cbind(ch2$normals[,-(N + 1)], 1),
+                           c(rep(0, N), -1)), 6)
   const.rhs <- -c(ch1$normals[,N + 1], ch2$normals[,N + 1], tol)
   const.dir <- c(rep("<", length(const.rhs)))
   
