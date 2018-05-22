@@ -76,8 +76,6 @@ feasible.point <- function(ps1, ps2, tol=0) {
   ch1 <- convhulln(ps1, "n")
   ch2 <- convhulln(ps2, "n")
   N <- ncol(ps1)
-  n1 <- nrow(ch1$hull)
-  n2 <- nrow(ch2$hull)
 
   objective.in <- c(rep(0, N), 1)
   const.mat <- rbind(cbind(ch1$normals[,-(N + 1)], 1),
