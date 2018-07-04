@@ -4,12 +4,12 @@
 \alias{feasible.point}
 \title{Find point in intersection of convex hulls}
 \usage{
-feasible.point(ps1, ps2, tol = 0)
+feasible.point(ch1, ch2, tol = 0)
 }
 \arguments{
-\item{ps1}{First set of points defining convex hull}
+\item{ch1}{First convex hull with normals}
 
-\item{ps2}{Second set of points defining convex hull}
+\item{ch2}{Second convex hull with normals}
 
 \item{tol}{The point must be at least this far within the facets
 of both convex hulls}

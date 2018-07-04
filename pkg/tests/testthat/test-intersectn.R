@@ -25,7 +25,7 @@ test_that("intersectn gives zero volume on non-overlapping triangles", {
   ps2 <- ps1
   ps2[,2] <- ps2[,2] + 3
   
-  expect_equal(feasible.point(ps1, ps2), NA)
+  expect_equal(feasible.point(convhulln(ps1, "n"), convhulln(ps2, "n")), NA)
   is <-  intersectn(ps1, ps2)
   expect_equal(is$ch$vol, 0)
   
@@ -39,7 +39,7 @@ test_that("intersectn gives zero volume on non-overlapping triangles", {
   ps2 <- ps1
   ps2[,2] <- ps2[,2] + 3
   
-  expect_equal(feasible.point(ps1, ps2), NA)
+  expect_equal(feasible.point(convhulln(ps1, "n"), convhulln(ps2, "n")), NA)
   is <-  intersectn(ps1, ps2)
   expect_equal(is$ch$vol, 0)
   
@@ -55,7 +55,7 @@ test_that("feasible.point works on a 3D example", {
                c( 1.0000000,  0.0000000,  1.00000),
                c( 0.0000000,  0.0000000,  1.00000),
                c( 1.0000000,  0.0000000,  0.00000))
-  expect_equal(feasible.point(ps1, ps2), NA)
+  expect_equal(feasible.point(convhulln(ps1, "n"), convhulln(ps2, "n")), NA)
 })
 
 test_that("intersectn can run on overlapping tetrahedra", {

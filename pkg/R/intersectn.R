@@ -24,13 +24,11 @@
 ##' @author David Sterratt
 ##' @seealso convhulln, halfspacen, inhulln
 intersectn <- function(ps1, ps2, tol=0) {
-  ## Check there are overlaps
   ch1 <- convhulln(ps1, "n FA")
   ch2 <- convhulln(ps2, "n FA")
 
-  fp <- NA
-  ## Find feasible point
-  fp <- feasible.point(ps1, ps2, tol=tol)
+  ## Find feasible point in which points could overlap
+  fp <- feasible.point(ch1, ch2, tol=tol)
   if (all(is.na(fp))) {
     return(list(ch1=ch1, ch2=ch2, ch=list(vol=0)))
   }
@@ -66,16 +64,14 @@ intersectn <- function(ps1, ps2, tol=0) {
 ##' feasible point is found using a linear program similar to the one
 ##' suggested at \url{../doc/html/qhalf.html#notes}
 ##' 
-##' @param ps1 First set of points defining convex hull
-##' @param ps2 Second set of points defining convex hull
+##' @param ch1 First convex hull with normals
+##' @param ch2 Second convex hull with normals
 ##' @param tol The point must be at least this far within the facets
 ##'   of both convex hulls
 ##' @export
-feasible.point <- function(ps1, ps2, tol=0) {
+feasible.point <- function(ch1, ch2, tol=0) {
   debug <- FALSE
-  ch1 <- convhulln(ps1, "n")
-  ch2 <- convhulln(ps2, "n")
-  N <- ncol(ps1)
+  N <- ncol(ch1$p)
 
   objective.in <- c(rep(0, N), 1)
   const.mat <- round(rbind(cbind(ch1$normals[,-(N + 1)], 1),
