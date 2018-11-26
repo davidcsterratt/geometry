@@ -61,12 +61,14 @@ halfspacen <- function (p, fp, options = "Tv") {
     stop(paste("Dimension of hyperspace is", ncol(p) - 1, "but dimension of fixed point is", length(as.vector(fp))))
   }
   
-  ## Put in fixed point
-  options <- paste(options, paste0("H",paste(fp, collapse=",")))
 
   ## This is ugly - if halspacen fails because of similar hyperplanes,
   ## remove the most similar ones
-  out <- tryCatch(.Call("C_halfspacen", p, as.character(options), tmpdir, PACKAGE="geometry"),
+  ## The fixed point is passed as an option
+  out <- tryCatch(.Call("C_halfspacen", p,
+                        as.character(paste(options, paste0("H",paste(fp, collapse=",")))),
+                        tmpdir,
+                        PACKAGE="geometry"),
                   error=function(e) {
                     if (grepl("^Received error code 2 from qhull.", e$message)) {
                       dpmax <- 0
