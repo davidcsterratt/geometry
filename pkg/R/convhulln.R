@@ -74,8 +74,7 @@ convhulln <- function (p, options = "Tv", return.non.triangulated.facets = FALSE
   ## R should guarantee the tmpdir is writable, but check in any case
   if (file.access(tmpdir, 2) == -1) {
     stop(paste("Unable to write to R temporary directory", tmpdir, "\n",
-               "This is a known issue in the geometry package\n",
-               "See https://r-forge.r-project.org/tracker/index.php?func=detail&aid=5738&group_id=1149&atid=4552"))
+               "Try setting the permissions on this directory so it is writable."))
   }
   
   ## Input sanitisation
