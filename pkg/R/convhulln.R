@@ -134,7 +134,7 @@ plot.convhulln <- function(x, y, ...) {
   }
   if (ncol(x$p) == 3) {
     if(requireNamespace("rgl") == FALSE)
-      stop("the rgl package is required for tetramesh")
+      stop("The rgl package is required for tetramesh")
     if (!add) rgl::rgl.clear()
     if (ncol(x$hull) == 3) {
       do.call(rgl::rgl.triangles,
@@ -145,3 +145,36 @@ plot.convhulln <- function(x, y, ...) {
     }
   }
 }
+
+##' Convert convexhulln object to RGL mesh
+##'
+##' @param x Convexhull object
+##' @param ... Arguments to \code{\link[rgl]{qmesh3d}} or
+##'   \code{\link[rgl]{tmesh3d}}
+##' @return \code{\link[rgl]{mesh3d}} object, which can be displayed
+##'   in RGL with \code{\link[rgl]{dot3d}}, \code{\link[rgl]{wire3d}}
+##'   or \code{\link[rgl]{shade3d}}
+##' 
+##' @seealso \code{\link[rgl]{as.mesh3d}}
+##' @export
+as.mesh3d <- function(x, ...) UseMethod("as.mesh3d")
+
+##' @importFrom graphics plot
+##' @method as.mesh3d convhulln
+##' @export 
+as.mesh3d.convhulln <- function(x, ...) {
+  if(requireNamespace("rgl") == FALSE) 
+    stop("The rgl package is required for as.mesh.convhulln")
+  if (ncol(x$p) != 3) {
+    stop("Only convex hulls of points in 3D can be turned into meshes")
+  }
+  if (ncol(x$hull) == 4) {
+    stop("At present only convhulls with triangulated facets can be converted to mesh3d")
+    ## return(rgl::qmesh3d(t(x$p), t(x$hull), homogeneous=FALSE, ...))
+  }
+  if (ncol(x$hull) == 3) {
+    return(rgl::tmesh3d(t(x$p), t(x$hull), homogeneous=FALSE, ...))
+  }
+  stop("Facets of hull must be triangles or quadrilaterals")
+}
+
