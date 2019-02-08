@@ -10,7 +10,7 @@ bary2cart(X, Beta)
 \item{X}{Reference simplex in \eqn{N} dimensions represented by a
 \eqn{N+1}-by-\eqn{N} matrix}
 
-\item{Beta}{\eqn{M} points in baryocentric coordinates with
+\item{Beta}{\eqn{M} points in barycentric coordinates with
 respect to the simplex \code{X} represented by a
 \eqn{M}-by-\eqn{N+1} matrix}
 }

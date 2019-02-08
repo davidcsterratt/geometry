@@ -278,7 +278,7 @@ cart2bary <- function(X, P) {
 ##' 
 ##' @param X Reference simplex in \eqn{N} dimensions represented by a
 ##' \eqn{N+1}-by-\eqn{N} matrix
-##' @param Beta \eqn{M} points in baryocentric coordinates with
+##' @param Beta \eqn{M} points in barycentric coordinates with
 ##' respect to the simplex \code{X} represented by a
 ##' \eqn{M}-by-\eqn{N+1} matrix
 ##' @return \eqn{M}-by-\eqn{N} matrix in which each row is the
