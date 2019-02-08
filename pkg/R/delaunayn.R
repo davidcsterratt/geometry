@@ -121,7 +121,9 @@ function(p, options=NULL, full=FALSE) {
 
   if (full) {
     options <- paste(options, "Fa Fn")
-    message("delaunayn: \"full\" option is deprecated; adding \"Fa\" and \"Fn\" to options")
+    ## Enable message in 0.4.1
+    ## Turn to warning in 0.4.2
+    ## message("delaunayn: \"full\" option is deprecated; adding \"Fa\" and \"Fn\" to options")
   }
 
   

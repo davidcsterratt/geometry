@@ -1,6 +1,6 @@
 /* Copyright (C) 2000 Kai Habel
 ** Copyright R-version (C) 2005 Raoul Grasman 
-**                     (C) 2013-2015, 2017, 2018 David Sterratt
+**                     (C) 2013-2015, 2017-2019 David Sterratt
 **                     (C) 2018 Pavlo Mozharovskyi
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -130,7 +130,7 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP returnNonTriangula
           INTEGER(retval)[i+nrows(retval)*j] = NA_INTEGER;
         }
 
-    /* Return area and volume */
+    /* Return area and volume - will be there when option "FA" is provided */
     if (qh->totarea != 0.0) {
       area = PROTECT(allocVector(REALSXP, 1));
       REAL(area)[0] = qh->totarea;
