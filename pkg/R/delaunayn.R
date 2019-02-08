@@ -1,36 +1,47 @@
-##' Delaunay triangulation in N-dimensions
+##' Delaunay triangulation in N dimensions
 ##' 
 ##' The Delaunay triangulation is a tessellation of the convex hull of
 ##' the points such that no N-sphere defined by the N-triangles
 ##' contains any other points from the set.
 ##'
-##' @param p \code{p} is an \code{n}-by-\code{dim} matrix. The rows of
-##'   \code{p} represent \code{n} points in \code{dim}-dimensional
+##' @param p \code{p} is an \code{M}-by-\code{N} matrix. The rows of
+##'   \code{p} represent \code{M} points in \code{N}-dimensional
 ##'   space.
 ##'
 ##' @param options String containing extra options for the underlying
-##'   Qhull command.(See the Qhull documentation
-##'   (\url{../doc/html/qdelaun.html}) for the available options.) The
-##'   \code{Qbb} option is always passed to Qhull. The default options
-##'   are \code{Qcc Qc Qt Qz} for \code{dim} <4 and \code{Qcc Qc Qt
-##'   Qx} for \code{dim}>=4.  If neither of the \code{QJ} or \code{Qt}
+##'   Qhull command; see the Qhull documentation
+##'   (\url{../doc/html/qdelaun.html}) for the available options. The
+##'   Qhull options \code{Fn} and \code{Fa} result in delaunayn
+##'   returning areas and 
+##'
+##'   The \code{Qbb} option is always passed to Qhull. The default
+##'   options are \code{Qcc Qc Qt Qz} for \code{N} <4 and \code{Qcc Qc
+##'   Qt Qx} for \code{N}>=4. If neither of the \code{QJ} or \code{Qt}
 ##'   options are supplied, the \code{Qt} option is passed to Qhull.
 ##'   The \code{Qt} option ensures all Delaunay regions are simplical
-##'   (e.g., triangles in 2-d).  See \url{../doc/html/qdelaun.html}
-##'   for more details. Contrary to the Qhull documentation, no
-##'   degenerate (zero area) regions are returned with the \code{Qt}
-##'   option since the R function removes them from the triangulation.
-##'   For silent operation, specify the option \code{Pp}.
+##'   (e.g., triangles in 2-d). See \url{../doc/html/qdelaun.html} for
+##'   more details. Contrary to the Qhull documentation, no degenerate
+##'   (zero area) regions are returned with the \code{Qt} option since
+##'   the R function removes them from the triangulation.
 ##'
-##' @param full Return all information associated with triangulation
-##'   as a list. At present this is the triangulation (\code{tri}), a
-##'   vector of facet areas (\code{areas}) and a list of neighbours of
-##'   each facet (\code{neighbours}).
+##' @param full Deprecated and will be removed in a future release.
+##'   Adds options \code{Fa} and \code{Fn}.
 ##'
-##' @return The return matrix has \code{m} rows and \code{dim+1}
-##'   columns. It contains for each row a set of indices to the
-##'   points, which describes a simplex of dimension \code{dim}. The
-##'   3D simplex is a tetrahedron.
+##' @return If neither of the Qhull options \code{Fn} or \code{Fa} are
+##'   specified, return the Delaunay triangulation as a matrix with
+##'   \code{M} rows and \code{N+1} columns in which each row contains
+##'   a set of indices to the input points \code{p}. Thus each row
+##'   describes a simplex of dimension \code{N}, e.g. a triangle in 2D
+##'   or a tetrahedron in 3D.
+##'
+##'   If the options argument contains \code{Fn} or \code{Fa}, return
+##'   a list comprising the named elements:
+##'   \itemize{
+##'     \item{"tri"} {The Delaunay triangulation described above}
+##'     \item{"areas"} {If \code{Fa} is specified, a \code{M}-dimensional vector containing the generalise area of each simplex (e.g. in 2D the areas of triangles; in 3D the volumes of tetrahedra)}
+##'     \item{"neighbours"}{If \code{Fn} is specified, a list of neighbours
+##'           of each simplex} 
+##'   }
 ##' 
 ##' @note This function interfaces the Qhull library and is a port
 ##'   from Octave (\url{http://www.octave.org}) to R. Qhull computes
@@ -107,6 +118,12 @@ function(p, options=NULL, full=FALSE) {
       options <- "Qt Qc Qx"
     }
   }
+
+  if (full) {
+    options <- paste(options, "Fa Fn")
+    message("delaunayn: \"full\" option is deprecated; adding \"Fa\" and \"Fn\" to options")
+  }
+
   
   ## Input sanitisation
   options <- paste(options, collapse=" ")
@@ -118,21 +135,17 @@ function(p, options=NULL, full=FALSE) {
   if (!grepl("Qt", options) & !grepl("QJ", options)) {
     options <- paste(options, "Qt")
   }
-  ret <- .Call("C_delaunayn", p, as.character(options), tmpdir, PACKAGE="geometry")
 
-  if (nrow(ret$tri) == 1) {
-    ret$areas <- 1/factorial(ncol(p))*abs(det(cbind(p[ret$tri,], 1)))
-    ret$neighbours <- NULL
-  } 
-  ## Remove degenerate simplicies
-  nd <- which(ret$areas != 0)
-  ret$tri <- ret$tri[nd,,drop=FALSE]
-  ret$areas <- ret$areas[nd]
-  ret$neighbours <- ret$neighbours[nd]
+  out <- .Call("C_delaunayn", p, as.character(options), tmpdir, PACKAGE="geometry")
 
-  if (!full) {
-    return(ret$tri)
+  if (is.list(out)) {
+    class(out) <- "delaunayTriangulation"
+    out$p <- p
   }
-  class(ret) <- "delaunayTriangulation"
-  return(ret)
+  return(out)
 }
+
+##  LocalWords:  param Qhull Fn delaunayn Qbb Qcc Qc Qz Qx QJ itemize
+##  LocalWords:  tri Voronoi Quickhull distmesh Grasman Gramacy Kai
+##  LocalWords:  Habel seealso tripack convhulln Dobkin Huhdanpaa ACM
+##  LocalWords:  dQuote emph dplot pc tc tetramesh dontrun useDynLib

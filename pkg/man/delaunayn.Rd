@@ -2,39 +2,50 @@
 % Please edit documentation in R/delaunayn.R
 \name{delaunayn}
 \alias{delaunayn}
-\title{Delaunay triangulation in N-dimensions}
+\title{Delaunay triangulation in N dimensions}
 \usage{
 delaunayn(p, options = NULL, full = FALSE)
 }
 \arguments{
-\item{p}{\code{p} is an \code{n}-by-\code{dim} matrix. The rows of
-\code{p} represent \code{n} points in \code{dim}-dimensional
+\item{p}{\code{p} is an \code{M}-by-\code{N} matrix. The rows of
+\code{p} represent \code{M} points in \code{N}-dimensional
 space.}
 
 \item{options}{String containing extra options for the underlying
-Qhull command.(See the Qhull documentation
-(\url{../doc/html/qdelaun.html}) for the available options.) The
-\code{Qbb} option is always passed to Qhull. The default options
-are \code{Qcc Qc Qt Qz} for \code{dim} <4 and \code{Qcc Qc Qt
-Qx} for \code{dim}>=4.  If neither of the \code{QJ} or \code{Qt}
-options are supplied, the \code{Qt} option is passed to Qhull.
-The \code{Qt} option ensures all Delaunay regions are simplical
-(e.g., triangles in 2-d).  See \url{../doc/html/qdelaun.html}
-for more details. Contrary to the Qhull documentation, no
-degenerate (zero area) regions are returned with the \code{Qt}
-option since the R function removes them from the triangulation.
-For silent operation, specify the option \code{Pp}.}
+  Qhull command; see the Qhull documentation
+  (\url{../doc/html/qdelaun.html}) for the available options. The
+  Qhull options \code{Fn} and \code{Fa} result in delaunayn
+  returning areas and 
 
-\item{full}{Return all information associated with triangulation
-as a list. At present this is the triangulation (\code{tri}), a
-vector of facet areas (\code{areas}) and a list of neighbours of
-each facet (\code{neighbours}).}
+  The \code{Qbb} option is always passed to Qhull. The default
+  options are \code{Qcc Qc Qt Qz} for \code{N} <4 and \code{Qcc Qc
+  Qt Qx} for \code{N}>=4. If neither of the \code{QJ} or \code{Qt}
+  options are supplied, the \code{Qt} option is passed to Qhull.
+  The \code{Qt} option ensures all Delaunay regions are simplical
+  (e.g., triangles in 2-d). See \url{../doc/html/qdelaun.html} for
+  more details. Contrary to the Qhull documentation, no degenerate
+  (zero area) regions are returned with the \code{Qt} option since
+  the R function removes them from the triangulation.}
+
+\item{full}{Deprecated and will be removed in a future release.
+Adds options \code{Fa} and \code{Fn}.}
 }
 \value{
-The return matrix has \code{m} rows and \code{dim+1}
-  columns. It contains for each row a set of indices to the
-  points, which describes a simplex of dimension \code{dim}. The
-  3D simplex is a tetrahedron.
+If neither of the Qhull options \code{Fn} or \code{Fa} are
+  specified, return the Delaunay triangulation as a matrix with
+  \code{M} rows and \code{N+1} columns in which each row contains
+  a set of indices to the input points \code{p}. Thus each row
+  describes a simplex of dimension \code{N}, e.g. a triangle in 2D
+  or a tetrahedron in 3D.
+
+  If the options argument contains \code{Fn} or \code{Fa}, return
+  a list comprising the named elements:
+  \itemize{
+    \item{"tri"} {The Delaunay triangulation described above}
+    \item{"areas"} {If \code{Fa} is specified, a \code{M}-dimensional vector containing the generalise area of each simplex (e.g. in 2D the areas of triangles; in 3D the volumes of tetrahedra)}
+    \item{"neighbours"}{If \code{Fn} is specified, a list of neighbours
+          of each simplex} 
+  }
 }
 \description{
 The Delaunay triangulation is a tessellation of the convex hull of

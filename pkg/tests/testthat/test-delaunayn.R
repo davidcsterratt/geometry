@@ -13,7 +13,7 @@ test_that("delaunayn produces the correct output", {
   ## With full output, there should be a trinagulation, areas and
   ## neighbours and the sum of the ares should be 8
   ts.full <- delaunayn(ps, full=TRUE)
-  expect_equal(ts, ts.full$tri)
+  expect_equal(ts, ts.full$tri, check.attributes=FALSE)
   expect_equal(length(ts.full$areas), nrow(ts.full$tri))
   expect_equal(length(ts.full$neighbours), nrow(ts.full$tri))
   expect_equal(sum(ts.full$area), 8)
@@ -79,6 +79,7 @@ test_that("A square is triangulated", {
   ## This doesn't work if the Qz option isn't supplied
   square <- rbind(c(0, 0), c(0, 1), c(1, 0), c(1, 1))
   expect_equal(delaunayn(square), rbind(c(4, 2, 1),
-                                              c(4, 3, 1)))
+                                        c(4, 3, 1)),
+               check.attributes=FALSE)
   expect_error(delaunayn(square, ""))
 })

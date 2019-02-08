@@ -1,6 +1,6 @@
 /* Copyright (C) 2000, 2013, 2015, 2017 Kai Habel
 ** Copyright R-version (c) 2005 Raoul Grasman
-**                     (c) 2013-2014 David Sterratt
+**                     (c) 2013-2019 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   /* Initialise return values */ 
 
   SEXP retlist, retnames;       /* Return list and names */
-  int retlen = 3;               /* Length of return list */
+  int retlen = 1;               /* Length of return list */
 	SEXP tri;                     /* The triangulation */
   SEXP neighbour, neighbours;   /* List of neighbours */
   SEXP areas;                   /* Facet areas */
@@ -51,7 +51,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   qhT *qh= (qhT*)malloc(sizeof(qhT));
   char errstr1[100], errstr2[100];
   unsigned int dim, n;
-  char cmd[50] = "qhull d Qbb T0 Fn";
+  char cmd[50] = "qhull d Qbb T0";
   int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr1, errstr2);
 
   /* Extract information from output */
@@ -71,7 +71,13 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     int nf=0;                 /* Number of facets */
     FORALLfacets {
       if (!facet->upperdelaunay) {
-        nf++;
+        /* Remove degenerate simplicies */
+        if (!facet->isarea) {
+          facet->f.area= qh_facetarea(qh, facet);
+          facet->isarea= True;
+        }
+        if (facet->f.area)
+          nf++;
       }
       /* Double check. Non-simplicial facets will cause segfault
          below */
@@ -84,13 +90,19 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
       
     /* Alocate the space in R */
     PROTECT(tri = allocMatrix(INTSXP, nf, dim+1));
-    PROTECT(neighbours = allocVector(VECSXP, nf));
-    PROTECT(areas = allocVector(REALSXP, nf));
-
+    if (hasPrintOption(qh, qh_PRINTneighbors)) {
+      PROTECT(neighbours = allocVector(VECSXP, nf));
+      retlen++;
+    }
+    if (hasPrintOption(qh, qh_PRINTarea)) {
+      PROTECT(areas = allocVector(REALSXP, nf));      
+      retlen++;
+    }
+    
     /* Iterate through facets to extract information */
     int i=0;
     FORALLfacets {
-      if (!facet->upperdelaunay) {
+      if (!facet->upperdelaunay && facet->f.area) {
         if (i >= nf) {
           error("Trying to access non-existent facet %i", i);
         }
@@ -104,23 +116,28 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
           j++;
         }
 
-        /* Neighbours */
-        PROTECT(neighbour = allocVector(INTSXP, qh_setsize(qh, facet->neighbors)));
-        j=0;
-        FOREACHneighbor_(facet) {
-          INTEGER(neighbour)[j] = neighbor->visitid ? neighbor->visitid: 0 - neighbor->id;
-          j++;
-        }
-        SET_VECTOR_ELT(neighbours, i, neighbour);
-        UNPROTECT(1);
-          
-        /* Area. Code modified from qh_getarea() in libquhull/geom2.c */
-        if ((facet->normal) && !(facet->upperdelaunay && qh->ATinfinity)) {
-          if (!facet->isarea) {
-            facet->f.area= qh_facetarea(qh, facet);
-            facet->isarea= True;
+        /* Neighbours - option Fn */
+        if (hasPrintOption(qh, qh_PRINTneighbors)) {
+          PROTECT(neighbour = allocVector(INTSXP, qh_setsize(qh, facet->neighbors)));
+          j=0;
+          FOREACHneighbor_(facet) {
+            INTEGER(neighbour)[j] = neighbor->visitid ? neighbor->visitid: 0 - neighbor->id;
+            j++;
           }
-          REAL(areas)[i] = facet->f.area;
+          SET_VECTOR_ELT(neighbours, i, neighbour);
+          UNPROTECT(1);
+        }
+
+        /* Areas - option Fa */
+        if (hasPrintOption(qh, qh_PRINTarea)) {
+          /* Area. Code modified from qh_getarea() in libquhull/geom2.c */
+          if ((facet->normal) && !(facet->upperdelaunay && qh->ATinfinity)) {
+            if (!facet->isarea) {
+              facet->f.area= qh_facetarea(qh, facet);
+              facet->isarea= True;
+            }
+            REAL(areas)[i] = facet->f.area;
+          }
         }
 
         i++;
@@ -130,9 +147,14 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     /* There has been an error; Qhull will print the error
        message */
     PROTECT(tri = allocMatrix(INTSXP, 0, dim+1));
-    PROTECT(neighbours = allocVector(VECSXP, 0));
-    PROTECT(areas = allocVector(REALSXP, 0));
-
+    if (hasPrintOption(qh, qh_PRINTneighbors)) {
+      PROTECT(neighbours = allocVector(VECSXP, 0));
+      retlen++;
+    }
+    if (hasPrintOption(qh, qh_PRINTarea)) {
+      PROTECT(areas = allocVector(REALSXP, 0));
+      retlen++;
+    }
 
     /* If the error been because the points are colinear, coplanar
        &c., then avoid mentioning an error by setting exitcode=2*/
@@ -142,16 +164,29 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     }
   }
 
-  PROTECT(retlist = allocVector(VECSXP, retlen));
-  PROTECT(retnames = allocVector(VECSXP, retlen));
-  SET_VECTOR_ELT(retlist, 0, tri);
-  SET_VECTOR_ELT(retnames, 0, mkChar("tri"));
-  SET_VECTOR_ELT(retlist, 1, neighbours);
-  SET_VECTOR_ELT(retnames, 1, mkChar("neighbours"));
-  SET_VECTOR_ELT(retlist, 2, areas);
-  SET_VECTOR_ELT(retnames, 2, mkChar("areas"));
-  setAttrib(retlist, R_NamesSymbol, retnames);
-  UNPROTECT(5);
+  /* Make a list if Fa or Fn specified */
+  int i = 0;                      /* Output counter */
+  if (retlen > 1) {
+    retlist = PROTECT(allocVector(VECSXP, retlen));
+    retnames = PROTECT(allocVector(VECSXP, retlen));
+    retlen += 2;
+    SET_VECTOR_ELT(retlist, i, tri);
+    SET_VECTOR_ELT(retnames, i, mkChar("tri"));
+    if (hasPrintOption(qh, qh_PRINTneighbors)) {
+        i++;
+        SET_VECTOR_ELT(retlist, i, neighbours);
+        SET_VECTOR_ELT(retnames, i, mkChar("neighbours"));
+    }
+
+    if (hasPrintOption(qh, qh_PRINTarea)) {
+        i++;
+        SET_VECTOR_ELT(retlist, i, areas);
+        SET_VECTOR_ELT(retnames, i, mkChar("areas"));
+    }
+    setAttrib(retlist, R_NamesSymbol, retnames);
+  } else {
+    retlist = tri;
+  }
 
   /* Register qhullFinalizer() for garbage collection and attach a
      pointer to the hull as an attribute for future use. */
@@ -165,7 +200,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     R_RegisterCFinalizerEx(ptr, qhullFinalizer, TRUE);
     setAttrib(retlist, tag, ptr);
   }
-  UNPROTECT(2);
+  UNPROTECT(retlen + 2);
   
   if (exitcode & (exitcode != 2)) {
     error("Received error code %d from qhull. Qhull error:\n    %s    %s", exitcode, errstr1, errstr2);
