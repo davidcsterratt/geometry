@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 David Sterratt
+/* Copyright (C) 2018, 2019 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
 
   /* Extract information from output */
   
-  int i, j;
+  int i;
   facetT *facet;
   boolT zerodiv;
   coordT *point, *normp, *coordp, *feasiblep;
