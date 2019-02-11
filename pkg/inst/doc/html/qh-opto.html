@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
 <title>Qhull output options</title>
 </head>
 
@@ -17,7 +17,8 @@
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a></p>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a></p>
 
 <hr>
 <!-- Main text of document -->
@@ -33,7 +34,7 @@ href="qh-optp.html#print">Print</a>, and <a
 href="qh-optg.html#geomview">Geomview</a> for other output
 options. </p>
 
-<p><b>Copyright &copy; 1995-2012 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -45,7 +46,8 @@ options. </p>
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a></p>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a></p>
 
 <h2>Output options</h2>
 
@@ -167,6 +169,11 @@ normal coefficients.</p>
 &lt;= -b </i>where <i>A</i> is the matrix of coefficients and <i>b</i>
 is the vector of offsets.</p>
 
+<p>A point is <i>inside</i> or <i>below</i> a hyperplane if its distance
+to the hyperplane is negative.  A point is <i>outside</i> or <i>above</i> a hyperplane
+if its distance to the hyperplane is positive.  Otherwise a point is <i>on</i> or
+<i>coplanar to</i> the hyperplane.
+
 <p>If cdd output is specified ('<a href="qh-optf.html#FD">FD</a>'),
 Qhull prints the command line, the keyword &quot;begin&quot;, the
 number of facets, the dimension (plus one), the keyword
@@ -202,7 +209,7 @@ displays the point coordinates without vertex and facet information.</p>
 <p>In 3-d, Geomview can load the file directly if you delete the
 first line (e.g., by piping through '<tt>tail +2</tt>').</p>
 
-<p>For Voronoi diagrams (<a href=qvoronoi.htm>qvoronoi</a>), option
+<p>For Voronoi diagrams (<a href=qvoronoi.html>qvoronoi</a>), option
 'o' prints Voronoi vertices and Voronoi regions instead of input
 points and facets. The first vertex is the infinity vertex
 [-10.101, -10.101, ...]. Then, option 'o' lists the vertices in
@@ -227,11 +234,11 @@ line. A vertex consists of its point coordinates</p>
 href="qh-optg.html#Gi">Gi</a>' options, option 'p' also prints
 coplanar and interior points respectively.</p>
 
-<p>For <a href=qvoronoi.htm>qvoronoi</a>, it prints the
+<p>For <a href=qvoronoi.html>qvoronoi</a>, it prints the
 coordinates of each Voronoi vertex.</p>
 
-<p>For <a href=qdelaun.htm>qdelaunay</a>, it prints the
-input sites as lifted to a paraboloid.  For <a href=qhalf.htm>qhalf</a>
+<p>For <a href=qdelaun.html>qdelaunay</a>, it prints the
+input sites as lifted to a paraboloid.  For <a href=qhalf.html>qhalf</a>
 it prints the dual points.  For both, option 'p' is the same as the first
 section of option '<a href="qh-opto.html#o">o</a>'.</p>
 
@@ -262,8 +269,8 @@ stderr and stdout.</p>
 the number of vertices in the convex hull, and the number of
 facets in the convex hull. It lists the number of selected
 (&quot;good&quot;) facets for options '<a href="qh-optp.html#Pg">Pg</a>',
-'<a href="qh-optp.html#Pdk">Pdk</a>', <a href=qdelaun.htm>qdelaunay</a>,
-or <a href=qvoronoi.htm>qvoronoi</a> (Delaunay triangulations only
+'<a href="qh-optp.html#Pdk">Pdk</a>', <a href=qdelaun.html>qdelaunay</a>,
+or <a href=qvoronoi.html>qvoronoi</a> (Delaunay triangulations only
 use the lower half of a convex hull). It lists the number of
 coplanar points. For Delaunay triangulations without '<a
 href="qh-optq.html#Qc">Qc</a>', it lists the total number of
@@ -330,7 +337,8 @@ than 0.05. </p>
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a></p>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a></p>
 <!-- GC common information -->
 <hr>
 

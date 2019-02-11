@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
 <title>rbox -- generate point distributions</title>
 </head>
 
@@ -17,7 +17,8 @@
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#outputs">ou</a>tputs
 &#149; <a href="#examples">ex</a>amples &#149; <a href="#notes">no</a>tes
 &#149; <a href="#options">op</a>tions
@@ -49,6 +50,7 @@ args (any order, space separated):
   s       generate cospherical points
   x       generate random points in simplex, may use 'r' or 'Wn'
   y       same as 'x', plus simplex
+  Cn,r,m  add n nearly coincident points within radius r of m points
   Pn,m,r  add point [n,m,r] first, pads with 0
 
   Ln      lens distribution of radius n.  Also 's', 'r', 'G', 'W'.
@@ -209,6 +211,8 @@ Some combinations of arguments generate odd results.
 
        d Gm   add a diamond made of 0, +m and -m to the output
 
+       Cn,r,m add n nearly coincident points within radius r of m points
+
        Pn,m,r add point [n,m,r] to the output first.  Pad coordi-
               nates with 0.0.
 
@@ -254,7 +258,8 @@ Some combinations of arguments generate odd results.
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#outputs">ou</a>tputs
 &#149; <a href="#examples">ex</a>amples &#149; <a href="#notes">no</a>tes
 &#149; <a href="#options">op</a>tions

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
 <title>Qhull code</title>
 <!-- Navigation links -->
 </head>
@@ -21,10 +21,11 @@ Contents</a><br>
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents
 (please wait while loading) <br>
-<b>Dn:</b> <a href="../src/libqhull/index.html">Qhull functions</a>, macros, and data
+<b>Dn:</b> <a href="../src/libqhull_r/index.html">Qhull functions</a>, macros, and data
 structures
 </p>
 
@@ -37,7 +38,7 @@ height="100"></a> Qhull code</h1>
 
 <p>This section discusses the code for Qhull. </p>
 
-<p><b>Copyright &copy; 1995-2012 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -45,8 +46,10 @@ height="100"></a> Qhull code</h1>
 Contents </a></h2>
 
 <ul>
-    <li><a href="#performance">Performance</a> of Qhull</li>
-    <li><a href="#cpp">Calling Qhull</a> from C++ programs
+    <li><a href="#reentrant">Reentrant</a> Qhull
+    <li><a href="#convert">How to convert</a> code to reentrant Qhull
+    <li><a href="#64bit">Qhull</a> on 64-bit computers
+    <li><a href="#cpp">Calling</a> Qhull from C++ programs
     <ul>
         <li><a href="#questions-cpp">Cpp questions for Qhull</a></li>
         <li><a href="#coordinate-cpp">CoordinateIterator</a></li>
@@ -67,10 +70,10 @@ Contents </a></h2>
         <li><a href="#vertexlist-cpp">QhullVertexList</a></li>
         <li><a href="#vertexset-cpp">QhullVertexSet</a></li>
         <li><a href="#rbox-cpp">RboxPoints</a></li>
-        <li><a href="#usingqhull-cpp">UsingLibQhull</a></li>
     </ul>
-    <li><a href="#library">Calling Qhull</a> from C programs
+    <li><a href="#library">Calling</a> Qhull from C programs
     <ul>
+            <li><a href="#exit">How to avoid</a> exit(), fprintf(), stderr, and stdout</li>
             <li><a href="#constrained">Constrained Delaunay</a>
                 triangulation</li>
             <li><a href="#dids">Delaunay triangulations</a> and point indices</li>
@@ -85,12 +88,650 @@ Contents </a></h2>
             <li><a href="#ridge">Voronoi vertices</a> of a ridge</li>
         </ul>
     </li>
+    <li><a href="#performance">Performance</a> of Qhull</li>
     <li><a href="#enhance">Enhancements</a> to Qhull</li>
-    <li><a href="../src/libqhull/index.html">Qhull functions</a>, macros, and data
+    <li><a href="../src/libqhull_r/index.html">Qhull</a> functions, macros, and data
         structures </li>
 </ul>
 
 <hr>
+
+<h2><a href="#TOC">&#187;</a><a name="reentrant">Reentrant Qhull</a></h2>
+
+<p>Qhull-2015 introduces reentrant Qhull (libqhull_r).   Reentrant Qhull uses a qhT* argument instead of global data structures.
+The qhT* pointer is the first argument to most Qhull routines.  It allows multiple instances of Qhull to run at the same time.
+It simplifies the C++ interface to Qhull.
+
+<p>New code should be written with libqhull_r.   Existing users of libqhull should consider converting to libqhull_r.
+Although libqhull will be supported indefinitely, improvements may not be implemented.
+Reentrant qhull is 1-2% slower than non-reentrant qhull.
+
+<p><b>Note:</b> Reentrant Qhull is <i>not</i> thread safe.   Do not invoke Qhull routines with the same qhT* pointer from multiple threads.
+
+<h2><a href="#TOC">&#187;</a><a name="convert">How to convert</a> code to reentrant Qhull</h2>
+
+<p>C++ users need to convert to libqhull_r.
+The new C++ interface does a better, but not perfect, job of hiding Qhull's C data structures.
+The previous C++ interface was unusual due to Qhull's global data structures.
+
+<p>All other users should consider converting to libqhull_r.   The conversion is straight forward.
+The original conversion of libqhull to libqhull_r required thousands of changes, mostly global
+search and replace.  The first run of Qhull (unix_r.c) produced the same
+output, and nearly the same log files, as the original (unix.c).
+
+<p>Suggestions to help with conversion.
+<ul>
+<li>Compare qconvex_r.c with qconvex.c.   Define a qhT object and a pointer it.  The qhT* pointer is the first argument to most Qhull functions.
+Clear <tt>qh_qh-&lt;NOerrext</tt> before calling qh_initflags().  Invoke QHULL_LIB_CHECK to check for a compatible Qhull library.
+<li>Compare user_eg2_r.c with user_eg2.c
+<li>Compare user_eg_r.c with user_eg.c.   If you use qhT before invoking qh_init_A, call qh_zero() to clear the qhT object.
+user_eg_r.c includes multiple Qhull runs.
+<li>Review user_eg3_r.cpp.  As with the other programs, invoke QHULL_LIB_CHECK.
+Simple C++ programs should compile as is.
+<li>Compare QhullFacet.cpp with the same file in Qhull-2012.1.  UsingLibQhull was replaced with the macro QH_TRY_() and '<tt>qh_qh-&lt;NOerrext= true</tt>'.
+<li>For detailed notes on libqhull_r, see "libqhull_r (reentrant Qhull)" and "Source code changes for libqhull_r" in <a href="../src/Changes.txt">Changes.txt</a>.
+<li>For detailed notes on libqhullcpp, see "C++ interface" and following sections in <a href="../src/Changes.txt">Changes.txt</a>.
+<li>For regexps and conversion notes, see <a href="http://www.qhull.org/html/README_r.txt">README_r.txt</a> (unedited).
+</ul>
+
+<h2><a href="#TOC">&#187;</a><a name="64bit">Qhull on 64-bit computers</a></h2>
+
+<p>Qhull compiles for 64-bit hosts.  Since the size of a pointer on a 64-bit host is double the size on a 32-bit host,
+memory consumption increases about 50% for simplicial facets and up-to 100% for non-simplicial facets.
+
+<p>You can check memory consumption with option <a href="qh-optt.html#Ts">Ts</a>.   It includes the size of
+each data structure:
+<ul>
+<li>32-bit -- merge 24 ridge 20 vertex 28 facet 88 normal 24 ridge vertices 16 facet vertices or neighbors 20
+<li>64-bit -- merge 32 ridge 32 vertex 48 facet 120 normal 32 ridge vertices 40 facet vertices or neighbors 48
+</ul>
+
+<p>For Qhull 2015, the maximum identifier for ridges, vertices, and facets was increased
+from 24-bits to 32-bits.  This allows for larger convex hulls, but may increase the size of
+the corresponding data structures.  The sizes for Qhull 2012.1 were
+<ul>
+<li>32-bit -- merge 24 ridge 16 vertex 24 facet 88
+<li>64-bit -- merge 32 ridge 32 vertex 40 facet 120
+</ul>
+
+<h2><a href="#TOC">&#187;</a><a name="cpp">Calling Qhull from
+C++ programs</a></h2>
+
+<p>Qhull 2015 uses reentrant Qhull for its C++ interface.  If you used
+the C++ interface from qhull 2012.1, you may need to adjust how you initialize and use
+the Qhull classes.   See <a href="#convert">How to convert code to reentrant Qhull</a>.
+
+<p>
+Qhull's C++ interface allows you to explore the results of running Qhull.
+It provides access to Qhull's data structures.
+Most of the classes derive from the corresponding qhull data structure.
+For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a href="../src/libqhull_r/libqhull_r.h#facetT">facetT</a>.
+</p>
+
+<p>You can retain most of the data in Qhull and use the C++ interface to explore its results.
+Each object contains a reference the Qhull's data structure (via QhullQh), making the C++ representation less memory efficient.
+</p>
+
+<p>Besides using the C++ interface, you can also use libqhull_r directly.  For example,
+the FOREACHfacet_(...) macro will visit each facet in turn.
+</p>
+
+<p>The C++ interface to Qhull is incomplete. You may need to extend the interface.
+If so, you will need to understand Qhull's data structures and read the code.
+
+Example (c.f., <code>user_eg3 eg-100</code>).   It prints the facets generated by Qhull.
+
+<pre>
+    RboxPoints rbox;
+    rbox.appendRandomPoints("100");
+    Qhull qhull;
+    qhull.runQhull("", rbox);
+    QhullFacetList facets(qhull);
+    cout<< facets;
+</pre>
+
+<p>
+The C++ iterface for RboxPoints redefines the fprintf() calls
+in rboxlib.c.   Instead of writing its output to stdout, RboxPoints appends
+the output to a std::vector.
+The same technique may be used for calling Qhull from C++.
+</p>
+<ul><li>
+Run Qhull with option '<a href="qh-optt.html#Ta">Ta</a>' to annotate the
+output with qh_fprintf() identifiers.
+</li><li>
+Redefine qh_fprintf() for these identifiers.
+</li><li>
+See RboxPoints.cpp for an example.
+</li></ul>
+<p>
+Since the C++ interface uses reentrant Qhull, multiple threads may run Qhull at the same time.   Each thread is
+one run of Qhull.
+</p>
+
+<p>
+Do <i>not</i> have two threads accessing the same Qhull instance.  Qhull is not thread-safe.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="coordinate-cpp">CoordinateIterator</a></h3>
+<p>
+A CoordinateIterator or ConstCoordinateIterator [RboxPoints.cpp] is a <code>std::vector&lt;realT>::iterator</code> for Rbox and Qhull coordinates.
+It is the result type of <a href="#rbox-cpp">RboxPoints</a>.coordinates().
+</p>
+
+<p>Qhull does not use CoordinateIterator for its data structures.  A point in Qhull is an array of reals instead of a std::vector.
+See <a href="#point-cpp">QhullPoint</a>.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="qhull-cpp">Qhull</a></h3>
+<p>
+Qhull is the top-level class for running Qhull.
+It initializes Qhull, runs the computation, and records errors.
+It provides access to the global data structure <a href="#qh-cpp">QhullQh</a>,
+Qhull's <a href="#facet-cpp">facets</a>, and <a href="#vertex-cpp">vertices</a>.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="error-cpp">QhullError</a></h3>
+<p>
+QhullError is derived from <code>std::exception</code>.  It reports errors from Qhull and captures the output to stderr.
+</p>
+
+<p>
+If error handling is not set up, Qhull exits with a code from 1 to 5.  The codes are defined by
+qh_ERR* in libqhull_r.h.  The exit is via qh_exit() in usermem_r.c.
+The C++ interface does not report the
+captured output in QhullError.  Call Qhull::setErrorStream to send output to cerr instead.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="facet-cpp">QhullFacet</a></h3>
+<p>
+A QhullFacet is a facet of the convex hull, a region of the Delaunay triangulation, a vertex of a Voronoi diagram,
+or an intersection of the halfspace intersection about a point.
+A QhullFacet has a set of <a href="#vertex-cpp">QhullVertex</a>, a set of <a href="#ridge-cpp">QhullRidge</a>, and
+a set of neighboring QhullFacets.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="facetlist-cpp">QhullFacetList</a></h3>
+<p>
+A QhullFacetList is a linked list of <a href="#facet-cpp">QhullFacet</a>.  The result of <code>Qhull.runQhull</code> is a QhullFacetList stored
+in <a href="#qh-cpp">QhullQh</a>.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="facetset-cpp">QhullFacetSet</a></h3>
+<p>
+A QhullFacetSet is a <a href="#set-cpp">QhullSet</a> of <a href="#facet-cpp">QhullFacet</a>.  QhullFacetSet may be ordered or unordered.  The neighboring facets of a QhullFacet is a QhullFacetSet.
+The neighbors of a <a href="#facet-cpp">QhullFacet</a> is a QhullFacetSet.
+The neighbors are ordered for simplicial facets, matching the opposite vertex of the facet.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="iterator-cpp">QhullIterator</a></h3>
+<p>
+QhullIterator contains macros for defining Java-style iterator templates from a STL-style iterator template.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="linkedlist-cpp">QhullLinkedList</a></h3>
+<p>
+A QhullLinkedLIst is a template for linked lists with next and previous pointers.
+<a href="#facetlist-cpp">QhullFacetList</a> and <a href="#facetlist-cpp">QhullVertexList</a> are QhullLinkedLists.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="point-cpp">QhullPoint</a></h3>
+<p>
+A QhullPoint is an array of point coordinates, typically doubles.  The length of the array is <a href="#qh-cpp">QhullQh</a>.hull_dim.
+The identifier of a QhullPoint is its 0-based index from QhullQh.first_point followed by QhullQh.other_points.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="pointset-cpp">QhullPointSet</a></h3>
+<p>
+A QhullPointSet is a <a href="#set-cpp">QhullSet</a> of <a href="#point-cpp">QhullPoint</a>.  The QhullPointSet of a <a href="#facet-cpp">QhullFacet</a> is its coplanar points.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="qh-cpp">QhullQh</a></h3>
+<p>
+QhullQh is the root of Qhull's data structure.
+It contains initialized constants, sets, buffers, and variables.
+It contains an array and a set of <a href="#point-cpp">QhullPoint</a>,
+a list of <a href="#facet-cpp">QhullFacet</a>, and a list of <a href="#vertex-cpp">QhullVertex</a>.
+The points are the input to Qhull.  The facets and vertices are the result of running Qhull.
+</p>
+
+<p>
+Qhull's functions access QhullQh through the global variable, <code>qh_qh</code>.
+The global data structures, qh_stat and qh_mem, record statistics and manage memory respectively.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="ridge-cpp">QhullRidge</a></h3>
+
+<p>
+A QhullRidge represents the edge between two <a href="#facet-cpp">QhullFacet</a>'s.
+It is always simplicial with qh.hull_dim-1 <a href="#vertex-cpp">QhullVertex</a>)'s.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="ridgeset-cpp">QhullRidgeSet</a></h3>
+
+<p>
+A QhullRidgeSet is a <a href="#set-cpp">QhullSet</a> of <a href="#ridge-cpp">QhullRidge</a>.  Each <a href="#facet-cpp">QhullFacet</a> contains a QhullRidgeSet.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="set-cpp">QhullSet</a></h3>
+
+<p>
+A QhullSet is a set of pointers to objects.  QhullSets may be ordered or unordered.  They are the core data structure for Qhull.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="vertex-cpp">QhullVertex</a></h3>
+
+<p>
+A QhullVertex is a vertex of the convex hull.  A simplicial <a href="#facet-cpp">QhullFacet</a> has qh.hull_dim-1 vertices.  A QhullVertex contains a <a href="#point-cpp">QhullPoint</a>.
+It may list its neighboring <a href="#facet-cpp">QhullFacet</a>'s.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="vertexlist-cpp">QhullVertexList</a></h3>
+
+<p>
+A QhullVertexList is a <a href="#linkedlist-cpp">QhullLinkedList</a> of <a href="#vertex-cpp">QhullVertex</a>.
+The global data structure, <a href="#qh-cpp">QhullQh</a> contains a QhullVertexList of all
+the vertices.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="vertexset-cpp">QhullVertexSet</a></h3>
+
+<p>
+A QhullVertexSet is a <a href="#set-cpp">QhullSet</a> of <a href="#vertex-cpp">QhullVertex</a>.
+The QhullVertexSet of a <a href="#facet-cpp">QhullFacet</a> is the vertices of the facet.  It is
+ordered for simplicial facets and unordered for non-simplicial facets.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="rbox-cpp">RboxPoints</a></h3>
+
+<p>
+RboxPoints is a std::vector of point coordinates (<a href="#point-cpp">QhullPoint</a>).
+It's iterator is <a href="#coordinate-cpp">CoordinateIterator</a>.
+</p>
+<p>
+<code>RboxPoints.appendRandomPoints()</code> appends points from a variety of distributions such as uniformly distributed within a cube and random points on a sphere.
+It can also append a cube's vertices or specific points.
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="questions-cpp">Cpp questions for Qhull</a></h3>
+
+Developing C++ code requires many conventions, idioms, and technical details.
+The following questions have either
+mystified the author or do not have a clear answer.  See also
+<a href="http://www.qhull.org/road/road-faq/xml/cpp-guideline.xml">C++ and Perl Guidelines</a>.
+and FIXUP notes in the code.
+Please add notes to <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a>.
+
+<ul>
+<li>FIXUP QH11028 Should return reference, but get reference to temporary
+<pre>iterator Coordinates::operator++() { return iterator(++i); }</pre>
+<li>size() as size_t, size_type, or int
+<li>Should all containers have a reserve()?
+<li>Qhull.feasiblePoint interface
+<li>How to avoid copy constructor while logging, maybeThrowQhullMessage()
+<li>How to configure Qhull output.  Trace and results should go to stdout/stderr
+<li>Qhull and RboxPoints messaging.  e.g., ~Qhull, hasQhullMessage().  Rename them as QhullErrorMessage?
+<li>How to add additional output to an error message, e.g., qh_setprint
+<li>Is idx the best name for an index?  It's rather cryptic, but BSD strings.h defines index().
+<li>Qhull::feasiblePoint Qhull::useOutputStream as field or getter?
+<li>Define virtual functions for user customization of Qhull (e.g., qh_fprintf, qh_memfree,etc.)
+<li>Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
+<li>Should the false QhullFacet be NULL or empty?  e.g., QhullFacet::tricoplanarOwner() and QhullFacetSet::end()
+<li>Should output format for floats be predefined (qh_REAL_1, 2.2g, 10.7g) or as currently set for stream
+<li>Should cout << !point.defined() be blank or 'undefined'
+<li>Infinite point as !defined()
+<li>qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
+      vector.h -- <pre>reference operator[](difference_type _Off) const</pre>
+<li>When forwarding an implementation is base() an approriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
+<li>When forwarding an implementation, does not work "returning address of temporary"
+<li>Also --, +=, and -=
+       <pre>iterator       &operator++() { return iterator(i++); }</pre>
+<li>if vector<coordT> inheritance is bad, is QhullVertexSet OK?
+<li>Should QhullPointSet define pointer and reference data types?
+</ul>
+
+<h2><a href="#TOC">&#187;</a><a name="library">Calling Qhull from
+C programs</a></h2>
+
+<p><b>Warning:</b> Qhull was not designed for calling from C
+programs.  You may find the <a href="#cpp">C++ interface</a> easier to use.
+You will need to understand the data structures and read the code.
+Most users will find it easier to call Qhull as an external
+command.
+
+<p>For examples of calling Qhull, see GNU Octave's
+<a href=http://www.gnu.org/software/octave/doc/interpreter/Geometry.html>computational geometry code</a>,
+and Qhull's
+<a href=../src/user_eg/user_eg_r.c>user_eg_r.c</a>,
+<a href=../src/user_eg2/user_eg2_r.c>user_eg2_r.c</a>, and
+<a href=../src/libqhull_r/user_r.c>user_r.c</a>.  To see how Qhull calls its library, read
+<a href=../src/qhull/unix_r.c>unix_r.c</a>,
+<a href=../src/qconvex/qconvex.c>qconvex.c</a>,
+<a href=../src/qdelaunay/qdelaun.c>qdelaun.c</a>,
+<a href=../src/qhalf/qhalf.c>qhalf.c</a>, and
+<a href=../src/qvoronoi/qvoronoi.c>qvoronoi.c</a>.  The '*_r.c' files are reentrant, otherwise they are non-reentrant.
+Either version may be used.  New code should use reentrant Qhull.
+
+<p>See <a href="../src/libqhull_r/index.html">Reentrant Qhull functions, macros, and data
+structures</a> for internal documentation of Qhull. The
+documentation provides an overview and index. To use the library
+you will need to read and understand the code. For most users, it
+is better to write data to a file, call the qhull program, and
+read the results from the output file.</p>
+
+<p>If you use non-reentrant Qhull, be aware of the macros &quot;qh&quot;
+and &quot;qhstat&quot;, e.g., &quot;qh hull_dim&quot;. They are
+defined in <tt>libqhull.h</tt>. They allow the global data
+structures to be pre-allocated (faster access) or dynamically
+allocated (allows multiple copies). </p>
+
+<p>Qhull's <tt>Makefile</tt> produces a library, <tt>libqhull_r.a</tt>,
+for inclusion in your programs. First review <tt>libqhull_r.h</tt>.
+This defines the data structures used by Qhull and provides
+prototypes for the top-level functions.
+Most users will only need libqhull_r.h in their programs. For
+example, the Qhull program is defined with <tt>libqhull_r.h</tt> and <tt>unix_r.c</tt>.
+To access all functions, use <tt>qhull_ra.h</tt>. Include the file
+with &quot;<tt>#include &lt;libqhull_r/qhull_ra.h&gt;</tt>&quot;. This
+avoids potential name conflicts.</p>
+
+<p>If you use the Qhull library, you are on your own as far as
+bugs go. Start with small examples for which you know the output.
+If you get a bug, try to duplicate it with the Qhull program. The
+'<a href="qh-optt.html#Tc">Tc</a>' option will catch many problems
+as they occur. When an error occurs, use '<a
+href="qh-optt.html#Tn">T4</a> <a href="qh-optt.html#TPn">TPn</a>'
+to trace from the last point added to the hull. Compare your
+trace with the trace output from the Qhull program.</p>
+
+<p>Errors in the Qhull library are more likely than errors in the
+Qhull program. These are usually due to feature interactions that
+do not occur in the Qhull program. Please report all errors that
+you find in the Qhull library. Please include suggestions for
+improvement. </p>
+
+<h3><a href="#TOC">&#187;</a><a name="exit">How to avoid exit(), fprintf(), stderr, and stdout</a></h3>
+
+<p>Qhull sends output to qh.fout and errors, log messages, and summaries to qh.ferr.  qh.fout is normally
+stdout and qh.ferr is stderr.  qh.fout may be redefined by option '<a
+href="qh-optt.html#TO">TO</a>' or the caller.  qh.ferr may be redirected to qh.fout by option  '<a
+href="qh-optt.html#Tz">Tz</a>'.</p>
+
+<p>Qhull does not use stderr, stdout, fprintf(), or exit() directly.</p>
+
+<p>Qhull reports errors via qh_errexit() by writting a message to qh.ferr and invoking longjmp().
+This returns the caller to the corresponding setjmp() (c.f., QH_TRY_ in QhullQh.h).  If
+qh_errexit() is not available, Qhull functions call qh_exit().   qh_exit() normally calls exit(),
+but may be redefined by the user.  An example is
+libqhullcpp/usermem_r-cpp.cpp.   It redefines qh_exit() as a 'throw'.</p>
+
+<p>If qh_meminit() or qh_new_qhull() is called with ferr==NULL, then they set ferr to stderr.
+Otherwise the Qhull libraries use qh->ferr and qh->qhmem.ferr for error output.</p>
+
+<p>If an error occurs before qh->ferr is initialized, Qhull invokes qh_fprintf_stderr().  The user
+may redefine this function along with qh_exit(), qh_malloc(), and qh_free().
+
+<p>The Qhull libraries write output via qh_fprintf() [userprintf_r.c].  Otherwise, the Qhull
+libraries do not use stdout, fprintf(), or printf().  Like qh_exit(), the user may redefine
+qh_fprintf().</p>
+
+<h3><a href="#TOC">&#187;</a><a name="mem">sets and quick memory
+allocation</a></h3>
+
+<p>You can use <tt>mem_r.c</tt> and <tt>qset_r.c</tt> individually. <tt>Mem_r.c
+</tt>implements quick-fit memory allocation. It is faster than
+malloc/free in applications that allocate and deallocate lots of
+memory. </p>
+
+<p><tt>Qset_r.c</tt> implements sets and related collections. It's
+the inner loop of Qhull, so speed is more important than
+abstraction. Set iteration is particularly fast. <tt>qset_r.c</tt>
+just includes the functions needed for Qhull. </p>
+
+<h3><a href="#TOC">&#187;</a><a name="dids">Delaunay triangulations
+and point indices</a></h3>
+
+<p>Here some unchecked code to print the point indices of each
+Delaunay triangle. Use option 'QJ' if you want to avoid
+non-simplicial facets. Note that upper Delaunay regions are
+skipped. These facets correspond to the furthest-site Delaunay
+triangulation. </p>
+
+<blockquote>
+    <pre>
+  facetT *facet;
+  vertexT *vertex, **vertexp;
+
+  FORALLfacets {
+    if (!facet-&gt;upperdelaunay) {
+      printf (&quot;%d&quot;, qh_setsize (facet-&gt;vertices);
+      FOREACHvertex_(facet-&gt;vertices)
+        printf (&quot; %d&quot;, qh_pointid (vertex-&gt;point));
+      printf (&quot;\n&quot;);
+    }
+  }
+
+</pre>
+</blockquote>
+
+<h3><a href="#TOC">&#187;</a><a name="findfacet">locate a facet with
+qh_findbestfacet()</a></h3>
+
+<p>The routine qh_findbestfacet in <tt>poly2_r.c</tt> is
+particularly useful. It uses a directed search to locate the
+facet that is furthest below a point. For Delaunay
+triangulations, this facet is the Delaunay triangle that contains
+the lifted point. For convex hulls, the distance of a point to
+the convex hull is either the distance to this facet or the
+distance to a subface of the facet.</p>
+
+<blockquote>
+<p><b>Warning:</b> If triangulated output ('<a href=qh-optq.html#Qt>Qt</a>') and
+the best facet is triangulated, qh_findbestfacet() returns one of
+the corresponding 'tricoplanar' facets.  The actual best facet may be a different
+tricoplanar facet.
+<p>
+See qh_nearvertex() in poly2.c for sample code to visit each
+tricoplanar facet.  To identify the correct tricoplanar facet,
+see Devillers, et. al., [<a href="index.html#devi01">'01</a>]
+and Mucke, et al [<a href="index.html#muck96">'96</a>].  If you
+implement this test in general dimension, please notify
+<a href="mailto:qhull@qhull.org">qhull@qhull.org</a>.
+</blockquote>
+
+<p>qh_findbestfacet performs an exhaustive search if its directed
+search returns a facet that is above the point. This occurs when
+the point is inside the hull or if the curvature of the convex
+hull is less than the curvature of a sphere centered at the point
+(e.g., a point near a lens-shaped convex hull). When the later
+occurs, the distance function is bimodal and a directed search
+may return a facet on the far side of the convex hull. </p>
+
+<p>Algorithms that retain the previously constructed hulls
+usually avoid an exhaustive search for the best facet. You may
+use a hierarchical decomposition of the convex hull [Dobkin and
+Kirkpatrick <a href="index.html#dob-kir90">'90</a>]. </p>
+
+<p>To use qh_findbestfacet with Delaunay triangulations, lift the
+point to a paraboloid by summing the squares of its coordinates
+(see qh_setdelaunay in geom2_r.c). Do not scale the input with
+options 'Qbk', 'QBk', 'QbB' or 'Qbb'. See Mucke, et al [<a
+href="index.html#muck96">'96</a>] for a good point location
+algorithm.</p>
+
+<p>The intersection of a ray with the convex hull may be found by
+locating the facet closest to a distant point on the ray.
+Intersecting the ray with the facet's hyperplane gives a new
+point to test. </p>
+
+<h3><a href="#TOC">&#187;</a><a name="inc">on-line construction with
+qh_addpoint()</a></h3>
+
+<p>The Qhull library may be used for the on-line construction of
+convex hulls, Delaunay triangulations, and halfspace
+intersections about a point. It may be slower than implementations that retain
+intermediate convex hulls (e.g., Clarkson's <a
+href="http://www.netlib.org/voronoi/hull.html">hull
+program</a>). These implementations always use a directed search.
+For the on-line construction of convex hulls and halfspace
+intersections, Qhull may use an exhaustive search
+(qh_findbestfacet). </p>
+
+<p>You may use qh_findbestfacet and qh_addpoint (<tt>libqhull.c</tt>) to add a point to
+a convex hull. Do not modify the point's coordinates since
+qh_addpoint does not make a copy of the coordinates. For Delaunay
+triangulations, you need to lift the point to a paraboloid by
+summing the squares of the coordinates (see qh_setdelaunay in
+geom2.c). Do not scale the input with options 'Qbk', 'QBk', 'QbB'
+or 'Qbb'. Do not deallocate the point's coordinates. You need to
+provide a facet that is below the point (<a href="#findfacet">qh_findbestfacet</a>).
+</p>
+
+<p>You can not delete points. Another limitation is that Qhull
+uses the initial set of points to determine the maximum roundoff
+error (via the upper and lower bounds for each coordinate). </p>
+
+<p>For many applications, it is better to rebuild the hull from
+scratch for each new point. This is especially true if the point
+set is small or if many points are added at a time.</p>
+
+<p>Calling qh_addpoint from your program may be slower than
+recomputing the convex hull with qh_qhull. This is especially
+true if the added points are not appended to the qh first_point
+array. In this case, Qhull must search a set to determine a
+point's ID. [R. Weber] </p>
+
+<p>See user_eg.c for examples of the on-line construction of
+convex hulls, Delaunay triangulations, and halfspace
+intersections. The outline is: </p>
+
+<blockquote>
+    <pre>
+initialize qhull with an initial set of points
+qh_qhull();
+
+for each additional point p
+   append p to the end of the point array or allocate p separately
+   lift p to the paraboloid by calling qh_setdelaunay
+   facet= qh_findbestfacet (p, !qh_ALL, &amp;bestdist, &amp;isoutside);
+   if (isoutside)
+      if (!qh_addpoint (point, facet, False))
+         break;  /* user requested an early exit with 'TVn' or 'TCn' */
+
+call qh_check_maxout() to compute outer planes
+terminate qhull</pre>
+</blockquote>
+
+<h3><a href="#TOC">&#187;</a><a name="constrained">Constrained
+Delaunay triangulation </a></h3>
+
+<p>With a fair amount of work, Qhull is suitable for constrained
+Delaunay triangulation. See Shewchuk, ACM Symposium on
+Computational Geometry, Minneapolis 1998.</p>
+
+<p>Here's a quick way to add a constraint to a Delaunay
+triangulation: subdivide the constraint into pieces shorter than
+the minimum feature separation. You will need an independent
+check of the constraint in the output since the minimum feature
+separation may be incorrect. [H. Geron] </p>
+
+<h3><a href="#TOC">&#187;</a><a name="tricoplanar">Tricoplanar facets and option 'Qt'</h3>
+
+<p>Option '<a href=qh-optq.html#Qt>Qt</a>' triangulates non-simplicial
+facets (e.g., a square facet in 3-d or a cubical facet in 4-d).
+All facets share the same apex (i.e., the first vertex in facet->vertices).
+For each triangulated facet, Qhull
+sets facet->tricoplanar true and copies facet->center, facet->normal, facet->offset, and facet->maxoutside.  One of
+the facets owns facet->normal; its facet->keepcentrum is true.
+If facet->isarea is false, facet->triowner points to the owning
+facet.
+
+<p>Qhull sets facet->degenerate if the facet's vertices belong
+to the same ridge of the non-simplicial facet.
+
+<p>To visit each tricoplanar facet of a non-simplicial facet,
+either visit all neighbors of the apex or recursively visit
+all neighbors of a tricoplanar facet.  The tricoplanar facets
+will have the same facet->center.</p>
+
+<p>See <a href=../src/libqhull_r/io_r.c#detvridge>qh_detvridge</a> for an example of ignoring tricoplanar facets.</p>
+
+<h3><a href="#TOC">&#187;</a><a name="vertices">Voronoi vertices of a
+region</a></h3>
+
+<p>The following code iterates over all Voronoi vertices for each
+Voronoi region. Qhull computes Voronoi vertices from the convex
+hull that corresponds to a Delaunay triangulation. An input site
+corresponds to a vertex of the convex hull and a Voronoi vertex
+corresponds to an adjacent facet. A facet is
+&quot;upperdelaunay&quot; if it corresponds to a Voronoi vertex
+&quot;at-infinity&quot;. Qhull uses qh_printvoronoi in <tt>io.c</tt>
+for '<a href=qvoronoi.html>qvoronoi</a> <a href="qh-opto.html#o">o'</a> </p>
+
+<blockquote>
+    <pre>
+/* please review this code for correctness */
+qh_setvoronoi_all();
+FORALLvertices {
+   site_id = qh_pointid (vertex-&gt;point);
+   if (qh hull_dim == 3)
+      qh_order_vertexneighbors(vertex);
+   infinity_seen = 0;
+   FOREACHneighbor_(vertex) {
+      if (neighbor-&gt;upperdelaunay) {
+        if (!infinity_seen) {
+          infinity_seen = 1;
+          ... process a Voronoi vertex &quot;at infinity&quot; ...
+        }
+      }else {
+        voronoi_vertex = neighbor-&gt;center;
+        ... your code goes here ...
+      }
+   }
+}
+</pre>
+</blockquote>
+
+<h3><a href="#TOC">&#187;</a><a name="ridge">Voronoi vertices of a
+ridge</a></h3>
+
+<p>Qhull uses qh_printvdiagram() in io.c to print the ridges of a
+Voronoi diagram for option '<a href="qh-optf.html#Fv2">Fv</a>'.
+The helper function qh_eachvoronoi() does the real work. It calls
+the callback 'printvridge' for each ridge of the Voronoi diagram.
+</p>
+
+<p>You may call qh_printvdiagram2(), qh_eachvoronoi(), or
+qh_eachvoronoi_all() with your own function. If you do not need
+the total number of ridges, you can skip the first call to
+qh_printvdiagram2(). See qh_printvridge() and qh_printvnorm() in
+io.c for examples. </p>
+
+<h3><a href="#TOC">&#187;</a><a name="vneighbor">vertex neighbors of
+a vertex</a></h3>
+
+<p>To visit all of the vertices that share an edge with a vertex:
+</p>
+
+<ul>
+    <li>Generate neighbors for each vertex with
+        qh_vertexneighbors in <tt>poly2.c</tt>. </li>
+    <li>For simplicial facets, visit the vertices of each
+        neighbor </li>
+    <li>For non-simplicial facets, <ul>
+            <li>Generate ridges for neighbors with qh_makeridges
+                in <tt>merge.c</tt>. </li>
+            <li>Generate ridges for a vertex with qh_vertexridges
+                in <tt>merge.c</tt>. </li>
+            <li>Visit the vertices of these ridges. </li>
+        </ul>
+    </li>
+</ul>
+
+<p>For non-simplicial facets, the ridges form a simplicial
+decomposition of the (d-2)-faces between each pair of facets --
+if you need 1-faces, you probably need to generate the full face
+graph of the convex hull. </p>
 
 <h2><a href="#TOC">&#187;</a><a name="performance">Performance of
 Qhull </a></h2>
@@ -206,620 +847,71 @@ is creating new facets in qh_addpoint(), while qh_distplane() remains
 the most expensive function.
 
 </p>
-<h2><a href="#TOC">&#187;</a><a name="cpp">Calling Qhull from
-C++ programs</a></h2>
-
-<p><b>Warning:</b>  The C++ interface to Qhull is new and
-incomplete.  You will need to extend the interface for all
-but the simplest applications.
-You will need to understand the data structures and read the code.
-Most users will find it easier to call Qhull as a program.
-
-<p><b>Note:</b>  Please download the 'next' branch from
-git://gitorious.org/qhull/qhull.git
-
-<p>
-Qhull's C++ interface provides wrapper classes for Qhull and Rbox.  It provides access to Qhull's data structures.
-Most of the classes derive from the corresponding qhull data structure.
-For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a href="../src/libqhull/libqhull.h#facetT">facetT</a>.
-</p>
-
-The main methods are
-<ul><li>
-  <code>RboxPoints.appendRandomPoints</code> -- append random points according to rbox options.
-  </li><li>
-  <code>Qhull.runQhull</code> -- construct the convex hull of the input points
-  </li><li>
-  <code>Qhull.outputQhull</code> -- write output according to Qhull options
-</li></ul>
-
-The sample program,
-<a href=../src/user_eg3/user_eg3.cpp>user_eg3.cpp</a>, duplicates Qhull's facet dump (option 'f').
-
-Example (c.f., <code>user_eg3 eg-100</code>)
-<pre>
-    RboxPoints rbox;
-    rbox.appendRandomPoints("100");
-    Qhull qhull;
-    qhull.runQhull("", rbox);
-    QhullFacetList facets(qhull);
-    cout<< facets;
-</pre>
-
-<p>
-The C++ iterface for RboxPoints redefines the fprintf() calls
-in rboxlib.c.   Instead of writing its output to stdout, RboxPoints appends
-the output to a std::vector.
-The same technique may be used for calling Qhull from C++.
-</p>
-<ul><li>
-Run Qhull with option '<a href="qh-optt.html#Ta">Ta</a>' to annotate the
-output with qh_fprintf() identifiers.
-</li><li>
-Redefine qh_fprintf() for these identifiers.
-</li><li>
-See RboxPoints.cpp for an example.
-</li></ul>
-<p>
-A more flexible approach extends Qhull's classes.  For example,
-to access the vertices of a <a href="#facet-cpp">QhullFacet</a>,
-define a constructor of <a href="#vertexset-cpp">QhullVertexSet</a>
-that takes a QhullFacet as a parameter.
-</p>
-<p>
-With care, you may create multiple Qhull instances, but only one thread may use qh_qh,
-qh_qhstat, and qhmem at a time (i.e., most of libqhull, the original C program).
-only one instance may be active at time.  The global pointer <code>qh_qh</code>
-points to Qhull's data structure, <a href="#qh-cpp">QhullQh</a>.  The class
-<a href="#usingqhull-cpp">UsingLibQhull</a> checks that qh_qh is correct.
-</p>
-<p>
-Qhull objects have the entire qhull data structure, so they can explore this data structure independent of
-libqhull.  You can use any method that does not refer to UsingLibQhull, or invoke methods that refer to UsingLibQhull.
-You may also use any method in libqhull that does not reference qh_qh, qh_qhstat (i.e., does not include the macro 'qh',
-zinc_, etc) and does not allocate or deallocate memory via mem.c.
-In particular, you can call most of the qset macros and functions, allowing you to explore the data structure
-with 'foreachFacet_(), etc.'   You can call all of the qset.h functions if you turn off Qhull's memory manager (qh_NOmem in mem.h)
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="questions-cpp">Cpp questions for Qhull</a></h3>
-
-Developing C++ code requires many conventions, idioms, and technical details.
-The following questions have either
-mystified the author or do not have a clear answer.  See also
-<a href="http://www.qhull.org/road/road-faq/xml/cpp-guideline.xml">C++ and Perl Guidelines</a>,
-<a href="http://www.qhull.org/road/road-faq/xml/qhull-cpp.xml">C++ interface to Qhull</a>. and FIXUP
-in the code.  Please add notes to <a href="http://gitorious.org/qhull/pages/Home">Gitorious wiki</a>.
-
-<ul>
-<li>FIXUP QH11026 Should return reference, but get reference to temporary
-<pre>iterator Coordinates::operator++() { return iterator(++i); }</pre>
-<li>size() as size_t, size_type, or int
-<li>Should all containers have a reserve()?
-<li>Qhull.feasiblePoint interface
-<li>How to avoid copy constructor while logging, maybeThrowQhullMessage()
-<li>How to configure Qhull output.  Trace and results should go to stdout/stderr
-<li>Qhull and RboxPoints messaging.  e.g., ~Qhull, hasQhullMessage().  Rename them as QhullErrorMessage?
-<li>How to add additional output to an error message, e.g., qh_setprint
-<li>Is idx the best name for an index?  It's rather cryptic, but BSD strings.h defines index().
-<li>Qhull::feasiblePoint Qhull::useOutputStream as field or getter?
-<li>Define virtual functions for user customization of Qhull (e.g., qh_fprintf, qh_memfree,etc.)
-<li>Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
-<li>Should the false QhullFacet be NULL or empty?  e.g., QhullFacet::tricoplanarOwner() and QhullFacetSet::end()
-<li>Should output format for floats be predefined (qh_REAL_1, 2.2g, 10.7g) or as currently set for stream
-<li>Should cout << !point.defined() be blank or 'undefined'
-<li>Interface for UsingLibQhull::globalAngleEpsilon(), globalDistanceEpsilon, etc.
-<li>Interface for UsingLibQhull::globalDimension
-<li>Set up globals for thread-private storage (redefine macros qh, qhstat, etc)
-<li>Is Q_GLOBAL_STATIC non-threaded/threaded, needed for Qhull?
-<li>Infinite point as !defined()
-<li>qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
-      vector.h -- <pre>reference operator[](difference_type _Off) const</pre>
-<li>When forwarding an implementation is base() an approriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
-<li>When forwarding an implementation, does not work "returning address of temporary"
-<li>Also --, +=, and -=
-       <pre>iterator       &operator++() { return iterator(i++); }</pre>
-<li>if vector<coordT> inheritance is bad, is QhullVertexSet OK?
-<li>Should QhullPointSet define pointer and reference data types?
-<li>Allow UsingQhullLib to work with static allocation of qh_qh
-</ul>
-
-
-<h3><a href="#TOC">&#187;</a><a name="coordinate-cpp">CoordinateIterator</a></h3>
-<p>
-A CoordinateIterator or ConstCoordinateIterator [RboxPoints.cpp] is a <code>std::vector&lt;realT>::iterator</code> for Rbox and Qhull coordinates.
-It is the result type of <a href="#rbox-cpp">RboxPoints</a>.coordinates().
-</p>
-
-<p>Qhull does not use CoordinateIterator for its data structures.  A point in Qhull is an array of reals instead of a std::vector.
-See <a href="#point-cpp">QhullPoint</a>.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="qhull-cpp">Qhull</a></h3>
-<p>
-Qhull is the top-level class for running Qhull.
-It initializes Qhull, runs the computation, and records errors.
-It provides access to the global data structure <a href="#qh-cpp">QhullQh</a>,
-Qhull's <a href="#facet-cpp">facets</a>, and <a href="#vertex-cpp">vertices</a>.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="error-cpp">QhullError</a></h3>
-<p>
-QhullError is derived from <code>std::exception</code>.  It reports errors from Qhull and captures the output to stderr.
-</p>
-
-<p>
-If error handling is not set up, Qhull exits with a code from 1 to 5
-[qh_ERR* in libqhull.h via qh_exit() in usermem.c].  The C++ interface does not report the
-captured output in QhullError.  Call Qhull::setErrorStream to send output to cerr instead.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="facet-cpp">QhullFacet</a></h3>
-<p>
-A QhullFacet is a facet of the convex hull, a region of the Delaunay triangulation, a vertex of a Voronoi diagram,
-or an intersection of the halfspace intersection about a point.
-A QhullFacet has a set of <a href="#vertex-cpp">QhullVertex</a>, a set of <a href="#ridge-cpp">QhullRidge</a>, and
-a set of neighboring QhullFacets.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="facetlist-cpp">QhullFacetList</a></h3>
-<p>
-A QhullFacetList is a linked list of <a href="#facet-cpp">QhullFacet</a>.  The result of <code>Qhull.runQhull</code> is a QhullFacetList stored
-in <a href="#qh-cpp">QhullQh</a>.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="facetset-cpp">QhullFacetSet</a></h3>
-<p>
-A QhullFacetSet is a <a href="#set-cpp">QhullSet</a> of <a href="#facet-cpp">QhullFacet</a>.  QhullFacetSet may be ordered or unordered.  The neighboring facets of a QhullFacet is a QhullFacetSet.
-The neighbors of a <a href="#facet-cpp">QhullFacet</a> is a QhullFacetSet.
-The neighbors are ordered for simplicial facets, matching the opposite vertex of the facet.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="iterator-cpp">QhullIterator</a></h3>
-<p>
-QhullIterator contains macros for defining Java-style iterator templates from a STL-style iterator template.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="linkedlist-cpp">QhullLinkedList</a></h3>
-<p>
-A QhullLinkedLIst is a template for linked lists with next and previous pointers.
-<a href="#facetlist-cpp">QhullFacetList</a> and <a href="#facetlist-cpp">QhullVertexList</a> are QhullLinkedLists.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="point-cpp">QhullPoint</a></h3>
-<p>
-A QhullPoint is an array of point coordinates, typically doubles.  The length of the array is <a href="#qh-cpp">QhullQh</a>.hull_dim.
-The identifier of a QhullPoint is its 0-based index from QhullQh.first_point followed by QhullQh.other_points.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="pointset-cpp">QhullPointSet</a></h3>
-<p>
-A QhullPointSet is a <a href="#set-cpp">QhullSet</a> of <a href="#point-cpp">QhullPoint</a>.  The QhullPointSet of a <a href="#facet-cpp">QhullFacet</a> is its coplanar points.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="qh-cpp">QhullQh</a></h3>
-<p>
-QhullQh is the root of Qhull's data structure.
-It contains initialized constants, sets, buffers, and variables.
-It contains an array and a set of <a href="#point-cpp">QhullPoint</a>,
-a list of <a href="#facet-cpp">QhullFacet</a>, and a list of <a href="#vertex-cpp">QhullVertex</a>.
-The points are the input to Qhull.  The facets and vertices are the result of running Qhull.
-</p>
-
-<p>
-Qhull's functions access QhullQh through the global variable, <code>qh_qh</code>.
-The global data structures, qh_stat and qh_mem, record statistics and manage memory respectively.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="ridge-cpp">QhullRidge</a></h3>
-
-<p>
-A QhullRidge represents the edge between two <a href="#facet-cpp">QhullFacet</a>'s.
-It is always simplicial with qh.hull_dim-1 <a href="#vertex-cpp">QhullVertex</a>)'s.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="ridgeset-cpp">QhullRidgeSet</a></h3>
-
-<p>
-A QhullRidgeSet is a <a href="#set-cpp">QhullSet</a> of <a href="#ridge-cpp">QhullRidge</a>.  Each <a href="#facet-cpp">QhullFacet</a> contains a QhullRidgeSet.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="set-cpp">QhullSet</a></h3>
-
-<p>
-A QhullSet is a set of pointers to objects.  QhullSets may be ordered or unordered.  They are the core data structure for Qhull.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="vertex-cpp">QhullVertex</a></h3>
-
-<p>
-A QhullVertex is a vertex of the convex hull.  A simplicial <a href="#facet-cpp">QhullFacet</a> has qh.hull_dim-1 vertices.  A QhullVertex contains a <a href="#point-cpp">QhullPoint</a>.
-It may list its neighboring <a href="#facet-cpp">QhullFacet</a>'s.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="vertexlist-cpp">QhullVertexList</a></h3>
-
-<p>
-A QhullVertexList is a <a href="#linkedlist-cpp">QhullLinkedList</a> of <a href="#vertex-cpp">QhullVertex</a>.
-The global data structure, <a href="#qh-cpp">QhullQh</a> contains a QhullVertexList of all
-the vertices.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="vertexset-cpp">QhullVertexSet</a></h3>
-
-<p>
-A QhullVertexSet is a <a href="#set-cpp">QhullSet</a> of <a href="#vertex-cpp">QhullVertex</a>.
-The QhullVertexSet of a <a href="#facet-cpp">QhullFacet</a> is the vertices of the facet.  It is
-ordered for simplicial facets and unordered for non-simplicial facets.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="rbox-cpp">RboxPoints</a></h3>
-
-<p>
-RboxPoints is a std::vector of point coordinates (<a href="#point-cpp">QhullPoint</a>).
-It's iterator is <a href="#coordinate-cpp">CoordinateIterator</a>.
-</p>
-<p>
-<code>RboxPoints.appendRandomPoints()</code> appends points from a variety of distributions such as uniformly distributed within a cube and random points on a sphere.
-It can also append a cube's vertices or specific points.
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="usingqhull-cpp">UsingLibQhull</a></h3>
-
-<p>
-UsingLibQhull checks that the current thread owns Qhull's global data structure, <a href="#qh-cpp">QhullQh</a>.
-It is required while calling the Qhull library.  Otherwise two threads may be updating and reading the same data structure.
-</p>
-
-<h2><a href="#TOC">&#187;</a><a name="library">Calling Qhull from
-C programs</a></h2>
-
-<p><b>Warning:</b> Qhull was not designed for calling from C
-programs.  You may find the <a href="#cpp">C++ interface</a> easier to use.
-You will need to understand the data structures and read the code.
-Most users will find it easier to call Qhull as an external
-command.
-
-<p>For examples of calling Qhull, see GNU Octave's
-<a href=http://www.gnu.org/software/octave/doc/interpreter/Geometry.html>computational geometry code</a>,
-and Qhull's
-<a href=../src/user_eg/user_eg.c>user_eg.c</a>,
-<a href=../src/user_eg2/user_eg2.c>user_eg2.c</a>, and
-<a href=../src/libqhull/user.c>user.c</a>.  To see how Qhull calls its library, read
-<a href=../src/qhull/unix.c>unix.c</a>,
-<a href=../src/qconvex/qconvex.c>qconvex.c</a>,
-<a href=../src/qdelaunay/qdelaun.c>qdelaun.c</a>,
-<a href=../src/qhalf/qhalf.c>qhalf.c</a>, and
-<a href=../src/qvoronoi/qvoronoi.c>qvoronoi.c</a>.
-
-<p>The <a href=http://www.boost.org/libs/graph/doc/table_of_contents.html>BGL</a>
-Boost Graph Library [aka GGCL] provides C++ classes for graph data structures
-and algorithms [Dr. Dobb's 9/00 p. 29-38; OOPSLA '99 p. 399-414].  It is modelled after the
-Standard Template Library.  It would provide a good interface to Qhull.
-If you are interested in adapting BGL to Qhull, please contact
-<a href="mailto:bradb@shore.net">bradb@shore.net</a>.
-
-<p>See <a href="../src/libqhull/index.html">Qhull functions, macros, and data
-structures</a> for internal documentation of Qhull. The
-documentation provides an overview and index. To use the library
-you will need to read and understand the code. For most users, it
-is better to write data to a file, call the qhull program, and
-read the results from the output file.</p>
-
-<p>When you read the code, be aware of the macros &quot;qh&quot;
-and &quot;qhstat&quot;, e.g., &quot;qh hull_dim&quot;. They are
-defined in <tt>libqhull.h</tt>. They allow the global data
-structures to be pre-allocated (faster access) or dynamically
-allocated (allows multiple copies). </p>
-
-<p>Qhull's <tt>Makefile</tt> produces a library, <tt>libqhull.a</tt>,
-for inclusion in your programs. First review <tt>libqhull.h</tt>.
-This defines the data structures used by Qhull and provides
-prototypes for the top-level functions.
-Most users will only need libqhull.h in their programs. For
-example, the Qhull program is defined with <tt>libqhull.h</tt> and <tt>unix.c</tt>.
-To access all functions, use <tt>qhull_a.h</tt>. Include the file
-with &quot;<tt>#include &lt;qhull/qhull_a.h&gt;&quot;.</tt> This
-avoids potential name conflicts.</p>
-
-<p>If you use the Qhull library, you are on your own as far as
-bugs go. Start with small examples for which you know the output.
-If you get a bug, try to duplicate it with the Qhull program. The
-'<a href="qh-optt.html#Tc">Tc</a>' option will catch many problems
-as they occur. When an error occurs, use '<a
-href="qh-optt.html#Tn">T4</a> <a href="qh-optt.html#TPn">TPn</a>'
-to trace from the last point added to the hull. Compare your
-trace with the trace output from the Qhull program.</p>
-
-<p>Errors in the Qhull library are more likely than errors in the
-Qhull program. These are usually due to feature interactions that
-do not occur in the Qhull program. Please report all errors that
-you find in the Qhull library. Please include suggestions for
-improvement. </p>
-
-<h3><a href="#TOC">&#187;</a><a name="mem">sets and quick memory
-allocation</a></h3>
-
-<p>You can use <tt>mem.c</tt> and<tt> qset.c</tt> individually. <tt>Mem.c
-</tt>implements quick-fit memory allocation. It is faster than
-malloc/free in applications that allocate and deallocate lots of
-memory. </p>
-
-<p><tt>Qset.c</tt> implements sets and related collections. It's
-the inner loop of Qhull, so speed is more important than
-abstraction. Set iteration is particularly fast. <tt>qset.c</tt>
-just includes the functions needed for Qhull. </p>
-
-<h3><a href="#TOC">&#187;</a><a name="dids">Delaunay triangulations
-and point indices</a></h3>
-
-<p>Here some unchecked code to print the point indices of each
-Delaunay triangle. Use option 'QJ' if you want to avoid
-non-simplicial facets. Note that upper Delaunay regions are
-skipped. These facets correspond to the furthest-site Delaunay
-triangulation. </p>
-
-<blockquote>
-    <pre>
-  facetT *facet;
-  vertexT *vertex, **vertexp;
-
-  FORALLfacets {
-    if (!facet-&gt;upperdelaunay) {
-      printf (&quot;%d&quot;, qh_setsize (facet-&gt;vertices);
-      FOREACHvertex_(facet-&gt;vertices)
-        printf (&quot; %d&quot;, qh_pointid (vertex-&gt;point));
-      printf (&quot;\n&quot;);
-    }
-  }
-
-</pre>
-</blockquote>
-
-<h3><a href="#TOC">&#187;</a><a name="findfacet">locate a facet with
-qh_findbestfacet()</a></h3>
-
-<p>The routine qh_findbestfacet in <tt>poly2.c</tt> is
-particularly useful. It uses a directed search to locate the
-facet that is furthest below a point. For Delaunay
-triangulations, this facet is the Delaunay triangle that contains
-the lifted point. For convex hulls, the distance of a point to
-the convex hull is either the distance to this facet or the
-distance to a subface of the facet.</p>
-
-<blockquote>
-<p><b>Warning:</b> If triangulated output ('<a href=qh-optq.html#Qt>Qt</a>') and
-the best facet is triangulated, qh_findbestfacet() returns one of
-the corresponding 'tricoplanar' facets.  The actual best facet may be a different
-tricoplanar facet.
-<p>
-See qh_nearvertex() in poly2.c for sample code to visit each
-tricoplanar facet.  To identify the correct tricoplanar facet,
-see Devillers, et. al., [<a href="index.html#devi01">'01</a>]
-and Mucke, et al [<a href="index.html#muck96">'96</a>].  If you
-implement this test in general dimension, please notify
-<a href="mailto:qhull@qhull.org">qhull@qhull.org</a>.
-</blockquote>
-
-<p>qh_findbestfacet performs an exhaustive search if its directed
-search returns a facet that is above the point. This occurs when
-the point is inside the hull or if the curvature of the convex
-hull is less than the curvature of a sphere centered at the point
-(e.g., a point near a lens-shaped convex hull). When the later
-occurs, the distance function is bimodal and a directed search
-may return a facet on the far side of the convex hull. </p>
-
-<p>Algorithms that retain the previously constructed hulls
-usually avoid an exhaustive search for the best facet. You may
-use a hierarchical decomposition of the convex hull [Dobkin and
-Kirkpatrick <a href="index.html#dob-kir90">'90</a>]. </p>
-
-<p>To use qh_findbestfacet with Delaunay triangulations, lift the
-point to a paraboloid by summing the squares of its coordinates
-(see qh_setdelaunay in geom2.c). Do not scale the input with
-options 'Qbk', 'QBk', 'QbB' or 'Qbb'. See Mucke, et al [<a
-href="index.html#muck96">'96</a>] for a good point location
-algorithm.</p>
-
-<p>The intersection of a ray with the convex hull may be found by
-locating the facet closest to a distant point on the ray.
-Intersecting the ray with the facet's hyperplane gives a new
-point to test. </p>
-
-<h3><a href="#TOC">&#187;</a><a name="inc">on-line construction with
-qh_addpoint()</a></h3>
-
-<p>The Qhull library may be used for the on-line construction of
-convex hulls, Delaunay triangulations, and halfspace
-intersections about a point. It may be slower than implementations that retain
-intermediate convex hulls (e.g., Clarkson's <a
-href="http://www.netlib.org/voronoi/hull.html">hull
-program</a>). These implementations always use a directed search.
-For the on-line construction of convex hulls and halfspace
-intersections, Qhull may use an exhaustive search
-(qh_findbestfacet). </p>
-
-<p>You may use qh_findbestfacet and qh_addpoint (<tt>libqhull.c</tt>) to add a point to
-a convex hull. Do not modify the point's coordinates since
-qh_addpoint does not make a copy of the coordinates. For Delaunay
-triangulations, you need to lift the point to a paraboloid by
-summing the squares of the coordinates (see qh_setdelaunay in
-geom2.c). Do not scale the input with options 'Qbk', 'QBk', 'QbB'
-or 'Qbb'. Do not deallocate the point's coordinates. You need to
-provide a facet that is below the point (<a href="#findfacet">qh_findbestfacet</a>).
-</p>
-
-<p>You can not delete points. Another limitation is that Qhull
-uses the initial set of points to determine the maximum roundoff
-error (via the upper and lower bounds for each coordinate). </p>
-
-<p>For many applications, it is better to rebuild the hull from
-scratch for each new point. This is especially true if the point
-set is small or if many points are added at a time.</p>
-
-<p>Calling qh_addpoint from your program may be slower than
-recomputing the convex hull with qh_qhull. This is especially
-true if the added points are not appended to the qh first_point
-array. In this case, Qhull must search a set to determine a
-point's ID. [R. Weber] </p>
-
-<p>See user_eg.c for examples of the on-line construction of
-convex hulls, Delaunay triangulations, and halfspace
-intersections. The outline is: </p>
-
-<blockquote>
-    <pre>
-initialize qhull with an initial set of points
-qh_qhull();
-
-for each additional point p
-   append p to the end of the point array or allocate p separately
-   lift p to the paraboloid by calling qh_setdelaunay
-   facet= qh_findbestfacet (p, !qh_ALL, &amp;bestdist, &amp;isoutside);
-   if (isoutside)
-      if (!qh_addpoint (point, facet, False))
-         break;  /* user requested an early exit with 'TVn' or 'TCn' */
-
-call qh_check_maxout() to compute outer planes
-terminate qhull</pre>
-</blockquote>
-
-<h3><a href="#TOC">&#187;</a><a name="constrained">Constrained
-Delaunay triangulation </a></h3>
-
-<p>With a fair amount of work, Qhull is suitable for constrained
-Delaunay triangulation. See Shewchuk, ACM Symposium on
-Computational Geometry, Minneapolis 1998.</p>
-
-<p>Here's a quick way to add a constraint to a Delaunay
-triangulation: subdivide the constraint into pieces shorter than
-the minimum feature separation. You will need an independent
-check of the constraint in the output since the minimum feature
-separation may be incorrect. [H. Geron] </p>
-
-<h3><A href="#TOC">&#187;</A><a name="tricoplanar">Tricoplanar facets and option 'Qt'</h3>
-
-<p>Option '<a href=qh-optq.html#Qt>Qt</a>' triangulates non-simplicial
-facets (e.g., a square facet in 3-d or a cubical facet in 4-d).
-All facets share the same apex (i.e., the first vertex in facet->vertices).
-For each triangulated facet, Qhull
-sets facet->tricoplanar true and copies facet->center, facet->normal, facet->offset, and facet->maxoutside.  One of
-the facets owns facet->normal; its facet->keepcentrum is true.
-If facet->isarea is false, facet->triowner points to the owning
-facet.
-
-<p>Qhull sets facet->degenerate if the facet's vertices belong
-to the same ridge of the non-simplicial facet.
-
-<p>To visit each tricoplanar facet of a non-simplicial facet,
-either visit all neighbors of the apex or recursively visit
-all neighbors of a tricoplanar facet.  The tricoplanar facets
-will have the same facet->center.</p>
-
-<p>See <a href=../src/libqhull/io.c#detvridge>qh_detvridge</a> for an example of ignoring tricoplanar facets.</p>
-
-<h3><a href="#TOC">&#187;</a><a name="vertices">Voronoi vertices of a
-region</a></h3>
-
-<p>The following code iterates over all Voronoi vertices for each
-Voronoi region. Qhull computes Voronoi vertices from the convex
-hull that corresponds to a Delaunay triangulation. An input site
-corresponds to a vertex of the convex hull and a Voronoi vertex
-corresponds to an adjacent facet. A facet is
-&quot;upperdelaunay&quot; if it corresponds to a Voronoi vertex
-&quot;at-infinity&quot;. Qhull uses qh_printvoronoi in <tt>io.c</tt>
-for '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-opto.html#o">o'</a> </p>
-
-<blockquote>
-    <pre>
-/* please review this code for correctness */
-qh_setvoronoi_all();
-FORALLvertices {
-   site_id = qh_pointid (vertex-&gt;point);
-   if (qh hull_dim == 3)
-      qh_order_vertexneighbors(vertex);
-   infinity_seen = 0;
-   FOREACHneighbor_(vertex) {
-      if (neighbor-&gt;upperdelaunay) {
-        if (!infinity_seen) {
-          infinity_seen = 1;
-          ... process a Voronoi vertex &quot;at infinity&quot; ...
-        }
-      }else {
-        voronoi_vertex = neighbor-&gt;center;
-        ... your code goes here ...
-      }
-   }
-}
-</pre>
-</blockquote>
-
-<h3><a href="#TOC">&#187;</a><a name="ridge">Voronoi vertices of a
-ridge</a></h3>
-
-<p>Qhull uses qh_printvdiagram() in io.c to print the ridges of a
-Voronoi diagram for option '<a href="qh-optf.html#Fv2">Fv</a>'.
-The helper function qh_eachvoronoi() does the real work. It calls
-the callback 'printvridge' for each ridge of the Voronoi diagram.
-</p>
-
-<p>You may call qh_printvdiagram2(), qh_eachvoronoi(), or
-qh_eachvoronoi_all() with your own function. If you do not need
-the total number of ridges, you can skip the first call to
-qh_printvdiagram2(). See qh_printvridge() and qh_printvnorm() in
-io.c for examples. </p>
-
-<h3><a href="#TOC">&#187;</a><a name="vneighbor">vertex neighbors of
-a vertex</a></h3>
-
-<p>To visit all of the vertices that share an edge with a vertex:
-</p>
-
-<ul>
-    <li>Generate neighbors for each vertex with
-        qh_vertexneighbors in <tt>poly2.c</tt>. </li>
-    <li>For simplicial facets, visit the vertices of each
-        neighbor </li>
-    <li>For non-simplicial facets, <ul>
-            <li>Generate ridges for neighbors with qh_makeridges
-                in <tt>merge.c</tt>. </li>
-            <li>Generate ridges for a vertex with qh_vertexridges
-                in <tt>merge.c</tt>. </li>
-            <li>Visit the vertices of these ridges. </li>
-        </ul>
-    </li>
-</ul>
-
-<p>For non-simplicial facets, the ridges form a simplicial
-decomposition of the (d-2)-faces between each pair of facets --
-if you need 1-faces, you probably need to generate the full face
-graph of the convex hull. </p>
-
 <h2><a href="#TOC">&#187;</a><a name="enhance">Enhancements to Qhull </a></h2>
 
 <p>There are many ways in which Qhull can be improved. </p>
 
 <pre>
+[Jan 2016] Suggestions
+------------
+To do for a future verson of Qhull
+ - Add a post-merge pass for Delaunay slivers.  Merge into a neighbor with a circumsphere that includes the opposite point. [M. Treacy]
+ - Option to add a bounding box for Delaunay triangulations, e,g., nearly coincident points
+ - Rescale output to match 'QbB' on input [J. Metz, 1/30/2014 12:21p]
+ - Run through valgrind
+ - Notes to compgeom on conformant triangulation and Voronoi volume
+ - Implement weighted Delaunay triangulation and weighted Voronoi diagram [A. Liebscher]
+   e.g., Sugihara, "Three-dimensional convex hull as a fruitful source of diagrams," Theoretical Computer Science, 2000, 235:325-337
+ - testqset: test qh_setdelnth and move-to-front
+ - Makefile: Re-review gcc/g++ warnings.  OK in 2011.
+ - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
+   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
+ - CMakelists.txt:  Why are files duplicated for cmake build
+ - CMakeLists.txt: configure the 'ctest' target
+
+ - Can countT be defined as 'int', 'unsigned int', or 64-bit int?
+   countT is currently defined as 'int' in qset_r.h
+   Vertex ID and ridge ID perhaps should be countT, They are currently 'unsigned'
+   Check use of 'int' vs. countT in all cpp code
+   Check use of 'int' vs. countT in all c code
+   qset_r.h defines countT -- duplicates code in user_r.h -- need to add to qset.h/user.h
+   countT -1 used as a flag in Coordinates.mid(), QhullFacet->id()
+   Also QhullPoints indexOf and lastIndexOf
+   Also QhullPointSet indexOf and lastIndexOf
+   Coordinates.indexOf assumes countT is signed (from end)
+   Coordinates.lastIndexOf assumes countT is signed (from end)
+   All error messages with countT are wrong, convert to int?
+   RboxPoints.qh_fprintf_rbox, etc. message 9393 assumes countT but may be int, va_arg(args, countT);  Need to split
+
+------------
+To do for a furture version of the C++ interface
+ - Document C++ using Doxygen conventions (//! and //!<)
+ - Should Qhull manage the output formats for doubles?  QH11010 user_r.h defines qh_REAL_1 as %6.8g
+ - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
+ - Add interior point for automatic translation?
+ - Write a program with concurrent Qhull
+ - Write QhullStat and QhullStat_test
+ - Add QList and vector instance of facetT*, etc.
+ - Generalize QhullPointSetIterator
+ - qh-code.html: Document changes to C++ interface.
+      Organize C++ documentation into collection classes, etc.
+ - Review all C++ classes and C++ tests
+ - QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
+ - The Boost Graph Library provides C++ classes for graph data structures. It may help
+   enhance Qhull's C++ interface [Dr. Dobb's 9/00 p. 29-38; OOPSLA '99 p. 399-414].
+
 [Jan 2010] Suggestions
  - Generate vcproj from qtpro files
    cd qtpro && qmake -spec win32-msvc2005 -tp vc -recursive
    sed -i 's/C\:\/bash\/local\/qhull\/qtpro\///' qhull-all.sln
    Change qhullcpp to libqhull.dll
    Allow both builds on same host (keep /tmp separate)
- - Make distribution -- remove tmp, news, .git, leftovers from project, change CRLF
-     search for 2010.1, Dates
-     qhulltest --all added to output
-     Add md5sum
-     Add test of user_eg3, etc.
  - C++ class for access to statistics, accumulate vs. add
  - Add dialog box to RoadError-- a virtual function?
  - Option 'Gt' does not make visible all facets of the mesh example, rbox 32 M1,0,1 | qhull d Gt
- - Option to select bounded Voronoi regions [A. Uzunovic]
  - Merge small volume boundary cells into unbounded regions [Dominik Szczerba]
  - Postmerge with merge options
- - Add const to C code
  - Add modify operators and MutablePointCoordinateIterator to PointCoordinates
- - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
  - Fix option Qt for conformant triangulations of merged facets
  - Investigate flipped facet -- rbox 100 s D3 t1263080158 | qhull R1e-3 Tcv Qc
  - Add doc comments to c++ code
@@ -936,9 +1028,10 @@ Contents</a><br>
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents <br>
-<b>Dn:</b> <a href="../src/libqhull/index.html">Qhull functions</a>, macros, and data
+<b>Dn:</b> <a href="../src/libqhull_r/index.html">Qhull functions</a>, macros, and data
 structures <!-- GC common information -->
 
 <hr>

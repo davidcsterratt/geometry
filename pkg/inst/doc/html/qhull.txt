@@ -46,12 +46,12 @@ SYNOPSIS
         - installation:   README.txt
         - see also:       COPYING.txt, REGISTER.txt, Changes.txt
         - WWW:            <http://www.qhull.org>
-        - GIT:            <git@gitorious.org:qhull/qhull.git>
+        - GIT:            <git@github.com:qhull/qhull.git>
         - mirror:         <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
         - news:           <http://www.qhull.org/news>
         - Geomview:       <http://www.geomview.org>
         - news group:     <news:comp.graphics.algorithms>
-        - FAQ:            <http://exaflop.org/docs/cgafaq/cga6.html>
+        - FAQ:            <http://www.faqs.org/faqs/graphics/algorithms-faq/>
         - email:          qhull@qhull.org
         - bug reports:    qhull_bug@qhull.org
 
@@ -1015,6 +1015,12 @@ qhull(1)                                                 qhull(1)
 
        Q11    With 'Q11', Qhull copies normals and recomputes
               centrums for tricoplanar facets.
+
+       Q12    With 'Q12', Qhull does not report a very wide merge due 
+              to a duplicated ridge with nearly coincident vertices
+       
+       Q14    With 'Q14', Qhull does not rename vertices that create 
+              a duplicate ridge
 
        Trace options
 

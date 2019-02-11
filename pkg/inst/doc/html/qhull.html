@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
 <title>qhull -- convex hull and related structures</title>
 </head>
 
@@ -17,7 +17,8 @@
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put
 &#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols
 &#149; <a href="#options">op</a>tions
@@ -36,9 +37,9 @@ equivalent to a convex hull by polar duality.
 
 <p>The <tt>qhull</tt> program provides options to build these
 structures and to experiment with the process.  Use the
-<a href=qconvex.htm>qconvex</a>,
-<a href=qdelaun.htm>qdelaunay</a>, <a href=qhalf.htm>qhalf</a>,
-and <a href=qvoronoi.htm>qvoronoi</a> programs
+<a href=qconvex.html>qconvex</a>,
+<a href=qdelaun.html>qdelaunay</a>, <a href=qhalf.html>qhalf</a>,
+and <a href=qvoronoi.html>qvoronoi</a> programs
 to build specific structures.  You may use <tt>qhull</tt> instead.
 It takes the same options and uses the same code.
 <blockquote>
@@ -72,11 +73,11 @@ Delaunay triangulation is a 4-d convex hull):
 <li>
 <a href="qconvex.html">qconvex</a> == qhull
 <li>
-<a href=qdelaun.htm>qdelaunay</a> == qhull d <a href="qh-optq.html#Qbb">Qbb</a>
+<a href=qdelaun.html>qdelaunay</a> == qhull d <a href="qh-optq.html#Qbb">Qbb</a>
 <li>
-<a href=qhalf.htm>qhalf</a> == qhull H
+<a href=qhalf.html>qhalf</a> == qhull H
 <li>
-<a href=qvoronoi.htm>qvoronoi</a> == qhull v <a href="qh-optq.html#Qbb">Qbb</a>
+<a href=qvoronoi.html>qvoronoi</a> == qhull v <a href="qh-optq.html#Qbb">Qbb</a>
 </ul>
 </blockquote>
 
@@ -87,11 +88,11 @@ Delaunay triangulation is a 5-d convex hull):
 <li>
 <a href="qconvex.html">qconvex</a> == qhull <a href="qh-optq.html#Qx">Qx</a>
 <li>
-<a href=qdelaun.htm>qdelaunay</a> == qhull d <a href="qh-optq.html#Qbb">Qbb</a> <a href="qh-optq.html#Qx">Qx</a>
+<a href=qdelaun.html>qdelaunay</a> == qhull d <a href="qh-optq.html#Qbb">Qbb</a> <a href="qh-optq.html#Qx">Qx</a>
 <li>
-<a href=qhalf.htm>qhalf</a> == qhull H <a href="qh-optq.html#Qx">Qx</a>
+<a href=qhalf.html>qhalf</a> == qhull H <a href="qh-optq.html#Qx">Qx</a>
 <li>
-<a href=qvoronoi.htm>qvoronoi</a> == qhull v <a href="qh-optq.html#Qbb">Qbb</a> <a href="qh-optq.html#Qx">Qx</a>
+<a href=qvoronoi.html>qvoronoi</a> == qhull v <a href="qh-optq.html#Qbb">Qbb</a> <a href="qh-optq.html#Qx">Qx</a>
 </ul>
 </blockquote>
 
@@ -116,7 +117,7 @@ hull contains non-simplicial facets (e.g., a hypercube). See
 are there extra points in a 4-d or higher convex hull?</a><br>
 </p>
 
-<p><b>Copyright &copy; 1995-2012 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -127,7 +128,7 @@ qhull- compute convex hulls and related structures.
     comments start with a non-numeric character
     halfspace: use dim+1 and put offsets after coefficients
 
-options (qh-quick.htm):
+options (qh-quick.html):
     d    - Delaunay triangulation by lifting points to a paraboloid
     d Qu - furthest-site Delaunay triangulation (upper convex hull)
     v    - Voronoi diagram as the dual of the Delaunay triangulation
@@ -240,20 +241,21 @@ individually or together.</p>
     <dd><b>General</b></dd>
     <dt><a>qhull</a></dt>
     <dd>compute the convex hull of the input points.
-        See <a href=qconvex.htm>qconvex</a>.</dd>
+        See <a href=qconvex.html>qconvex</a>.</dd>
     <dt><a name="d">qhull d Qbb</a></dt>
     <dd>compute the Delaunay triangulation by lifting the points
         to a paraboloid.  Use option '<a href="qh-optq.html#Qbb">Qbb</a>'
         to scale the paraboloid and improve numeric precision.
-        See <a href=qdelaun.htm>qdelaunay</a>.</dd>
+        See <a href=qdelaun.html>qdelaunay</a>.</dd>
     <dt><a name="v">qhull v Qbb</a></dt>
     <dd>compute the Voronoi diagram by computing the Delaunay
         triangulation.    Use option '<a href="qh-optq.html#Qbb">Qbb</a>'
         to scale the paraboloid and improve numeric precision.
-        See <a href=qvoronoi.htm>qvoronoi</a>.</dd>
+        See <a href=qvoronoi.html>qvoronoi</a>.</dd>
     <dt><a name="H">qhull H</a></dt>
     <dd>compute the halfspace intersection about a point via polar
-        duality.  See <a href=qhalf.htm>qhalf</a>.</dd>
+        duality.  The point is below the hyperplane that defines the halfspace.
+        See <a href=qhalf.html>qhalf</a>.</dd>
 </dl>
 </blockquote>
 
@@ -339,9 +341,11 @@ Qhull control options:
     Q8   - do not process near-inside points
     Q9   - process furthest of furthest points
     Q10  - no special processing for narrow distributions
-        Q11  - copy normals and recompute centrums for tricoplanar facets
+    Q11  - copy normals and recompute centrums for tricoplanar facets
+    Q12  - do not error on wide merge due to duplicate ridge and nearly coincident points
+    Q14  - do not rename vertices that create a duplicate ridge
 
-Towpaths Trace options:
+Trace options:
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events
     Tc   - check frequently during execution
     Ts   - print statistics
@@ -451,7 +455,8 @@ Print options:
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put
 &#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols
 &#149; <a href="#options">op</a>tions

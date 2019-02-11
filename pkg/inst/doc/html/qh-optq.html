@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
 <title>Qhull control options (Q)</title>
 </head>
 
@@ -17,7 +17,8 @@
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a></p>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a></p>
 
 <hr>
 <!-- Main text of document -->
@@ -29,7 +30,7 @@ height="100"></a> Qhull control options (Q)</h1>
 <p>This section lists the control options for Qhull. These
 options are indicated by 'Q' followed by a letter. </p>
 
-<p><b>Copyright &copy; 1995-2012 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -41,7 +42,8 @@ options are indicated by 'Q' followed by a letter. </p>
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a></p>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a></p>
 
 <h2>Qhull control options</h2>
 
@@ -122,6 +124,10 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>no special processing for narrow distributions</dd>
     <dt><a href="#Q11">Q11</a></dt>
     <dd>copy normals and recompute centrums for tricoplanar facets</dd>
+    <dt><a href="#Q12">Q12</a></dt>
+    <dd>do not error on wide merge due to duplicate ridge and nearly coincident points</dd>
+    <dt><a href="#Q14">Q14</a></dt>
+    <dd>do not rename vertices that create a duplicate ridge</dd>
     <dt><a href="#Qm">Qm</a></dt>
     <dd>process points only if they would increase the max. outer
         plane </dd>
@@ -141,8 +147,8 @@ coordinate will be 0 and the upper bound will be the maximum
 width of the other coordinates. Scaling happens after projecting
 the points to a paraboloid and scaling other coordinates. </p>
 
-<p>Option 'Qbb' is automatically set for <a href=qdelaun.htm>qdelaunay</a>
-and <a href=qvoronoi.htm>qvoronoi</a>.  Option 'Qbb' is automatically set for joggled input '<a
+<p>Option 'Qbb' is automatically set for <a href=qdelaun.html>qdelaunay</a>
+and <a href=qvoronoi.html>qvoronoi</a>.  Option 'Qbb' is automatically set for joggled input '<a
 href="qh-optq.html#QJn">QJ</a>'. </p>
 
 <p>Option 'Qbb' should be used for Delaunay triangulations with
@@ -206,8 +212,8 @@ and '<a href="qh-optf.html#FP">FP</a>' will print the coplanar
 points. With options 'Qc <a href="#Qi">Qi</a>' these outputs
 include the interior points.</p>
 
-<p>For Delaunay triangulations (<a href=qdelaun.htm>qdelaunay</a>
-or <a href=qvoronoi.htm>qvoronoi</a>), a coplanar point is a point
+<p>For Delaunay triangulations (<a href=qdelaun.html>qdelaunay</a>
+or <a href=qvoronoi.html>qvoronoi</a>), a coplanar point is a point
 that is nearly incident to a vertex. All input points are either
 vertices of the triangulation or coplanar.</p>
 
@@ -248,11 +254,11 @@ facets. With the '<a href="#Qg">Qg</a>' option, Qhull will only
 build those facets that it needs to determine the good facets in
 the output. This may speed up Qhull in 2-d and 3-d. It is
 useful for furthest-site Delaunay
-triangulations (<a href=qdelau_f.htm>qdelaunay Qu</a>,
+triangulations (<a href=qdelau_f.html>qdelaunay Qu</a>,
 invoke with 'qhull d Qbb <a href="#Qu">Qu</a> Qg').
 It is not effective in higher
 dimensions because many facets see a given point and contain a
-given vertex. It is not guaranteed to work for all combinations.</p>
+given vertex. It may not work for all combinations.</p>
 
 <p>See '<a href="#QGn">QGn</a>', '<a href="#QVn">QVn</a>', and '<a
 href="qh-optp.html#Pdk">Pdk</a>' for defining good facets, and '<a
@@ -260,7 +266,9 @@ href="qh-optp.html#Pg">Pg</a>' and '<a href="qh-optp.html#PG">PG</a>'
 for printing good facets and their neighbors. If pre-merging ('<a
 href="qh-optc.html#Cn">C-n</a>') is not used and there are
 coplanar facets, then 'Qg Pg' may produce a different result than
-'<a href="qh-optp.html#Pg">Pg</a>'. </p>
+'<a href="qh-optp.html#Pg">Pg</a>'.  Option Qg disables
+renaming vertices that create a duplicate ridge ('<a href="#Q14">Q14</a>').
+</p>
 
 <h3><a href="#qhull">&#187;</a><a name="QGn">QGn - good facet if
 visible from point n, -n for not visible </a></h3>
@@ -282,10 +290,10 @@ convex hull. With option 'Qi', Qhull treats interior points the
 same as coplanar points. Option 'Qi' does not retain coplanar
 points. You will probably want '<a href="#Qc">Qc </a>' as well. </p>
 
-<p>Option 'Qi' is automatically set for '<a href=qdelaun.htm>qdelaunay</a>
-<a href="#Qc">Qc</a>' and '<a href=qvoronoi.htm>qvoronoi</a>
+<p>Option 'Qi' is automatically set for '<a href=qdelaun.html>qdelaunay</a>
+<a href="#Qc">Qc</a>' and '<a href=qvoronoi.html>qvoronoi</a>
 <a href="#Qc">Qc</a>'. If you use
-'<a href=qdelaun.htm>qdelaunay</a> Qi' or '<a href=qvoronoi.htm>qvoronoi</a>
+'<a href=qdelaun.html>qdelaunay</a> Qi' or '<a href=qvoronoi.html>qvoronoi</a>
 Qi', option '<a href="qh-opto.html#s">s</a>' reports all nearly
 incident points while option '<a href="qh-optf.html#Fs">Fs</a>'
 reports the number of interior points (should always be zero).</p>
@@ -308,7 +316,7 @@ defines these parameters and a maximum number of retries. See <a
 href="qh-impre.html#joggle">Merged facets or joggled input</a>. </p>
 
 <p>Users of joggled input should consider converting to
-triangulated output ('<A href="../html/qh-optq.html#Qt">Qt</A>').  Triangulated output is
+triangulated output ('<a href="../html/qh-optq.html#Qt">Qt</a>').  Triangulated output is
 approximately 1000 times more accurate than joggled input.
 
 <p>Option 'QJ' also sets '<a href="qh-optq.html#Qbb">Qbb</a>' for
@@ -329,12 +337,12 @@ href="qh-optq.html#Qc">Qc</a>') require an additional <i>sqrt(d)*n</i>
 since vertices and coplanar points may be joggled in opposite
 directions. </p>
 
-<p>For Delaunay triangulations (<a href=qdelaun.htm>qdelaunay</a>), joggle
+<p>For Delaunay triangulations (<a href=qdelaun.html>qdelaunay</a>), joggle
 happens before lifting the input sites to a paraboloid.  Instead of
 'QJ', you may use triangulated output ('<a
 href="qh-optq.html#Qt">Qt</a>')</p>
 
-<p>This option is deprecated for Voronoi diagrams (<a href=qvoronoi.htm>qvoronoi</a>).
+<p>This option is deprecated for Voronoi diagrams (<a href=qvoronoi.html>qvoronoi</a>).
 It triangulates cospherical points, leading to duplicated Voronoi vertices.</p>
 
 <p>By default, 'QJn' uses a fixed random number seed. To use time
@@ -385,7 +393,7 @@ because the randomization is inefficient. </p>
 <h3><a href="#qhull">&#187;</a><a name="QRn">QRn - random rotation </a></h3>
 
 <p>Option 'QRn' randomly rotates the input. For Delaunay
-triangulations (<a href=qdelaun.htm>qdelaunay</a> or <a href=qvoronoi.htm>qvoronoi</a>),
+triangulations (<a href=qdelaun.html>qdelaunay</a> or <a href=qvoronoi.html>qvoronoi</a>),
 it rotates the lifted points about
 the last axis. </p>
 
@@ -422,11 +430,11 @@ results.  Alternatively, use joggled input ('<a href="#QJn">QJ</a>') to
 prevent non-simplical facets.  Unless '<a href="qh-optp.html#Pp">Pp</a>' is set,
 qhull produces a warning if 'QJ' and 'Qt' are used together.
 
-<p>For Delaunay triangulations (<a href=qdelaun.htm>qdelaunay</a>), triangulation
+<p>For Delaunay triangulations (<a href=qdelaun.html>qdelaunay</a>), triangulation
 occurs after lifting the input sites to a paraboloid and computing the convex hull.
 </p>
 
-<p>Option 'Qt' is deprecated for Voronoi diagrams (<a href=qvoronoi.htm>qvoronoi</a>).
+<p>Option 'Qt' is deprecated for Voronoi diagrams (<a href=qvoronoi.html>qvoronoi</a>).
 It triangulates cospherical points, leading to duplicated Voronoi vertices.</p>
 
 <p>Option 'Qt' may produce degenerate facets with zero area.</p>
@@ -440,8 +448,8 @@ may be ignored due to precision errors.
 <h3><a href="#qhull">&#187;</a><a name="Qu">Qu - compute upper hull
 for furthest-site Delaunay triangulation </a></h3>
 
-<p>When computing a Delaunay triangulation (<a href=qdelaun.htm>qdelaunay</a>
-or <a href=qvoronoi.htm>qvoronoi</a>),
+<p>When computing a Delaunay triangulation (<a href=qdelaun.html>qdelaunay</a>
+or <a href=qvoronoi.html>qvoronoi</a>),
 Qhull computes both the the convex hull of points on a
 paraboloid. It normally prints facets of the lower hull. These
 correspond to the Delaunay triangulation. With option 'Qu', Qhull
@@ -482,7 +490,7 @@ is automatically set.
 </p>
 
 <p>Option 'QVn' behaves oddly with options '<a href="qh-optf.html#Fx">Fx</a>'
-and '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.html#Fv2">Fv</a>'.
+and '<a href=qvoronoi.html>qvoronoi</a> <a href="qh-optf.html#Fv2">Fv</a>'.
 
 <p>If used with option '<a href="#Qg">Qg</a>' (only process good facets), point n is
 either in the initial simplex or it is the first
@@ -493,18 +501,20 @@ point added to the hull. Options 'QVn Qg' require either '<a href="#QJn">QJ</a>'
 (allows coplanar facets) </a></h3>
 
 <p>Option 'Qx' performs exact merges while building the hull.
-Option 'Qx' is set by default in 5-d and higher. Use option '<a
-href="#Q0">Q0</a>' to not use 'Qx' by default. Unless otherwise
-specified, option 'Qx' sets option '<a href="qh-optc.html#C0">C-0</a>'.
+Options 'Qx' and 'C-0' are set by default in 5-d and higher.  To disable this default,
+set option '<a href="qh-optc.html#C0">C-0</a>' or another pre-merge option.
+Use option '<a href="#Q0">Q0</a>' to disable all merging, including 'Qx' and 'C-0'.
 </p>
 
-<p>The &quot;exact&quot; merges are merging a point into a
+<p>The &quot;exact&quot; pre-merges are merging a point into a
 coplanar facet (defined by '<a href="qh-optc.html#Vn">Vn </a>', '<a
 href="qh-optc.html#Un">Un</a>', and '<a href="qh-optc.html#Cn">C-n</a>'),
 merging concave facets, merging duplicate ridges, and merging
 flipped facets. Coplanar merges and angle coplanar merges ('<a
 href="qh-optc.html#An">A-n</a>') are not performed. Concavity
 testing is delayed until a merge occurs.</p>
+
+FIXUP -- isn't merging enabled once a merge happens?
 
 <p>After the hull is built, all coplanar merges are performed
 (defined by '<a href="qh-optc.html#Cn">C-n</a>' and '<a
@@ -681,6 +691,44 @@ as duplicate ridges and concave facets.  For example, if qh_triangulate()
 is added to qh_addpoint(), RBOX 1000 s W1e-12 t1001813667 P0 | QHULL d Q11 Tv,
 reports an error due to a duplicate ridge.
 
+<h3><a href="#qhull">&#187;</a><a name="Q12">Q12 - do not error
+on wide merge due to duplicate ridge and nearly coincident points</a></h3>
+
+<p>In 3-d and higher Delaunay Triangulations or 4-d and higher convex hulls, multiple,
+nearly coincident points may lead to very wide facets.  An error is reported if a
+merge across a duplicate ridge would increase the facet width by 100x or more.
+
+<p>Use option 'Q12' to log a warning instead of throwing an error.
+
+<p>For Delaunay triangulations, a bounding box may alleviate this error (e.g., <tt>rbox 500 C1,1E-13 t c G1 | qhull d</tt>).
+This avoids the ill-defined edge between upper and lower convex hulls.
+The problem will be fixed in a future release of Qhull.
+
+<p>To demonstrate the problem, use rbox option 'Cn,r,m' to generate nearly coincident points.
+For more information, see "Nearly coincident points on an edge"
+in <a href="qh-impre.html#limit"</a>Nearly coincident points on an edge</a>.
+
+<h3><a href="#qhull">&#187;</a><a name="Q14">Q14 - do not rename vertices
+that create a duplicate ridge</a></h3>
+
+<p>In 3-d and higher, nearly adjacent vertices may lead to duplicate ridges and wide merges (see
+"Nearly coincident points within 1e-13" in <a href="qh-impre.html">Imprecision in Qhull</a>).
+
+<p>Duplicate ridges are removed by renaming one of the nearly adjacent vertices to another vertex.
+Facets containing this vertex may become redundant.  If so, they are merged into an adjacent facet.
+At most FIXUP attempts will be made.  The cost for
+detecting this situation is approximately FIXUP%.   For each point added to the hull, Qhull
+delays attaching the cone of new facets to the horizon facets.
+
+<p>This feature is turned off with option Q14.   It is also turned off for
+option '<a href="qh-optq.html#Qg">Qg</a>' (Only build good facets), or if pre-merging is
+turned off (e.g., option '<a href="qh-optq.html#Q0">Q0</a>', do not pre-merge facets with 'C-0' or 'Qx').
+
+<h3><a href="#qhull">&#187;</a><a name="Q15">Q15 - allow wide maxout</a></h3>
+
+<p>FIXUP -- document Q15 and Q16 -- add to index and to 'qhull .'</p>
+
+
 <!-- Navigation links -->
 <hr>
 
@@ -694,7 +742,8 @@ reports an error due to a duplicate ridge.
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a></p>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a></p>
 <!-- GC common information -->
 <hr>
 

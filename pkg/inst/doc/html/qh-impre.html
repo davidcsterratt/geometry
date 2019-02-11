@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
 <title>Imprecision in Qhull</title>
 </head>
 
@@ -19,7 +19,8 @@ Contents<br>
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To: </b><a href="#TOC">Qhull imprecision</a>: Table of Contents
 (please wait while loading)
 
@@ -46,7 +47,7 @@ convex. It verifies that all points are on or below all facets. </p>
 <p>Qhull automatically tests for convexity if it detects
 precision errors while constructing the hull. </p>
 
-<p><b>Copyright &copy; 1995-2012 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -221,7 +222,7 @@ last remaining facets. </p>
 triangulations </a></h2>
 
 <p>Programs that use Delaunay triangulations traditionally assume
-a triangulated input. By default, <a href=qdelaun.htm>qdelaunay</a>
+a triangulated input. By default, <a href=qdelaun.html>qdelaunay</a>
 merges regions with cocircular or cospherical input sites.
 If you want a simplicial triangulation
 use triangulated output ('<a href="qh-optq.html#Qt">Qt</a>') or joggled
@@ -237,8 +238,8 @@ in the summary ('<a href="qh-opto.html#s">s</a>', '<a href="qh-optf.html#Fs">Fs<
 
 <p>You should use option '<a href="qh-optq.html#Qbb">Qbb</a>' with Delaunay
 triangulations. It scales the last coordinate and may reduce
-roundoff error. It is automatically set for <a href=qdelaun.htm>qdelaunay</a>,
-<a href=qvoronoi.htm>qvoronoi</a>, and option '<a
+roundoff error. It is automatically set for <a href=qdelaun.html>qdelaunay</a>,
+<a href=qvoronoi.html>qvoronoi</a>, and option '<a
 href="qh-optq.html#QJn">QJ</a>'.</p>
 
 <p>Edelsbrunner, H, <i>Geometry and Topology for Mesh Generation</i>, Cambridge University Press, 2001.
@@ -362,8 +363,8 @@ If one coordinate has a larger absolute value than other
 coordinates, it may dominate the effect of roundoff errors on
 distance computations. You may use option '<a
 href="qh-optq.html#QbB">QbB</a>' to scale points to the unit cube.
-For Delaunay triangulations and Voronoi diagrams, <a href=qdelaun.htm>qdelaunay</a>
-and <a href=qvoronoi.htm>qvoronoi</a> always set
+For Delaunay triangulations and Voronoi diagrams, <a href=qdelaun.html>qdelaunay</a>
+and <a href=qvoronoi.html>qvoronoi</a> always set
 option '<a href="qh-optq.html#Qbb">Qbb</a>'.  It scales the last
 coordinate to [0,m] where <i>m</i> is the maximum width of the
 other coordinates.  Option '<a href="qh-optq.html#Qbb">Qbb</a>' is
@@ -417,7 +418,7 @@ produce wide facets.
 turned off ('<a href="qh-optq.html#Q10">Q10</a>'), qhull may produce
 a wide facet:</p>
 <pre>
-         RBOX 1000 L100000 s G1e-16 t1002074964 | QHULL Tv Q10
+         rbox 1000 L100000 s G1e-16 t1002074964 | qhull Tv Q10
 </pre>
 
 <p>
@@ -427,8 +428,8 @@ approximation. For example, if you do not use qdelaunay nor option
 Delaunay triangulation of nearly cocircular points may produce a poor
 approximation:
 <pre>
-         RBOX s 5000 W1e-13 D2 t1002151341 | QHULL d Qt
-         RBOX 1000 s W1e-13 t1002231672 | QHULL d Tv
+         rbox s 5000 W1e-13 D2 t1002151341 | qhull d Qt
+         rbox 1000 s W1e-13 t1002231672 | qhull d Tv
 </pre>
 
 <p>During
@@ -439,7 +440,7 @@ facets, and can be distant from the precise convex
 hull of the input sites.  Additional facets leave the point distant from
 a facet.  To fix this problem, add option '<a href="qh-optq.html#Qbb">Qbb</a>'
 (it scales the last coordinate).  Option '<a href="qh-optq.html#Qbb">Qbb</a>'
-is automatically set for <a href=qdelaun.htm>qdelaunay</a> and <a href=qvoronoi.htm>qvoronoi</a>.
+is automatically set for <a href=qdelaun.html>qdelaunay</a> and <a href=qvoronoi.html>qvoronoi</a>.
 
 <p>Qhull generates a warning if the initial simplex is narrow.
 For narrow distributions, Qhull changes how it processes coplanar
@@ -449,7 +450,7 @@ Use option '<a href="qh-optq.html#Q10">Q10</a>' to try Qhull without
 special processing for narrow distributions.
 For example, special processing is needed for:
 <pre>
-         RBOX 1000 L100000 s G1e-16 t1002074964 | QHULL Tv Q10
+         rbox 1000 L100000 s G1e-16 t1002074964 | qhull Tv Q10
 </pre>
 
 <p>You may turn off the warning message by reducing
@@ -465,18 +466,50 @@ the furthest-site Delaunay triangulation of nearly cocircular points plus the or
 <pre>
         rbox s 1000 W1e-13 P0 D2 t996799242 | qhull d Tv
         rbox 1000 s Z1 G1e-13 t1002152123 | qhull Tv
-        RBOX 1000 s Z1 G1e-13 t1002231668 | QHULL Tv
+        rbox 1000 s Z1 G1e-13 t1002231668 | qhull Tv
 </pre>
 
 <p>
 <li><b>Quadratic running time</b> -- If the output contains large, non-simplicial
 facets, the running time for Qhull may be quadratic in the size of the triangulated
-output.   For example, <tt>RBOX 1000 s W1e-13 c G2 | QHULL d</tt> is 4 times
+output.   For example, <tt>rbox 1000 s W1e-13 c G2 | qhull d</tt> is 4 times
 faster for 500 points.  The convex hull contains two large nearly spherical facets and
 many nearly coplanar facets.  Each new point retriangulates the spherical facet and repartitions the remaining points into all of the nearly coplanar facets.
 In this case, quadratic running time is avoided if you use qdelaunay,
 add option '<a href="qh-optq.html#Qbb">Qbb</a>',
 or add the origin ('P0') to the input.
+<p>
+<li><b>Nearly coincident points within 1e-13</b> --
+Multiple, nearly coincident points within a 1e-13 ball of points in the unit cube
+may lead to wide facets or quadratic running time.
+For example, the convex hull a 1000 coincident, cospherical points in 4-D,
+or the 3-D Delaunay triangulation of nearly coincident points, may lead to very
+wide facets (e.g., 2267021951.3x).
+
+<p>For Delaunay triangulations, the problem typically occurs for extreme points of the input
+set (i.e., on the edge between the upper and lower convex hull).  After multiple facet merges, four
+facets may share the same, duplicate ridge and must be merged.
+Some of these facets may be long and narrow, leading to a very wide merged facet.
+If so, error QH6271 is reported.  It may be overriden with option '<a href="qh-optq.html#Q12">Q12</a>'.
+
+<p>Duplicate ridges occur when the horizon facets for a new point is "pinched".
+In a duplicate ridge, a subridge (e.g., a line segment in 3-d) is shared by two horizon facets.
+At least two of its vertices are nearly coincident.  In poly_r.c, qh_matchnewfacets calls qh_matchneighbor.
+qh_matchneighbor identifies duplicate ridges and marks the corresponding facets. .
+In merge_r.c, qh_mark_dupridges identifies facets for merging across a duplicate ridge. qh_forcedmerges
+merges these facets.  It checks for wide merges with qh_check_dupridge.
+
+<p>It is easy to generate coincident points with
+option 'Cn,r,m' of rbox.  It generates n points within an r ball for each of m input sites.  For example,
+every point of the following distributions has a nearly coincident point within a 1e-13 ball.
+Substantially smaller or larger balls do not lead to pinched horizons.
+<pre>
+        rbox 1000 C1,1e-13 D4 s t | qhull
+        rbox 75 C1,1e-13 t | qhull d
+</pre>
+For Delaunay triangulations, a bounding box may alleviate this error (e.g.,  <tt>rbox 500 C1,1E-13 t c G1 | qhull d</tt>).
+A later release of qhull will avoid pinched horizons by merging duplicate subridges.  A subridge is
+merged by merging adjacent vertices.
 <p>
 <li><b>Facet with zero-area</b> --
 It is possible for a zero-area facet to be convex with its
@@ -780,7 +813,8 @@ Contents<br>
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#TOC">Qhull imprecision: Table of Contents</a>
 
 <!-- GC common information -->

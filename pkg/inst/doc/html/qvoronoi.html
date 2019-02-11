@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
 <title>qvoronoi -- Voronoi diagram</title>
 </head>
 
@@ -18,7 +18,8 @@
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics
@@ -38,7 +39,7 @@ one input site than any other input site.  It has many useful properties and app
 survey article by Aurenhammer [<a href="index.html#aure91">'91</a>]
 and the detailed introduction by O'Rourke [<a
 href="index.html#orou94">'94</a>]. The Voronoi diagram is the
-dual of the <a href=qdelaun.htm>Delaunay triangulation</a>. </p>
+dual of the <a href=qdelaun.html>Delaunay triangulation</a>. </p>
 
 <blockquote>
 <dl>
@@ -112,7 +113,7 @@ in 4-d and higher.  It disables the following Qhull
 <a href=qh-quick.html#options>options</a>: <i>d n v Qbb QbB Qf Qg Qm
 Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
 
-<p><b>Copyright &copy; 1995-2012 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <p>Voronoi image by KOOK Architecture, Silvan Oesterle and Michael Knauss.
 
@@ -297,7 +298,7 @@ statistics to stderr,</dd>
     <dd>list coincident input sites for each Voronoi vertex.
         The first line is the number of vertices.  The remaining lines start with
         the number of coincident sites and deleted vertices.  Deleted vertices
-        indicate highly degenerate input (see'<A href="qh-optf.html#Fs">Fs</a>').
+        indicate highly degenerate input (see'<a href="qh-optf.html#Fs">Fs</a>').
         A coincident site is assigned to one Voronoi
         vertex.  Do not use '<a href="qh-optq.html#QJn">QJ</a>' with 'Fc'; the joggle will separate
         coincident sites.</dd>
@@ -307,7 +308,7 @@ statistics to stderr,</dd>
         number of coincident sites.  Each remaining line starts with the point ID of
         an input site, followed by the point ID of a coincident point, its vertex, and distance.
         Includes deleted vertices which
-        indicate highly degenerate input (see'<A href="qh-optf.html#Fs">Fs</a>').
+        indicate highly degenerate input (see'<a href="qh-optf.html#Fs">Fs</a>').
         Do not use '<a href="qh-optq.html#QJn">QJ</a>' with 'FP'; the joggle will separate
         coincident sites.</dd>
     <dt>&nbsp;</dt>
@@ -317,7 +318,7 @@ statistics to stderr,</dd>
     <dd>print summary of the Voronoi diagram. Use '<a
         href="qh-optf.html#Fs">Fs</a>' for numeric data.</dd>
     <dt><a href="qh-opto.html#i">i</a></dt>
-    <dd>list input sites for each <a href=qdelaun.htm>Delaunay region</a>.  Use option '<a href="qh-optp.html#Pp">Pp</a>'
+    <dd>list input sites for each <a href=qdelaun.html>Delaunay region</a>.  Use option '<a href="qh-optp.html#Pp">Pp</a>'
         to avoid the warning.  The first line is the number of regions.  The
         remaining lines list the input sites for each region.  The regions are
         oriented.  In the circle-in-square example, the cocircular region has four
@@ -645,7 +646,8 @@ Print options:
 &#149; <a href="qh-optp.html#print">Print</a>
 &#149; <a href="qh-optq.html#qhull">Qhull</a>
 &#149; <a href="qh-optc.html#prec">Precision</a>
-&#149; <a href="qh-optt.html#trace">Trace</a><br>
+&#149; <a href="qh-optt.html#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.html">Functions</a><br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics
