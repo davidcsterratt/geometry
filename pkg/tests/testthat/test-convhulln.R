@@ -66,7 +66,7 @@ test_that("Output to file works", {
   tr <- rbind(c(3,1),c(2,1),c(4,3),c(4,2))
   convhulln(tr, paste0("Fx TO '", fname, "'"))
   expect_true(file.exists(fname))
-  vert <- scan(fname)
+  vert <- scan(fname, quiet=TRUE)
   expect_equal(vert, c(4, 2, 1, 0, 3))
 })
 

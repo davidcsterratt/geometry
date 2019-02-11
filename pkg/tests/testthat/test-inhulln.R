@@ -1,4 +1,4 @@
-context("inhull")
+context("inhulln")
 test_that("inhulln gives the expected output", {
   x <- c(-1, -1, 1)
   y <- c(-1, 1, -1)
