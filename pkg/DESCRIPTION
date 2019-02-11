@@ -40,3 +40,4 @@ LinkingTo:
     Rcpp,
     RcppProgress
 Encoding: UTF-8
+BuildVignettes: no
