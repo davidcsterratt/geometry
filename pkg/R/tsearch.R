@@ -98,7 +98,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
 
 ##' Search for the enclosing Delaunay convex hull
 ##' 
-##' For \code{t = delaunayn(x)}, where \code{x} is a set of points in \code{d}
+##' For \code{t = delaunayn(x)}, where \code{x} is a set of points in \eqn{N}
 ##' dimensions, \code{tsearchn(x, t, xi)} finds the index in \code{t}
 ##' containing the points \code{xi}. For points outside the convex hull,
 ##' \code{idx} is \code{NA}. \code{tsearchn} also returns the barycentric
@@ -112,22 +112,23 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
 ##' for 3D hulls, and does not yet work for hulls of 4 dimensions and
 ##' above.
 ##' 
-##' @param x An \code{n}-by-\code{d} matrix.  The rows of \code{x}
-##'   represent \code{n} points in \code{d}-dimensional space.
-##' @param t A \code{m}-by-\code{d+1} matrix. A row of \code{t}
-##'   contains indices into \code{x} of the vertices of a
-##'   \code{d}-dimensional simplex.  \code{t} is usually the output of
+##' @param x An \eqn{N}-column matrix, in which each row represents a
+##'   point in \eqn{N}-dimensional space.
+##' @param t A matrix with \eqn{N+1} columns. A row of \code{t}
+##'   contains indices into \code{x} of the vertices of an
+##'   \eqn{N}-dimensional simplex. \code{t} is usually the output of
 ##'   delaunayn.
-##' @param xi An \code{ni}-by-\code{d} matrix.  The rows of \code{xi}
-##'   represent \code{n} points in \code{d}-dimensional space whose
+##' @param xi An \eqn{M}-by-\eqn{N} matrix. The rows of \code{xi}
+##'   represent \eqn{M} points in \eqn{N}-dimensional space whose
 ##'   positions in the mesh are being sought.
 ##' @param ... Additional arguments
-##' @return A list containing: \item{list("idx")}{An \code{ni}-long
-##'   vector containing the indices of the row of \code{t} in which
-##'   each point in \code{xi} is found.} \item{list("p")}{An
-##'   \code{ni}-by-\code{d+1} matrix containing the barycentric
-##'   coordinates with respect to the enclosing simplex of each point
-##'   in \code{xi}.}
+##' @return A list containing:
+##'   \describe{
+##'     \item{\code{idx}}{An \eqn{M}-long vector containing the indices
+##'       of the row of \code{t} in which each point in \code{xi} is found.}
+##'    \item{\code{p}}{An \eqn{M}-by-\eqn{N+1} matrix containing the
+##'     barycentric coordinates with respect to the enclosing simplex
+##'     of each point in \code{xi}.}}
 ##' @author David Sterratt
 ##' @note Based on the Octave function Copyright (C) 2007-2012 David
 ##'   Bateman.
@@ -207,24 +208,27 @@ tsearchn <- function(x, t, xi, ...) {
 ##' simplex.
 ##' 
 ##' Given a reference simplex in \eqn{N} dimensions represented by a
-##' \eqn{N+1}-by-\eqn{N} matrix an arbitrary point \eqn{\mathbf{P}} in
+##' \eqn{N+1}-by-\eqn{N} matrix an arbitrary point \eqn{P} in
 ##' Cartesian coordinates, represented by a 1-by-\eqn{N} row vector, can be
-##' written as \deqn{\mathbf{P} = \mathbf{\beta}\mathbf{X}} where
-##' \eqn{\mathbf{\beta}} is a \eqn{N+1} vector of the barycentric coordinates.
-##' A criterion on \eqn{\mathbf{\beta}} is that \deqn{\sum_i\beta_i = 1} Now
-##' partition the simplex into its first \eqn{N} rows \eqn{\mathbf{X}_N} and
-##' its \eqn{N+1}th row \eqn{\mathbf{X}_{N+1}}. Partition the barycentric
-##' coordinates into the first \eqn{N} columns \eqn{\mathbf{\beta}_N} and the
+##' written as
+##' \deqn{P = \beta X}
+##' where \eqn{\beta} is an \eqn{N+1} vector of the barycentric coordinates.
+##' A criterion on \eqn{\beta} is that
+##' \deqn{\sum_i\beta_i = 1}
+##' Now partition the simplex into its first \eqn{N} rows \eqn{X_N} and
+##' its \eqn{N+1}th row \eqn{X_{N+1}}. Partition the barycentric
+##' coordinates into the first \eqn{N} columns \eqn{\beta_N} and the
 ##' \eqn{N+1}th column \eqn{\beta_{N+1}}. This allows us to write
-##' \deqn{\mathbf{P - X}_{N+1} = \mathbf{\beta}_N\mathbf{X}_N +
-##' \mathbf{\beta}_{N+1}\mathbf{X}_{N+1} - \mathbf{X}_{N+1}} which can be
-##' written \deqn{\mathbf{P - X}_{N+1} = \mathbf{\beta}_N(\mathbf{X}_N -
-##' \mathbf{1}\mathbf{X}_{N+1})} where \eqn{\mathbf{1}} is a \eqn{N}-by-1
-##' matrix of ones.  We can then solve for \eqn{\mathbf{\beta}_N}:
-##' \deqn{\mathbf{\beta}_N = (\mathbf{P - X}_{N+1})(\mathbf{X}_N -
-##' \mathbf{1}\mathbf{X}_{N+1})^{-1}} and compute \deqn{\beta_{N+1} = 1 -
-##' \sum_{i=1}^N\beta_i} This can be generalised for multiple values of
-##' \eqn{\mathbf{P}}, one per row.
+##' \deqn{P_{N+1} - X_{N+1} = \beta_N X_N + \beta_{N+1} X_{N+1} - X_{N+1}}
+##' which can be written
+##' \deqn{P_{N+1} - X_{N+1} = \beta_N(X_N - 1_N X_{N+1})}
+##' where \eqn{1_N} is an \eqn{N}-by-1 matrix of ones.  We can then solve
+##' for \eqn{\beta_N}:
+##' \deqn{\beta_N = (P_{N+1} - X_{N+1})(X_N - 1_N X_{N+1})^{-1}}
+##' and compute
+##' \deqn{\beta_{N+1} = 1 - \sum_{i=1}^N\beta_i}
+##' This can be generalised for multiple values of
+##' \eqn{P}, one per row.
 ##' 
 ##' @param X Reference simplex in \eqn{N} dimensions represented by a
 ##' \eqn{N+1}-by-\eqn{N} matrix

@@ -35,7 +35,8 @@ Suggests:
     rgl,
     R.matlab,
     tripack
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 LinkingTo: 
     Rcpp,
     RcppProgress
+Encoding: UTF-8

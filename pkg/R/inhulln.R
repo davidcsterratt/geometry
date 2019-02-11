@@ -6,9 +6,9 @@
 ##' lies outwith the hull or on one of its facets.
 ##' 
 ##' @param ch Convex hull produced using \code{\link{convhulln}}
-##' @param p An \code{n}-by-\code{dim} matrix of points to test.  The rows of \code{p} represent
-##' \code{n} points in \code{dim}-dimensional space.
-##' @return A boolean vector with \code{n} elements
+##' @param p An \eqn{M}-by-\eqn{N} matrix of points to test.
+##' The rows of \code{p} represent \eqn{M} points in \eqn{N}-dimensional space.
+##' @return A boolean vector with \eqn{M} elements
 ##' @author David Sterratt
 ##' @seealso convhulln
 ##' @export

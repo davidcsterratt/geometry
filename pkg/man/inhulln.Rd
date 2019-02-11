@@ -9,11 +9,11 @@ inhulln(ch, p)
 \arguments{
 \item{ch}{Convex hull produced using \code{\link{convhulln}}}
 
-\item{p}{An \code{n}-by-\code{dim} matrix of points to test.  The rows of \code{p} represent
-\code{n} points in \code{dim}-dimensional space.}
+\item{p}{An \eqn{M}-by-\eqn{N} matrix of points to test.
+The rows of \code{p} represent \eqn{M} points in \eqn{N}-dimensional space.}
 }
 \value{
-A boolean vector with \code{n} elements
+A boolean vector with \eqn{M} elements
 }
 \description{
 Tests if a set of points lies within a convex hull, returning a

@@ -7,8 +7,8 @@
 convhulln(p, options = "Tv", return.non.triangulated.facets = FALSE)
 }
 \arguments{
-\item{p}{An \code{M}-by-\code{M} matrix. The rows of \code{p}
-represent \code{M} points in \code{M}-dimensional space.}
+\item{p}{An \eqn{M}-by-\eqn{N} matrix. The rows of \code{p}
+represent \eqn{M} points in \eqn{N}-dimensional space.}
 
 \item{options}{String containing extra options for the underlying
 Qhull command; see details below and Qhull documentation at
@@ -19,8 +19,8 @@ output facets should be triangulated; \code{FALSE} by default.}
 }
 \value{
 If \code{return.non.triangulated.facets} is \code{FALSE}
-  (default), return an \code{M}-by-\code{N} index matrix of which
-  each row defines a \code{N}-dimensional \dQuote{triangle}.
+  (default), return an \eqn{M}-by-\eqn{N} index matrix of which
+  each row defines an \eqn{N}-dimensional \dQuote{triangle}.
 
   If \code{return.non.triangulated.facets} is \code{TRUE} then the
   number of columns equals the maximum number of vertices in a
@@ -31,22 +31,22 @@ If \code{return.non.triangulated.facets} is \code{FALSE}
 
   If the options argument contains \code{FA} or \code{n} are
   provided, return a list comprising the named elements:
-  \itemize{
-    \item{"hull"}{The convex hull, represented as a matrix, as described
-      above}
-    \item{"area"}{If \code{FA} is specified, the generalised area of the
-      hull. This is the surface area of a 3D hull or the length of
+  \describe{
+    \item{\code{hull}}{The convex hull, represented as a matrix, as
+      described above}
+    \item{\code{area}}{If \code{FA} is specified, the generalised area of
+      the hull. This is the surface area of a 3D hull or the length of
       the perimeter of a 2D hull. }
-    \item{"vol"}{If \code{FA} is specified, the generalised volume of
+    \item{\code{vol}}{If \code{FA} is specified, the generalised volume of
        the hull. This is volume of a 3D hull or the area of a 2D hull.}
-    \item{"normals"}{If \code{n} is specified, this is a matrix
+    \item{\code{normals}}{If \code{n} is specified, this is a matrix
     hyperplane normals with offsets \url{../doc/html/qh-opto.html#n}}
   }
 }
 \description{
 Returns an index matrix to the points of simplices
 (\dQuote{triangles}) that form the smallest convex simplical
-complex of a set of input points in N-dimensional space. This
+complex of a set of input points in \eqn{N}-dimensional space. This
 function interfaces the Qhull library.
 }
 \details{

@@ -7,9 +7,8 @@
 delaunayn(p, options = NULL, full = FALSE)
 }
 \arguments{
-\item{p}{\code{p} is an \code{M}-by-\code{N} matrix. The rows of
-\code{p} represent \code{M} points in \code{N}-dimensional
-space.}
+\item{p}{An \eqn{M}-by-\eqn{N} matrix whose rows represent \eqn{M}
+points in \eqn{N}-dimensional space.}
 
 \item{options}{String containing extra options for the underlying
   Qhull command; see the Qhull documentation
@@ -18,11 +17,11 @@ space.}
   returning areas and 
 
   The \code{Qbb} option is always passed to Qhull. The default
-  options are \code{Qcc Qc Qt Qz} for \code{N} <4 and \code{Qcc Qc
-  Qt Qx} for \code{N}>=4. If neither of the \code{QJ} or \code{Qt}
+  options are \code{Qcc Qc Qt Qz} for \eqn{N<4}  and \code{Qcc Qc
+  Qt Qx} for \eqn{N>=4}. If neither of the \code{QJ} or \code{Qt}
   options are supplied, the \code{Qt} option is passed to Qhull.
   The \code{Qt} option ensures all Delaunay regions are simplical
-  (e.g., triangles in 2-d). See \url{../doc/html/qdelaun.html} for
+  (e.g., triangles in 2D). See \url{../doc/html/qdelaun.html} for
   more details. Contrary to the Qhull documentation, no degenerate
   (zero area) regions are returned with the \code{Qt} option since
   the R function removes them from the triangulation.}
@@ -33,24 +32,24 @@ Adds options \code{Fa} and \code{Fn}.}
 \value{
 If neither of the Qhull options \code{Fn} or \code{Fa} are
   specified, return the Delaunay triangulation as a matrix with
-  \code{M} rows and \code{N+1} columns in which each row contains
+  \eqn{M} rows and \eqn{N+1} columns in which each row contains
   a set of indices to the input points \code{p}. Thus each row
-  describes a simplex of dimension \code{N}, e.g. a triangle in 2D
+  describes a simplex of dimension \eqn{N}, e.g. a triangle in 2D
   or a tetrahedron in 3D.
 
   If the options argument contains \code{Fn} or \code{Fa}, return
   a list comprising the named elements:
-  \itemize{
-    \item{"tri"} {The Delaunay triangulation described above}
-    \item{"areas"} {If \code{Fa} is specified, a \code{M}-dimensional vector containing the generalise area of each simplex (e.g. in 2D the areas of triangles; in 3D the volumes of tetrahedra)}
-    \item{"neighbours"}{If \code{Fn} is specified, a list of neighbours
+  \describe{
+    \item{\code{tri}}{The Delaunay triangulation described above}
+    \item{\code{areas}}{If \code{Fa} is specified, an \eqn{M}-dimensional vector containing the generalise area of each simplex (e.g. in 2D the areas of triangles; in 3D the volumes of tetrahedra)}
+    \item{\code{neighbours}}{If \code{Fn} is specified, a list of neighbours
           of each simplex} 
   }
 }
 \description{
 The Delaunay triangulation is a tessellation of the convex hull of
-the points such that no N-sphere defined by the N-triangles
-contains any other points from the set.
+the points such that no \eqn{N}-sphere defined by the \eqn{N}-
+triangles contains any other points from the set.
 }
 \note{
 This function interfaces the Qhull library and is a port
@@ -58,7 +57,7 @@ This function interfaces the Qhull library and is a port
   convex hulls, Delaunay triangulations, halfspace intersections
   about a point, Voronoi diagrams, furthest-site Delaunay
   triangulations, and furthest-site Voronoi diagrams. It runs in
-  2-d, 3-d, 4-d, and higher dimensions. It implements the
+  2D, 3D, 4D, and higher dimensions. It implements the
   Quickhull algorithm for computing the convex hull. Qhull handles
   round-off errors from floating point arithmetic. It computes
   volumes, surface areas, and approximations to the convex
@@ -67,7 +66,7 @@ This function interfaces the Qhull library and is a port
 
 Qhull does not support constrained Delaunay triangulations, triangulation
 of non-convex surfaces, mesh generation of non-convex objects, or
-medium-sized inputs in 9-D and higher. A rudimentary algorithm for mesh
+medium-sized inputs in 9D and higher. A rudimentary algorithm for mesh
 generation in non-convex regions using Delaunay triangulation is
 implemented in \link{distmesh2d} (currently only 2D).
 }
