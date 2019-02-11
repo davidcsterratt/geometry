@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{Sweave}
+\SweaveOpts{echo=TRUE}
+
+\begin{document}
+
+<<>>=
+library(geometry)
+d <- c(-1,1)
+pc <- as.matrix(rbind(expand.grid(d,d,d),0))
+tc <- delaunayn(pc)
+tc
+@ 
+
+\end{document}
+

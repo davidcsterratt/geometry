@@ -11,7 +11,7 @@
 ##'   \url{http://www.qhull.org/html/qhalf.htm}.
 ##' 
 ##' @return A \code{dim}-column matrix containing the intersection
-##'   points of the hyperplanes \url{../doc/html/qhalf.html}. These
+##'   points of the hyperplanes \url{../doc/qhull/html/qhalf.html}. These
 ##'   points 
 ##' 
 ##' @author David Sterratt \email{david.c.sterratt@ed.ac.uk}

@@ -67,6 +67,11 @@ BUG FIXES
   faster than those I have run using Matlab. Graham's example code is now included in a test.
   Thanks to Graham Griffiths for reporting this problem and supplying the fix.
 
+* Fix for Issue #30: Move qhull docs to vignettes
+  https://github.com/davidcsterratt/geometry/issues/30
+  This is a change in response to the way R deals with inst/doc, which
+  broke the included Qhull docs.
+
 CODE IMPROVEMENTS
 
 * The 2D tsearch C code has been replaced by a much more efficient

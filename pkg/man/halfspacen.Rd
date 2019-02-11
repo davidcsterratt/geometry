@@ -21,7 +21,7 @@ Qhull documentation at
 }
 \value{
 A \code{dim}-column matrix containing the intersection
-  points of the hyperplanes \url{../doc/html/qhalf.html}. These
+  points of the hyperplanes \url{../doc/qhull/html/qhalf.html}. These
   points
 }
 \description{

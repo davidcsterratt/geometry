@@ -12,7 +12,7 @@ points in \eqn{N}-dimensional space.}
 
 \item{options}{String containing extra options for the underlying
   Qhull command; see the Qhull documentation
-  (\url{../doc/html/qdelaun.html}) for the available options. The
+  (\url{../doc/qhull/html/qdelaun.html}) for the available options. The
   Qhull options \code{Fn} and \code{Fa} result in delaunayn
   returning areas and 
 
@@ -21,7 +21,7 @@ points in \eqn{N}-dimensional space.}
   Qt Qx} for \eqn{N>=4}. If neither of the \code{QJ} or \code{Qt}
   options are supplied, the \code{Qt} option is passed to Qhull.
   The \code{Qt} option ensures all Delaunay regions are simplical
-  (e.g., triangles in 2D). See \url{../doc/html/qdelaun.html} for
+  (e.g., triangles in 2D). See \url{../doc/qhull/html/qdelaun.html} for
   more details. Contrary to the Qhull documentation, no degenerate
   (zero area) regions are returned with the \code{Qt} option since
   the R function removes them from the triangulation.}
@@ -41,9 +41,13 @@ If neither of the Qhull options \code{Fn} or \code{Fa} are
   a list comprising the named elements:
   \describe{
     \item{\code{tri}}{The Delaunay triangulation described above}
-    \item{\code{areas}}{If \code{Fa} is specified, an \eqn{M}-dimensional vector containing the generalise area of each simplex (e.g. in 2D the areas of triangles; in 3D the volumes of tetrahedra)}
-    \item{\code{neighbours}}{If \code{Fn} is specified, a list of neighbours
-          of each simplex} 
+    \item{\code{areas}}{If \code{Fa} is specified, an
+      \eqn{M}-dimensional vector containing the generalise area of
+      each simplex (e.g. in 2D the areas of triangles; in 3D the volumes
+      of tetrahedra). See \url{../doc/qhull/html/qh-optf.html#Fa}.}
+    \item{\code{neighbours}}{If \code{Fn} is specified, a list of
+      neighbours of each simplex.
+      See \url{../doc/qhull/html/qh-optf.html#Fn}} 
   }
 }
 \description{
@@ -62,7 +66,7 @@ This function interfaces the Qhull library and is a port
   round-off errors from floating point arithmetic. It computes
   volumes, surface areas, and approximations to the convex
   hull. See the Qhull documentation included in this distribution
-  (the doc directory \url{../doc/index.html}).
+  (the doc directory \url{../doc/qhull/index.html}).
 
 Qhull does not support constrained Delaunay triangulations, triangulation
 of non-convex surfaces, mesh generation of non-convex objects, or

@@ -1,3 +1,13 @@
+# To install using devtools
+
+```
+roxygen2::roxygenise("..")
+devtools::install(".", build_vignettes=TRUE)
+```
+The `build_vignettes` argument is needed because the Qhull docs now
+have to be installed in inst/doc using the .install_extras file in the
+vignettes directory.
+
 # To do spell check
 ```
 devtools::spell_check("pkg/", dict="en_GB", ignore=read.table(".spell_ignore", stringsAsFactors=FALSE)$V1)

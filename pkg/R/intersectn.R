@@ -88,7 +88,7 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE) {
 ##' Find point that lies somewhere in interesction of two convex
 ##' hulls. If such a point does not exist, return \code{NA}. The
 ##' feasible point is found using a linear program similar to the one
-##' suggested at \url{../doc/html/qhalf.html#notes}
+##' suggested at \url{../doc/qhull/html/qhalf.html#notes}
 ##' 
 ##' @param ch1 First convex hull with normals
 ##' @param ch2 Second convex hull with normals

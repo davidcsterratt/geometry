@@ -12,7 +12,7 @@ represent \eqn{M} points in \eqn{N}-dimensional space.}
 
 \item{options}{String containing extra options for the underlying
 Qhull command; see details below and Qhull documentation at
-\url{http://www.qhull.org/html/qconvex.htm#synopsis}.}
+\url{../doc/qhull/html/qconvex.html#synopsis}.}
 
 \item{return.non.triangulated.facets}{logical defining whether the
 output facets should be triangulated; \code{FALSE} by default.}
@@ -36,11 +36,13 @@ If \code{return.non.triangulated.facets} is \code{FALSE}
       described above}
     \item{\code{area}}{If \code{FA} is specified, the generalised area of
       the hull. This is the surface area of a 3D hull or the length of
-      the perimeter of a 2D hull. }
+      the perimeter of a 2D hull.
+      See \url{../doc/qhull/html/qh-optf.html#FA}.}
     \item{\code{vol}}{If \code{FA} is specified, the generalised volume of
-       the hull. This is volume of a 3D hull or the area of a 2D hull.}
+       the hull. This is volume of a 3D hull or the area of a 2D hull.
+       See \url{../doc/qhull/html/qh-optf.html#FA}. }
     \item{\code{normals}}{If \code{n} is specified, this is a matrix
-    hyperplane normals with offsets \url{../doc/html/qh-opto.html#n}}
+    hyperplane normals with offsets. See \url{../doc/qhull/html/qh-opto.html#n}.}
   }
 }
 \description{
