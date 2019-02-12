@@ -27,7 +27,7 @@ represents the Cartesian coordinate (\code{x}, \code{y} (, \code{z})).
 pol2cart, cart2sph, sph2cart
 }
 \author{
-Kai Habel <kai.habel@gmx.de>
+Kai Habel
 
-David Sterratt <david.c.sterratt@ed.ac.uk>
+David Sterratt
 }

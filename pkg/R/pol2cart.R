@@ -31,8 +31,8 @@
 ##' @return a matrix \code{C} where each row represents one Cartesian
 ##'   coordinate (\code{x}, \code{y} (, \code{z})).
 ##' @seealso cart2pol, sph2cart, cart2sph
-##' @author Kai Habel <kai.habel@gmx.de>
-##' @author David Sterratt <david.c.sterratt@ed.ac.uk>
+##' @author Kai Habel
+##' @author David Sterratt
 ##' @export
 pol2cart <- function(theta, r=NULL, z=NULL) {
 

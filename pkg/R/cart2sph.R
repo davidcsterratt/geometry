@@ -30,8 +30,8 @@
 ##' \item{\code{phi}}{the angle relative to the xy-plane}
 ##' \item{\code{r}}{the distance to the origin \code{(0, 0, 0)}}
 ##' @seealso sph2cart, cart2pol, pol2cart
-##' @author Kai Habel <kai.habel@gmx.de>
-##' @author David Sterratt <david.c.sterratt@ed.ac.uk>
+##' @author Kai Habel
+##' @author David Sterratt
 ##' @export
 cart2sph <- function(x, y=NULL, z=NULL) {
   if ((is.null(y) & !is.null(z)) |

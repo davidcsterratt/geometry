@@ -27,7 +27,7 @@ represents the polar/(cylindrical) coordinate (\code{theta}, \code{r}
 cart2pol, sph2cart, cart2sph
 }
 \author{
-Kai Habel <kai.habel@gmx.de>
+Kai Habel
 
-David Sterratt <david.c.sterratt@ed.ac.uk>
+David Sterratt
 }

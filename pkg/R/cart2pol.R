@@ -31,8 +31,8 @@
 ##'   polar/(cylindrical) coordinate (\code{theta}, \code{r}, (,
 ##'   \code{z})).
 ##' @seealso pol2cart, cart2sph, sph2cart
-##' @author Kai Habel <kai.habel@gmx.de>
-##' @author David Sterratt <david.c.sterratt@ed.ac.uk>
+##' @author Kai Habel
+##' @author David Sterratt
 ##' @export
 cart2pol <- function(x, y=NULL, z=NULL) {
 

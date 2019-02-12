@@ -276,7 +276,7 @@ cart2bary <- function(X, P) {
 
 ##' Conversion of Barycentric to Cartesian coordinates
 ##' 
-##' Given the baryocentric coordinates of one or more points with
+##' Given the barycentric coordinates of one or more points with
 ##' respect to a simplex, compute the Cartesian coordinates of these
 ##' points.
 ##' 

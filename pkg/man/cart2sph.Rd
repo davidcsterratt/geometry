@@ -27,7 +27,7 @@ Transform Cartesian to spherical coordinates
 sph2cart, cart2pol, pol2cart
 }
 \author{
-Kai Habel <kai.habel@gmx.de>
+Kai Habel
 
-David Sterratt <david.c.sterratt@ed.ac.uk>
+David Sterratt
 }
