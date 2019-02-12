@@ -18,14 +18,13 @@ Description: Makes the Qhull library (www.qhull.org)
     Quickhull algorithm for computing the convex hull. Qhull does not
     support constrained Delaunay triangulations, or mesh generation of
     non-convex objects, but the package does include some R functions
-    that allow for this. Currently the package only gives access to
-    Delaunay triangulation and convex hull computation.
+    that allow for this.
 Version: 0.4.0
 URL: https://davidcsterratt.github.io/geometry
 Date: 2019-02-12
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:
-    R (>= 2.5.0)
+    R (>= 3.0.0)
 Imports:
     magic,
     Rcpp,
