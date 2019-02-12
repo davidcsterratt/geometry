@@ -4,3 +4,9 @@
 .Rbuildignore
 .Rhistory
 *.Rproj
+pkg/vignettes/*.pdf
+pkg/vignettes/*.tex
+pkg/vignettes/*.aux
+pkg/vignettes/*.log
+pkg/vignettes/*.out
+pkg/vignettes/auto
