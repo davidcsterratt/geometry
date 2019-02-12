@@ -16,17 +16,10 @@ revdepcheck::revdep_check("geometry/pkg", num_workers=6)
 
 # To spell check
 ```
-devtools::spell_check("pkg/", dict="en_GB", ignore=read.table(".spell_ignore", stringsAsFactors=FALSE)$V1)
+devtools::spell_check("pkg")
 ```
+Update any words to ignore in `pkg/inst/WORDLIST`.
 
-# To make R CMD check ignore these spellings (experimental)
-
-See http://dirk.eddelbuettel.com/blog/2017/08/10/
-```
-ignore <- read.table(".spell_ignore", stringsAsFactors=FALSE)$V1
-readr::write_rds(ignore, "pkg/.aspell/geometry.rds")
-
-```
 # To update links in qhull docs
 
 The QHull html docs are copied from the Qhull source tree
