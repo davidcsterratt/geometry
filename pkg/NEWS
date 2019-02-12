@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.4.0 - Released 2017/09/26
+CHANGES IN VERSION 0.4.0 - Released 2019/02/12
 
 LICENSE CHANGES
 
@@ -16,6 +16,11 @@ API CHANGES
   Qt Qx" for 4 or more dimensions. This brings the R implementation
   into line with Octave, and very similar to matlab and
   scipy.spatial.Delaunayn .
+
+* The "full" option to delaunayn() is deprecated
+  https://github.com/davidcsterratt/geometry/issues/29
+  Use "Fa" and/or "Fn" instead. In geometry 0.4.0 using "full" does
+  not give a message or warning; this will happen in future versions
 
 * distmesh2d() has a plot option
   https://github.com/davidcsterratt/geometry/issues/15
