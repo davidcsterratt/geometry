@@ -161,12 +161,12 @@ plot.convhulln <- function(x, y, ...) {
 ##' 
 ##' @seealso \code{\link[rgl]{as.mesh3d}}
 ##' @export
-as.mesh3d <- function(x, ...) UseMethod("as.mesh3d")
+to.mesh3d <- function(x, ...) UseMethod("to.mesh3d")
 
 ##' @importFrom graphics plot
-##' @method as.mesh3d convhulln
+##' @method to.mesh3d convhulln
 ##' @export 
-as.mesh3d.convhulln <- function(x, ...) {
+to.mesh3d.convhulln <- function(x, ...) {
   if(requireNamespace("rgl") == FALSE) 
     stop("The rgl package is required for as.mesh.convhulln")
   if (ncol(x$p) != 3) {

@@ -25,9 +25,9 @@ URL: https://davidcsterratt.github.io/geometry
 Date: 2018-04-04
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:
-    R (>= 2.5.0),
-    magic
+    R (>= 2.5.0)
 Imports:
+    magic,
     Rcpp,
     lpSolve
 Suggests:
