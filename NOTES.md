@@ -8,7 +8,13 @@ The `build_vignettes` argument is needed because the Qhull docs now
 have to be installed in inst/doc using the .install_extras file in the
 vignettes directory.
 
-# To do spell check
+# To do a reverse dependency check
+
+```
+revdepcheck::revdep_check("geometry/pkg", num_workers=6)
+```
+
+# To spell check
 ```
 devtools::spell_check("pkg/", dict="en_GB", ignore=read.table(".spell_ignore", stringsAsFactors=FALSE)$V1)
 ```
