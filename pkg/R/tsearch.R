@@ -135,7 +135,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
 ##' @seealso tsearch, delaunayn
 ##' @export
 tsearchn <- function(x, t, xi, ...) {
-  if (is.na(x) && inherits(t, "delaunayTriangulation")) {
+  if (any(is.na(x)) && inherits(t, "delaunayTriangulation")) {
     return(tsearchn_delaunayTriangulation(t, xi))
   }
   fast <- TRUE
