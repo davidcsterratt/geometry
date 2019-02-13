@@ -27,8 +27,8 @@
 ##'    respect to the enclosing triangle of each point \code{(xi, yi)}.}
 ##'   }
 ##' @author Jean-Romain Roussel (Quadtree algorithm), David Sterratt (Octave-based implementation)
-##' @note The original Octave function is Copyright (C) 2007-2012, 2017
-##'   David Bateman.
+##' @note The original Octave function is Copyright (C) 2007-2012
+##'   David Bateman
 ##' @seealso tsearchn, delaunayn
 ##' @export
 tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {

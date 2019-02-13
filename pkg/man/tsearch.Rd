@@ -44,8 +44,8 @@ containing the points \code{(xi, yi)}.  For points outside the convex hull
 the index is \code{NA}.
 }
 \note{
-The original Octave function is Copyright (C) 2007-2012, 2017
-  David Bateman.
+The original Octave function is Copyright (C) 2007-2012
+  David Bateman
 }
 \seealso{
 tsearchn, delaunayn
