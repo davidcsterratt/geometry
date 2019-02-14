@@ -145,9 +145,6 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
 
   }
 
-  UNPROTECT(2);
-
-  
   retlist = PROTECT(allocVector(VECSXP, retlen));
   retnames = PROTECT(allocVector(VECSXP, retlen));
   SET_VECTOR_ELT(retlist, 0, idx);
@@ -155,7 +152,7 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   SET_VECTOR_ELT(retlist, 1, points);
   SET_VECTOR_ELT(retnames, 1, mkChar("P"));
   setAttrib(retlist, R_NamesSymbol, retnames);
-  UNPROTECT(2);
+  UNPROTECT(4);
   
   if (exitcode)
     error("findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).", facet->id);
