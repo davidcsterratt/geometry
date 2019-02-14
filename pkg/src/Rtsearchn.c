@@ -31,9 +31,9 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   /* Get the qh object from the delaunayTriangulation object */
   SEXP ptr, tag;
   qhT *qh;
-  PROTECT(tag = allocVector(STRSXP, 1));
+  tag = PROTECT(allocVector(STRSXP, 1));
   SET_STRING_ELT(tag, 0, mkChar("delaunayTriangulation"));
-  PROTECT(ptr = getAttrib(dt, tag));
+  ptr = PROTECT(getAttrib(dt, tag));
   qh = R_ExternalPtrAddr(ptr);
   UNPROTECT(2);
 
@@ -88,9 +88,9 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   SEXP retlist, retnames;       /* Return list and names */
   int retlen = 2;               /* Length of return list */
   SEXP idx, points;
-  PROTECT(idx = allocVector(INTSXP, n));
+  idx = PROTECT(allocVector(INTSXP, n));
   int *iidx = INTEGER(idx);
-  PROTECT(points = allocMatrix(REALSXP, qh->num_points, dim - 1));
+  points = PROTECT(allocMatrix(REALSXP, qh->num_points, dim - 1));
 
   int j, k;
 
@@ -148,8 +148,8 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   UNPROTECT(2);
 
   
-  PROTECT(retlist = allocVector(VECSXP, retlen));
-  PROTECT(retnames = allocVector(VECSXP, retlen));
+  retlist = PROTECT(allocVector(VECSXP, retlen));
+  retnames = PROTECT(allocVector(VECSXP, retlen));
   SET_VECTOR_ELT(retlist, 0, idx);
   SET_VECTOR_ELT(retnames, 0, mkChar("idx"));
   SET_VECTOR_ELT(retlist, 1, points);

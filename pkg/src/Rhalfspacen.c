@@ -92,10 +92,10 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
       qh_memfree(qh, point, qh->normal_size);
       i++; /* Increment facet counter */
     }
+    UNPROTECT(1);
   }
 
   freeQhull(qh);
-  UNPROTECT(1);
 
   if (exitcode) {
     error("Received error code %d from qhull. Qhull error:\n    %s    %s", exitcode, errstr1, errstr2);
