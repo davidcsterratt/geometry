@@ -40,7 +40,6 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   /* Initialise return values */ 
 
   SEXP retlist, retnames;       /* Return list and names */
-  int retlen = 1;               /* Length of return list */
 	SEXP tri;                     /* The triangulation */
   SEXP neighbour, neighbours;   /* List of neighbours */
   SEXP areas;                   /* Facet areas */
@@ -92,11 +91,13 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     PROTECT(tri = allocMatrix(INTSXP, nf, dim+1));
     if (hasPrintOption(qh, qh_PRINTneighbors)) {
       PROTECT(neighbours = allocVector(VECSXP, nf));
-      retlen++;
+    } else {
+      PROTECT(neighbours = R_NilValue);
     }
     if (hasPrintOption(qh, qh_PRINTarea)) {
       PROTECT(areas = allocVector(REALSXP, nf));      
-      retlen++;
+    } else {
+      PROTECT(areas = R_NilValue);
     }
     
     /* Iterate through facets to extract information */
@@ -149,11 +150,13 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     PROTECT(tri = allocMatrix(INTSXP, 0, dim+1));
     if (hasPrintOption(qh, qh_PRINTneighbors)) {
       PROTECT(neighbours = allocVector(VECSXP, 0));
-      retlen++;
+    } else {
+      PROTECT(neighbours = R_NilValue);
     }
     if (hasPrintOption(qh, qh_PRINTarea)) {
       PROTECT(areas = allocVector(REALSXP, 0));
-      retlen++;
+    } else {
+      PROTECT(areas = R_NilValue);
     }
 
     /* If the error been because the points are colinear, coplanar
@@ -164,29 +167,17 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     }
   }
 
-  /* Make a list if Fa or Fn specified */
-  int i = 0;                      /* Output counter */
-  if (retlen > 1) {
-    retlist = PROTECT(allocVector(VECSXP, retlen));
-    retnames = PROTECT(allocVector(VECSXP, retlen));
-    SET_VECTOR_ELT(retlist, i, tri);
-    SET_VECTOR_ELT(retnames, i, mkChar("tri"));
-    if (hasPrintOption(qh, qh_PRINTneighbors)) {
-      i++;
-      SET_VECTOR_ELT(retlist, i, neighbours);
-      SET_VECTOR_ELT(retnames, i, mkChar("neighbours"));
-    }
-
-    if (hasPrintOption(qh, qh_PRINTarea)) {
-      i++;
-      SET_VECTOR_ELT(retlist, i, areas);
-      SET_VECTOR_ELT(retnames, i, mkChar("areas"));
-    }
-    setAttrib(retlist, R_NamesSymbol, retnames);
-  } else {
-    retlist = tri;
-  }
-
+  /* Set up output structure */
+  retlist =  PROTECT(allocVector(VECSXP, 3));
+  retnames = PROTECT(allocVector(VECSXP, 3));
+  SET_VECTOR_ELT(retlist,  0, tri);
+  SET_VECTOR_ELT(retnames, 0, mkChar("tri"));
+  SET_VECTOR_ELT(retlist,  1, neighbours);
+  SET_VECTOR_ELT(retnames, 1, mkChar("neighbours"));
+  SET_VECTOR_ELT(retlist,  2, areas);
+  SET_VECTOR_ELT(retnames, 2, mkChar("areas"));
+  setAttrib(retlist, R_NamesSymbol, retnames);
+  
   /* Register qhullFinalizer() for garbage collection and attach a
      pointer to the hull as an attribute for future use. */
   SEXP ptr, tag;
@@ -200,17 +191,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     setAttrib(retlist, tag, ptr);
   }
 
-  UNPROTECT(2);                 /* ptr and tag */
-  if (retlen > 1) {
-    UNPROTECT(2);               /* retnames and retlist */
-  }
-  if (hasPrintOption(qh, qh_PRINTneighbors)) {
-    UNPROTECT(1);
-  }
-  if (hasPrintOption(qh, qh_PRINTarea)) {
-    UNPROTECT(1);
-  }
-  UNPROTECT(1);                 /* tri */
+  UNPROTECT(7); /* ptr, tag, retnames, retlist, areas, neigbours, tri */
   
   if (exitcode & (exitcode != 2)) {
     error("Received error code %d from qhull. Qhull error:\n    %s    %s", exitcode, errstr1, errstr2);

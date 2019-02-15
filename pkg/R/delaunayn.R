@@ -143,10 +143,11 @@ function(p, options=NULL, full=FALSE) {
 
   out <- .Call("C_delaunayn", p, as.character(options), tmpdir, PACKAGE="geometry")
 
-  if (is.list(out)) {
-    class(out) <- "delaunayTriangulation"
-    out$p <- p
+  if (is.null(out$areas) & is.null(out$neighbours)) {
+    return(out$tri)
   }
+  class(out) <- "delaunayTriangulation"
+  out$p <- p
   return(out)
 }
 
