@@ -169,19 +169,18 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   if (retlen > 1) {
     retlist = PROTECT(allocVector(VECSXP, retlen));
     retnames = PROTECT(allocVector(VECSXP, retlen));
-    retlen += 2;
     SET_VECTOR_ELT(retlist, i, tri);
     SET_VECTOR_ELT(retnames, i, mkChar("tri"));
     if (hasPrintOption(qh, qh_PRINTneighbors)) {
-        i++;
-        SET_VECTOR_ELT(retlist, i, neighbours);
-        SET_VECTOR_ELT(retnames, i, mkChar("neighbours"));
+      i++;
+      SET_VECTOR_ELT(retlist, i, neighbours);
+      SET_VECTOR_ELT(retnames, i, mkChar("neighbours"));
     }
 
     if (hasPrintOption(qh, qh_PRINTarea)) {
-        i++;
-        SET_VECTOR_ELT(retlist, i, areas);
-        SET_VECTOR_ELT(retnames, i, mkChar("areas"));
+      i++;
+      SET_VECTOR_ELT(retlist, i, areas);
+      SET_VECTOR_ELT(retnames, i, mkChar("areas"));
     }
     setAttrib(retlist, R_NamesSymbol, retnames);
   } else {
@@ -200,12 +199,22 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     R_RegisterCFinalizerEx(ptr, qhullFinalizer, TRUE);
     setAttrib(retlist, tag, ptr);
   }
-  UNPROTECT(retlen + 2);
+
+  UNPROTECT(2);                 /* ptr and tag */
+  if (retlen > 1) {
+    UNPROTECT(2);               /* retnames and retlist */
+  }
+  if (hasPrintOption(qh, qh_PRINTneighbors)) {
+    UNPROTECT(1);
+  }
+  if (hasPrintOption(qh, qh_PRINTarea)) {
+    UNPROTECT(1);
+  }
+  UNPROTECT(1);                 /* tri */
   
   if (exitcode & (exitcode != 2)) {
     error("Received error code %d from qhull. Qhull error:\n    %s    %s", exitcode, errstr1, errstr2);
   } 
-
   
 	return retlist;
 }
