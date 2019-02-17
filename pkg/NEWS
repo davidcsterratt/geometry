@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.4.0 - Released 2019/02/12
+CHANGES IN VERSION 0.4.0 - Released 2019/02/18
 
 LICENSE CHANGES
 
@@ -17,9 +17,14 @@ API CHANGES
   into line with Octave, and very similar to matlab and
   scipy.spatial.Delaunayn .
 
+* New argument "output.options" for convhulln() and delaunayn().
+  https://github.com/davidcsterratt/geometry/issues/29
+  Qhull options which affect output should be put in this string,
+  e.g. delaunayn(ps, output.options="Fn Fa")
+
 * The "full" option to delaunayn() is deprecated
   https://github.com/davidcsterratt/geometry/issues/29
-  Use "Fa" and/or "Fn" instead. In geometry 0.4.0 using "full" does
+  Use output.options=TRUE instead. In geometry 0.4.0 using "full" does
   not give a message or warning; this will happen in future versions
 
 * distmesh2d() has a plot option
