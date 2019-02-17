@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, 2017 David Sterratt
+/* Copyright (C) 2015, 2017, 2019 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -28,6 +28,9 @@ SEXP C_inhulln(const SEXP ch, const SEXP p)
   PROTECT(tag = allocVector(STRSXP, 1));
   SET_STRING_ELT(tag, 0, mkChar("convhull"));
   PROTECT(ptr = getAttrib(ch, tag));
+  if (ptr == R_NilValue) {
+    error("Convex hull has no convhull attribute");
+  }
   qh = R_ExternalPtrAddr(ptr);
   UNPROTECT(2);
   

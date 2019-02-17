@@ -1,5 +1,9 @@
 context("inhulln")
 test_that("inhulln gives the expected output", {
+  ## Erroneous input is caught safely
+  expect_error(inhulln(1, 2), "Convex hull has no convhull attribute")
+
+  ## Basic test
   x <- c(-1, -1, 1)
   y <- c(-1, 1, -1)
   p <- cbind(x, y)
@@ -28,6 +32,3 @@ test_that("inhulln gives the expected output", {
   expect_that(pin, equals(tp[,1] < 1 & tp[,1] > -1))
 
 })
-
-
-

@@ -34,6 +34,9 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   tag = PROTECT(allocVector(STRSXP, 1));
   SET_STRING_ELT(tag, 0, mkChar("delaunayTriangulation"));
   ptr = PROTECT(getAttrib(dt, tag));
+  if (ptr == R_NilValue) {
+    error("Delaunay triangulation has no delaunayTriangulation attribute");
+  }
   qh = R_ExternalPtrAddr(ptr);
   UNPROTECT(2);
 
