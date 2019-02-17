@@ -52,7 +52,8 @@ test_that("tsearchn gives the expected output", {
 
   x <- cbind(c(-1, -1, 1),
              c(-1, 1, -1))
-  dt <- delaunayn(x, full=TRUE)
+
+  dt <- delaunayn(x, output.options=TRUE)
 
   ## Should be in triangle #1
   xi <- cbind(-1, 1)
@@ -85,7 +86,8 @@ test_that("tsearchn gives the expected output", {
   ## Test against original version
   p <- cbind(c(0, 0, 1, 1, 0.5),
              c(0, 1, 1, 0, 0.5))
-  dt <- delaunayn(p, full=TRUE)
+  dt <- delaunayn(p, "FA") ## Interesting error, as default options are 'nixed
+  dt <- delaunayn(p, output.options=TRUE)
   xi <- c(0.1, 0.5, 0.9, 0.5)
   yi <- c(0.5, 0.9, 0.5, 0.1)
   expect_warning(ts <- tsearchn(NA, dt, cbind(xi, yi)))
@@ -94,7 +96,7 @@ test_that("tsearchn gives the expected output", {
 
   ## 3D test
   x <- rbox(D=3, B=1)
-  dt <- delaunayn(x, full=TRUE)
+  dt <- delaunayn(x, output.options=TRUE)
 
   xi <- rbind(c(0.5, 0.5, 0.5),
               c(-0.5, -0.5, -0.5),
@@ -108,7 +110,7 @@ test_that("tsearchn gives the expected output", {
   ##
   ## This does not work yet. The "best" facet is not always the correct facet.
   ## x <- rbox(D=4, B=1)
-  ## dt <- delaunayn(x, full=TRUE)
+  ## dt <- delaunayn(x, output.options=TRUE)
 
   ## xi <- rbind(c(0.5, 0.5, 0.5, 0.5),
   ##             c(-0.49, -0.49, -0.49, -0.49),
@@ -118,7 +120,7 @@ test_that("tsearchn gives the expected output", {
   ##   bary2cart(x[dt$tri[ts$idx[i],],], ts$p[i,])
   ## })), xi)
   
-  ## We don't need to test whne creating a mesh with a zero-area
+  ## We don't need to test when creating a mesh with a zero-area
   ## element (degenerate simplex), as these shouldn't be produced by
   ## qhull.
 

@@ -32,6 +32,43 @@ test_that("convhulln works on a cube", {
 
 })
 
+test_that("convhulln works on a cube with output.options", {
+  ## Cube with unit length edges, centred on the origin
+  ps <- rbox(0, C=0.5)
+  ts <- convhulln(ps)
+  ## Expect 12 facets, since faceted output is produced by default
+  expect_equal(nrow(ts), 12)
+  ## When "FA" is specified area and volume should be returned
+  ts <- convhulln(ps, output.options="FA")
+  expect_equal(length(ts), 4)
+  expect_equal(ts$area, 6)
+  expect_equal(ts$vol, 1)
+  ## When "n" is specified normals should be returned
+  ts <- convhulln(ps, output.options="n")
+  expect_equal(length(ts), 3)
+  ## There are 12 normals, one for each facet. There are 6 *unique*
+  ## normals, since for each face of the cube there are two triangular
+  ## facets with the same normal
+  expect_equal(ts$normals,
+               rbind(c(  0,   0,   -1, -0.5),
+                     c(  0,   0,   -1, -0.5),
+                     c(  0,  -1,    0, -0.5),
+                     c(  0,  -1,    0, -0.5),
+                     c(  1,   0,    0, -0.5),
+                     c(  1,   0,    0, -0.5),
+                     c( -1,   0,    0, -0.5),
+                     c( -1,   0,    0, -0.5),
+                     c(  0,   1,    0, -0.5),
+                     c(  0,   1,    0, -0.5),
+                     c(  0,   0,    1, -0.5),
+                     c(  0,   0,    1, -0.5)))
+
+
+  ts <- convhulln(ps, output.options=TRUE)
+  expect_equal(length(ts), 5)
+})
+
+
 test_that("convhulln can run on an example with 3000 points", {
   set.seed(1)
   ps <- matrix(rnorm(3000), ncol=3)

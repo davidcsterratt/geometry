@@ -4,7 +4,8 @@
 \alias{convhulln}
 \title{Compute smallest convex hull that encloses a set of points}
 \usage{
-convhulln(p, options = "Tv", return.non.triangulated.facets = FALSE)
+convhulln(p, options = "Tv", output.options = NULL,
+  return.non.triangulated.facets = FALSE)
 }
 \arguments{
 \item{p}{An \eqn{M}-by-\eqn{N} matrix. The rows of \code{p}
@@ -13,6 +14,12 @@ represent \eqn{M} points in \eqn{N}-dimensional space.}
 \item{options}{String containing extra options for the underlying
 Qhull command; see details below and Qhull documentation at
 \url{../doc/qhull/html/qconvex.html#synopsis}.}
+
+\item{output.options}{String containg Qhull options to control
+output. Currently \code{n} (normals) and \code{FA} (generalised
+areas and volumes) are supported. Causes an object of return
+value for details. If \code{output.options} is \code{TRUE},
+select all supported options.}
 
 \item{return.non.triangulated.facets}{logical defining whether the
 output facets should be triangulated; \code{FALSE} by default.}
@@ -29,8 +36,8 @@ If \code{return.non.triangulated.facets} is \code{FALSE}
   until the end of the row. The indices refer to the rows in
   \code{p}.
 
-  If the options argument contains \code{FA} or \code{n} are
-  provided, return a list comprising the named elements:
+  If the \code{options} or \code{output_options} argument contains
+  \code{FA} or \code{n}, return a list comprising the named elements:
   \describe{
     \item{\code{hull}}{The convex hull, represented as a matrix, as
       described above}

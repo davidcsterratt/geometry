@@ -9,9 +9,18 @@ test_that("delaunayn produces the correct output", {
                               data.frame(d=c(-1, 1)))))
   ts <- delaunayn(ps)
   expect_is(ts, "matrix")
+
+  ## With output.options=TRUE, there should be a trinagulation, areas and
+  ## neighbours and the sum of the ares should be 8
+  ts.full <- delaunayn(ps, output.options=TRUE)
+  expect_equal(ts, ts.full$tri, check.attributes=FALSE)
+  expect_equal(length(ts.full$areas), nrow(ts.full$tri))
+  expect_equal(length(ts.full$neighbours), nrow(ts.full$tri))
+  expect_equal(sum(ts.full$area), 8)
   
   ## With full output, there should be a trinagulation, areas and
   ## neighbours and the sum of the ares should be 8
+  ## full will be deprecated in a future version
   ts.full <- delaunayn(ps, full=TRUE)
   expect_equal(ts, ts.full$tri, check.attributes=FALSE)
   expect_equal(length(ts.full$areas), nrow(ts.full$tri))
@@ -41,7 +50,7 @@ test_that("In the case of a degenerate triangle, delaunayn returns a matrix with
   pct <- delaunayn(pc)
   expect_is(pct, "matrix")
   expect_equal(nrow(pct), 0)
-  pct.full <- delaunayn(pc, full=TRUE)
+  pct.full <- delaunayn(pc, output.options=TRUE)
   expect_equal(length(pct.full$areas), 0)
   expect_equal(length(pct.full$neighbours), 0)
 })
@@ -51,7 +60,7 @@ test_that("In the case of just one tetrahaedron, delaunayn returns a matrix", {
   pct <- delaunayn(pc)
   expect_is(pct, "matrix")
   expect_equal(nrow(pct), 1)
-  pct.full <- delaunayn(pc, full=TRUE)
+  pct.full <- delaunayn(pc, output.options=TRUE)
    expect_equal(pct.full$areas, 1/6)
 })
 
