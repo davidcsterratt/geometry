@@ -28,14 +28,14 @@
 SEXP C_tsearchn(const SEXP dt, const SEXP p)
 {
   int debug = 0;
-  /* Get the qh object from the delaunayTriangulation object */
+  /* Get the qh object from the delaunayn object */
   SEXP ptr, tag;
   qhT *qh;
   tag = PROTECT(allocVector(STRSXP, 1));
-  SET_STRING_ELT(tag, 0, mkChar("delaunayTriangulation"));
+  SET_STRING_ELT(tag, 0, mkChar("delaunayn"));
   ptr = PROTECT(getAttrib(dt, tag));
   if (ptr == R_NilValue) {
-    error("Delaunay triangulation has no delaunayTriangulation attribute");
+    error("Delaunay triangulation has no delaunayn attribute");
   }
   qh = R_ExternalPtrAddr(ptr);
   UNPROTECT(2);

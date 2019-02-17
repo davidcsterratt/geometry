@@ -42,13 +42,13 @@ test_that("tsearchn gives the expected output", {
 
 
 
-context("tsearchn_delaunayTriangulation")
+context("tsearchn_delaunayn")
 test_that("tsearchn gives the expected output", {
   ## Erroneous input is caught safely. Force
-  ## tsearchn_delaunayTriangulation to be called
+  ## tsearchn_delaunayn to be called
   tfake <- matrix(1:3, 1, 3)
-  class(tfake) <- "delaunayTriangulation"
-  expect_error(tsearchn(NA, tfake, matrix(1:2, 1, 2)), "Delaunay triangulation has no delaunayTriangulation attribute")
+  class(tfake) <- "delaunayn"
+  expect_error(tsearchn(NA, tfake, matrix(1:2, 1, 2)), "Delaunay triangulation has no delaunayn attribute")
 
   x <- cbind(c(-1, -1, 1),
              c(-1, 1, -1))

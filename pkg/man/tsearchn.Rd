@@ -39,7 +39,7 @@ coordinates \code{p} of the enclosing triangles.
 }
 \details{
 If \code{x} is \code{NA} and the \code{t} is a
-\code{delaunayTriangulation} object produced by
+\code{delaunayn} object produced by
 \code{\link{delaunayn}} with the \code{full} option, then use the
 Qhull library to perform the search. Please note that this is
 experimental in geometry version 0.4.0 and is only partly tested

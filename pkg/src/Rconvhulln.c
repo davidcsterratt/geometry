@@ -159,7 +159,7 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP returnNonTriangula
      pointer to the hull as an attribute for future use. */
   SEXP ptr, tag;
   tag = PROTECT(allocVector(STRSXP, 1));
-  SET_STRING_ELT(tag, 0, mkChar("convhull"));
+  SET_STRING_ELT(tag, 0, mkChar("convhulln"));
   ptr = PROTECT(R_MakeExternalPtr(qh, tag, R_NilValue));
   R_RegisterCFinalizerEx(ptr, qhullFinalizer, TRUE);
   setAttrib(retlist, tag, ptr);

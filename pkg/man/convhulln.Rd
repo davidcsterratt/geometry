@@ -36,8 +36,9 @@ If \code{return.non.triangulated.facets} is \code{FALSE}
   until the end of the row. The indices refer to the rows in
   \code{p}.
 
-  If the \code{options} or \code{output_options} argument contains
-  \code{FA} or \code{n}, return a list comprising the named elements:
+  If the \code{output.options} or \code{options} argument contains
+  \code{FA} or \code{n}, return a list with class \code{convhulln}
+  comprising the named elements:
   \describe{
     \item{\code{hull}}{The convex hull, represented as a matrix, as
       described above}

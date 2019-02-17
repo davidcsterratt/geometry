@@ -34,8 +34,9 @@
 ##'   until the end of the row. The indices refer to the rows in
 ##'   \code{p}.
 ##'
-##'   If the \code{options} or \code{output_options} argument contains
-##'   \code{FA} or \code{n}, return a list comprising the named elements:
+##'   If the \code{output.options} or \code{options} argument contains
+##'   \code{FA} or \code{n}, return a list with class \code{convhulln}
+##'   comprising the named elements:
 ##'   \describe{
 ##'     \item{\code{hull}}{The convex hull, represented as a matrix, as
 ##'       described above}
@@ -118,9 +119,8 @@ convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triang
   # Remove NULL elements
   out[which(sapply(out, is.null))] <- NULL
   if (is.null(out$area) & is.null(out$vol) & is.null(out$normals)) {
-    ret <- out$hull
-    attr(ret, "convhull") <- attr(out, "convhull")
-    return(ret)
+    attr(out$hull, "convhulln") <- attr(out, "convhulln")
+    return(out$hull)
   }
   class(out) <- "convhulln"
   out$p <- p
@@ -132,7 +132,7 @@ convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triang
 ##' @export 
 plot.convhulln <- function(x, y, ...) {
   if (ncol(x$p) < 2 || ncol(x$p) > 3)
-    stop("Only 2D and 3D convhulls can be plotted")
+    stop("Only 2D and 3D convhullns can be plotted")
   args <- list(...)
   add <- FALSE
   if ("add" %in% names(args)) {
@@ -157,7 +157,7 @@ plot.convhulln <- function(x, y, ...) {
               c(list(x$p[t(x$hull),1], x$p[t(x$hull),2], x$p[t(x$hull),3]),
                 args))
     } else {
-      stop("At present only convhulls with triangulated facets can be plotted")
+      stop("At present only convhullns with triangulated facets can be plotted")
     }
   }
 }

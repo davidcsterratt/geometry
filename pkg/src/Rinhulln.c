@@ -26,10 +26,10 @@ SEXP C_inhulln(const SEXP ch, const SEXP p)
   SEXP ptr, tag;
   qhT *qh;
   PROTECT(tag = allocVector(STRSXP, 1));
-  SET_STRING_ELT(tag, 0, mkChar("convhull"));
+  SET_STRING_ELT(tag, 0, mkChar("convhulln"));
   PROTECT(ptr = getAttrib(ch, tag));
   if (ptr == R_NilValue) {
-    error("Convex hull has no convhull attribute");
+    error("Convex hull has no convhulln attribute");
   }
   qh = R_ExternalPtrAddr(ptr);
   UNPROTECT(2);

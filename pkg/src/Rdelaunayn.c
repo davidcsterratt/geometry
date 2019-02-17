@@ -182,7 +182,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
      pointer to the hull as an attribute for future use. */
   SEXP ptr, tag;
   PROTECT(tag = allocVector(STRSXP, 1));
-  SET_STRING_ELT(tag, 0, mkChar("delaunayTriangulation"));
+  SET_STRING_ELT(tag, 0, mkChar("delaunayn"));
   PROTECT(ptr = R_MakeExternalPtr(qh, tag, R_NilValue));
   if (exitcode) {
     qhullFinalizer(ptr);

@@ -105,7 +105,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
 ##' coordinates \code{p} of the enclosing triangles.
 ##'
 ##' If \code{x} is \code{NA} and the \code{t} is a
-##' \code{delaunayTriangulation} object produced by
+##' \code{delaunayn} object produced by
 ##' \code{\link{delaunayn}} with the \code{full} option, then use the
 ##' Qhull library to perform the search. Please note that this is
 ##' experimental in geometry version 0.4.0 and is only partly tested
@@ -135,8 +135,8 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
 ##' @seealso tsearch, delaunayn
 ##' @export
 tsearchn <- function(x, t, xi, ...) {
-  if (any(is.na(x)) && inherits(t, "delaunayTriangulation")) {
-    return(tsearchn_delaunayTriangulation(t, xi))
+  if (any(is.na(x)) && inherits(t, "delaunayn")) {
+    return(tsearchn_delaunayn(t, xi))
   }
   fast <- TRUE
   if (!is.null(list(...)$fast) & is.logical(list(...)$fast))
@@ -307,7 +307,7 @@ bary2cart <- function(X, Beta) {
   return(Beta %*% X)
 }
 
-tsearchn_delaunayTriangulation <- function(t, xi) {
+tsearchn_delaunayn <- function(t, xi) {
   warning("tsearchn using the Qhull library is currently an experimental feature. It has been tested somewhat for 3D triangulations, but it does not work reliably for 4D triangulations. See https://github.com/davidcsterratt/geometry/issues/6")
   ts <- .Call("C_tsearchn", t, xi)
   p <- do.call(rbind,

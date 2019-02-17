@@ -44,7 +44,7 @@
 ##'   or a tetrahedron in 3D.
 ##'
 ##'   If the \code{output.options} argument contains \code{Fn} or \code{Fa},
-##'   return a list with class \code{delaunayTriangulation} comprising
+##'   return a list with class \code{delaunayn} comprising
 ##'   the named elements:
 ##'   \describe{
 ##'     \item{\code{tri}}{The Delaunay triangulation described above}
@@ -150,10 +150,13 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
 
   out <- .Call("C_delaunayn", p, as.character(options), tmpdir, PACKAGE="geometry")
 
+  # Remove NULL elements
+  out[which(sapply(out, is.null))] <- NULL
   if (is.null(out$areas) & is.null(out$neighbours)) {
+    attr(out$tri, "delaunayn") <- attr(out$tri, "delaunayn")
     return(out$tri)
   }
-  class(out) <- "delaunayTriangulation"
+  class(out) <- "delaunayn"
   out$p <- p
   return(out)
 }

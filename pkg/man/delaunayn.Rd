@@ -48,7 +48,7 @@ If neither of the Qhull options \code{Fn} or \code{Fa} are
   or a tetrahedron in 3D.
 
   If the \code{output.options} argument contains \code{Fn} or \code{Fa},
-  return a list with class \code{delaunayTriangulation} comprising
+  return a list with class \code{delaunayn} comprising
   the named elements:
   \describe{
     \item{\code{tri}}{The Delaunay triangulation described above}
