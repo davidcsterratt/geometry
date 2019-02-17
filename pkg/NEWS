@@ -87,7 +87,7 @@ CODE IMPROVEMENTS
   https://github.com/davidcsterratt/geometry/issues/9
   https://github.com/davidcsterratt/geometry/pull/8
 
-* The new reentrant Qhull library (current version 2018.0.1) is used,
+* The new reentrant Qhull library (current version v7.2.1) is used,
   as a precursor to allowing Qhull objects to be returned and operated
   on
   https://github.com/davidcsterratt/geometry/issues/3
