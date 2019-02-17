@@ -108,10 +108,16 @@ convhulln <- function (p, options = "Tv", return.non.triangulated.facets = FALSE
     }
   }
   out <- .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmpdir, PACKAGE="geometry")
-  if (is.list(out)) {
-    class(out) <- "convhulln"
-    out$p <- p
+
+  # Remove NULL elements
+  out[which(sapply(out, is.null))] <- NULL
+  if (is.null(out$area) & is.null(out$vol) & is.null(out$normals)) {
+    ret <- out$hull
+    attr(ret, "convhull") <- attr(out, "convhull")
+    return(ret)
   }
+  class(out) <- "convhulln"
+  out$p <- p
   return(out)
 }
 
