@@ -1,6 +1,6 @@
-/* Copyright (C) 2000, 2013, 2015, 2017 Kai Habel
-** Copyright R-version (c) 2005 Raoul Grasman
-**                     (c) 2013-2019 David Sterratt
+/* Copyright (C) 2000 Kai Habel
+** Copyright R-version (C) 2005 Raoul Grasman
+** Copyright           (C) 2013-2018 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -51,6 +51,12 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   char errstr1[100], errstr2[100];
   unsigned int dim, n;
   char cmd[50] = "qhull d Qbb T0";
+  /* Qz forces triangulation when the number of points is equal to the
+     number of dimensions + 1 ; This mirrors the behaviour of octave
+     and matlab */
+  if (nrows(p) == ncols(p) + 1) {
+    strncat(cmd, " Qz", 4);
+  }
   int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr1, errstr2);
 
   /* Extract information from output */
@@ -160,8 +166,17 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
     }
 
     /* If the error been because the points are colinear, coplanar
-       &c., then avoid mentioning an error by setting exitcode=2*/
-    /* Rprintf("dim %d; n %d\n", dim, n); */
+       &c., then avoid mentioning an error by setting exitcode=2 .
+
+       This is the same behaviour as octave:
+    >> delaunayn([0 0; 1 1; 2 2], "")
+       ans = [](0x3)
+
+       But Matlab has different behaviour:
+       delaunayn([0 0; 1 1; 2 2])
+       ans =     1     2     3
+    */
+
     if ((dim + 1) == n) {
       exitcode = 2;
     }

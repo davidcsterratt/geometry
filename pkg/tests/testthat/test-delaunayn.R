@@ -41,7 +41,13 @@ test_that("In the case of just one triangle, delaunayn returns a matrix", {
   pct <- delaunayn(pc)
   expect_is(pct, "matrix")
   expect_equal(nrow(pct), 1)
-  pct.full <- delaunayn(pc, full=TRUE)
+  ## With no options it should also produce a triangulation. This
+  ## mirrors the behaviour of octave and matlab
+  pct <- delaunayn(pc, "")
+  expect_is(pct, "matrix")
+  expect_equal(nrow(pct), 1)
+
+  pct.full <- delaunayn(pc, output.options=TRUE)
   expect_equal(pct.full$areas, 0.5)
 })
 
