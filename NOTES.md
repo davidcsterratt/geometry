@@ -34,3 +34,39 @@ for f in *.html; do for g in *.html ; do echo  perl -p -i -e \'s/`basename ${f} 
 . commands
 rm commands
 ```
+
+# To check for protection errors with rchk
+
+1. Install rchk using the automated installation method
+https://github.com/kalibera/rchk#automated-installation
+
+2. Build R as described at
+   https://github.com/kalibera/rchk#testing-the-installation 
+
+3. Install current geometry and dependencies
+```
+cd ~/trunk
+echo 'install.packages(c("geometry", "Rcpp", "lpSolve", "RcppProgress"), repos="http://cloud.r-project.org")' | ./bin/R --slave
+```
+
+4. Install github version of geometry and check
+```
+cd ~
+git clone https://github.com/davidcsterratt/geometry
+cd trunk
+echo 'install.packages("../geometry_0.4.0.tar.gz")' | ./bin/R --slave
+/opt/rchk/scripts/check_package.sh
+cat packages/lib/geometry/libs/geometry.so.*check
+```
+
+5. When a new change to the github version made, recheck:
+```
+cd ~/geometry
+git pull
+cd
+./trunk/bin/R CMD build geometry/pkg
+cd ~/trunk
+echo 'install.packages("../geometry_0.4.0.tar.gz")' | ./bin/R --slave
+/opt/rchk/scripts/check_package.sh geometry
+cat packages/lib/geometry/libs/geometry.so.*check
+```
