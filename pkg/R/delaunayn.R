@@ -27,7 +27,7 @@
 ##'   overridden.} It is recommended to use \code{output.options} for
 ##'   options controlling the outputs.
 ##'
-##' @param output.options String containg Qhull options to control
+##' @param output.options String containing Qhull options to control
 ##'   output. Currently \code{Fn} (neighbours) and \code{Fa} (areas)
 ##'   are supported. Causes an object of  return value for details. If
 ##'   \code{output.options} is \code{TRUE}, select all supported

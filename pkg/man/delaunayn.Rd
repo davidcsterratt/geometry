@@ -30,7 +30,7 @@ points in \eqn{N}-dimensional space.}
   overridden.} It is recommended to use \code{output.options} for
   options controlling the outputs.}
 
-\item{output.options}{String containg Qhull options to control
+\item{output.options}{String containing Qhull options to control
 output. Currently \code{Fn} (neighbours) and \code{Fa} (areas)
 are supported. Causes an object of  return value for details. If
 \code{output.options} is \code{TRUE}, select all supported

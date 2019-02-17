@@ -15,7 +15,7 @@ represent \eqn{M} points in \eqn{N}-dimensional space.}
 Qhull command; see details below and Qhull documentation at
 \url{../doc/qhull/html/qconvex.html#synopsis}.}
 
-\item{output.options}{String containg Qhull options to control
+\item{output.options}{String containing Qhull options to control
 output. Currently \code{n} (normals) and \code{FA} (generalised
 areas and volumes) are supported. Causes an object of return
 value for details. If \code{output.options} is \code{TRUE},
