@@ -45,6 +45,8 @@ https://github.com/kalibera/rchk#automated-installation
 
 3. Install current geometry and dependencies
 ```
+. /opt/rchk/scripts/config.inc
+. /opt/rchk/scripts/cmpconfig.inc
 cd ~/trunk
 echo 'install.packages(c("geometry", "Rcpp", "lpSolve", "RcppProgress"), repos="http://cloud.r-project.org")' | ./bin/R --slave
 ```
@@ -70,3 +72,4 @@ echo 'install.packages("../geometry_0.4.0.tar.gz")' | ./bin/R --slave
 /opt/rchk/scripts/check_package.sh geometry
 cat packages/lib/geometry/libs/geometry.so.*check
 ```
+6. After having logged out neceesary to do Step 3 again.
