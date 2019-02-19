@@ -24,7 +24,8 @@ represents the polar/(cylindrical) coordinate (\code{theta}, \code{r}
 (, \code{z})).
 }
 \seealso{
-cart2pol, sph2cart, cart2sph
+\code{\link{cart2pol}}, \code{\link{sph2cart}},
+  \code{\link{cart2sph}}
 }
 \author{
 Kai Habel

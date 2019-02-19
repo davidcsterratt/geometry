@@ -24,7 +24,7 @@ each row of \code{S} represents the spherical coordinate
 (\code{theta}, \code{phi}, \code{r}).
 }
 \seealso{
-cart2sph, pol2cart, cart2pol
+\code{\link{cart2sph}}, \code{\link{pol2cart}}, \code{\link{cart2pol}}
 }
 \author{
 Kai Habel

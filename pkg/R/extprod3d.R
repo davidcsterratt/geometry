@@ -17,7 +17,7 @@
 ##'   \code{drop} is \code{TRUE}, a vector of length 3.
 ##' @author Raoul Grasman
 ##' @keywords arith math array
-##' @seealso drop
+##' @seealso \code{\link[base]{drop}}
 ##' @export
 "extprod3d" <-
 function (x, y, drop=TRUE) 

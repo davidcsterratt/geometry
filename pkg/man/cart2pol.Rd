@@ -24,7 +24,8 @@ scalar.  If called with a single matrix argument then each row of \code{C}
 represents the Cartesian coordinate (\code{x}, \code{y} (, \code{z})).
 }
 \seealso{
-pol2cart, cart2sph, sph2cart
+\code{\link{pol2cart}}, \code{\link{cart2sph}},
+  \code{\link{sph2cart}}
 }
 \author{
 Kai Habel

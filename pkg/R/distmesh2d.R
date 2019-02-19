@@ -59,9 +59,9 @@
 ##' @param plot logical.  If \code{TRUE} (default), the mesh is
 ##'   plotted as it is generated.
 ##' @return \code{n}-by-\code{2} matrix with node positions.
-##' @section Wishlist : \itemize{ \item*Implement in C/Fortran
-##'   \item*Implement an \code{n}D version as provided in the Matlab
-##'   package \item*Translate other functions of the Matlab package }
+##' @section Wishlist : \itemize{ \item Implement in C/Fortran
+##'   \item Implement an \code{n}D version as provided in the Matlab
+##'   package \item Translate other functions of the Matlab package }
 ##' @author Raoul Grasman
 ##' @seealso \code{\link[tripack]{tri.mesh}}, \code{\link{delaunayn}},
 ##'   \code{\link{mesh.dcircle}}, \code{\link{mesh.drectangle}},

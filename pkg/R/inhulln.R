@@ -10,7 +10,7 @@
 ##' The rows of \code{p} represent \eqn{M} points in \eqn{N}-dimensional space.
 ##' @return A boolean vector with \eqn{M} elements
 ##' @author David Sterratt
-##' @seealso convhulln
+##' @seealso \code{\link{convhulln}}
 ##' @export
 ##' @examples
 ##' p <- cbind(c(-1, -1, 1), c(-1, 1, -1))

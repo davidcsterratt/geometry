@@ -29,7 +29,7 @@
 ##' @author Jean-Romain Roussel (Quadtree algorithm), David Sterratt (Octave-based implementation)
 ##' @note The original Octave function is Copyright (C) 2007-2012
 ##'   David Bateman
-##' @seealso tsearchn, delaunayn
+##' @seealso \code{\link{tsearchn}}, \code{\link{delaunayn}}
 ##' @export
 tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   xtxt  = deparse(substitute(x))
@@ -132,7 +132,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
 ##' @author David Sterratt
 ##' @note Based on the Octave function Copyright (C) 2007-2012 David
 ##'   Bateman.
-##' @seealso tsearch, delaunayn
+##' @seealso \code{\link{tsearch}}, \code{\link{delaunayn}}
 ##' @export
 tsearchn <- function(x, t, xi, ...) {
   if (any(is.na(x)) && inherits(t, "delaunayn")) {
@@ -253,7 +253,7 @@ tsearchn <- function(x, t, xi, ...) {
 ##' text(X[,1], X[,2], 1:3) # Label vertices
 ##' points(P)
 ##' cart2bary(X, P)
-##' @seealso bary2cart
+##' @seealso \code{\link{bary2cart}}
 ##' @export
 cart2bary <- function(X, P) {
   M <- nrow(P)
@@ -300,7 +300,7 @@ cart2bary <- function(X, P) {
 ##' text(X[,1], X[,2], 1:3) # Label vertices
 ##' P <- bary2cart(X, beta)
 ##' points(P)
-##' @seealso cart2bary
+##' @seealso \code{\link{cart2bary}}
 ##' @author David Sterratt
 ##' @export
 bary2cart <- function(X, Beta) {

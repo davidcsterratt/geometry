@@ -28,7 +28,7 @@ x1 * y2 - x2 * y1) }\deqn{ }{ (x2 * y3 - x3 * y2, x3 * y1 - x1 * y3, x1 *
 y2 - x2 * y1) } of the 3D vectors in \bold{x} and \bold{y}.
 }
 \seealso{
-drop
+\code{\link[base]{drop}}
 }
 \author{
 Raoul Grasman

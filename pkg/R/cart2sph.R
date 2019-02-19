@@ -29,7 +29,8 @@
 ##' \item{\code{theta}}{the angle relative to the positive x-axis}
 ##' \item{\code{phi}}{the angle relative to the xy-plane}
 ##' \item{\code{r}}{the distance to the origin \code{(0, 0, 0)}}
-##' @seealso sph2cart, cart2pol, pol2cart
+##' @seealso \code{\link{sph2cart}}, \code{\link{cart2pol}},
+##'   \code{\link{pol2cart}}
 ##' @author Kai Habel
 ##' @author David Sterratt
 ##' @export

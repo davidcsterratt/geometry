@@ -89,9 +89,9 @@ See the references below for all details. Also, see the comments in the
 source file.
 }
 \section{Wishlist }{
- \itemize{ \item*Implement in C/Fortran
-  \item*Implement an \code{n}D version as provided in the Matlab
-  package \item*Translate other functions of the Matlab package }
+ \itemize{ \item Implement in C/Fortran
+  \item Implement an \code{n}D version as provided in the Matlab
+  package \item Translate other functions of the Matlab package }
 }
 
 \examples{

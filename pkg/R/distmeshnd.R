@@ -52,7 +52,7 @@
 ##' @param deps Stepsize \eqn{\Delta x} in numerical derivative computation for
 ##' distance function.
 ##' @return \code{m}-by-\code{n} matrix with node positions.
-##' @section Wishlist : \itemize{ \item*Implement in C/Fortran \item*Translate
+##' @section Wishlist : \itemize{ \item Implement in C/Fortran \item Translate
 ##' other functions of the Matlab package }
 ##' @author Raoul Grasman; translated from original Matlab sources of Per-Olof
 ##' Persson.

@@ -77,7 +77,7 @@ See the references below for all details. Also, see the comments in the
 source file of \code{distmesh2d}.
 }
 \section{Wishlist }{
- \itemize{ \item*Implement in C/Fortran \item*Translate
+ \itemize{ \item Implement in C/Fortran \item Translate
 other functions of the Matlab package }
 }
 

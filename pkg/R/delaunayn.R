@@ -110,8 +110,8 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
   tmpdir <- tempdir()
   ## R should guarantee the tmpdir is writable, but check in any case
   if (file.access(tmpdir, 2) == -1) {
-    stop(paste("Unable to write to R temporary directory", tmpdir, "\n",
-               "Try setting the permissions on this directory so it is writable."))
+    stop("Unable to write to R temporary directory ", tmpdir, "\n",
+         "Try setting the permissions on this directory so it is writable.")
   }
 
   ## Coerce the input to be matrix

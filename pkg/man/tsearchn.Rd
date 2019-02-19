@@ -51,7 +51,7 @@ Based on the Octave function Copyright (C) 2007-2012 David
   Bateman.
 }
 \seealso{
-tsearch, delaunayn
+\code{\link{tsearch}}, \code{\link{delaunayn}}
 }
 \author{
 David Sterratt

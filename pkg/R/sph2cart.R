@@ -31,7 +31,7 @@
 ##' If only a single return argument is requested then return a matrix
 ##' \code{C} where each row represents one Cartesian coordinate
 ##' (\code{x}, \code{y}, \code{z}).
-##' @seealso cart2sph, pol2cart, cart2pol
+##' @seealso \code{\link{cart2sph}}, \code{\link{pol2cart}}, \code{\link{cart2pol}}
 ##' @author Kai Habel
 ##' @author David Sterratt
 ##' @export

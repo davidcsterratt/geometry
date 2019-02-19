@@ -66,7 +66,7 @@ points(P)
 cart2bary(X, P)
 }
 \seealso{
-bary2cart
+\code{\link{bary2cart}}
 }
 \author{
 David Sterratt

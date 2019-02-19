@@ -30,7 +30,8 @@
 ##' @param z (optional) is the z-coordinate
 ##' @return a matrix \code{C} where each row represents one Cartesian
 ##'   coordinate (\code{x}, \code{y} (, \code{z})).
-##' @seealso cart2pol, sph2cart, cart2sph
+##' @seealso \code{\link{cart2pol}}, \code{\link{sph2cart}},
+##'   \code{\link{cart2sph}}
 ##' @author Kai Habel
 ##' @author David Sterratt
 ##' @export

@@ -33,8 +33,8 @@ halfspacen <- function (p, fp, options = "Tv") {
   tmpdir <- tempdir()
   ## R should guarantee the tmpdir is writable, but check in any case
   if (file.access(tmpdir, 2) == -1) {
-    stop(paste("Unable to write to R temporary directory", tmpdir, "\n",
-               "Try setting the permissions on this directory so it is writable."))
+    stop("Unable to write to R temporary directory ", tmpdir, "\n",
+         "Try setting the permissions on this directory so it is writable.")
   }
   
   ## Input sanitisation
@@ -56,7 +56,7 @@ halfspacen <- function (p, fp, options = "Tv") {
 
   ## Check dimensions
   if (ncol(p) - 1 != length(as.vector(fp))) {
-    stop(paste("Dimension of hyperspace is", ncol(p) - 1, "but dimension of fixed point is", length(as.vector(fp))))
+    stop("Dimension of hyperspace is ", ncol(p) - 1, " but dimension of fixed point is ", length(as.vector(fp)))
   }
   
 

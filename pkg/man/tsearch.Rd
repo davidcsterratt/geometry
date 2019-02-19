@@ -48,7 +48,7 @@ The original Octave function is Copyright (C) 2007-2012
   David Bateman
 }
 \seealso{
-tsearchn, delaunayn
+\code{\link{tsearchn}}, \code{\link{delaunayn}}
 }
 \author{
 Jean-Romain Roussel (Quadtree algorithm), David Sterratt (Octave-based implementation)
