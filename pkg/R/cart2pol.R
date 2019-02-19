@@ -30,7 +30,8 @@
 ##' @return A matrix \code{P} where each row represents one
 ##'   polar/(cylindrical) coordinate (\code{theta}, \code{r}, (,
 ##'   \code{z})).
-##' @seealso pol2cart, cart2sph, sph2cart
+##' @seealso \code{\link{pol2cart}}, \code{\link{cart2sph}},
+##'   \code{\link{sph2cart}}
 ##' @author Kai Habel
 ##' @author David Sterratt
 ##' @export

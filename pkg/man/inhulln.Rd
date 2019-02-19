@@ -38,7 +38,7 @@ pin <- inhulln(ch, tp)
 pin == (tp[,1] < 1 & tp[,1] > -1)
 }
 \seealso{
-convhulln
+\code{\link{convhulln}}
 }
 \author{
 David Sterratt

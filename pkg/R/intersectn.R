@@ -25,7 +25,8 @@
 ##' message(paste("Volume of 2nd convex hull:", out$ch2$vol))
 ##' message(paste("Volume of intersection convex hull:", out$ch$vol))
 ##' @author David Sterratt
-##' @seealso convhulln, halfspacen, inhulln
+##' @seealso \code{\link{convhulln}}, \code{\link{halfspacen}},
+##'   \code{\link{inhulln}}
 intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE) {
   distinct <-
     any(apply(ps1, 2, min) > apply(ps2, 2, max)) ||

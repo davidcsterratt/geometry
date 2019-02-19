@@ -57,7 +57,7 @@
 ##' See further notes in \code{\link{delaunayn}}.
 ##' 
 ##' @author Raoul Grasman, Robert B. Gramacy, Pavlo Mozharovskyi and David Sterratt
-##' \email{david.c.sterratt@ed.ac.uk}
+##' \email{david.c.sterratt@@ed.ac.uk}
 ##' @seealso \code{\link[tripack]{convex.hull}}, \code{\link{delaunayn}},
 ##' \code{\link{surf.tri}}, \code{\link{distmesh2d}}, \code{\link{intersectn}}
 ##' @references \cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
@@ -84,8 +84,8 @@ convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triang
   tmpdir <- tempdir()
   ## R should guarantee the tmpdir is writable, but check in any case
   if (file.access(tmpdir, 2) == -1) {
-    stop(paste("Unable to write to R temporary directory", tmpdir, "\n",
-               "Try setting the permissions on this directory so it is writable."))
+    stop("Unable to write to R temporary directory ", tmpdir, "\n",
+         "Try setting the permissions on this directory so it is writable.")
   }
   
   ## Combine and check options

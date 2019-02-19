@@ -38,7 +38,7 @@ P <- bary2cart(X, beta)
 points(P)
 }
 \seealso{
-cart2bary
+\code{\link{cart2bary}}
 }
 \author{
 David Sterratt

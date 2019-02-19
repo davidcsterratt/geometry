@@ -24,7 +24,8 @@ Matrix with columns:
 Transform Cartesian to spherical coordinates
 }
 \seealso{
-sph2cart, cart2pol, pol2cart
+\code{\link{sph2cart}}, \code{\link{cart2pol}},
+  \code{\link{pol2cart}}
 }
 \author{
 Kai Habel

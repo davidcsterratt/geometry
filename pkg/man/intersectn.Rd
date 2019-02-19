@@ -42,7 +42,8 @@ message(paste("Volume of 2nd convex hull:", out$ch2$vol))
 message(paste("Volume of intersection convex hull:", out$ch$vol))
 }
 \seealso{
-convhulln, halfspacen, inhulln
+\code{\link{convhulln}}, \code{\link{halfspacen}},
+  \code{\link{inhulln}}
 }
 \author{
 David Sterratt
