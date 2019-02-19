@@ -7,8 +7,8 @@
 halfspacen(p, fp, options = "Tv")
 }
 \arguments{
-\item{p}{An \code{n}-by-\code{dim+1} matrix. Each row of \code{p}
-represents a halfspace by a \code{dim}-dimensional normal to a
+\item{p}{An \eqn{M}-by-\eqn{N+1} matrix. Each row of \code{p}
+represents a halfspace by a \eqn{N}-dimensional normal to a
 hyperplane and the offset of the hyperplane.}
 
 \item{fp}{A \dQuote{feasible} point that is within the space
@@ -16,13 +16,11 @@ contained within all the halfspaces.}
 
 \item{options}{String containing extra options, separated by
 spaces, for the underlying Qhull command; see details below and
-Qhull documentation at
-\url{http://www.qhull.org/html/qhalf.htm}.}
+Qhull documentation at \url{../doc/qhull/html/qhalf.html}.}
 }
 \value{
-A \code{dim}-column matrix containing the intersection
-  points of the hyperplanes \url{../doc/qhull/html/qhalf.html}. These
-  points
+A \eqn{N}-column matrix containing the intersection
+  points of the hyperplanes \url{../doc/qhull/html/qhalf.html}.
 }
 \description{
 Compute halfspace intersection about a point
@@ -46,5 +44,5 @@ pn <- halfspacen(ch$normals, c(0, 0, 0))
 \code{\link{convhulln}}
 }
 \author{
-David Sterratt \email{david.c.sterratt@ed.ac.uk}
+David Sterratt
 }

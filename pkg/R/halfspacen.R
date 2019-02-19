@@ -1,20 +1,18 @@
 ##' Compute halfspace intersection about a point
 ##' 
-##' @param p An \code{n}-by-\code{dim+1} matrix. Each row of \code{p}
-##'   represents a halfspace by a \code{dim}-dimensional normal to a
+##' @param p An \eqn{M}-by-\eqn{N+1} matrix. Each row of \code{p}
+##'   represents a halfspace by a \eqn{N}-dimensional normal to a
 ##'   hyperplane and the offset of the hyperplane.
 ##' @param fp A \dQuote{feasible} point that is within the space
 ##'   contained within all the halfspaces.
 ##' @param options String containing extra options, separated by
 ##'   spaces, for the underlying Qhull command; see details below and
-##'   Qhull documentation at
-##'   \url{http://www.qhull.org/html/qhalf.htm}.
+##'   Qhull documentation at \url{../doc/qhull/html/qhalf.html}.
 ##' 
-##' @return A \code{dim}-column matrix containing the intersection
-##'   points of the hyperplanes \url{../doc/qhull/html/qhalf.html}. These
-##'   points 
+##' @return A \eqn{N}-column matrix containing the intersection
+##'   points of the hyperplanes \url{../doc/qhull/html/qhalf.html}.
 ##' 
-##' @author David Sterratt \email{david.c.sterratt@ed.ac.uk}
+##' @author David Sterratt
 ##' @seealso \code{\link{convhulln}}
 ##' @references \cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
 ##'   \dQuote{The Quickhull algorithm for convex hulls,} \emph{ACM
