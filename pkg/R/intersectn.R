@@ -21,9 +21,9 @@
 ##' ps1 <- rbox(0, C=0.5)
 ##' ps2 <- rbox(0, C=0.5) + 0.5
 ##' out <- intersectn(ps1, ps2)
-##' message(paste("Volume of 1st convex hull:", out$ch1$vol))
-##' message(paste("Volume of 2nd convex hull:", out$ch2$vol))
-##' message(paste("Volume of intersection convex hull:", out$ch$vol))
+##' message("Volume of 1st convex hull: ", out$ch1$vol)
+##' message("Volume of 2nd convex hull: ", out$ch2$vol)
+##' message("Volume of intersection convex hull: ", out$ch$vol)
 ##' @author David Sterratt
 ##' @seealso \code{\link{convhulln}}, \code{\link{halfspacen}},
 ##'   \code{\link{inhulln}}

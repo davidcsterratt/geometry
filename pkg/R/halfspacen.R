@@ -58,7 +58,7 @@ halfspacen <- function (p, fp, options = "Tv") {
 
   ## Check dimensions
   if (ncol(p) - 1 != length(as.vector(fp))) {
-    stop(paste("Dimension of hyperspace is", ncol(p) - 1, "but dimension of fixed point is", length(as.vector(fp))))
+    stop("Dimension of hyperspace is ", ncol(p) - 1, " but dimension of fixed point is ", length(as.vector(fp)))
   }
   
 
