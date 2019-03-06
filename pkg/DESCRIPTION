@@ -8,7 +8,7 @@ Authors@R: c(
     person("Raoul", "Grasman", role=c("cph","aut")),
     person("Robert B.", "Gramacy", role=c("cph","aut")),
     person("Pavlo", "Mozharovskyi", role=c("cph","aut")),
-    person("David C.", "Sterratt", role=c("cph","aut","cre"), email="david.c.sterratt@ed.ac.uk"))
+    person("David C.", "Sterratt", role=c("cph","aut","cre"), email="david.c.sterratt@ed.ac.uk"), comment=c(ORCID="0000-0001-9092-9099"))
 Description: Makes the 'Qhull' library <http://www.qhull.org>
     available in R, in a similar manner as in Octave and MATLAB. Qhull
     computes convex hulls, Delaunay triangulations, halfspace
