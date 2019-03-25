@@ -15,8 +15,8 @@ hyperplane and the offset of the hyperplane.}
 contained within all the halfspaces.}
 
 \item{options}{String containing extra options, separated by
-spaces, for the underlying Qhull command; see details below and
-Qhull documentation at \url{../doc/qhull/html/qhalf.html}.}
+spaces, for the underlying Qhull command; see Qhull
+documentation at \url{../doc/qhull/html/qhalf.html}.}
 }
 \value{
 A \eqn{N}-column matrix containing the intersection

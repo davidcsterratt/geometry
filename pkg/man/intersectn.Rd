@@ -4,7 +4,7 @@
 \alias{intersectn}
 \title{Compute convex hull of intersection of two sets of points}
 \usage{
-intersectn(ps1, ps2, tol = 0, return.chs = TRUE)
+intersectn(ps1, ps2, tol = 0, return.chs = TRUE, options = "Tv QJ")
 }
 \arguments{
 \item{ps1}{First set of points}
@@ -19,6 +19,9 @@ produces points very close together.}
 \item{return.chs}{If \code{TRUE} (default) return the convex hulls
 of the first and second sets of points, as well as the convex
 hull of the intersection.}
+
+\item{options}{Options passed to \code{\link{halfspacen}}. By
+default this is \code{Tv QJ}.}
 }
 \value{
 List containing named elements: \code{ch1}, the convex

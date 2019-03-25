@@ -6,8 +6,8 @@
 ##' @param fp A \dQuote{feasible} point that is within the space
 ##'   contained within all the halfspaces.
 ##' @param options String containing extra options, separated by
-##'   spaces, for the underlying Qhull command; see details below and
-##'   Qhull documentation at \url{../doc/qhull/html/qhalf.html}.
+##'   spaces, for the underlying Qhull command; see Qhull
+##'   documentation at \url{../doc/qhull/html/qhalf.html}.
 ##' 
 ##' @return A \eqn{N}-column matrix containing the intersection
 ##'   points of the hyperplanes \url{../doc/qhull/html/qhalf.html}.
@@ -60,8 +60,13 @@ halfspacen <- function (p, fp, options = "Tv") {
   }
   
 
-  ## This is ugly - if halspacen fails because of similar hyperplanes,
-  ## remove the most similar ones
+  ## In geometry 0.4.0, we tried to get around halspacen fails because
+  ## of similar hyperplanes, by removing the most similar ones (i.e.
+  ## those that had very acute angles to one another). However, this
+  ## was ugly and turned out to unreliable , so it has been removed in
+  ## geometry 0.4.1 and above. Users are recommended to supply the
+  ## QJ option in 
+  
   ## The fixed point is passed as an option
   out <- tryCatch(.Call("C_halfspacen", p,
                         as.character(paste(options, paste0("H",paste(fp, collapse=",")))),
@@ -69,18 +74,7 @@ halfspacen <- function (p, fp, options = "Tv") {
                         PACKAGE="geometry"),
                   error=function(e) {
                     if (grepl("^Received error code 2 from qhull.", e$message)) {
-                      dpmax <- 0
-                      for (i in 1:(nrow(p)-1)) {
-                        for (j in (i+1):nrow(p)) {
-                          dp <- abs(dot(p[i,-ncol(p)], p[j,-ncol(p)]))
-                          if (dp > dpmax) {
-                            imax <- i
-                            jmax <- j
-                            dpmax <- dp
-                          }
-                        }
-                      }
-                      return(halfspacen(p[-imax,], fp, options))
+                      e$message <- paste(e$message, "\nTry calling halfspacen with options=\"Tv QJ\"")
                     }
                     return(e)
                   })

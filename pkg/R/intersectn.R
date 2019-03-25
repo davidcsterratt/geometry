@@ -8,6 +8,8 @@
 ##' @param return.chs If \code{TRUE} (default) return the convex hulls
 ##'   of the first and second sets of points, as well as the convex
 ##'   hull of the intersection.
+##' @param options Options passed to \code{\link{halfspacen}}. By
+##'   default this is \code{Tv QJ}.
 ##' @return List containing named elements: \code{ch1}, the convex
 ##'   hull of the first set of points, with volumes, areas and normals
 ##'   (see \code{\link{convhulln}}; \code{ch2}, the convex hull of the
@@ -27,7 +29,7 @@
 ##' @author David Sterratt
 ##' @seealso \code{\link{convhulln}}, \code{\link{halfspacen}},
 ##'   \code{\link{inhulln}}
-intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE) {
+intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv QJ") {
   distinct <-
     any(apply(ps1, 2, min) > apply(ps2, 2, max)) ||
     any(apply(ps1, 2, max) < apply(ps2, 2, min))
@@ -53,13 +55,18 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE) {
   }
   
   ## Find intesections of halfspaces about feasible point. Catch error
-  ## when fixed point is not in intersection, due to precision issue.
-  ps <- tryCatch(halfspacen(rbind(ch1$normals, ch2$normals), fp),
+  ## (code QH6023) when fixed point is not in intersection, due to
+  ## precision issue.
+  ps <- tryCatch(halfspacen(rbind(ch1$normals, ch2$normals), fp, options=options),
                  error=function(e) {
                    if (grepl("QH6023", e$message)) {
                      return(NA)
                    }
-                   stop(e)
+                   errmess <- e$message
+                   if (!grepl("QJ", options)) {
+                     errmess <- paste(errmess, "\nTry calling intersectn with options=\"Tv QJ\"")
+                   }
+                   stop(errmess)
                  })
   if (all(is.na(ps)) || is.null(ps)) {
     if (return.chs) {

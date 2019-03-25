@@ -1,3 +1,17 @@
+CHANGES IN VERSION 0.4.1 - Released 2019/xx/xx
+
+BUG FIXES
+
+* Fix nonsensical results from intersectn() in 4D
+  https://github.com/davidcsterratt/geometry/issues/33
+  intersectn() gave demonstrably wrong results in some cases. This was
+  because of some heuristic (non-Qhull) code in halfspacen which was
+  designed to get round cases in which Qhull fails with options "Tv"
+  because the hull is very narrow. The solution is to remove the
+  heuristic method, and make the "Tv QJ" the default Qhull options.
+  Thanks to Maxime Logez for reporting the bug and supplying a
+  reproducible example, now included in tests.
+
 CHANGES IN VERSION 0.4.0 - Released 2019/02/18
 
 LICENSE CHANGES
