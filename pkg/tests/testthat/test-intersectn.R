@@ -6,6 +6,9 @@ test_that("intersectn can run on overlapping triangles", {
   ps2 <- ps1
   ps2[,2] <- -ps2[,2]
 
+  expect_equal(feasible.point(convhulln(ps1, output.options=TRUE),
+                              convhulln(ps2, output.options=TRUE)),
+               c(0, 0))
   is <-  intersectn(ps1, ps2)
   ## Intersecting area is same as 6 isosceles triangles of length 1, which have 
   ## area sqrt(3)/4
@@ -15,7 +18,19 @@ test_that("intersectn can run on overlapping triangles", {
   ## Another overlapping example
   ps2 <- ps1
   ps2[,2] <- ps2[,2]+2
-  is <-  intersectn(ps1, ps2)  
+  is <-  intersectn(ps1, ps2)
+
+  ## Now make one element of feasible point negative
+  ps3 <- ps1
+  ps4 <- ps1
+  ps4[,2] <- -ps4[,2]
+  ps3[,2] <- ps3[,2] - 10
+  ps4[,2] <- ps4[,2] - 10
+
+  expect_equal(feasible.point(convhulln(ps3, output.options=TRUE),
+                              convhulln(ps4, output.options=TRUE)),
+               c(0, -10))
+  expect_equal(intersectn(ps3, ps4)$ch$vol, sqrt(3)/4*6)
 })
 
 test_that("intersectn gives zero volume on non-overlapping triangles", {
@@ -105,7 +120,8 @@ test_that("intersectn can compute the volume of overlapping delaunay triangulati
   expect_equal(vol, 0.125, tol=0.0001)
 })
 
-test_that("intersectn can deal with some input that forces it to remove points", {
+test_that("intersectn can deal with some input that caused errors before fixing Issue #34", {
+  ## Issue 34: https://github.com/davidcsterratt/geometry/issues/34
   ps1 <- rbind(
     c(500.9656357388012111187, 843268.9656357388012111, 5.5),
     c(658.9656357388012111187, 843109.9656357388012111, 10.0),
@@ -118,12 +134,13 @@ test_that("intersectn can deal with some input that forces it to remove points",
     c(707.9656400000000076034, 843153.9656399999512359, 12.000000000000000000000),
     c(608.9447900000000117871, 843172.7368899999419227,  7.772330000000000183036),
     c(607.9656400000000076034, 843173.9656399999512359,  7.669999999999999928946))
-  ## This throws an error:
+  ## Before Issue #34 was fixed this threw an error:
   ##   Received error code 2 from qhull. Qhull error:
   ##     qhull precision warning: 
   ##     The initial hull is narrow (cosine of min. angle is 1.0000000000000002).
-  expect_error(intersectn(ps1, ps2, tol=1E-4, return.chs=FALSE, options="Tv"), ".*The initial hull is narrow.*")
-  ## This threw an error in an error at Rev aab45b7311b6
+  ## expect_error(intersectn(ps1, ps2, tol=1E-4, return.chs=FALSE, options="Tv"), ".*The initial hull is narrow.*")
+  
+  ## This threw an error in Rev aab45b7311b6
   out <- intersectn(ps1, ps2, tol=1E-4, return.chs=FALSE)
 })
 
@@ -270,8 +287,7 @@ test_that("intersectn works in 4D", {
   chj <- convhulln(setj, output.options=TRUE)
   chij <- intersectn(seti, setj)
   chji <- intersectn(setj, seti)
-  expect_equal(chij$vol, chji$vol)
+  expect_equal(chij$ch$vol, chji$ch$vol)
   expect_true(chi$vol >= chij$ch$vol)
-  expect_true(chj$vol >= chij$ch$vol)
-  
+  expect_equal(chj$vol, chij$ch$vol)
 })

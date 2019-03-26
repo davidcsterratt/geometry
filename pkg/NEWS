@@ -1,15 +1,25 @@
-CHANGES IN VERSION 0.4.1 - Released 2019/xx/xx
+CHANGES IN VERSION 0.4.1 - Released 2019/03/27
 
 BUG FIXES
 
-* Fix nonsensical results from intersectn() in 4D
+* Fix intersectn() fails when overlapping region is not in positive quadrant
+  https://github.com/davidcsterratt/geometry/issues/34
+  intersection() would return no intersecting hull for input hulls
+  whose overlapping region did not overlap with the postive quadrant
+  (i.e. the region where all coordinates are non-negative). Thanks to
+  Maxime Logez for reporting the bug.
+
+* Fix nonsensical results from intersectn() in 4D and
+
   https://github.com/davidcsterratt/geometry/issues/33
   intersectn() gave demonstrably wrong results in some cases. This was
-  because of some heuristic (non-Qhull) code in halfspacen which was
+  Because of some heuristic (non-Qhull) code in halfspacen which was
   designed to get round cases in which Qhull fails with options "Tv"
   because the hull is very narrow. The solution is to remove the
-  heuristic method, and make the "Tv QJ" the default Qhull options.
-  Thanks to Maxime Logez for reporting the bug and supplying a
+  heuristic method, and also to fix Issue #34 (above). Before Issue
+  #34 was fixed, it was found that adding the "QJ" option could also
+  help, and this is now suggested in the error message about narrow
+  hulls. Thanks to Maxime Logez for reporting the bug and supplying a
   reproducible example, now included in tests.
 
 CHANGES IN VERSION 0.4.0 - Released 2019/02/18

@@ -4,7 +4,7 @@
 \alias{intersectn}
 \title{Compute convex hull of intersection of two sets of points}
 \usage{
-intersectn(ps1, ps2, tol = 0, return.chs = TRUE, options = "Tv QJ")
+intersectn(ps1, ps2, tol = 0, return.chs = TRUE, options = "Tv")
 }
 \arguments{
 \item{ps1}{First set of points}
@@ -21,7 +21,7 @@ of the first and second sets of points, as well as the convex
 hull of the intersection.}
 
 \item{options}{Options passed to \code{\link{halfspacen}}. By
-default this is \code{Tv QJ}.}
+default this is \code{Tv}.}
 }
 \value{
 List containing named elements: \code{ch1}, the convex

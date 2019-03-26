@@ -21,7 +21,7 @@ Description: Makes the 'Qhull' library <http://www.qhull.org>
     that allow for this.
 Version: 0.4.1
 URL: https://davidcsterratt.github.io/geometry
-Date: 2019-08-??
+Date: 2019-03-27
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:
     R (>= 3.0.0)

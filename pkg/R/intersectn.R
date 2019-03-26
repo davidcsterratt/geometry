@@ -9,7 +9,7 @@
 ##'   of the first and second sets of points, as well as the convex
 ##'   hull of the intersection.
 ##' @param options Options passed to \code{\link{halfspacen}}. By
-##'   default this is \code{Tv QJ}.
+##'   default this is \code{Tv}.
 ##' @return List containing named elements: \code{ch1}, the convex
 ##'   hull of the first set of points, with volumes, areas and normals
 ##'   (see \code{\link{convhulln}}; \code{ch2}, the convex hull of the
@@ -29,7 +29,7 @@
 ##' @author David Sterratt
 ##' @seealso \code{\link{convhulln}}, \code{\link{halfspacen}},
 ##'   \code{\link{inhulln}}
-intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv QJ") {
+intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv") {
   distinct <-
     any(apply(ps1, 2, min) > apply(ps2, 2, max)) ||
     any(apply(ps1, 2, max) < apply(ps2, 2, min))
@@ -104,19 +104,30 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv QJ") {
 ##'   of both convex hulls
 ##' @export
 feasible.point <- function(ch1, ch2, tol=0) {
-  debug <- FALSE
-  N <- ncol(ch1$p)
-
+  N <- ncol(ch1$p)                      # Number of dimensions
+  M <- nrow(ch1$normals) + nrow(ch2$normals) # Total number of normals
+  
+  ## Find the point that bounds all points from below. Becuase
+  ## lpSolve::lp() implicitly gives solutions in the positive
+  ## quadrant, we need to subtract p0 from the search point, and then
+  ## add it to the optimised solution. This will ensure that solutions
+  ## not in the positive quadrant are found.
+  p0 <- apply(rbind(ch1$p, ch2$p), 2, min)
+  
   objective.in <- c(rep(0, N), 1)
-  const.mat <- round(rbind(cbind(ch1$normals[,-(N + 1)], 1),
-                           cbind(ch2$normals[,-(N + 1)], 1),
-                           c(rep(0, N), -1)), 6)
-  const.rhs <- -c(ch1$normals[,N + 1], ch2$normals[,N + 1], tol)
+  const.mat <- rbind(cbind(ch1$normals[,-(N + 1)], 1),
+                     cbind(ch2$normals[,-(N + 1)], 1),
+                     c(rep(0, N), -1))
+
+  ## p0 is incorporated into the matrix here
+  const.rhs <- -c(c(const.mat[1:M, 1:N] %*% cbind(p0) +
+                    c(ch1$normals[,N + 1], ch2$normals[,N + 1])),
+                  tol)
   const.dir <- c(rep("<", length(const.rhs)))
   
   opt <- lpSolve::lp(direction = "max", objective.in, const.mat, const.dir, const.rhs)
   if ((opt$status == 2) || (opt$solution[N+1] == 0)) return(NA)
-  return(opt$solution[1:N])
+  return(opt$solution[1:N] + p0)
 }
 
 ##' @method plot intersectn
