@@ -25,6 +25,11 @@ A \eqn{N}-column matrix containing the intersection
 \description{
 Compute halfspace intersection about a point
 }
+\note{
+\code{halfspacen} was introduced in geometry 0.4.0, and is
+  still under development. It is worth checking results for
+  unexpected behaviour.
+}
 \examples{
 p <- rbox(0, C=0.5)  # Generate points on a unit cube centered around the origin
 ch <- convhulln(p, "n") # Generate convex hull, including normals to facets, with "n" option

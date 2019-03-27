@@ -6,10 +6,14 @@
 ##' lies outwith the hull or on one of its facets.
 ##' 
 ##' @param ch Convex hull produced using \code{\link{convhulln}}
-##' @param p An \eqn{M}-by-\eqn{N} matrix of points to test.
-##' The rows of \code{p} represent \eqn{M} points in \eqn{N}-dimensional space.
+##' @param p An \eqn{M}-by-\eqn{N} matrix of points to test. The rows
+##'   of \code{p} represent \eqn{M} points in \eqn{N}-dimensional
+##'   space.
 ##' @return A boolean vector with \eqn{M} elements
 ##' @author David Sterratt
+##' @note \code{inhulln} was introduced in geometry 0.4.0, and is
+##'   still under development. It is worth checking results for
+##'   unexpected behaviour.
 ##' @seealso \code{\link{convhulln}}
 ##' @export
 ##' @examples

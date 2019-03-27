@@ -27,6 +27,9 @@
 ##' message("Volume of 2nd convex hull: ", out$ch2$vol)
 ##' message("Volume of intersection convex hull: ", out$ch$vol)
 ##' @author David Sterratt
+##' @note \code{intersectn} was introduced in geometry 0.4.0, and is
+##'   still under development. It is worth checking results for
+##'   unexpected behaviour.
 ##' @seealso \code{\link{convhulln}}, \code{\link{halfspacen}},
 ##'   \code{\link{inhulln}}
 intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv") {

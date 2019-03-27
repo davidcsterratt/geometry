@@ -9,8 +9,9 @@ inhulln(ch, p)
 \arguments{
 \item{ch}{Convex hull produced using \code{\link{convhulln}}}
 
-\item{p}{An \eqn{M}-by-\eqn{N} matrix of points to test.
-The rows of \code{p} represent \eqn{M} points in \eqn{N}-dimensional space.}
+\item{p}{An \eqn{M}-by-\eqn{N} matrix of points to test. The rows
+of \code{p} represent \eqn{M} points in \eqn{N}-dimensional
+space.}
 }
 \value{
 A boolean vector with \eqn{M} elements
@@ -20,6 +21,11 @@ Tests if a set of points lies within a convex hull, returning a
 boolean vector in which each element is \code{TRUE} if the
 corresponding point lies within the hull and \code{FALSE} if it
 lies outwith the hull or on one of its facets.
+}
+\note{
+\code{inhulln} was introduced in geometry 0.4.0, and is
+  still under development. It is worth checking results for
+  unexpected behaviour.
 }
 \examples{
 p <- cbind(c(-1, -1, 1), c(-1, 1, -1))

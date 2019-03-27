@@ -35,6 +35,11 @@ List containing named elements: \code{ch1}, the convex
 \description{
 Compute convex hull of intersection of two sets of points
 }
+\note{
+\code{intersectn} was introduced in geometry 0.4.0, and is
+  still under development. It is worth checking results for
+  unexpected behaviour.
+}
 \examples{
 # Two overlapping boxes
 ps1 <- rbox(0, C=0.5)

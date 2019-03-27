@@ -13,6 +13,9 @@
 ##'   points of the hyperplanes \url{../doc/qhull/html/qhalf.html}.
 ##' 
 ##' @author David Sterratt
+##' @note \code{halfspacen} was introduced in geometry 0.4.0, and is
+##'   still under development. It is worth checking results for
+##'   unexpected behaviour.
 ##' @seealso \code{\link{convhulln}}
 ##' @references \cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
 ##'   \dQuote{The Quickhull algorithm for convex hulls,} \emph{ACM
