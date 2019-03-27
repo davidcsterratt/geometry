@@ -30,7 +30,7 @@ inhulln(ch, rbind(c(-0.5, -0.5),
                   c(10  ,  0)))
 
 ## Test hypercube
-p <- rbox(4, B=1)
+p <- rbox(D=4, B=1)
 ch <- convhulln(p)
 tp <-  cbind(seq(-1.9, 1.9, by=0.2), 0, 0, 0)
 pin <- inhulln(ch, tp)

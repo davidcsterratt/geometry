@@ -1,8 +1,5 @@
 context("inhulln")
 test_that("inhulln gives the expected output", {
-  ## Erroneous input is caught safely
-  expect_error(inhulln(1, 2), "Convex hull has no convhulln attribute")
-
   ## Basic test
   x <- c(-1, -1, 1)
   y <- c(-1, 1, -1)
@@ -15,6 +12,11 @@ test_that("inhulln gives the expected output", {
   pout <- inhulln(ch, cbind(1, 1))
   expect_that(pout, equals(FALSE))
 
+  ## Erroneous input is caught safely
+  expect_error(inhulln(1, 2), "Convex hull has no convhulln attribute")
+  expect_error(inhulln(ch, rbind(1, 1)), "Number of columns in test points p (1) not equal to dimension of hull (2).", fixed=TRUE)
+  expect_error(inhulln(ch, cbind(1, 1, 1)), "Number of columns in test points p (3) not equal to dimension of hull (2).", fixed=TRUE)
+  
   ## Test cube
   p <- rbox(n=0, D=3, C=1)
   ch <- convhulln(p)

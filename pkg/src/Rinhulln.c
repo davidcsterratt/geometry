@@ -48,6 +48,9 @@ SEXP C_inhulln(const SEXP ch, const SEXP p)
   if(dim <= 0 || n <= 0){
     error("Invalid input matrix.");
   }
+  if(dim != qh->hull_dim){
+    error("Number of columns in test points p (%d) not equal to dimension of hull (%d).", dim, qh->hull_dim);
+  }
 
   /* Run through the matrix using qh_findbestfacet to determine
      whether in hull or not */
