@@ -9,8 +9,7 @@ BUG FIXES
   (i.e. the region where all coordinates are non-negative). Thanks to
   Maxime Logez for reporting the bug.
 
-* Fix nonsensical results from intersectn() in 4D and
-
+* Fix nonsensical results from intersectn() in 4D
   https://github.com/davidcsterratt/geometry/issues/33
   intersectn() gave demonstrably wrong results in some cases. This was
   Because of some heuristic (non-Qhull) code in halfspacen which was
