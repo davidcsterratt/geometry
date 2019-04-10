@@ -10,6 +10,14 @@
 ##'   hull of the intersection.
 ##' @param options Options passed to \code{\link{halfspacen}}. By
 ##'   default this is \code{Tv}.
+##' @param fp Coordinates of feasible point, i.e. a point known to lie
+##'   in the hulls of \code{ps1} and \code{ps2}. The feasible point is
+##'   required for \code{\link{halfspacen}} to find the intersection.
+##'   \code{intersectn} tries to find the feasible point automatically
+##'   using the linear program in \code{\link{feasible.point}}, but
+##'   currently the linear program fails on some examples where there
+##'   is an obvious solution. This option overrides the automatic
+##'   search for a feasible point
 ##' @return List containing named elements: \code{ch1}, the convex
 ##'   hull of the first set of points, with volumes, areas and normals
 ##'   (see \code{\link{convhulln}}; \code{ch2}, the convex hull of the
@@ -31,8 +39,9 @@
 ##'   still under development. It is worth checking results for
 ##'   unexpected behaviour.
 ##' @seealso \code{\link{convhulln}}, \code{\link{halfspacen}},
-##'   \code{\link{inhulln}}
-intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv") {
+##'   \code{\link{inhulln}}, \code{\link{feasible.point}}
+##' @importFrom utils packageDescription
+intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv", fp=NULL) {
   distinct <-
     any(apply(ps1, 2, min) > apply(ps2, 2, max)) ||
     any(apply(ps1, 2, max) < apply(ps2, 2, min))
@@ -49,12 +58,32 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv") {
   }
   
   ## Find feasible point in which points could overlap
-  fp <- feasible.point(ch1, ch2, tol=tol)
-  if (all(is.na(fp))) {
-    if (return.chs) {
-      return(list(ch1=ch1, ch2=ch2, ch=list(vol=0)))
+  if (is.null(fp)) {
+    fp <-tryCatch(feasible.point(ch1, ch2, tol=tol),
+                  error=function(e){
+                    stop("feasible.point() failed with error ",
+                         e$message, "\n",
+                         "If you can find a feasible point (i.e. point that lies in both hulls)\n",
+                         "for this input, supply this with the \"fp\" option.\n",
+                         "Otherwise, report bug, including inputs to intersectn() at\n",
+                         utils::packageDescription("geometry", fields="BugReports"), "\n",
+                         "or to ",
+                         utils::packageDescription("geometry", fields="Maintainer"))
+                  })
+    if (all(is.na(fp))) {
+      if (return.chs) {
+        return(list(ch1=ch1, ch2=ch2, ch=list(vol=0)))
+      }
+      return(list(ch=list(vol=0)))
     }
-    return(list(ch=list(vol=0)))
+  } else {
+    ## fp supplied
+    if (!is.numeric(fp)) {
+      stop("fp should be numeric")
+    }
+    if (length(fp) != ncol(ps1)) {
+      stop("fp should have same dimension as ps1 and ps2")
+    }
   }
   
   ## Find intesections of halfspaces about feasible point. Catch error
@@ -116,21 +145,35 @@ feasible.point <- function(ch1, ch2, tol=0) {
   ## add it to the optimised solution. This will ensure that solutions
   ## not in the positive quadrant are found.
   p0 <- apply(rbind(ch1$p, ch2$p), 2, min)
-  
+
   objective.in <- c(rep(0, N), 1)
   const.mat <- rbind(cbind(ch1$normals[,-(N + 1)], 1),
                      cbind(ch2$normals[,-(N + 1)], 1),
                      c(rep(0, N), -1))
 
   ## p0 is incorporated into the matrix here
-  const.rhs <- -c(c(const.mat[1:M, 1:N] %*% cbind(p0) +
-                    c(ch1$normals[,N + 1], ch2$normals[,N + 1])),
+  const.rhs <- -c(const.mat[1:M, 1:N] %*% cbind(p0) +
+                  c(ch1$normals[,N + 1], ch2$normals[,N + 1]),
                   tol)
   const.dir <- c(rep("<", length(const.rhs)))
   
   opt <- lpSolve::lp(direction = "max", objective.in, const.mat, const.dir, const.rhs)
-  if ((opt$status == 2) || (opt$solution[N+1] == 0)) return(NA)
-  return(opt$solution[1:N] + p0)
+
+  ## http://lpsolve.sourceforge.net/5.5/solve.htm
+  ## Infeasible solution
+  if (opt$status == 2) return(NA)
+  ## Optimal
+  if (opt$status == 0) return(opt$solution[1:N] + p0)
+
+  ## Debugging output
+  if (!is.null(getOption("geometry.debug"))) {
+    opt <- linprog::writeMps("feasible-point.mps",
+                             cvec=objective.in,
+                             bvec=const.rhs,
+                             Amat=const.mat, "Feasible point")
+  }
+  stop("lpSolve::lp() returned error code ", opt$status, "\n",
+       "See http://lpsolve.sourceforge.net/5.5/solve.htm for explanation of errors.")
 }
 
 ##' @method plot intersectn

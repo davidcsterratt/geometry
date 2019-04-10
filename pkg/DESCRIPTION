@@ -19,16 +19,17 @@ Description: Makes the 'Qhull' library <http://www.qhull.org>
     support constrained Delaunay triangulations, or mesh generation of
     non-convex objects, but the package does include some R functions
     that allow for this.
-Version: 0.4.1
+Version: 0.4.2
 URL: https://davidcsterratt.github.io/geometry
-Date: 2019-03-27
+Date: 2019-04-10
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:
     R (>= 3.0.0)
 Imports:
     magic,
     Rcpp,
-    lpSolve
+    lpSolve,
+    linprog
 Suggests:
     spelling,
     testthat,

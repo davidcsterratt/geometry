@@ -4,7 +4,8 @@
 \alias{intersectn}
 \title{Compute convex hull of intersection of two sets of points}
 \usage{
-intersectn(ps1, ps2, tol = 0, return.chs = TRUE, options = "Tv")
+intersectn(ps1, ps2, tol = 0, return.chs = TRUE, options = "Tv",
+  fp = NULL)
 }
 \arguments{
 \item{ps1}{First set of points}
@@ -22,6 +23,15 @@ hull of the intersection.}
 
 \item{options}{Options passed to \code{\link{halfspacen}}. By
 default this is \code{Tv}.}
+
+\item{fp}{Coordinates of feasible point, i.e. a point known to lie
+in the hulls of \code{ps1} and \code{ps2}. The feasible point is
+required for \code{\link{halfspacen}} to find the intersection.
+\code{intersectn} tries to find the feasible point automatically
+using the linear program in \code{\link{feasible.point}}, but
+currently the linear program fails on some examples where there
+is an obvious solution. This option overrides the automatic
+search for a feasible point}
 }
 \value{
 List containing named elements: \code{ch1}, the convex
@@ -51,7 +61,7 @@ message("Volume of intersection convex hull: ", out$ch$vol)
 }
 \seealso{
 \code{\link{convhulln}}, \code{\link{halfspacen}},
-  \code{\link{inhulln}}
+  \code{\link{inhulln}}, \code{\link{feasible.point}}
 }
 \author{
 David Sterratt
