@@ -1,15 +1,30 @@
+CHANGES IN VERSION 0.4.2 - Released 2019/04/11
+
+BUG FIX
+
+* Fix for Issue #35: intersectn() reports zero volume for some
+  overlapping 4D hulls
+  https://github.com/davidcsterratt/geometry/issues/35
+  intersectn() failed on a particular example. Modifying the scale
+  option given to lpSolve::lp in feasible.point() has fixed this
+  problem. feasible.point() also now returns the lpSolve::lp() error
+  message when it fails, rather than failing silently as before.
+  Thanks to Maxime Logez for reporting the bug and Sam Buttrey,
+  lpSolve maintainer, for insights into lpSolve.
+
 CHANGES IN VERSION 0.4.1 - Released 2019/03/27
 
 BUG FIXES
 
-* Fix intersectn() fails when overlapping region is not in positive quadrant
+* Fix for Issue #34: intersectn() fails when overlapping region is not
+  in positive quadrant
   https://github.com/davidcsterratt/geometry/issues/34
-  intersection() would return no intersecting hull for input hulls
+  intersectn() would return no intersecting hull for input hulls
   whose overlapping region did not overlap with the postive quadrant
   (i.e. the region where all coordinates are non-negative). Thanks to
   Maxime Logez for reporting the bug.
 
-* Fix nonsensical results from intersectn() in 4D
+* Fix for Issue #33:  nonsensical results from intersectn() in 4D
   https://github.com/davidcsterratt/geometry/issues/33
   intersectn() gave demonstrably wrong results in some cases. This was
   Because of some heuristic (non-Qhull) code in halfspacen which was

@@ -156,10 +156,14 @@ feasible.point <- function(ch1, ch2, tol=0) {
                   c(ch1$normals[,N + 1], ch2$normals[,N + 1]),
                   tol)
   const.dir <- c(rep("<", length(const.rhs)))
-  
-  opt <- lpSolve::lp(direction = "max", objective.in, const.mat, const.dir, const.rhs)
 
-  ## http://lpsolve.sourceforge.net/5.5/solve.htm
+  ## Scaling set to SCALE_DYNUPDATE; see
+  ## http://lpsolve.sourceforge.net/5.1/set_scaling.htm
+  ## http://lpsolve.sourceforge.net/5.1/scaling.htm
+  ## See also https://github.com/davidcsterratt/geometry/issues/35
+  opt <- lpSolve::lp(direction = "max", objective.in, const.mat, const.dir, const.rhs, scale=256)
+
+  ## See http://lpsolve.sourceforge.net/5.5/solve.htm for status codes
   ## Infeasible solution
   if (opt$status == 2) return(NA)
   ## Optimal
@@ -171,6 +175,10 @@ feasible.point <- function(ch1, ch2, tol=0) {
                              cvec=objective.in,
                              bvec=const.rhs,
                              Amat=const.mat, "Feasible point")
+    writeLines(gsub("_ ", "_", readLines("feasible-point-tmp.mps")), "feasible-point.mps")
+    message("Debugging output saved to feasible-point.mps\n",
+            "Test on command line by running\n",
+            "  lp_solve -max -fmps feasible-point.mps")
   }
   stop("lpSolve::lp() returned error code ", opt$status, "\n",
        "See http://lpsolve.sourceforge.net/5.5/solve.htm for explanation of errors.")
