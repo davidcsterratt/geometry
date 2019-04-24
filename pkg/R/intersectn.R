@@ -115,6 +115,23 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv", fp=NULL) 
   }
   ch <- convhulln(ps, "n FA")
 
+  ## Check for gross volume errors
+  if ((ch$vol > ch1$vol * (1 + 1E-4))) {
+    warning("Volume of final intersection hull is bigger than first of the original hulls\n",
+         "ch1 vol = ", ch1$vol, "\n",
+         "ch vol = ", ch$vol, "\n",
+         "Returning ch1")
+    ch <- ch1
+  }
+  if ((ch$vol > ch2$vol * (1 + 1E-4))) {
+    warning("Volume of final intersection hull is bigger than first of the original hulls\n",
+         "ch2 vol = ", ch1$vol, "\n",
+         "ch vol = ", ch$vol, "\n",
+         "Returning ch2")
+    ch <- ch2
+  }
+  
+  
   if (return.chs) {
     out <- list(ch1=ch1, ch2=ch2, ps=ps, ch=ch)
     class(out) <- "intersectn"
@@ -181,7 +198,8 @@ feasible.point <- function(ch1, ch2, tol=0) {
             "  lp_solve -max -fmps feasible-point.mps")
   }
   stop("lpSolve::lp() returned error code ", opt$status, "\n",
-       "See http://lpsolve.sourceforge.net/5.5/solve.htm for explanation of errors.")
+       "See http://lpsolve.sourceforge.net/5.5/solve.htm for explanation of errors.\n",
+       "Rescaling your problem may help")
 }
 
 ##' @method plot intersectn

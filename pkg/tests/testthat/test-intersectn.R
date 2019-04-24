@@ -173,3 +173,15 @@ test_that("no regression on issue 35", {
   load(file.path(system.file(package="geometry"), "extdata", "issue35-intersectn.RData"))
   expect_true(intersectn(seti, setj)$ch$vol > 0)
 })
+
+test_that("no regression on issue 35", {
+  ## I have not found a set of flags to lpSolve::lp that can deal with
+  ## this case, but scaling by a factor can
+  ## https://github.com/davidcsterratt/geometry/issues/35
+  load(file.path(system.file(package="geometry"), "extdata", "error_15_620.RData"))
+  expect_error(intersectn(p1, p2))
+  zfac <- 10
+  p1[,3] <- p1[,3]*zfac
+  p2[,3] <- p2[,3]*zfac
+  expect_true(intersectn(p1, p1)$ch$vol > 0)
+})
