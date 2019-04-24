@@ -12,12 +12,12 @@
 ##'   (\url{../doc/qhull/html/qdelaun.html}) for the available
 ##'   options. 
 ##'
-##'   The \code{Qbb} option is always passed to Qhull. The default
-##'   options are \code{Qcc Qc Qt Qz} for \eqn{N<4} and \code{Qcc Qc
-##'   Qt Qx} for \eqn{N>=4}. If neither of the \code{QJ} or \code{Qt}
-##'   options are supplied, the \code{Qt} option is passed to Qhull.
-##'   The \code{Qt} option ensures all Delaunay regions are simplical
-##'   (e.g., triangles in 2D). See
+##'   The \code{Qbb} option is always passed to Qhull. The remaining
+##'   default options are \code{Qcc Qc Qt Qz} for \eqn{N<4} and
+##'   \code{Qcc Qc Qt Qx} for \eqn{N>=4}. If neither of the \code{QJ}
+##'   or \code{Qt} options are supplied, the \code{Qt} option is
+##'   passed to Qhull. The \code{Qt} option ensures all Delaunay
+##'   regions are simplical (e.g., triangles in 2D). See
 ##'   \url{../doc/qhull/html/qdelaun.html} for more details. Contrary
 ##'   to the Qhull documentation, no degenerate (zero area) regions
 ##'   are returned with the \code{Qt} option since the R function
@@ -36,24 +36,24 @@
 ##' @param full Deprecated and will be removed in a future release.
 ##'   Adds options \code{Fa} and \code{Fn}.
 ##'
-##' @return If neither of the Qhull options \code{Fn} or \code{Fa} are
-##'   specified, return the Delaunay triangulation as a matrix with
-##'   \eqn{M} rows and \eqn{N+1} columns in which each row contains
-##'   a set of indices to the input points \code{p}. Thus each row
-##'   describes a simplex of dimension \eqn{N}, e.g. a triangle in 2D
-##'   or a tetrahedron in 3D.
+##' @return If \code{output.options} is \code{NULL} (the default),
+##'   return the Delaunay triangulation as a matrix with \eqn{M} rows
+##'   and \eqn{N+1} columns in which each row contains a set of
+##'   indices to the input points \code{p}. Thus each row describes a
+##'   simplex of dimension \eqn{N}, e.g. a triangle in 2D or a
+##'   tetrahedron in 3D.
 ##'
-##'   If the \code{output.options} argument contains \code{Fn} or \code{Fa},
-##'   return a list with class \code{delaunayn} comprising
-##'   the named elements:
+##'   If the \code{output.options} argument is \code{TRUE} or is a
+##'   string containing \code{Fn} or \code{Fa}, return a list with
+##'   class \code{delaunayn} comprising the named elements:
 ##'   \describe{
 ##'     \item{\code{tri}}{The Delaunay triangulation described above}
-##'     \item{\code{areas}}{If \code{Fa} is specified, an
-##'       \eqn{M}-dimensional vector containing the generalise area of
+##'     \item{\code{areas}}{If \code{TRUE} or if \code{Fa} is specified, an
+##'       \eqn{M}-dimensional vector containing the generalised area of
 ##'       each simplex (e.g. in 2D the areas of triangles; in 3D the volumes
 ##'       of tetrahedra). See \url{../doc/qhull/html/qh-optf.html#Fa}.}
-##'     \item{\code{neighbours}}{If \code{Fn} is specified, a list of
-##'       neighbours of each simplex.
+##'     \item{\code{neighbours}}{If \code{TRUE} or if \code{Fn} is specified,
+##'       a list of  neighbours of each simplex.
 ##'       See \url{../doc/qhull/html/qh-optf.html#Fn}} 
 ##'   }
 ##' 
