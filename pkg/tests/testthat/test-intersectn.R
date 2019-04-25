@@ -10,10 +10,12 @@ test_that("intersectn can run on overlapping triangles", {
                               convhulln(ps2, output.options=TRUE)),
                c(0, 0))
   is <-  intersectn(ps1, ps2)
+  isa <-  intersectn(ps1, ps2, autoscale=TRUE)
   ## Intersecting area is same as 6 isosceles triangles of length 1, which have 
   ## area sqrt(3)/4
   ## 
   expect_equal(is$ch$vol, sqrt(3)/4*6)
+  expect_equal(isa$ch$vol, sqrt(3)/4*6)
 
   ## Another overlapping example
   ps2 <- ps1
@@ -171,15 +173,28 @@ test_that("no regression on issue 35", {
   ## This gave an error in version 0.4.1
   ## See https://github.com/davidcsterratt/geometry/issues/35
   load(file.path(system.file(package="geometry"), "extdata", "issue35-intersectn.RData"))
-  expect_true(intersectn(seti, setj)$ch$vol > 0)
+
+  ch <- intersectn(seti, setj)
+  expect_true(ch$ch$vol > 0)
+  cha <- intersectn(seti, setj, autoscale=TRUE)
+  expect_true(cha$ch$vol > 0)
+  expect_equal(ch$ch$vol, cha$ch$vol)
 })
 
 test_that("no regression on issue 35", {
-  ## I have not found a set of flags to lpSolve::lp that can deal with
-  ## this case, but scaling by a factor can
+  ## This is an example that requires various combinations of flags to
+  ## be provided to lpSolve::lp
+  ##
+  ## Also testing a scaled version, which was easier to fixed with the
+  ## set of flags used originally.
   ## https://github.com/davidcsterratt/geometry/issues/35
   load(file.path(system.file(package="geometry"), "extdata", "error_15_620.RData"))
-  expect_error(intersectn(p1, p2))
+  ch <- intersectn(p1, p1)
+  expect_true(ch$ch$vol > 0)
+  cha <- intersectn(p1, p1, autoscale=TRUE)
+  expect_true(cha$ch$vol > 0)
+  expect_equal(ch$ch$vol, cha$ch$vol)
+  
   zfac <- 10
   p1[,3] <- p1[,3]*zfac
   p2[,3] <- p2[,3]*zfac

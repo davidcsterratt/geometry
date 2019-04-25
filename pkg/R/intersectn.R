@@ -18,6 +18,9 @@
 ##'   currently the linear program fails on some examples where there
 ##'   is an obvious solution. This option overrides the automatic
 ##'   search for a feasible point
+##' @param autoscale \emph{Experimental in v0.4.2} Automatically scale
+##'   the points to lie in a sensible numeric range. May help to
+##'   correct some numerical issues.
 ##' @return List containing named elements: \code{ch1}, the convex
 ##'   hull of the first set of points, with volumes, areas and normals
 ##'   (see \code{\link{convhulln}}; \code{ch2}, the convex hull of the
@@ -41,7 +44,8 @@
 ##' @seealso \code{\link{convhulln}}, \code{\link{halfspacen}},
 ##'   \code{\link{inhulln}}, \code{\link{feasible.point}}
 ##' @importFrom utils packageDescription
-intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv", fp=NULL) {
+intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv",
+                       fp=NULL, autoscale=FALSE) {
   distinct <-
     any(apply(ps1, 2, min) > apply(ps2, 2, max)) ||
     any(apply(ps1, 2, max) < apply(ps2, 2, min))
@@ -56,10 +60,21 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv", fp=NULL) 
   if (distinct) {
     return(list(ch1=ch1, ch2=ch2, ch=list(vol=0)))
   }
+
+  ch1s <- ch1
+  ch2s <- ch2
+  if (autoscale) {
+    pmean <- colMeans(rbind(ps1, ps2))
+    ch1s <- convhulln(t(t(ps1) - pmean), "n FA")
+    ch2s <- convhulln(t(t(ps2) - pmean), "n FA")
+    if (!is.null(fp)) {
+      fp <- fp - pmean
+    }
+  }
   
   ## Find feasible point in which points could overlap
   if (is.null(fp)) {
-    fp <-tryCatch(feasible.point(ch1, ch2, tol=tol),
+    fp <-tryCatch(feasible.point(ch1s, ch2s, tol=tol),
                   error=function(e){
                     stop("feasible.point() failed with error ",
                          e$message, "\n",
@@ -89,7 +104,7 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv", fp=NULL) 
   ## Find intesections of halfspaces about feasible point. Catch error
   ## (code QH6023) when fixed point is not in intersection, due to
   ## precision issue.
-  ps <- tryCatch(halfspacen(rbind(ch1$normals, ch2$normals), fp, options=options),
+  ps <- tryCatch(halfspacen(rbind(ch1s$normals, ch2s$normals), fp, options=options),
                  error=function(e) {
                    if (grepl("QH6023", e$message)) {
                      return(NA)
@@ -105,6 +120,10 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv", fp=NULL) 
       return(list(ch1=ch1, ch2=ch2, ch=list(vol=0)))
     }
     return(list(ch=list(vol=0)))
+  }
+
+  if (autoscale) {
+    ps <- t(t(ps) + pmean)
   }
   
   ## Occasionally the halfspace creates points very close together. We
