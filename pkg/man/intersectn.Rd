@@ -5,7 +5,7 @@
 \title{Compute convex hull of intersection of two sets of points}
 \usage{
 intersectn(ps1, ps2, tol = 0, return.chs = TRUE, options = "Tv",
-  fp = NULL)
+  fp = NULL, autoscale = FALSE)
 }
 \arguments{
 \item{ps1}{First set of points}
@@ -32,6 +32,10 @@ using the linear program in \code{\link{feasible.point}}, but
 currently the linear program fails on some examples where there
 is an obvious solution. This option overrides the automatic
 search for a feasible point}
+
+\item{autoscale}{\emph{Experimental in v0.4.2} Automatically scale
+the points to lie in a sensible numeric range. May help to
+correct some numerical issues.}
 }
 \value{
 List containing named elements: \code{ch1}, the convex

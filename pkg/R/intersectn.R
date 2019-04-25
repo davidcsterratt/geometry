@@ -181,7 +181,6 @@ feasible.point <- function(ch1, ch2, tol=0) {
   ## add it to the optimised solution. This will ensure that solutions
   ## not in the positive quadrant are found.
   p0 <- apply(rbind(ch1$p, ch2$p), 2, min)
-
   objective.in <- c(rep(0, N), 1)
   const.mat <- rbind(cbind(ch1$normals[,-(N + 1)], 1),
                      cbind(ch2$normals[,-(N + 1)], 1),
@@ -193,18 +192,64 @@ feasible.point <- function(ch1, ch2, tol=0) {
                   tol)
   const.dir <- c(rep("<", length(const.rhs)))
 
-  ## Scaling set to SCALE_DYNUPDATE; see
+  ## Scaling: The scale option of lpSolve::lp() determines options
+  ## used for scaling, and is crucial to avoid errors in some edge
+  ## cases. For list of options, see:
   ## http://lpsolve.sourceforge.net/5.1/set_scaling.htm
   ## http://lpsolve.sourceforge.net/5.1/scaling.htm
   ## See also https://github.com/davidcsterratt/geometry/issues/35
-  opt <- lpSolve::lp(direction = "max", objective.in, const.mat, const.dir, const.rhs, scale=256)
+  ##
+  ## After testing on 10,000+ examples, it appears that to get
+  ## maxiumum coverage, in some cases multiple combinations of options
+  ## need to be tried. This code cycles through options, starting with
+  ## the combinations most likely to work.
 
-  ## See http://lpsolve.sourceforge.net/5.5/solve.htm for status codes
-  ## Infeasible solution
-  if (opt$status == 2) return(NA)
-  ## Optimal
-  if (opt$status == 0) return(opt$solution[1:N] + p0)
-
+  ## DYNUPDATE == 0 may also work, but DYNUPDATE == 1 may workbetter
+  ## for some 4D examples
+  DYNUPDATE <- 1
+  ## Both options may help
+  for (POWER2 in 0:1) {
+    ## Both options may help
+    for (QUADRATIC in 0:1) {
+      ## 1 (SCALE_EXTREME) and 3 (SCALE_EXTREME) didn't work well in
+      ## tests
+      ##
+      ## 4 (SCALE_GEOMETRIC) on one example (included in tests) caused
+      ## some sort of infinite loop or race condition leading to the
+      ## process up 100%
+      ##
+      ## 7 (SCALE_CURTISREID) and 2 (SCALE_RANGE) seem to work OK for
+      ## most cases.
+      for (MAIN in c(7, 2)) {
+        ## Both options may help
+        for (LOGARITHMIC in 0:1) {
+          ## Seemed to be crucial in some cases
+          for (EQUILIBRIATE in 0:1) {
+            scale <-
+              MAIN +
+              QUADRATIC    *   8 +
+              LOGARITHMIC  *  16 +
+              POWER2       *  32 +
+              EQUILIBRIATE *  64 +
+              DYNUPDATE    * 256
+            opt <- lpSolve::lp(direction = "max",
+                               objective.in,
+                               const.mat,
+                               const.dir,
+                               const.rhs,
+                               scale=scale)
+            ## getOption("geometry.scale",
+            
+            ## See http://lpsolve.sourceforge.net/5.5/solve.htm for status codes
+            ## Infeasible solution
+            if (opt$status == 2) return(NA)
+            ## Optimal
+            if (opt$status == 0) return(opt$solution[1:N] + p0)
+          }
+        }
+      }
+    }
+  }
   ## Debugging output
   if (!is.null(getOption("geometry.debug"))) {
     opt <- linprog::writeMps("feasible-point.mps",

@@ -198,5 +198,18 @@ test_that("no regression on issue 35", {
   zfac <- 10
   p1[,3] <- p1[,3]*zfac
   p2[,3] <- p2[,3]*zfac
-  expect_true(intersectn(p1, p1)$ch$vol > 0)
+  ch <- intersectn(p1, p1)
+  expect_true(ch$ch$vol > 0)
+  cha <- intersectn(p1, p1, autoscale=TRUE)
+  expect_true(cha$ch$vol > 0)
+  expect_equal(ch$ch$vol, cha$ch$vol)
+})
+
+test_that("intersectn doesn't crash on some input", {
+  ## This is an example causes a crash if flag SCALE_GEOMETRIC (4) is
+  ## given to lpSolve::lp in feasible.point()
+  load(file.path(system.file(package="geometry"), "extdata", "overlap260-5034.RData"))
+  ch <- intersectn(p1, p2)
+  cha <- intersectn(p1, p2, autoscale=TRUE)
+  expect_equal(ch$ch$vol, cha$ch$vol)
 })
