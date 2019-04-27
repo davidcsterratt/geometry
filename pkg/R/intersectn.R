@@ -218,9 +218,13 @@ feasible.point <- function(ch1, ch2, tol=0) {
       ## some sort of infinite loop or race condition leading to the
       ## process up 100%
       ##
-      ## 7 (SCALE_CURTISREID) and 2 (SCALE_RANGE) seem to work OK for
-      ## most cases.
-      for (MAIN in c(7, 2)) {
+      ## 2 (SCALE_RANGE) and 7 (SCALE_CURTISREID) seem to work OK for
+      ## most cases. SCALE_CURTISREID (with the 5.6.13 version of
+      ## lpSolve, at least) has caused some sort of infinite loop or
+      ## race condition leading to the process up 100% on 2 out of
+      ## millions of intersections computed on some processors, hence
+      ## it is put as the second option.
+      for (MAIN in c(2, 7)) {
         ## Both options may help
         for (LOGARITHMIC in 0:1) {
           ## Seemed to be crucial in some cases

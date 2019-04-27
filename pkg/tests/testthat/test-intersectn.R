@@ -213,3 +213,13 @@ test_that("intersectn doesn't crash on some input", {
   cha <- intersectn(p1, p2, autoscale=TRUE)
   expect_equal(ch$ch$vol, cha$ch$vol)
 })
+
+test_that("intersectn doesn't crash on input that causes a crash with scale=7 on some processors", {
+  ## This is an example causes a crash on some processors if flag SCALE_CURTISREID (7) is
+  ## given to lpSolve::lp in feasible.point()
+  load(file.path(system.file(package="geometry"), "extdata", "save-overlap32-176.RData"))
+  intersectn(p1, p2, tol=1E-3)
+
+  load(file.path(system.file(package="geometry"), "extdata", "save-overlap68-557.RData"))
+  intersectn(p1, p2, tol=1E-3)
+})
