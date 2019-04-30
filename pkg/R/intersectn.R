@@ -144,7 +144,7 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv",
   }
   if ((ch$vol > ch2$vol * (1 + 1E-4))) {
     warning("Volume of final intersection hull is bigger than first of the original hulls\n",
-         "ch2 vol = ", ch1$vol, "\n",
+         "ch2 vol = ", ch2$vol, "\n",
          "ch vol = ", ch$vol, "\n",
          "Returning ch2")
     ch <- ch2
