@@ -204,7 +204,7 @@ feasible.point <- function(ch1, ch2, tol=0) {
   ## need to be tried. This code cycles through options, starting with
   ## the combinations most likely to work.
 
-  ## DYNUPDATE == 0 may also work, but DYNUPDATE == 1 may workbetter
+  ## DYNUPDATE == 0 may also work, but DYNUPDATE == 1 may work better
   ## for some 4D examples
   DYNUPDATE <- 1
   ## Both options may help
@@ -227,29 +227,27 @@ feasible.point <- function(ch1, ch2, tol=0) {
       for (MAIN in c(2, 7)) {
         ## Both options may help
         for (LOGARITHMIC in 0:1) {
-          ## Seemed to be crucial in some cases
-          for (EQUILIBRIATE in 0:1) {
-            scale <-
-              MAIN +
-              QUADRATIC    *   8 +
-              LOGARITHMIC  *  16 +
-              POWER2       *  32 +
-              EQUILIBRIATE *  64 +
-              DYNUPDATE    * 256
-            opt <- lpSolve::lp(direction = "max",
-                               objective.in,
-                               const.mat,
-                               const.dir,
-                               const.rhs,
-                               scale=scale)
-            ## getOption("geometry.scale",
-            
-            ## See http://lpsolve.sourceforge.net/5.5/solve.htm for status codes
-            ## Infeasible solution
-            if (opt$status == 2) return(NA)
-            ## Optimal
-            if (opt$status == 0) return(opt$solution[1:N] + p0)
-          }
+          ## Equilibriate seemed to help for some cases, but caused a
+          ## crash in the example of inst/extdata
+          EQUILIBRIATE <- 0 
+          scale <-
+            MAIN +
+            QUADRATIC    *   8 +
+            LOGARITHMIC  *  16 +
+            POWER2       *  32 +
+            EQUILIBRIATE *  64 +
+            DYNUPDATE    * 256
+          opt <- lpSolve::lp(direction = "max",
+                             objective.in,
+                             const.mat,
+                             const.dir,
+                             const.rhs,
+                             scale=scale)
+          ## See http://lpsolve.sourceforge.net/5.5/solve.htm for status codes
+          ## Infeasible solution
+          if (opt$status == 2) return(NA)
+          ## Optimal
+          if (opt$status == 0) return(opt$solution[1:N] + p0)
         }
       }
     }

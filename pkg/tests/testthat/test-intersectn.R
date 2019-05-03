@@ -223,3 +223,10 @@ test_that("intersectn doesn't crash on input that causes a crash with scale=7 on
   load(file.path(system.file(package="geometry"), "extdata", "save-overlap68-557.RData"))
   intersectn(p1, p2, tol=1E-3)
 })
+
+test_that("intersectn doesn't crash on input that causes a crash with EQUILIBRIATE=1 on some processors", {
+  ## This is an example causes a crash on some processors if flag
+  ## EQUILIBRIATE is given to lpSolve::lp in feasible.point()
+  load(file.path(system.file(package="geometry"), "extdata", "save-overlap149-9428.RData"))
+  intersectn(p1, p2, tol=1E-3)
+})
