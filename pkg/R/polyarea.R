@@ -20,7 +20,7 @@
 ##' @return Area(s) of polygon(s).
 ##' @author David Sterratt based on the octave sources by David M. Doolin
 ##' @export
-##' @import magic
+##' @importFrom magic shift ashift
 ##' @examples
 ##' x <- c(1, 1, 3, 3, 1)
 ##' y <- c(1, 3, 3, 1, 1)
