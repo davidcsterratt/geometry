@@ -4,3 +4,7 @@ language: R
 cache: packages
 before_install:
   - cd pkg
+addons:
+  apt:
+    packages:
+      - mesa-common-dev
