@@ -101,7 +101,7 @@ intersectn <- function(ps1, ps2, tol=0, return.chs=TRUE, options="Tv",
     }
   }
   
-  ## Find intesections of halfspaces about feasible point. Catch error
+  ## Find intersections of halfspaces about feasible point. Catch error
   ## (code QH6023) when fixed point is not in intersection, due to
   ## precision issue.
   ps <- tryCatch(halfspacen(rbind(ch1s$normals, ch2s$normals), fp, options=options),
