@@ -8,3 +8,4 @@ addons:
   apt:
     packages:
       - mesa-common-dev
+      - libglu1-mesa-dev
