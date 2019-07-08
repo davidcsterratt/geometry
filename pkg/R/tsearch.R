@@ -87,7 +87,7 @@ tsearch <- function(x, y, t, xi, yi, bary=FALSE, method="quadtree") {
   if (method == "quadtree") {
     out <- C_tsearch(x, y, t, xi, yi, bary)
   } else {
-    out <- .Call("C_tsearch_orig", x, y, t, xi, yi, bary, package="geometry")
+    out <- .Call("C_tsearch_orig", x, y, t, xi, yi, bary, PACKAGE="geometry")
   }
 
   if (bary) {
