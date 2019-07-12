@@ -14,7 +14,7 @@ extern SEXP C_halfspacen(SEXP, SEXP, SEXP);
 extern SEXP C_inhulln(SEXP, SEXP);
 extern SEXP C_tsearch_orig(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP C_tsearchn(SEXP, SEXP);
-extern SEXP _geometry_C_tsearch(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _geometry_C_tsearch(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"C_convhulln",           (DL_FUNC) &C_convhulln,         4},
