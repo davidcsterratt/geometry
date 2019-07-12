@@ -1,11 +1,11 @@
 ##' Compute smallest convex hull that encloses a set of points
 ##' 
-##' Returns an index matrix to the points of simplices
-##' (\dQuote{triangles}) that form the smallest convex simplical
-##' complex of a set of input points in \eqn{N}-dimensional space. This
-##' function interfaces the Qhull library.
-##' 
-##' For silent operation, specify the option \code{Pp}.
+##' Returns information about the smallest convex complex of a set of
+##' input points in \eqn{N}-dimensional space (the convex hull of the
+##' points). By default, indices to points forming the facets of the
+##' hull are returned; optionally normals to the facets and the
+##' generalised surface area and volume can be returned. This function
+##' interfaces the \href{http://www.qhull.org}{Qhull} library.
 ##'
 ##' @param p An \eqn{M}-by-\eqn{N} matrix. The rows of \code{p}
 ##'   represent \eqn{M} points in \eqn{N}-dimensional space.
@@ -14,31 +14,34 @@
 ##'   Qhull command; see details below and Qhull documentation at
 ##'   \url{../doc/qhull/html/qconvex.html#synopsis}.
 ##'
-##' @param output.options String containing Qhull options to control
-##'   output. Currently \code{n} (normals) and \code{FA} (generalised
-##'   areas and volumes) are supported. Causes an object of return
-##'   value for details. If \code{output.options} is \code{TRUE},
-##'   select all supported options.
+##' @param output.options String containing Qhull options to generate
+##'   extra output. Currently \code{n} (normals) and \code{FA}
+##'   (generalised areas and volumes) are supported; see
+##'   \sQuote{Value} for details. If \code{output.options} is
+##'   \code{TRUE}, select all supported options.
 ##' 
 ##' @param return.non.triangulated.facets logical defining whether the
 ##'   output facets should be triangulated; \code{FALSE} by default.
 ##' 
-##' @return If \code{return.non.triangulated.facets} is \code{FALSE}
-##'   (default), return an \eqn{M}-by-\eqn{N} index matrix of which
-##'   each row defines an \eqn{N}-dimensional \dQuote{triangle}.
-##'
+##' @return By default (\code{return.non.triangulated.facets} is
+##'   \code{FALSE}), return an \eqn{M}-by-\eqn{N} matrix in which each
+##'   row contains the indices of the points in \code{p} forming an
+##'   \eqn{N-1}-dimensional facet. e.g In 3 dimensions, there are 3
+##'   indices in each row describing the vertices of 2-dimensional
+##'   triangles.
+##' 
 ##'   If \code{return.non.triangulated.facets} is \code{TRUE} then the
 ##'   number of columns equals the maximum number of vertices in a
 ##'   facet, and each row defines a polygon corresponding to a facet
 ##'   of the convex hull with its vertices followed by \code{NA}s
-##'   until the end of the row. The indices refer to the rows in
-##'   \code{p}.
+##'   until the end of the row.
 ##'
 ##'   If the \code{output.options} or \code{options} argument contains
 ##'   \code{FA} or \code{n}, return a list with class \code{convhulln}
 ##'   comprising the named elements:
 ##'   \describe{
-##'     \item{\code{hull}}{The convex hull, represented as a matrix, as
+##'     \item{\code{p}}{The points passed to \code{convnhulln}}
+##'     \item{\code{hull}}{The convex hull, represented as a matrix indexing \code{p}, as
 ##'       described above}
 ##'     \item{\code{area}}{If \code{FA} is specified, the generalised area of
 ##'       the hull. This is the surface area of a 3D hull or the length of
@@ -51,25 +54,25 @@
 ##'     hyperplane normals with offsets. See \url{../doc/qhull/html/qh-opto.html#n}.}
 ##'   }
 ##'
-##' @note This is a port of the Octave's (\url{http://www.octave.org})
-##' geometry library. The Octave source was written by Kai Habel.
+##' @note This function was originally a port of the
+##'   \href{http://www.octave.org}{Octave} convhulln function written
+##'   by Kai Habel.
 ##' 
 ##' See further notes in \code{\link{delaunayn}}.
 ##' 
-##' @author Raoul Grasman, Robert B. Gramacy, Pavlo Mozharovskyi and David Sterratt
-##' \email{david.c.sterratt@@ed.ac.uk}
-##' @seealso \code{\link[tripack]{convex.hull}}, \code{\link{delaunayn}},
-##' \code{\link{surf.tri}}, \code{\link{distmesh2d}}, \code{\link{intersectn}}
+##' @author Raoul Grasman, Robert B. Gramacy, Pavlo Mozharovskyi and
+##'   David Sterratt \email{david.c.sterratt@@ed.ac.uk}
+##' @seealso \code{\link{intersectn}}, \code{\link{delaunayn}},
+##'   \code{\link{surf.tri}}, \code{\link[tripack]{convex.hull}}
 ##' @references \cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
-##' \dQuote{The Quickhull algorithm for convex hulls,} \emph{ACM Trans. on
-##' Mathematical Software,} Dec 1996.}
-##' 
+##'   \dQuote{The Quickhull algorithm for convex hulls,} \emph{ACM
+##'   Trans. on Mathematical Software,} Dec 1996.}
+##'
 ##' \url{http://www.qhull.org}
 ##' @keywords math dplot graphs
 ##' @examples
-##' # example convhulln
-##' # ==> see also surf.tri to avoid unwanted messages printed to the console by qhull
-##' ps <- matrix(rnorm(3000), ncol=3)  # generate points on a sphere
+##' ## Points in a sphere
+##' ps <- matrix(rnorm(3000), ncol=3)  
 ##' ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1, 3)))
 ##' ts.surf <- t(convhulln(ps))  # see the qhull documentations for the options
 ##' \dontrun{
@@ -77,6 +80,20 @@
 ##' for(i in 1:(8*360)) rgl.viewpoint(i/8)
 ##' }
 ##'
+##' ## Square
+##' pq <- rbox(0, C=0.5, D=2)
+##' # Return indices only
+##' convhulln(pq)
+##' # Return convhulln object with normals, generalised area and volume
+##' ch <- convhulln(pq, output.options=TRUE)
+##' plot(ch)
+##'
+##' ## Cube
+##' pc <- rbox(0, C=0.5, D=3)
+##' # Return indices of triangles on surface
+##' convhulln(pc)
+##' # Return indices of squares on surface
+##' convhulln(pc, return.non.triangulated.facets=TRUE)
 ##' @export
 ##' @useDynLib geometry
 convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triangulated.facets = FALSE) {
@@ -201,4 +218,5 @@ to.mesh3d.convhulln <- function(x, ...) {
 ##  LocalWords:  Quickhull ACM dplot convhulln qhull rnorm ncol sqrt
 ##  LocalWords:  dontrun useDynLib tmpdir tempdir sanitisation NAs na
 ##  LocalWords:  QJ grepl importFrom convhulls args requireNamespace
-##  LocalWords:  rgl tetramesh
+##  LocalWords:  rgl tetramesh eqn href sQuote hyperplane rbox
+##  LocalWords:  convulln convhullns

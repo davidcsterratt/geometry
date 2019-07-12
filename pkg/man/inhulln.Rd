@@ -40,11 +40,11 @@ p <- rbox(D=4, B=1)
 ch <- convhulln(p)
 tp <-  cbind(seq(-1.9, 1.9, by=0.2), 0, 0, 0)
 pin <- inhulln(ch, tp)
-## Points on x-axis should be in box only between -1 and 1
+## Points on x-axis should be in box only betw,een -1 and 1
 pin == (tp[,1] < 1 & tp[,1] > -1)
 }
 \seealso{
-\code{\link{convhulln}}
+\code{\link{convhulln}}, \code{point.in.polygon} in \pkg{sp}
 }
 \author{
 David Sterratt
