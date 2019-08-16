@@ -1,6 +1,6 @@
 /* Copyright (C) 2000 Kai Habel
 ** Copyright R-version (C) 2005 Raoul Grasman
-** Copyright           (C) 2013-2018 David Sterratt
+** Copyright           (C) 2013-2019 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   /* Run Qhull */
   
   qhT *qh= (qhT*)malloc(sizeof(qhT));
-  char errstr1[100], errstr2[100];
+  char errstr[ERRSTRSIZE];
   unsigned int dim, n;
   char cmd[50] = "qhull d Qbb T0";
   /* Qz forces triangulation when the number of points is equal to the
@@ -57,7 +57,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   if (nrows(p) == ncols(p) + 1) {
     strncat(cmd, " Qz", 4);
   }
-  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr1, errstr2);
+  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr);
 
   /* Extract information from output */
   
@@ -209,7 +209,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   UNPROTECT(7); /* ptr, tag, retnames, retlist, areas, neigbours, tri */
   
   if (exitcode & (exitcode != 2)) {
-    error("Received error code %d from qhull. Qhull error:\n    %s    %s", exitcode, errstr1, errstr2);
+    error("Received error code %d from qhull. Qhull error:\n%s", exitcode, errstr);
   } 
   
 	return retlist;

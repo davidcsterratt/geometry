@@ -39,15 +39,15 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP returnNonTriangula
 
   /* Run Qhull */
   qhT *qh= (qhT*)malloc(sizeof(qhT));
-  char errstr1[100], errstr2[100];
+  char errstr[ERRSTRSIZE];
   unsigned int dim, n;
   char cmd[50] = "qhull";
-  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr1, errstr2);
+  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr);
 
   /* Error handling */
   if (exitcode) {
     freeQhull(qh);
-    error("Received error code %d from qhull. Qhull error:\n    %s    %s", exitcode, errstr1, errstr2);
+    error("Received error code %d from qhull. Qhull error:\n%s", exitcode, errstr);
   }
   
   /* Extract information from output */

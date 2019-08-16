@@ -82,7 +82,8 @@ test_that("convhulln can run on an example with 3000 points", {
 
 test_that("convhulln throws an error with duplicated points", {
   load(file.path(system.file(package="geometry"), "extdata", "ordination.Rdata"))
-  expect_error(out <- convhulln(ordination))
+  expect_error(out <- convhulln(ordination), "QH6114 qhull precision error: initial simplex is not convex")
+
 })
 
 test_that("If the input matrix contains NAs, convhulln should return an error", {

@@ -9,6 +9,13 @@ BUG FIXES
   triangulation. Thanks to Jan Lause (https://github.com/jlause) for
   reporting the bug and Jean-Romain Roussel for providing the fix.
 
+ENHANCEMENT
+
+* Fix for Issue #42: Improve error reporting from Qhull
+  https://github.com/davidcsterratt/geometry/issues/42
+  Full error from Qhull is now returned, rather than just the first
+  two lines.
+
 CHANGES IN VERSION 0.4.2 - Released 2019/07/05
 
 BUG FIX

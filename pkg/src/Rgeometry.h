@@ -21,9 +21,12 @@ FILE * tmpstdout;
    defines it again, so undefine it here. */
 #undef PI
 
+/* Size of error string to pass back to R from QH */
+#define ERRSTRSIZE 1000
+
 #include "qhull_ra.h"
 
 void freeQhull(qhT *qh);
 void qhullFinalizer(SEXP ptr);
 boolT hasPrintOption(qhT *qh, qh_PRINT format);
-int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SEXP tmpdir, unsigned int* pdim, unsigned int* pn, char* errstr1, char* errstr2);
+int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SEXP tmpdir, unsigned int* pdim, unsigned int* pn, char errstr[1000]);

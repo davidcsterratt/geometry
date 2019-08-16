@@ -96,5 +96,5 @@ test_that("A square is triangulated", {
   expect_equal(delaunayn(square), rbind(c(4, 2, 1),
                                         c(4, 3, 1)),
                check.attributes=FALSE)
-  expect_error(delaunayn(square, ""))
+  expect_error(delaunayn(square, "", "QH6239 Qhull precision error: Initial simplex is cocircular or cospherical"))
 })

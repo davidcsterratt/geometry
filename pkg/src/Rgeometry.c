@@ -35,7 +35,7 @@ boolT hasPrintOption(qhT *qh, qh_PRINT format) {
   return(False);
 }
 
-int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SEXP tmpdir, unsigned int* pdim, unsigned int* pn, char* errstr1, char* errstr2) {
+int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SEXP tmpdir, unsigned int* pdim, unsigned int* pn, char errstr[ERRSTRSIZE]) {
   unsigned int dim, n;
   int exitcode = 1; 
   boolT ismalloc;
@@ -94,8 +94,13 @@ int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SE
   unlink(name);
   free((char *) name);
   rewind(errfile);
-  fgets(errstr1, 100, errfile);
-  fgets(errstr2, 100, errfile);
+  char buf[200];
+  errstr[0] = '\0';
+  while(fgets(buf, sizeof(buf), errfile) != NULL &&
+        (ERRSTRSIZE - strlen(errstr) - 1) > 0) {
+    errstr = strncat(errstr, buf, ERRSTRSIZE - strlen(errstr) - 1);
+  }
+  
   fclose(errfile);
   unlink(errname);
   free((char *) errname);
