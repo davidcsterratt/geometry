@@ -77,12 +77,15 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
     }
   }
 
-  int *idmap = (int *) R_alloc(max_facet_id, sizeof(int));
+  int *idmap = (int *) R_alloc(max_facet_id + 1, sizeof(int));
   int i = 0;
   FORALLfacets {
     if (!facet->upperdelaunay) {
       i++;
       if (debug & 1) Rprintf("Facet id %d; index %d\n;", facet->id, i);
+       if (facet->id < 1 || facet->id > max_facet_id) {
+         Rf_error("facet_id %d (at index %d) is not in {1,...,%d}", facet->id, i, max_facet_id);
+       }
       idmap[facet->id] = i;
     }
   }

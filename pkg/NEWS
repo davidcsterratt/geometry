@@ -9,6 +9,15 @@ BUG FIXES
   triangulation. Thanks to Jan Lause (https://github.com/jlause) for
   reporting the bug and Jean-Romain Roussel for providing the fix.
 
+* Fix for Issue #40: memory misuse in src/Rtsearchn.c
+  https://github.com/davidcsterratt/geometry/issues/40
+  In src/Rtsearchn.c 'idmap' was allocated with max_facet_id elements
+  but then a value to idmap[max_facet_id] was assigned, which was one
+  element beyond the end of that allocation, potentially clobbering
+  the memory allocation system.
+  Thanks to Bill Dunlap (https://github.com/BillDunlap) for reporting
+  this, and the suggested fix.
+
 ENHANCEMENT
 
 * Fix for Issue #42: Improve error reporting from Qhull
