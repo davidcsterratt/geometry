@@ -28,7 +28,10 @@ BoundingBox::BoundingBox(const Point center, const Point half_res) : center(cent
 
 bool BoundingBox::contains(const Point& p)
 {
-  if(p.x >= center.x - half_res.x && p.x <= center.x + half_res.x &&	p.y >= center.y - half_res.y && p.y <= center.y + half_res.y)
+  if(p.x >= center.x - half_res.x &&
+     p.x <= center.x + half_res.x &&
+     p.y >= center.y - half_res.y &&
+     p.y <= center.y + half_res.y)
     return true;
   else
     return false;

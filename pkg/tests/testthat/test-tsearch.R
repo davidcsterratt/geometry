@@ -142,3 +142,36 @@ test_that("tsearch gives the expected output when computer precision problem ari
   
   #expect_that(ts, equals(1)))  #With epsilon = 1.0e-10 it works.
 })
+
+test_that("no regression on Issue #39", {
+  ## See https://github.com/davidcsterratt/geometry/issues/39
+  ## vertices
+  P <- rbind(
+    c(373.8112, 4673.726), #31
+    c(222.9705, 4280.085), #32
+    c(291.0508, 4476.996), #42
+    c(553.4783, 4523.605), #43
+    c(222.6388, 4023.920), #44
+    c(445.2401, 4370.940), #48
+    c(81.54986, 4125.393)) #61
+    ## I found this error on my system with Ubuntu 16.04, R 3.4.1 and
+    ## `geometry_0.4.2`. `geometry_0.4.0` gave the same error). The error
+    ## persists on Windows 10 with R 3.6.1.
+
+    ## triangulation
+    T <- rbind(
+      c(3,   2,   6),
+      c(5,   2,   7),
+      c(4,   1,   3))
+
+    ## data
+    data <- rbind(
+      c(221.6, 4171.8),
+      c(250.4, 4311.8),
+      c(496.6, 4516.2),
+      c(254.0, 4294.8),
+      c(199.4, 4072.6))
+
+    ## With bug returns NA for datapoints 3 and 5
+    expect_equal(tsearch(P[,1], P[,2],T, data[,1], data[,2]), c(2, 1, 3, 1, 2))
+})

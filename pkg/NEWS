@@ -1,3 +1,14 @@
+CHANGES IN VERSION 0.4.3 - Released 2019/08/16
+
+BUG FIXES
+
+* Fix for Issue #39: tsearchn() returns NA for some points within
+  triangle
+  https://github.com/davidcsterratt/geometry/issues/39
+  tsearchn() failed (=return NA) for some points that lie within the
+  triangulation. Thanks to Jan Lause (https://github.com/jlause) for
+  reporting the bug and Jean-Romain Roussel for providing the fix.
+
 CHANGES IN VERSION 0.4.2 - Released 2019/07/05
 
 BUG FIX
