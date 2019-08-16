@@ -15,6 +15,7 @@
 // Author: Jean-Romain Roussel
 // 3 may 2017: copy from package lidR to package geometry by Jean-Romain Roussel to operate in fast tsearch funtion
 
+#include <R.h>
 #include "QuadTree.h"
 #include <cmath>
 #include <limits>
@@ -84,7 +85,7 @@ QuadTree::~QuadTree()
   delete SW;
 }
 
-QuadTree* QuadTree::create(const std::vector<double> x, const std::vector<double> y)
+QuadTree* QuadTree::create(const std::vector<double> x, const std::vector<double> y, const double eps = 1.0e-12)
 {
   int n = x.size();
   
@@ -111,12 +112,14 @@ QuadTree* QuadTree::create(const std::vector<double> x, const std::vector<double
   double yrange = ymax - ymin;
   double range = xrange > yrange ? xrange/2 : yrange/2;
   
-  QuadTree *tree = new QuadTree( (xmin+xmax)/2, (ymin+ymax)/2, range);
+  QuadTree *tree = new QuadTree( (xmin+xmax)/2, (ymin+ymax)/2, range + eps);
   
   for(int i = 0 ; i < n ; i++)
   {
     Point p(x[i], y[i], i);
-    tree->insert(p);
+    if (!tree->insert(p)) {
+      error("Failed to insert point into QuadTree.\nPlease post input to tsearch  (or tsearchn at\nhttps://github.com/davidcsterratt/geometry/issues\nor email the maintainer.");
+    }
   }
   
   return tree;

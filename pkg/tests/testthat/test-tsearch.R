@@ -174,4 +174,12 @@ test_that("no regression on Issue #39", {
 
     ## With bug returns NA for datapoints 3 and 5
     expect_equal(tsearch(P[,1], P[,2],T, data[,1], data[,2]), c(2, 1, 3, 1, 2))
+
+    data2 <- rbind(
+      c(221.6, 4171.8),
+      c(250.4, 4311.8),
+      c(496.6, 4516.2),
+      c(254.0, 4294.8),
+      c(199.4, 4072.0)) #note that only the Y coordinate of datapoint 5 was changed
+      expect_equal(tsearch(P[,1], P[,2],T, data2[,1], data2[,2]), c(2, 1, 3, 1, 2))
 })
