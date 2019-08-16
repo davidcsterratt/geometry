@@ -147,9 +147,10 @@ bool QuadTree::insert(const Point& p)
 
 void QuadTree::subdivide()
 {
+  double esp = 1.0e-12;
   double half_res_half = boundary.half_res.x * 0.5;
   
-  Point p(half_res_half, half_res_half);
+  Point p(half_res_half + esp, half_res_half + esp);
   Point pNE(boundary.center.x + half_res_half, boundary.center.y + half_res_half);
   Point pNW(boundary.center.x - half_res_half, boundary.center.y + half_res_half);
   Point pSE(boundary.center.x + half_res_half, boundary.center.y - half_res_half);
