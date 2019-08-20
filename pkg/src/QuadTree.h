@@ -24,7 +24,7 @@ struct Point
 {
   double x, y;
   int id;
-  
+
   Point();
   Point(const double, const double);
   Point(const double, const double, const int);
@@ -33,26 +33,26 @@ struct Point
 struct BoundingBox
 {
   Point center, half_res;
-  
+
   BoundingBox();
   BoundingBox(const Point,const Point);
-  bool contains(const Point&);
+  bool contains(const Point&, const double);
   bool intersects(const BoundingBox&);
 };
 
 class QuadTree
 {
 public:
-  QuadTree(const double, const double, const double);
   ~QuadTree();
   static QuadTree* create(const std::vector<double>, const std::vector<double>, const double eps);
   bool insert(const Point&);
   void rect_lookup(const double, const double, const double, const double, std::vector<Point*>&);
   void circle_lookup(const double, const double, const double, std::vector<Point*>&);
-  
-  
+
+
 private:
   int MAX_DEPTH;
+  double EPSILON;
   int depth;
   BoundingBox boundary;
   std::vector<Point> points;
@@ -60,9 +60,9 @@ private:
   QuadTree* NW;
   QuadTree* SE;
   QuadTree* SW;
-  
-  QuadTree(const BoundingBox, const int);
-  
+
+  QuadTree(const BoundingBox, const int, const double);
+
   void subdivide();
   void range_lookup(const BoundingBox, std::vector<Point*>&, const int);
   void getPointsSquare(const BoundingBox, std::vector<Point>&, std::vector<Point*>&);
