@@ -97,13 +97,9 @@
 ##' @export
 ##' @useDynLib geometry
 convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triangulated.facets = FALSE) {
-  ## Check directory writable
-  tmpdir <- tempdir()
-  ## R should guarantee the tmpdir is writable, but check in any case
-  if (file.access(tmpdir, 2) == -1) {
-    stop("Unable to write to R temporary directory ", tmpdir, "\n",
-         "Try setting the permissions on this directory so it is writable.")
-  }
+  tmp_stdout <- tempfile("Rf")
+  tmp_stderr <- tempfile("Rf")
+  on.exit(unlink(c(tmp_stdout, tmp_stderr)))
   
   ## Combine and check options
   options <- tryCatch(qhull.options(options, output.options, supported_output.options  <- c("n", "FA")), error=function(e) {stop(e)})
@@ -131,7 +127,7 @@ convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triang
       options <- paste(options, "Qt")
     }
   }
-  out <- .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmpdir, PACKAGE="geometry")
+  out <- .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmp_stdout, tmp_stderr, PACKAGE="geometry")
 
   # Remove NULL elements
   out[which(sapply(out, is.null))] <- NULL
@@ -216,7 +212,7 @@ to.mesh3d.convhulln <- function(x, ...) {
 ##  LocalWords:  Grasman Gramacy Mozharovskyi Sterratt seealso tri ps
 ##  LocalWords:  tripack distmesh intersectn Dobkin Huhdanpaa emph Tv
 ##  LocalWords:  Quickhull ACM dplot convhulln qhull rnorm ncol sqrt
-##  LocalWords:  dontrun useDynLib tmpdir tempdir sanitisation NAs na
+##  LocalWords:  dontrun useDynLib tmp_stdout tmp_stderr tempdir sanitisation NAs na
 ##  LocalWords:  QJ grepl importFrom convhulls args requireNamespace
 ##  LocalWords:  rgl tetramesh eqn href sQuote hyperplane rbox
 ##  LocalWords:  convulln convhullns

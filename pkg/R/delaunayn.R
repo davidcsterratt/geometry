@@ -106,13 +106,9 @@
 ##' @useDynLib geometry
 delaunayn <-
 function(p, options=NULL, output.options=NULL, full=FALSE) {
-  ## Check directory writable
-  tmpdir <- tempdir()
-  ## R should guarantee the tmpdir is writable, but check in any case
-  if (file.access(tmpdir, 2) == -1) {
-    stop("Unable to write to R temporary directory ", tmpdir, "\n",
-         "Try setting the permissions on this directory so it is writable.")
-  }
+  tmp_stdout <- tempfile("Rf")
+  tmp_stderr <- tempfile("Rf")
+  on.exit(unlink(c(tmp_stdout, tmp_stderr)))
 
   ## Coerce the input to be matrix
   if (is.data.frame(p)) {
@@ -148,7 +144,7 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
     options <- paste(options, "Qt")
   }
 
-  out <- .Call("C_delaunayn", p, as.character(options), tmpdir, PACKAGE="geometry")
+  out <- .Call("C_delaunayn", p, as.character(options), tmp_stdout, tmp_stderr, PACKAGE="geometry")
 
   # Remove NULL elements
   out[which(sapply(out, is.null))] <- NULL

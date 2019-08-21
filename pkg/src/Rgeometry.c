@@ -35,7 +35,7 @@ boolT hasPrintOption(qhT *qh, qh_PRINT format) {
   return(False);
 }
 
-int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SEXP tmpdir, unsigned int* pdim, unsigned int* pn, char* errstr1, char* errstr2) {
+int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SEXP tmp_stdout, const SEXP tmp_stderr, unsigned int* pdim, unsigned int* pn, char* errstr1, char* errstr2) {
   unsigned int dim, n;
   int exitcode = 1; 
   boolT ismalloc;
@@ -84,21 +84,19 @@ int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SE
   /* Jiggery-pokery to create and destroy the ersatz stdout, and the
      call to qhull itself. */    
   const char *name, *errname;
-  name = R_tmpnam("Rf", CHAR(STRING_ELT(tmpdir, 0)));
+  name = CHAR(STRING_ELT(tmp_stdout, 0));
   tmpstdout = fopen(name, "w");
-  errname = R_tmpnam("Rf", CHAR(STRING_ELT(tmpdir, 0)));
+  errname = CHAR(STRING_ELT(tmp_stderr, 0));
   errfile = fopen(errname, "w+");
   qh_zero(qh, errfile);
   exitcode = qh_new_qhull (qh, dim, n, pt_array, ismalloc, flags, tmpstdout, errfile);
   fclose(tmpstdout);
   unlink(name);
-  free((char *) name);
   rewind(errfile);
   fgets(errstr1, 100, errfile);
   fgets(errstr2, 100, errfile);
   fclose(errfile);
   unlink(errname);
-  free((char *) errname);
 
   *pdim = dim;
   *pn = n;

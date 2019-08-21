@@ -35,7 +35,7 @@
 #include "Rgeometry.h"
 #include <unistd.h>              /* For unlink() */
 
-SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
+SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmp_stdout, SEXP tmp_stderr)
 {
   /* Initialise return values */ 
 
@@ -57,7 +57,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmpdir)
   if (nrows(p) == ncols(p) + 1) {
     strncat(cmd, " Qz", 4);
   }
-  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr1, errstr2);
+  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmp_stdout, tmp_stderr, &dim, &n, errstr1, errstr2);
 
   /* Extract information from output */
   

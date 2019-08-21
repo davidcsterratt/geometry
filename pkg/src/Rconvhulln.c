@@ -31,7 +31,7 @@
 
 #include "Rgeometry.h"
 
-SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP returnNonTriangulatedFacets, const SEXP tmpdir)
+SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP returnNonTriangulatedFacets, const SEXP tmp_stdout, const SEXP tmp_stderr)
 {
   /* Initialise return values */
   SEXP retval, area, vol, normals, retlist, retnames;
@@ -42,7 +42,7 @@ SEXP C_convhulln(const SEXP p, const SEXP options, const SEXP returnNonTriangula
   char errstr1[100], errstr2[100];
   unsigned int dim, n;
   char cmd[50] = "qhull";
-  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr1, errstr2);
+  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmp_stdout, tmp_stderr, &dim, &n, errstr1, errstr2);
 
   /* Error handling */
   if (exitcode) {
