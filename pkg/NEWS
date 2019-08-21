@@ -18,6 +18,18 @@ BUG FIXES
   Thanks to Bill Dunlap (https://github.com/BillDunlap) for reporting
   this, and the suggested fix.
 
+* Fix for Issue #44: R_tmpnam()/free() causes crash in TERR
+  https://github.com/davidcsterratt/geometry/issues/44
+
+  Because TERR
+  (https://docs.tibco.com/products/tibco-enterprise-runtime-for-r) is
+  not compiled with gcc (it uses either the Intel or Microsoft C++
+  compiler) on Windows, calling free() in a package's DLL for memory
+  allocated with malloc() in TERR's own DLL causes a crash. The R API
+  function R_tmpnam() causes this problem in the geometry package.
+  Thanks to Bill Dunlap (https://github.com/BillDunlap) for reporting
+  this, and the suggested fix.
+
 ENHANCEMENT
 
 * Fix for Issue #42: Improve error reporting from Qhull

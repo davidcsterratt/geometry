@@ -19,7 +19,7 @@
 #include "qhull_ra.h"
 #include <unistd.h>              /* For unlink() */
 
-SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
+SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmp_stdout, const SEXP tmp_stderr)
 {
   /* Return value*/
   SEXP retval;
@@ -29,7 +29,7 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmpdir)
   char errstr[ERRSTRSIZE];
   unsigned int dim, n;
   char cmd[50] = "qhull H";
-  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmpdir, &dim, &n, errstr);
+  int exitcode = qhullNewQhull(qh, p, cmd,  options, tmp_stdout, tmp_stdout, &dim, &n, errstr);
 
   /* If error */
   if (exitcode) {

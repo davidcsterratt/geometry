@@ -32,13 +32,9 @@
 ##' @export
 ##' @useDynLib geometry
 halfspacen <- function (p, fp, options = "Tv") {
-  ## Check directory writable
-  tmpdir <- tempdir()
-  ## R should guarantee the tmpdir is writable, but check in any case
-  if (file.access(tmpdir, 2) == -1) {
-    stop("Unable to write to R temporary directory ", tmpdir, "\n",
-         "Try setting the permissions on this directory so it is writable.")
-  }
+  tmp_stdout <- tempfile("Rf")
+  tmp_stderr <- tempfile("Rf")
+  on.exit(c(tmp_stdout, tmp_stderr))
   
   ## Input sanitisation
   options <- paste(options, collapse=" ")
@@ -73,7 +69,7 @@ halfspacen <- function (p, fp, options = "Tv") {
   ## The fixed point is passed as an option
   out <- tryCatch(.Call("C_halfspacen", p,
                         as.character(paste(options, paste0("H",paste(fp, collapse=",")))),
-                        tmpdir,
+                        tmp_stdout, tmp_stderr,
                         PACKAGE="geometry"),
                   error=function(e) {
                     if (grepl("^Received error code 2 from qhull.", e$message)) {
