@@ -20,6 +20,13 @@ devtools::spell_check("pkg")
 ```
 Update any words to ignore in `pkg/inst/WORDLIST`.
 
+# To recreate registration skeleton
+
+If changing any arguements to C or C++ functions:
+```
+tools::package_native_routine_registration_skeleton("geometry/pkg")
+```
+
 # To update links in qhull docs
 
 The QHull html docs are copied from the Qhull source tree
