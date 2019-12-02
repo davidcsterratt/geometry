@@ -44,14 +44,14 @@ int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SE
   int i, j;
   
   /* We cannot print directly to stdout in R, and the alternative of
-     using R_Outputfile does not seem to work for all
-     architectures. Setting outfile to NULL, is not an option, as an
-     open file handle is required for a call to freopen in the Qhull
-     code when qh_new_qhull() is called. Therefore use the ersatz
-     stdout, tmpstdout (see below). */
-  /* FILE *outfile = NULL; */
-   /* qh_fprintf() in userprint.c has been redefined so that a NULL
-      errfile results in printing via REprintf(). */
+     using R_Outputfile does not seem to work for all architectures.
+     Setting outfile to NULL is not an option, as an open file handle
+     is required for a call to freopen in the Qhull code when
+     qh_new_qhull() is called. Therefore use the ersatz stdout,
+     tmpstdout (see below). */
+  /* qh_fprintf() in userprint.c has been redefined so that a NULL
+     errfile results in printing via REprintf(). */
+  FILE *tmpstdout = NULL;
   FILE *errfile = NULL;       
 
   if(!isString(options) || length(options) != 1){
