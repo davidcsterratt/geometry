@@ -1,6 +1,14 @@
+CHANGES IN VERSION 0.4.5 - Released 2019/12/02
+
+BUG FIX
+
+* Fix for Issue #47: Install failure with gcc 10
+  https://github.com/davidcsterratt/geometry/issues/47
+  Thanks to Brian Ripley for pointing this out
+
 CHANGES IN VERSION 0.4.4 - Released 2019/08/27
 
-BUG FIXES
+BUG FIX
 
 * Fix for Issue #45: LTO error
   https://github.com/davidcsterratt/retistruct/issues/45
