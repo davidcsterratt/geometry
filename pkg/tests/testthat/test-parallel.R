@@ -12,11 +12,11 @@ test_that("delaunayn can be called with mc.apply", {
   N <- 100000
   P <- matrix(runif(2*N), N, 2)
   T <- delaunayn(P)
-  expect_that(nrow(T), equals(199966))
+  expect_identical(nrow(T), 199966L)
 
-  ## Now try out the parallel version. 
+  ## Now try out the parallel version.
   Ts <- mclapply(list(P, P, P, P), delaunayn, mc.cores=mc.cores)
-  expect_that(length(Ts), equals(4))
-  expect_that(nrow(Ts[[1]]), equals(199966))
-  expect_that(Ts[[1]], equals(T))
+  expect_length(Ts, 4)
+  expect_identical(nrow(Ts[[1]]), 199966L)
+  expect_identical(Ts[[1]], T)
 })

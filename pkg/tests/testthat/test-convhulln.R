@@ -74,10 +74,10 @@ test_that("convhulln can run on an example with 3000 points", {
   ps <- matrix(rnorm(3000), ncol=3)
   ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1,3)))
   ts <- convhulln(ps)
-  expect_that(nrow(ts), equals(1996))
+  expect_identical(nrow(ts), 1996L)
   ts.full <- convhulln(ps, "FA")
-  expect_that(ts.full$area, equals(37.47065, tolerance=0.001))
-  expect_that(ts.full$vol, equals(21.50165, tolerance=0.001))
+  expect_equal(ts.full$area, 37.47065, tolerance=0.001)
+  expect_equal(ts.full$vol, 21.50165, tolerance=0.001)
 })
 
 test_that("convhulln throws an error with duplicated points", {
@@ -93,7 +93,7 @@ test_that("If the input matrix contains NAs, convhulln should return an error", 
   expect_error(convhulln(ps))
 })
 
-test_that("If there are not enough points to construct a simplex, an error is thrown", {         
+test_that("If there are not enough points to construct a simplex, an error is thrown", {
   expect_error(convhulln(diag(4)))
 })
 
@@ -109,14 +109,14 @@ test_that("Output to file works", {
 })
 
 test_that("Output of non-triangulated facets works", {
-  X1 <- matrix(c( 1,  1,  1, 
+  X1 <- matrix(c( 1,  1,  1,
                   1,  1, -1,
                   1, -1,  1,
                   1, -1, -1,
                  -1,  1,  1,
                  -1,  1, -1,
                  -1, -1,  1,
-                 -1, -1, -1, 
+                 -1, -1, -1,
                   3,  0,  0), ncol=3, byrow = TRUE)
   ts1 <- convhulln(X1, return.non.triangulated.facets = TRUE)
   tbl1 <- table(rowSums(!is.na(ts1)))
