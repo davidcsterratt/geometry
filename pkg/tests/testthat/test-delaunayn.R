@@ -8,7 +8,8 @@ test_that("delaunayn produces the correct output", {
                                     data.frame(b=c(-1, 1))),
                               data.frame(d=c(-1, 1)))))
   ts <- delaunayn(ps)
-  expect_is(ts, "matrix")
+  expect_type(ts, "integer")
+  expect_identical(dim(ts), c(12L, 4L))
 
   ## With output.options=TRUE, there should be a trinagulation, areas and
   ## neighbours and the sum of the ares should be 8
@@ -17,7 +18,7 @@ test_that("delaunayn produces the correct output", {
   expect_equal(length(ts.full$areas), nrow(ts.full$tri))
   expect_equal(length(ts.full$neighbours), nrow(ts.full$tri))
   expect_equal(sum(ts.full$area), 8)
-  
+
   ## With full output, there should be a trinagulation, areas and
   ## neighbours and the sum of the ares should be 8
   ## full will be deprecated in a future version
@@ -26,8 +27,8 @@ test_that("delaunayn produces the correct output", {
   expect_equal(length(ts.full$areas), nrow(ts.full$tri))
   expect_equal(length(ts.full$neighbours), nrow(ts.full$tri))
   expect_equal(sum(ts.full$area), 8)
-  
-  ## tsearchn shouldn't return a "degnerate simplex" error. 
+
+  ## tsearchn shouldn't return a "degnerate simplex" error.
   expect_silent(tsearchn(ps, ts, cbind(1, 2, 4)))
 
   ## If the input matrix contains NAs, delaunayn should return an error
@@ -39,13 +40,13 @@ test_that("delaunayn produces the correct output", {
 test_that("In the case of just one triangle, delaunayn returns a matrix", {
   pc  <- rbind(c(0, 0), c(0, 1), c(1, 0))
   pct <- delaunayn(pc)
-  expect_is(pct, "matrix")
-  expect_equal(nrow(pct), 1)
+  expect_type(pct, "integer")
+  expect_identical(dim(pct), c(1L, 3L))
   ## With no options it should also produce a triangulation. This
   ## mirrors the behaviour of octave and matlab
   pct <- delaunayn(pc, "")
-  expect_is(pct, "matrix")
-  expect_equal(nrow(pct), 1)
+  expect_type(pct, "integer")
+  expect_identical(dim(pct), c(1L, 3L))
 
   pct.full <- delaunayn(pc, output.options=TRUE)
   expect_equal(pct.full$areas, 0.5)
@@ -54,8 +55,8 @@ test_that("In the case of just one triangle, delaunayn returns a matrix", {
 test_that("In the case of a degenerate triangle, delaunayn returns a matrix with zero rows", {
   pc  <- rbind(c(0, 0), c(0, 1), c(0, 2))
   pct <- delaunayn(pc)
-  expect_is(pct, "matrix")
-  expect_equal(nrow(pct), 0)
+  expect_type(pct, "integer")
+  expect_identical(dim(pct), c(0L, 3L))
   pct.full <- delaunayn(pc, output.options=TRUE)
   expect_equal(length(pct.full$areas), 0)
   expect_equal(length(pct.full$neighbours), 0)
@@ -64,8 +65,8 @@ test_that("In the case of a degenerate triangle, delaunayn returns a matrix with
 test_that("In the case of just one tetrahaedron, delaunayn returns a matrix", {
   pc  <- rbind(c(0, 0, 0), c(0, 1, 0), c(1, 0, 0), c(0, 0, 1))
   pct <- delaunayn(pc)
-  expect_is(pct, "matrix")
-  expect_equal(nrow(pct), 1)
+  expect_type(pct, "integer")
+  expect_identical(dim(pct), c(1L, 4L))
   pct.full <- delaunayn(pc, output.options=TRUE)
    expect_equal(pct.full$areas, 1/6)
 })
