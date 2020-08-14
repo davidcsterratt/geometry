@@ -18,10 +18,11 @@
 
 ## This file has been adapted for R by David C Sterratt
 
-##' If called with a single matrix argument then each row of \code{c} 
-##' represents the Cartesian coordinate (\code{x}, \code{y}, \code{z}).
-##' 
 ##' Transform Cartesian to spherical coordinates
+##'
+##' If called with a single matrix argument then each row of \code{c}
+##' represents the Cartesian coordinate (\code{x}, \code{y}, \code{z}).
+##'
 ##' @param x x-coordinates or matrix with three columns
 ##' @param y y-coordinates (optional, if \code{x}) is a matrix 
 ##' @param z z-coordinates (optional, if \code{x}) is a matrix 
