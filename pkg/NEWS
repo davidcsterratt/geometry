@@ -6,6 +6,10 @@ BUG FIXES
   https://github.com/davidcsterratt/geometry/pull/49
   Thanks to Hugo Gruson for providing the pull request
 
+* PR #50: Reorder documentation lines
+  https://github.com/davidcsterratt/geometry/pull/50
+  Thanks to Hugo Gruson for providing the pull request
+
 CHANGES IN VERSION 0.4.5 - Released 2019/12/02
 
 BUG FIX
