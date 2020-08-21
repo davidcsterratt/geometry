@@ -2,8 +2,7 @@
 % Please edit documentation in R/cart2sph.R
 \name{cart2sph}
 \alias{cart2sph}
-\title{If called with a single matrix argument then each row of \code{c} 
-represents the Cartesian coordinate (\code{x}, \code{y}, \code{z}).}
+\title{Transform Cartesian to spherical coordinates}
 \usage{
 cart2sph(x, y = NULL, z = NULL)
 }
@@ -21,7 +20,8 @@ Matrix with columns:
 \item{\code{r}}{the distance to the origin \code{(0, 0, 0)}}
 }
 \description{
-Transform Cartesian to spherical coordinates
+If called with a single matrix argument then each row of \code{c}
+represents the Cartesian coordinate (\code{x}, \code{y}, \code{z}).
 }
 \seealso{
 \code{\link{sph2cart}}, \code{\link{cart2pol}},
