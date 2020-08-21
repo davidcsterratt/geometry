@@ -1,3 +1,11 @@
+CHANGES IN VERSION 0.4.6 - Released 2020/08/??
+
+BUG FIXES
+
+* PR #49: Update tests for testthat v3 compatibility
+  https://github.com/davidcsterratt/geometry/pull/49
+  Thanks to Hugo Gruson for providing the pull request
+
 CHANGES IN VERSION 0.4.5 - Released 2019/12/02
 
 BUG FIX
