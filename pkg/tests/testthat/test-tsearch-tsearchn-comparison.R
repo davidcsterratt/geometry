@@ -9,9 +9,9 @@ test_that("tsearch and tsearchn give the same results", {
 
   out <- tsearch(X, Y, T, XI, YI)
   outn <- tsearchn(cbind(X, Y), T, cbind(XI, YI), fast=FALSE)
-  
-  expect_that(na.omit(out), equals(na.omit(outn$idx)))
+
+  expect_equal(na.omit(out), na.omit(outn$idx))
 
   out <- tsearch(X, Y, T, XI, YI, TRUE)
-  expect_that(na.omit(outn$p), equals(na.omit(out$p), tolerance=1e-12))
+  expect_equal(na.omit(outn$p), na.omit(out$p), tolerance=1e-12)
 })
