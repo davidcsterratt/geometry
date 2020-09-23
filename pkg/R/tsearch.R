@@ -245,7 +245,7 @@ tsearchn <- function(x, t, xi, ...) {
 ##' X <- rbind(c(0, 0),
 ##'            c(0, 1),
 ##'            c(1, 0))
-##' ## Cartesian cooridinates of points
+##' ## Cartesian coordinates of points
 ##' P <- rbind(c(0.5, 0.5),
 ##'            c(0.1, 0.8))
 ##' ## Plot triangle and points
