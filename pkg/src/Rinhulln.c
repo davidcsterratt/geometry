@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, 2017, 2019 David Sterratt
+/* Copyright (C) 2015, 2017, 2019, 2021 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
     p are the test points */
 SEXP C_inhulln(const SEXP ch, const SEXP p)
 {
+  int debug = 0;
   /* Get the qh object from the convhulln object */
   SEXP ptr, tag;
   qhT *qh;
@@ -35,8 +36,8 @@ SEXP C_inhulln(const SEXP ch, const SEXP p)
   UNPROTECT(2);
   
   /* Initialise return value */
-  SEXP inside;
-  inside = R_NilValue;
+  SEXP inside, idx, distances, retlist, retnames;
+  inside = idx = distances = retlist = retnames = R_NilValue;
 
   /* Check input matrix */
   if(!isMatrix(p) || !isReal(p)){
@@ -52,21 +53,60 @@ SEXP C_inhulln(const SEXP ch, const SEXP p)
     error("Number of columns in test points p (%d) not equal to dimension of hull (%d).", dim, qh->hull_dim);
   }
 
+  int max_facet_id, nf;
+  int exitcode = qhullFacetCount(qh, &nf, &max_facet_id);
+
+  facetT *facet;
+  int *idmap = (int *) R_alloc(max_facet_id + 1, sizeof(int));
+  int i = 0;
+  FORALLfacets {
+    if (!facet->upperdelaunay) {
+      i++;
+      if (debug & 1) Rprintf("Facet id %d; index %d\n", facet->id, i);
+      if (facet->id < 1 || facet->id > max_facet_id) {
+        Rf_error("facet_id %d (at index %d) is not in {1,...,%d}", facet->id, i, max_facet_id);
+      }
+      idmap[facet->id] = i;
+    }
+  }
+
   /* Run through the matrix using qh_findbestfacet to determine
      whether in hull or not */
   PROTECT(inside = allocVector(LGLSXP, n));
+  PROTECT(idx = allocVector(INTSXP, n));
+  PROTECT(distances = allocVector(REALSXP, n));
+
+  vertexT *vertex;
   double *point;
   point = (double *) R_alloc(dim, sizeof(double));
   boolT isoutside;
-  realT bestdist;
-  int i, j;
+  realT bestdist, bestvertexdist;
+  int j;
   for(i=0; i < n; i++) {
     for(j=0; j < dim; j++)
       point[j] = REAL(p)[i+n*j]; /* could have been pt_array = REAL(p) if p had been transposed */
-    qh_findbestfacet(qh, point, !qh_ALL, &bestdist, &isoutside);
+    facet = qh_findbestfacet(qh, point, qh_ALL, &bestdist, &isoutside);
+    vertex = qh_nearvertex(qh, facet, point, &bestvertexdist);
     LOGICAL(inside)[i] = !isoutside;
+    REAL(distances)[i] = bestdist; /*(bestdist < bestvertexdist ? bestvertexdist : bestdist); */
+    /* Rprintf("Best vertex distance: %2.3f (%2.3f, %2.3f)\n", bestvertexdist, vertex->point[0], vertex->point[1]); */
+    /* Find index of bestfacet */
+    INTEGER(idx)[i] = idmap[facet->id];
+    if (debug & 1) Rprintf("Found: Facet id %d; index %d; distance %2.3f\n", facet->id, idmap[facet->id], bestdist);
   }
-  UNPROTECT(1);
-  
-  return inside;
+
+  /* Set up output structure */
+  retlist =  PROTECT(allocVector(VECSXP, 3));
+  retnames = PROTECT(allocVector(VECSXP, 3));
+  SET_VECTOR_ELT(retlist,  0, inside);
+  SET_VECTOR_ELT(retnames, 0, mkChar("inside"));
+  SET_VECTOR_ELT(retlist,  1, distances);
+  SET_VECTOR_ELT(retnames, 1, mkChar("distances"));
+  SET_VECTOR_ELT(retlist,  2, idx);
+  SET_VECTOR_ELT(retnames, 2, mkChar("idx"));
+
+  setAttrib(retlist, R_NamesSymbol, retnames);
+
+  UNPROTECT(5);
+  return retlist;
 }

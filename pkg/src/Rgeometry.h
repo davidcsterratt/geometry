@@ -24,3 +24,4 @@ void freeQhull(qhT *qh);
 void qhullFinalizer(SEXP ptr);
 boolT hasPrintOption(qhT *qh, qh_PRINT format);
 int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SEXP tmp_stdout, const SEXP tmp_stderr, unsigned int* pdim, unsigned int* pn, char errstr[1000]);
+int qhullFacetCount(qhT *qh, int *nf, int *max_facet_id);

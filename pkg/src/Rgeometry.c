@@ -107,3 +107,28 @@ int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SE
   *pn = n;
   return(exitcode);
 }
+
+int qhullFacetCount(qhT *qh, int *nf, int *max_facet_id) {
+  /* Count the number of facets so we know how much space to
+     allocate in R */
+  facetT *facet;
+  *nf = 0;                   /* Number of facets */
+  *max_facet_id = 0;
+  int exitcode = 0;
+  FORALLfacets {
+    if (!facet->upperdelaunay) {
+      *nf++;
+      if (facet->id > *max_facet_id)
+        *max_facet_id = facet->id;
+
+      /* Double check. Non-simplicial facets will cause segfault
+         below */
+      if (!facet->simplicial) {
+        Rprintf("Qhull returned non-simplicial facets -- try convhulln with different options");
+        exitcode = 1;
+        break;
+      }
+    }
+  }
+  return(exitcode);
+}
