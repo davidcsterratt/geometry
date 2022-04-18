@@ -58,7 +58,7 @@
 ##'   }
 ##' 
 ##' @note This function interfaces the Qhull library and is a port
-##'   from Octave (\url{http://www.octave.org}) to R. Qhull computes
+##'   from Octave (\url{https://www.gnu.org/software/octave/}) to R. Qhull computes
 ##'   convex hulls, Delaunay triangulations, halfspace intersections
 ##'   about a point, Voronoi diagrams, furthest-site Delaunay
 ##'   triangulations, and furthest-site Voronoi diagrams. It runs in

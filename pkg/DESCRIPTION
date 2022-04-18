@@ -20,7 +20,7 @@ Description: Makes the 'Qhull' library <http://www.qhull.org>
     non-convex objects, but the package does include some R functions
     that allow for this.
 Version: 0.4.6
-URL: https://davidcsterratt.github.io/geometry
+URL: https://davidcsterratt.github.io/geometry/
 Date: 2022-04-18
 BugReports: https://github.com/davidcsterratt/geometry/issues
 Depends:

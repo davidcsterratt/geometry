@@ -70,7 +70,7 @@ interfaces the \href{http://www.qhull.org}{Qhull} library.
 }
 \note{
 This function was originally a port of the
-  \href{http://www.octave.org}{Octave} convhulln function written
+  \href{https://www.gnu.org/software/octave/}{Octave} convhulln function written
   by Kai Habel.
 
 See further notes in \code{\link{delaunayn}}.
