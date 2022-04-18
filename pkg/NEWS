@@ -10,6 +10,10 @@ BUG FIXES
   https://github.com/davidcsterratt/geometry/pull/50
   Thanks to Hugo Gruson for providing the pull request
 
+* PR #54: Fix typo
+  https://github.com/davidcsterratt/geometry/pull/54
+  Thanks to Hugh Gruson for providing the pull request
+
 OTHER CHANGES
 
 * Fix for Issue #61: Legacy macros need replaced
