@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.4.6 - Released 2020/08/??
+CHANGES IN VERSION 0.4.6 - Released 2022/04/18
 
 BUG FIXES
 
@@ -9,6 +9,12 @@ BUG FIXES
 * PR #50: Reorder documentation lines
   https://github.com/davidcsterratt/geometry/pull/50
   Thanks to Hugo Gruson for providing the pull request
+
+OTHER CHANGES
+
+* Fix for Issue #61: Legacy macros need replaced
+  https://github.com/davidcsterratt/geometry/issues/61
+  Thanks to the Brian Ripley and the CRAN team for the alert
 
 CHANGES IN VERSION 0.4.5 - Released 2019/12/02
 

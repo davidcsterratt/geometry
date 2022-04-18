@@ -87,10 +87,10 @@ SEXP C_tsearch_orig(SEXP x,  SEXP y, SEXP elem,
   /* Find bounding boxes of each triangle */
   for (int k = 0; k < nelem; k++) {
     /* printf("X[T[%i, 1]] = %f; T[%i, 1] = %i\n", k+1, REF(rx, k, 0), k+1, ielem[k + 0*nelem]); */
-    rminx[k] = min(REF(rx, k, 0), REF(rx, k, 1), REF(rx, k, 2)) - DOUBLE_EPS;
-    rmaxx[k] = max(REF(rx, k, 0), REF(rx, k, 1), REF(rx, k, 2)) + DOUBLE_EPS;
-    rminy[k] = min(REF(ry, k, 0), REF(ry, k, 1), REF(ry, k, 2)) - DOUBLE_EPS;
-    rmaxy[k] = max(REF(ry, k, 0), REF(ry, k, 1), REF(ry, k, 2)) + DOUBLE_EPS;
+    rminx[k] = min(REF(rx, k, 0), REF(rx, k, 1), REF(rx, k, 2)) - DBL_EPSILON;
+    rmaxx[k] = max(REF(rx, k, 0), REF(rx, k, 1), REF(rx, k, 2)) + DBL_EPSILON;
+    rminy[k] = min(REF(ry, k, 0), REF(ry, k, 1), REF(ry, k, 2)) - DBL_EPSILON;
+    rmaxy[k] = max(REF(ry, k, 0), REF(ry, k, 1), REF(ry, k, 2)) + DBL_EPSILON;
     /* printf("%f %f %f %f\n", rminx[k], rmaxx[k], rminy[k], rmaxy[k]); */
   }
 
@@ -123,7 +123,7 @@ SEXP C_tsearch_orig(SEXP x,  SEXP y, SEXP elem,
       dx2 = yt - y0;
       c1 = ( a22 * dx1 - a21 * dx2) / det;
       c2 = (-a12 * dx1 + a11 * dx2) / det;
-      if ((c1 >= -DOUBLE_EPS) && (c2 >= -DOUBLE_EPS) && ((c1 + c2) <= (1 + DOUBLE_EPS))) {
+      if ((c1 >= -DBL_EPSILON) && (c2 >= -DBL_EPSILON) && ((c1 + c2) <= (1 + DBL_EPSILON))) {
         ivalues[kp] = k+1;
         if (ibary) {
           rp[kp] = 1 - c1 - c2;
@@ -155,7 +155,7 @@ SEXP C_tsearch_orig(SEXP x,  SEXP y, SEXP elem,
         dx2 = yt - y0;
         c1 = ( a22 * dx1 - a21 * dx2) / det;
         c2 = (-a12 * dx1 + a11 * dx2) / det;
-        if ((c1 >= -DOUBLE_EPS) && (c2 >= -DOUBLE_EPS) && ((c1 + c2) <= (1 + DOUBLE_EPS))) {
+        if ((c1 >= -DBL_EPSILON) && (c2 >= -DBL_EPSILON) && ((c1 + c2) <= (1 + DBL_EPSILON))) {
           /* printf("Setting point %i's triangle to %i\n", kp+1, k+1);  */
           ivalues[kp] = k+1;
           if (ibary) {
