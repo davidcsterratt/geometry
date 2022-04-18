@@ -4,8 +4,12 @@
 \alias{convhulln}
 \title{Compute smallest convex hull that encloses a set of points}
 \usage{
-convhulln(p, options = "Tv", output.options = NULL,
-  return.non.triangulated.facets = FALSE)
+convhulln(
+  p,
+  options = "Tv",
+  output.options = NULL,
+  return.non.triangulated.facets = FALSE
+)
 }
 \arguments{
 \item{p}{An \eqn{M}-by-\eqn{N} matrix. The rows of \code{p}

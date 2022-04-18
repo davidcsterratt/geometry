@@ -4,8 +4,15 @@
 \alias{intersectn}
 \title{Compute convex hull of intersection of two sets of points}
 \usage{
-intersectn(ps1, ps2, tol = 0, return.chs = TRUE, options = "Tv",
-  fp = NULL, autoscale = FALSE)
+intersectn(
+  ps1,
+  ps2,
+  tol = 0,
+  return.chs = TRUE,
+  options = "Tv",
+  fp = NULL,
+  autoscale = FALSE
+)
 }
 \arguments{
 \item{ps1}{First set of points}

@@ -4,10 +4,23 @@
 \alias{distmesh2d}
 \title{A simple mesh generator for non-convex regions}
 \usage{
-distmesh2d(fd, fh, h0, bbox, p = NULL, pfix = array(0, dim = c(0, 2)),
-  ..., dptol = 0.001, ttol = 0.1, Fscale = 1.2, deltat = 0.2,
-  geps = 0.001 * h0, deps = sqrt(.Machine$double.eps) * h0,
-  maxiter = 1000, plot = TRUE)
+distmesh2d(
+  fd,
+  fh,
+  h0,
+  bbox,
+  p = NULL,
+  pfix = array(0, dim = c(0, 2)),
+  ...,
+  dptol = 0.001,
+  ttol = 0.1,
+  Fscale = 1.2,
+  deltat = 0.2,
+  geps = 0.001 * h0,
+  deps = sqrt(.Machine$double.eps) * h0,
+  maxiter = 1000,
+  plot = TRUE
+)
 }
 \arguments{
 \item{fd}{Vectorized signed distance function, for example

@@ -4,9 +4,19 @@
 \alias{distmeshnd}
 \title{A simple mesh generator for non-convex regions in n-D space}
 \usage{
-distmeshnd(fdist, fh, h, box, pfix = array(dim = c(0, ncol(box))), ...,
-  ptol = 0.001, ttol = 0.1, deltat = 0.1, geps = 0.1 * h,
-  deps = sqrt(.Machine$double.eps) * h)
+distmeshnd(
+  fdist,
+  fh,
+  h,
+  box,
+  pfix = array(dim = c(0, ncol(box))),
+  ...,
+  ptol = 0.001,
+  ttol = 0.1,
+  deltat = 0.1,
+  geps = 0.1 * h,
+  deps = sqrt(.Machine$double.eps) * h
+)
 }
 \arguments{
 \item{fdist}{Vectorized signed distance function, for example
