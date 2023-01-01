@@ -81,8 +81,8 @@ ps <- matrix(rnorm(3000), ncol=3)
 ps <- sqrt(3)*ps/drop(sqrt((ps^2) \%*\% rep(1, 3)))
 ts.surf <- t(convhulln(ps))  # see the qhull documentations for the options
 \dontrun{
-rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2)
-for(i in 1:(8*360)) rgl.viewpoint(i/8)
+rgl::triangles3d(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2)
+for(i in 1:(8*360)) rgl::view3d(i/8)
 }
 
 ## Square

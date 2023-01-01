@@ -36,8 +36,8 @@ tc = delaunayn(pc)
 
 # example tetramesh
 clr = rep(1,3) \%o\% (1:nrow(tc)+1)
-rgl::rgl.viewpoint(60,fov=20)
-rgl::rgl.light(270,60)
+rgl::view3d(60,fov=20)
+rgl::light3d(270,60)
 tetramesh(tc,pc,alpha=0.7,col=clr)
 }
 }

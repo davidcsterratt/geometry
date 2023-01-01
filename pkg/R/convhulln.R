@@ -76,8 +76,8 @@
 ##' ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1, 3)))
 ##' ts.surf <- t(convhulln(ps))  # see the qhull documentations for the options
 ##' \dontrun{
-##' rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2)
-##' for(i in 1:(8*360)) rgl.viewpoint(i/8)
+##' rgl::triangles3d(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2)
+##' for(i in 1:(8*360)) rgl::view3d(i/8)
 ##' }
 ##'
 ##' ## Square
@@ -164,9 +164,9 @@ plot.convhulln <- function(x, y, ...) {
   if (ncol(x$p) == 3) {
     if(requireNamespace("rgl") == FALSE)
       stop("The rgl package is required for tetramesh")
-    if (!add) rgl::rgl.clear()
+    if (!add) rgl::clear3d()
     if (ncol(x$hull) == 3) {
-      do.call(rgl::rgl.triangles,
+      do.call(rgl::triangles3d,
               c(list(x$p[t(x$hull),1], x$p[t(x$hull),2], x$p[t(x$hull),3]),
                 args))
     } else {

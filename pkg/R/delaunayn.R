@@ -93,8 +93,8 @@
 ##' 
 ##' # example tetramesh
 ##' \dontrun{
-##' rgl::rgl.viewpoint(60)
-##' rgl::rgl.light(120,60)
+##' rgl::view3d(60)
+##' rgl::light3d(120,60)
 ##' tetramesh(tc,pc, alpha=0.9)
 ##' }
 ##'
