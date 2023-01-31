@@ -1,9 +1,21 @@
+CHANGES IN VERSION 0.4.7 - Released 2023/02/01
+
+BUG FIX
+
+* Fix for Issue #67: Compiled code should not call sprintf
+  https://github.com/davidcsterratt/geometry/issues/67
+  Thanks to the CRAN maintainers for reporting this. Update uses
+  safer snprintf function.
+
 CHANGES IN VERSION 0.4.6.1 - Released 2022/07/04
 
 BUG FIXES
 
-* The CRAN maintainers have replaced referneces to the
-  suggeted tripack package with interp 
+* Fix for Issue #66: Replace the tripack package with the interp
+  package
+  https://github.com/davidcsterratt/geometry/issues/66 The
+  Thanks to the CRAN maintainers for replacing references to the
+  suggested tripack package with interp
 
 CHANGES IN VERSION 0.4.6 - Released 2022/04/18
 

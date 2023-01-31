@@ -65,7 +65,7 @@ int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SE
 	i = LENGTH(STRING_ELT(options,0)); 
   if (i > 200) 
     error("Option string too long");
-  sprintf(flags, "%s %s", cmd, CHAR(STRING_ELT(options,0)));
+  snprintf(flags, 249, "%s %s", cmd, CHAR(STRING_ELT(options,0)));
 
   /* Check input matrix */
   dim = ncols(p);

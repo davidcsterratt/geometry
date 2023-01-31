@@ -2064,14 +2064,14 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
     strlen(option) < 40
 */
 void qh_option(qhT *qh, const char *option, int *i, realT *r) {
-  char buf[200];
+  char buf[200+23+12];
   int len, maxlen;
 
-  sprintf(buf, "  %s", option);
+  snprintf(buf, 199, "  %s", option);
   if (i)
-    sprintf(buf+strlen(buf), " %d", *i);
+    snprintf(buf+strlen(buf), 22, " %d", *i);
   if (r)
-    sprintf(buf+strlen(buf), " %2.2g", *r);
+    snprintf(buf+strlen(buf), 11, " %2.2g", *r);
   len= (int)strlen(buf);  /* WARN64 */
   qh->qhull_optionlen += len;
   maxlen= sizeof(qh->qhull_options) - len -1;
