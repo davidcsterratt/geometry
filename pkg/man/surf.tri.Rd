@@ -62,7 +62,7 @@ rgl::rgl.spheres( lx, ly,.124,radius=.015*.25,col="black")
 
 }
 \seealso{
-\code{\link[tripack]{tri.mesh}}, \code{\link{convhulln}},
+\code{\link[interp]{tri.mesh}}, \code{\link{convhulln}},
 \code{\link{surf.tri}}, \code{\link{distmesh2d}}
 }
 \author{

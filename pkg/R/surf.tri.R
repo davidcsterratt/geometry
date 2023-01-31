@@ -1,14 +1,14 @@
 ##' Find surface triangles from tetrahedral mesh
-##' 
+##'
 ##' Find surface triangles from tetrahedral mesh typically obtained
 ##' with \code{\link{delaunayn}}.
-##' 
+##'
 ##' \code{surf.tri} and \code{\link{convhulln}} serve a similar purpose in 3D,
 ##' but \code{surf.tri} also works for non-convex meshes obtained e.g. with
 ##' \code{\link{distmeshnd}}.  It also does not produce currently unavoidable
 ##' diagnostic output on the console as \code{convhulln} does at the Rterm
 ##' console--i.e., \code{surf.tri} is silent.
-##' 
+##'
 ##' @param p An \code{n}-by-\code{3} matrix. The rows of \code{p} represent
 ##' \code{n} points in \code{dim}-dimensional space.
 ##' @param t Matrix with 4 columns, interpreted as output of
@@ -18,18 +18,18 @@
 ##' @note \code{surf.tri} was based on Matlab code for mesh of Per-Olof Persson
 ##' (\url{http://persson.berkeley.edu/distmesh/}).
 ##' @author Raoul Grasman
-##' @seealso \code{\link[tripack]{tri.mesh}}, \code{\link{convhulln}},
+##' @seealso \code{\link[interp]{tri.mesh}}, \code{\link{convhulln}},
 ##' \code{\link{surf.tri}}, \code{\link{distmesh2d}}
 ##' @keywords math optimize dplot
 ##' @examples
-##' 
+##'
 ##' \dontrun{
 ##' # more extensive example of surf.tri
-##' 
+##'
 ##' # url's of publically available data:
 ##' data1.url = "http://neuroimage.usc.edu/USCPhantom/mesh_data.bin"
 ##' data2.url = "http://neuroimage.usc.edu/USCPhantom/CT_PCS_trans.bin"
-##' 
+##'
 ##' meshdata = R.matlab::readMat(url(data1.url))
 ##' elec = R.matlab::readMat(url(data2.url))$eeg.ct2pcs/1000
 ##' brain = meshdata$mesh.brain[,c(1,3,2)]

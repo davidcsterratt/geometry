@@ -1,5 +1,5 @@
 ##' Compute smallest convex hull that encloses a set of points
-##' 
+##'
 ##' Returns information about the smallest convex complex of a set of
 ##' input points in \eqn{N}-dimensional space (the convex hull of the
 ##' points). By default, indices to points forming the facets of the
@@ -19,17 +19,17 @@
 ##'   (generalised areas and volumes) are supported; see
 ##'   \sQuote{Value} for details. If \code{output.options} is
 ##'   \code{TRUE}, select all supported options.
-##' 
+##'
 ##' @param return.non.triangulated.facets logical defining whether the
 ##'   output facets should be triangulated; \code{FALSE} by default.
-##' 
+##'
 ##' @return By default (\code{return.non.triangulated.facets} is
 ##'   \code{FALSE}), return an \eqn{M}-by-\eqn{N} matrix in which each
 ##'   row contains the indices of the points in \code{p} forming an
 ##'   \eqn{N-1}-dimensional facet. e.g In 3 dimensions, there are 3
 ##'   indices in each row describing the vertices of 2-dimensional
 ##'   triangles.
-##' 
+##'
 ##'   If \code{return.non.triangulated.facets} is \code{TRUE} then the
 ##'   number of columns equals the maximum number of vertices in a
 ##'   facet, and each row defines a polygon corresponding to a facet
@@ -55,15 +55,15 @@
 ##'   }
 ##'
 ##' @note This function was originally a port of the
-##'   \href{https://www.gnu.org/software/octave/}{Octave} convhulln function written
+##'   \href{https://octave.org/}{Octave} convhulln function written
 ##'   by Kai Habel.
-##' 
+##'
 ##' See further notes in \code{\link{delaunayn}}.
-##' 
+##'
 ##' @author Raoul Grasman, Robert B. Gramacy, Pavlo Mozharovskyi and
 ##'   David Sterratt \email{david.c.sterratt@@ed.ac.uk}
 ##' @seealso \code{\link{intersectn}}, \code{\link{delaunayn}},
-##'   \code{\link{surf.tri}}, \code{\link[tripack]{convex.hull}}
+##'   \code{\link{surf.tri}}, \code{\link[interp]{convex.hull}}
 ##' @references \cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
 ##'   \dQuote{The Quickhull algorithm for convex hulls,} \emph{ACM
 ##'   Trans. on Mathematical Software,} Dec 1996.}
@@ -72,7 +72,7 @@
 ##' @keywords math dplot graphs
 ##' @examples
 ##' ## Points in a sphere
-##' ps <- matrix(rnorm(3000), ncol=3)  
+##' ps <- matrix(rnorm(3000), ncol=3)
 ##' ps <- sqrt(3)*ps/drop(sqrt((ps^2) %*% rep(1, 3)))
 ##' ts.surf <- t(convhulln(ps))  # see the qhull documentations for the options
 ##' \dontrun{
@@ -100,7 +100,7 @@ convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triang
   tmp_stdout <- tempfile("Rf")
   tmp_stderr <- tempfile("Rf")
   on.exit(unlink(c(tmp_stdout, tmp_stderr)))
-  
+
   ## Combine and check options
   options <- tryCatch(qhull.options(options, output.options, supported_output.options  <- c("n", "FA")), error=function(e) {stop(e)})
 
@@ -117,7 +117,7 @@ convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triang
   if (any(is.na(p))) {
     stop("The first argument should not contain any NAs")
   }
-  
+
   if (!return.non.triangulated.facets){
     ## It is essential that delaunayn is called with either the QJ or Qt
     ## option. Otherwise it may return a non-triangulated structure, i.e
@@ -142,7 +142,7 @@ convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triang
 
 ##' @importFrom graphics plot
 ##' @method plot convhulln
-##' @export 
+##' @export
 plot.convhulln <- function(x, y, ...) {
   if (ncol(x$p) < 2 || ncol(x$p) > 3)
     stop("Only 2D and 3D convhullns can be plotted")
@@ -154,7 +154,7 @@ plot.convhulln <- function(x, y, ...) {
   }
   if (ncol(x$p) == 2) {
     if (!add) {
-      plot(x$p[,1], x$p[,2], ...)      
+      plot(x$p[,1], x$p[,2], ...)
     }
     m <- x$hull
     p <- x$p
@@ -183,16 +183,16 @@ plot.convhulln <- function(x, y, ...) {
 ##' @return \code{\link[rgl]{mesh3d}} object, which can be displayed
 ##'   in RGL with \code{\link[rgl]{dot3d}}, \code{\link[rgl]{wire3d}}
 ##'   or \code{\link[rgl]{shade3d}}
-##' 
+##'
 ##' @seealso \code{\link[rgl]{as.mesh3d}}
 ##' @export
 to.mesh3d <- function(x, ...) UseMethod("to.mesh3d")
 
 ##' @importFrom graphics plot
 ##' @method to.mesh3d convhulln
-##' @export 
+##' @export
 to.mesh3d.convhulln <- function(x, ...) {
-  if(requireNamespace("rgl") == FALSE) 
+  if(requireNamespace("rgl") == FALSE)
     stop("The rgl package is required for as.mesh.convhulln")
   if (ncol(x$p) != 3) {
     stop("Only convex hulls of points in 3D can be turned into meshes")
@@ -210,7 +210,7 @@ to.mesh3d.convhulln <- function(x, ...) {
 
 ##  LocalWords:  dQuote Qhull param itemize Kai Habel delaunayn Pavlo
 ##  LocalWords:  Grasman Gramacy Mozharovskyi Sterratt seealso tri ps
-##  LocalWords:  tripack distmesh intersectn Dobkin Huhdanpaa emph Tv
+##  LocalWords:  interp distmesh intersectn Dobkin Huhdanpaa emph Tv
 ##  LocalWords:  Quickhull ACM dplot convhulln qhull rnorm ncol sqrt
 ##  LocalWords:  dontrun useDynLib tmp_stdout tmp_stderr tempdir sanitisation NAs na
 ##  LocalWords:  QJ grepl importFrom convhulls args requireNamespace

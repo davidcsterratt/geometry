@@ -13,7 +13,7 @@ points in \eqn{N}-dimensional space.}
 \item{options}{String containing extra control options for the
   underlying Qhull command; see the Qhull documentation
   (\url{../doc/qhull/html/qdelaun.html}) for the available
-  options. 
+  options.
 
   The \code{Qbb} option is always passed to Qhull. The remaining
   default options are \code{Qcc Qc Qt Qz} for \eqn{N<4} and
@@ -58,7 +58,7 @@ If \code{output.options} is \code{NULL} (the default),
       of tetrahedra). See \url{../doc/qhull/html/qh-optf.html#Fa}.}
     \item{\code{neighbours}}{If \code{TRUE} or if \code{Fn} is specified,
       a list of  neighbours of each simplex.
-      See \url{../doc/qhull/html/qh-optf.html#Fn}} 
+      See \url{../doc/qhull/html/qh-optf.html#Fn}}
   }
 }
 \description{
@@ -68,7 +68,7 @@ triangles contains any other points from the set.
 }
 \note{
 This function interfaces the Qhull library and is a port
-  from Octave (\url{https://www.gnu.org/software/octave/}) to R. Qhull computes
+  from Octave (\url{https://octave.org/}) to R. Qhull computes
   convex hulls, Delaunay triangulations, halfspace intersections
   about a point, Voronoi diagrams, furthest-site Delaunay
   triangulations, and furthest-site Voronoi diagrams. It runs in
@@ -112,7 +112,7 @@ Mathematical Software,} Dec 1996.}
 \url{http://www.qhull.org}
 }
 \seealso{
-\code{\link[tripack]{tri.mesh}}, \code{\link{convhulln}},
+\code{\link[interp]{tri.mesh}}, \code{\link{convhulln}},
 \code{\link{surf.tri}}, \code{\link{distmesh2d}}
 }
 \author{

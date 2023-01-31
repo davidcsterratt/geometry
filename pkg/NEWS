@@ -1,3 +1,10 @@
+CHANGES IN VERSION 0.4.6.1 - Released 2022/07/04
+
+BUG FIXES
+
+* The CRAN maintainers have replaced referneces to the
+  suggeted tripack package with interp 
+
 CHANGES IN VERSION 0.4.6 - Released 2022/04/18
 
 BUG FIXES

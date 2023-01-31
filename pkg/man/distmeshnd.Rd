@@ -115,7 +115,7 @@ p = distmeshnd(fd,fh,0.2,bbox, maxiter=100)
 Review, Volume 46 (2), pp. 329-345, June 2004}
 }
 \seealso{
-\code{\link{distmesh2d}}, \code{\link[tripack]{tri.mesh}},
+\code{\link{distmesh2d}}, \code{\link[interp]{tri.mesh}},
 \code{\link{delaunayn}}, \code{\link{mesh.dsphere}},
 \code{\link{mesh.hunif}},\cr \code{\link{mesh.diff}},
 \code{\link{mesh.union}}, \code{\link{mesh.intersect}}

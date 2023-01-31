@@ -1,5 +1,5 @@
 ##' A simple mesh generator for non-convex regions in n-D space
-##' 
+##'
 ##' An unstructured simplex requires a choice of mesh points (vertex nodes) and
 ##' a triangulation.  This is a simple and short algorithm that improves the
 ##' quality of a mesh by relocating the mesh points according to a relaxation
@@ -8,18 +8,18 @@
 ##' distance function (\code{fd}) indicates if a given node is inside or
 ##' outside the region. Points outside the region are projected back to the
 ##' boundary.
-##' 
+##'
 ##' This is an implementation of original Matlab software of Per-Olof Persson.
-##' 
+##'
 ##' Excerpt (modified) from the reference below:
-##' 
+##'
 ##' \sQuote{The algorithm is based on a mechanical analogy between a triangular
 ##' mesh and a n-D truss structure. In the physical model, the edges of the
 ##' Delaunay triangles of a set of points correspond to bars of a truss. Each
 ##' bar has a force-displacement relationship \eqn{f(\ell, \ell_{0})}{F(L,L0)}
 ##' depending on its current length \eqn{\ell}{L} and its unextended length
 ##' \eqn{\ell_{0}}{L0}.}
-##' 
+##'
 ##' \sQuote{External forces on the structure come at the boundaries, on which
 ##' external forces have normal orientations. These external forces are just
 ##' large enough to prevent nodes from moving outside the boundary. The
@@ -27,10 +27,10 @@
 ##' static force equilibrium. The hope is that (when \code{fh = function(p)
 ##' return(rep(1,nrow(p)))}), the lengths of all the bars at equilibrium will
 ##' be nearly equal, giving a well-shaped triangular mesh.}
-##' 
+##'
 ##' See the references below for all details. Also, see the comments in the
 ##' source file of \code{distmesh2d}.
-##' 
+##'
 ##' @param fdist Vectorized signed distance function, for example
 ##' \code{\link{mesh.dsphere}}, accepting an \code{m}-by-\code{n}
 ##' matrix, where \code{m} is arbitrary, as the first argument.
@@ -56,21 +56,21 @@
 ##' other functions of the Matlab package }
 ##' @author Raoul Grasman; translated from original Matlab sources of Per-Olof
 ##' Persson.
-##' @seealso \code{\link{distmesh2d}}, \code{\link[tripack]{tri.mesh}},
+##' @seealso \code{\link{distmesh2d}}, \code{\link[interp]{tri.mesh}},
 ##' \code{\link{delaunayn}}, \code{\link{mesh.dsphere}},
 ##' \code{\link{mesh.hunif}},\cr \code{\link{mesh.diff}},
 ##' \code{\link{mesh.union}}, \code{\link{mesh.intersect}}
 ##' @references \url{http://persson.berkeley.edu/distmesh/}
-##' 
+##'
 ##' \cite{P.-O. Persson, G. Strang, A Simple Mesh Generator in MATLAB. SIAM
 ##' Review, Volume 46 (2), pp. 329-345, June 2004}
 ##' @keywords math optimize dplot graphs
 ##' @examples
-##' 
+##'
 ##' \dontrun{
 ##' # examples distmeshnd
 ##' require(rgl)
-##' 
+##'
 ##' fd = function(p, ...) sqrt((p^2)%*%c(1,1,1)) - 1
 ##'      # also predefined as `mesh.dsphere'
 ##' fh = function(p,...)  rep(1,nrow(p))

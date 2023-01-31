@@ -70,14 +70,14 @@ interfaces the \href{http://www.qhull.org}{Qhull} library.
 }
 \note{
 This function was originally a port of the
-  \href{https://www.gnu.org/software/octave/}{Octave} convhulln function written
+  \href{https://octave.org/}{Octave} convhulln function written
   by Kai Habel.
 
 See further notes in \code{\link{delaunayn}}.
 }
 \examples{
 ## Points in a sphere
-ps <- matrix(rnorm(3000), ncol=3)  
+ps <- matrix(rnorm(3000), ncol=3)
 ps <- sqrt(3)*ps/drop(sqrt((ps^2) \%*\% rep(1, 3)))
 ts.surf <- t(convhulln(ps))  # see the qhull documentations for the options
 \dontrun{
@@ -109,7 +109,7 @@ convhulln(pc, return.non.triangulated.facets=TRUE)
 }
 \seealso{
 \code{\link{intersectn}}, \code{\link{delaunayn}},
-  \code{\link{surf.tri}}, \code{\link[tripack]{convex.hull}}
+  \code{\link{surf.tri}}, \code{\link[interp]{convex.hull}}
 }
 \author{
 Raoul Grasman, Robert B. Gramacy, Pavlo Mozharovskyi and

@@ -1,5 +1,5 @@
 ##' Delaunay triangulation in N dimensions
-##' 
+##'
 ##' The Delaunay triangulation is a tessellation of the convex hull of
 ##' the points such that no \eqn{N}-sphere defined by the \eqn{N}-
 ##' triangles contains any other points from the set.
@@ -10,7 +10,7 @@
 ##' @param options String containing extra control options for the
 ##'   underlying Qhull command; see the Qhull documentation
 ##'   (\url{../doc/qhull/html/qdelaun.html}) for the available
-##'   options. 
+##'   options.
 ##'
 ##'   The \code{Qbb} option is always passed to Qhull. The remaining
 ##'   default options are \code{Qcc Qc Qt Qz} for \eqn{N<4} and
@@ -32,7 +32,7 @@
 ##'   are supported. Causes an object of  return value for details. If
 ##'   \code{output.options} is \code{TRUE}, select all supported
 ##'   options.
-##' 
+##'
 ##' @param full Deprecated and will be removed in a future release.
 ##'   Adds options \code{Fa} and \code{Fn}.
 ##'
@@ -54,11 +54,11 @@
 ##'       of tetrahedra). See \url{../doc/qhull/html/qh-optf.html#Fa}.}
 ##'     \item{\code{neighbours}}{If \code{TRUE} or if \code{Fn} is specified,
 ##'       a list of  neighbours of each simplex.
-##'       See \url{../doc/qhull/html/qh-optf.html#Fn}} 
+##'       See \url{../doc/qhull/html/qh-optf.html#Fn}}
 ##'   }
-##' 
+##'
 ##' @note This function interfaces the Qhull library and is a port
-##'   from Octave (\url{https://www.gnu.org/software/octave/}) to R. Qhull computes
+##'   from Octave (\url{https://octave.org/}) to R. Qhull computes
 ##'   convex hulls, Delaunay triangulations, halfspace intersections
 ##'   about a point, Voronoi diagrams, furthest-site Delaunay
 ##'   triangulations, and furthest-site Voronoi diagrams. It runs in
@@ -76,21 +76,21 @@
 ##' implemented in \link{distmesh2d} (currently only 2D).
 ##' @author Raoul Grasman and Robert B. Gramacy; based on the
 ##' corresponding Octave sources of Kai Habel.
-##' @seealso \code{\link[tripack]{tri.mesh}}, \code{\link{convhulln}},
+##' @seealso \code{\link[interp]{tri.mesh}}, \code{\link{convhulln}},
 ##' \code{\link{surf.tri}}, \code{\link{distmesh2d}}
 ##' @references \cite{Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T.,
 ##' \dQuote{The Quickhull algorithm for convex hulls,} \emph{ACM Trans. on
 ##' Mathematical Software,} Dec 1996.}
-##' 
+##'
 ##' \url{http://www.qhull.org}
 ##' @keywords math dplot graphs
 ##' @examples
-##' 
+##'
 ##' # example delaunayn
 ##' d <- c(-1,1)
 ##' pc <- as.matrix(rbind(expand.grid(d,d,d),0))
 ##' tc <- delaunayn(pc)
-##' 
+##'
 ##' # example tetramesh
 ##' \dontrun{
 ##' rgl::rgl.viewpoint(60)
@@ -101,7 +101,7 @@
 ##' tc1 <- delaunayn(pc, output.options="Fa")
 ##' ## sum of generalised areas is total volume of cube
 ##' sum(tc1$areas)
-##' 
+##'
 ##' @export
 ##' @useDynLib geometry
 delaunayn <-
@@ -117,7 +117,7 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
 
   ## Make sure we have real-valued input
   storage.mode(p) <- "double"
-  
+
   ## We need to check for NAs in the input, as these will crash the C
   ## code.
   if (any(is.na(p))) {
@@ -135,7 +135,7 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
 
   ## Combine and check options
   options <- tryCatch(qhull.options(options, output.options, supported_output.options  <- c("Fa", "Fn"), full=full), error=function(e) {stop(e)})
-  
+
   ## It is essential that delaunayn is called with either the QJ or Qt
   ## option. Otherwise it may return a non-triangulated structure, i.e
   ## one with more than dim+1 points per structure, where dim is the
@@ -159,5 +159,5 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
 
 ##  LocalWords:  param Qhull Fn delaunayn Qbb Qcc Qc Qz Qx QJ itemize
 ##  LocalWords:  tri Voronoi Quickhull distmesh Grasman Gramacy Kai
-##  LocalWords:  Habel seealso tripack convhulln Dobkin Huhdanpaa ACM
+##  LocalWords:  Habel seealso interp convhulln Dobkin Huhdanpaa ACM
 ##  LocalWords:  dQuote emph dplot pc tc tetramesh dontrun useDynLib

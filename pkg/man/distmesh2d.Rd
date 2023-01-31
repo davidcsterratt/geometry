@@ -133,7 +133,7 @@ p <- distmesh2d(fd,fh,0.05,bbox,radius=0.3, maxiter=10)
 Review, Volume 46 (2), pp. 329-345, June 2004}
 }
 \seealso{
-\code{\link[tripack]{tri.mesh}}, \code{\link{delaunayn}},
+\code{\link[interp]{tri.mesh}}, \code{\link{delaunayn}},
   \code{\link{mesh.dcircle}}, \code{\link{mesh.drectangle}},
   \code{\link{mesh.diff}}, \code{\link{mesh.union}},
   \code{\link{mesh.intersect}}
