@@ -5,8 +5,10 @@ qhull.options <- function(options, output.options, supported_output.options, ful
     }
     output.options = TRUE
     ## Enable message in 0.4.1
-    ## Turn to warning in 0.4.2
-    ## message("delaunayn: \"full\" option is deprecated; adding \"Fa\" and \"Fn\" to options")
+    ## Turn to warning in 0.4.7
+    message("delaunayn: \"full\" option is deprecated; adding \"Fa\" and \"Fn\" to options.
+      Please update your code to use \"output.options=TRUE\" or set \"output.options\" to a
+      string containing desired QHull options.")
   }
   
   if (is.null(output.options)) {
