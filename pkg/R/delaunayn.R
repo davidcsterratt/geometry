@@ -53,7 +53,10 @@
 ##'       each simplex (e.g. in 2D the areas of triangles; in 3D the volumes
 ##'       of tetrahedra). See \url{../doc/qhull/html/qh-optf.html#Fa}.}
 ##'     \item{\code{neighbours}}{If \code{TRUE} or if \code{Fn} is specified,
-##'       a list of  neighbours of each simplex.
+##'       a list of neighbours of each simplex. Note that a negative number
+##'       corresponds to "facet" (="edge" in 2D or "face" in 3D) that has no
+##'       neighbour, as will be the case for some simplices on the boundary
+##'       of the triangulation.
 ##'       See \url{../doc/qhull/html/qh-optf.html#Fn}}
 ##'   }
 ##'
@@ -190,3 +193,6 @@ plot.delaunayn <- function(x, y, ...) {
 ##  LocalWords:  tri Voronoi Quickhull distmesh Grasman Gramacy Kai
 ##  LocalWords:  Habel seealso interp convhulln Dobkin Huhdanpaa ACM
 ##  LocalWords:  dQuote emph dplot pc tc tetramesh dontrun useDynLib
+# LocalWords:  eqn url math tmp stdout tempfile stderr unlink NAs na
+# LocalWords:  tryCatch qhull grepl sapply attr importFrom convhullns
+# LocalWords:  args rbind

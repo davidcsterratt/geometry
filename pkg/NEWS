@@ -12,6 +12,11 @@ BUG FIXES
   https://github.com/davidcsterratt/geometry/pull/64
   Thanks to Duncan Murdoch for replacing rgl.* functions with *3d functions
 
+* Issue #60: Negative neighbour IDs reported by delaunayn
+  https://github.com/davidcsterratt/geometry/issues/60
+  Provide documentation to explain that the Qhull "Fn" option returns
+  negative IDs.
+
 API CHANGE
 
 * Issue #29: Make behaviour of convhulln() and delaunayn() more consistent

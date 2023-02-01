@@ -57,7 +57,10 @@ If \code{output.options} is \code{NULL} (the default),
       each simplex (e.g. in 2D the areas of triangles; in 3D the volumes
       of tetrahedra). See \url{../doc/qhull/html/qh-optf.html#Fa}.}
     \item{\code{neighbours}}{If \code{TRUE} or if \code{Fn} is specified,
-      a list of  neighbours of each simplex.
+      a list of neighbours of each simplex. Note that a negative number
+      corresponds to "facet" (="edge" in 2D or "face" in 3D) that has no
+      neighbour, as will be the case for some simplices on the boundary
+      of the triangulation.
       See \url{../doc/qhull/html/qh-optf.html#Fn}}
   }
 }
