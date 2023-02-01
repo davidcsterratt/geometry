@@ -157,6 +157,35 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
   return(out)
 }
 
+##' @importFrom graphics plot
+##' @method plot delaunayn
+##' @export
+plot.delaunayn <- function(x, y, ...) {
+  if (ncol(x$p) < 2 || ncol(x$p) > 3)
+    stop("Only 2D and 3D convhullns can be plotted")
+  args <- list(...)
+  add <- FALSE
+  if ("add" %in% names(args)) {
+    add <- args$add
+    args$add <- NULL
+  }
+  if (ncol(x$p) == 2) {
+    if (!add) {
+      plot(x$p[,1], x$p[,2], ...)
+    }
+    m <- Unique(rbind(x$tri[,1:2],
+                      x$tri[,2:3],
+                      x$tri[,c(1,3)]))
+    p <- x$p
+    do.call(segments, c(list(p[m[,1],1],p[m[,1],2],p[m[,2],1],p[m[,2],2]),
+                        args))
+  }
+  if (ncol(x$p) == 3) {
+    do.call(tetramesh, c(list(x$tri, x$p),
+                         args))
+  }
+}
+
 ##  LocalWords:  param Qhull Fn delaunayn Qbb Qcc Qc Qz Qx QJ itemize
 ##  LocalWords:  tri Voronoi Quickhull distmesh Grasman Gramacy Kai
 ##  LocalWords:  Habel seealso interp convhulln Dobkin Huhdanpaa ACM

@@ -1,11 +1,28 @@
+
 CHANGES IN VERSION 0.4.7 - Released 2023/02/01
 
-BUG FIX
+BUG FIXES
 
 * Fix for Issue #67: Compiled code should not call sprintf
   https://github.com/davidcsterratt/geometry/issues/67
   Thanks to the CRAN maintainers for reporting this. Update uses
   safer snprintf function.
+
+* PR #64: Replace rgl.* with *3d
+  https://github.com/davidcsterratt/geometry/pull/64
+  Thanks to Duncan Murdoch for replacing rgl.* functions with *3d functions
+
+API CHANGE
+
+* Issue #29: Make behaviour of convhulln() and delaunayn() more consistent
+  https://github.com/davidcsterratt/geometry/issues/29
+  Issue message to indicate full option to delaunayn is dprecated
+
+NEW FEATURE
+
+* Issue #29: Make behaviour of convhulln() and delaunayn() more consistent
+  https://github.com/davidcsterratt/geometry/issues/29
+  plot.delaunayn() to plot triangulations
 
 CHANGES IN VERSION 0.4.6.1 - Released 2022/07/04
 
