@@ -1,12 +1,11 @@
-
-CHANGES IN VERSION 0.4.7 - Released 2023/02/01
+CHANGES IN VERSION 0.4.7 - Released 2023/02/03
 
 BUG FIXES
 
-* Fix for Issue #67: Compiled code should not call sprintf
+* Fix for Issue #67: Compiled code should not call sprintf()
   https://github.com/davidcsterratt/geometry/issues/67
   Thanks to the CRAN maintainers for reporting this. Update uses
-  safer snprintf function.
+  snprintf() function.
 
 * PR #64: Replace rgl.* with *3d
   https://github.com/davidcsterratt/geometry/pull/64
