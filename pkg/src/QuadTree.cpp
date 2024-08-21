@@ -110,7 +110,10 @@ QuadTree* QuadTree::create(const std::vector<double> x, const std::vector<double
     Point p(x[i], y[i], i);
 
     if (!tree->insert(p))
+    {
+      delete tree;
       return nullptr;
+    }
   }
 
   return tree;
