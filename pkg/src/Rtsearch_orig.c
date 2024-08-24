@@ -61,24 +61,24 @@ SEXP C_tsearch_orig(SEXP x,  SEXP y, SEXP elem,
                     SEXP xi, SEXP yi,
                     SEXP bary) {
   int ibary = 0;
-  if (isLogical(bary))
+  if (Rf_isLogical(bary))
     if (*LOGICAL(bary) == TRUE)
       ibary = 1;
 
   /* printf("Here 1\n"); */
   double *rx = REAL(x);
   double *ry = REAL(y);
-  int nelem = nrows(elem);
+  int nelem = Rf_nrows(elem);
   int *ielem = INTEGER(elem);
   double *rxi = REAL(xi);
   double *ryi = REAL(yi);
   int np = LENGTH(xi);
   /* printf("%i points\n", np); */
   SEXP minx, maxx, miny, maxy;
-  PROTECT(minx = allocVector(REALSXP, nelem));
-  PROTECT(maxx = allocVector(REALSXP, nelem));
-  PROTECT(miny = allocVector(REALSXP, nelem));
-  PROTECT(maxy = allocVector(REALSXP, nelem));
+  PROTECT(minx = Rf_allocVector(REALSXP, nelem));
+  PROTECT(maxx = Rf_allocVector(REALSXP, nelem));
+  PROTECT(miny = Rf_allocVector(REALSXP, nelem));
+  PROTECT(maxy = Rf_allocVector(REALSXP, nelem));
   double *rminx = REAL(minx);
   double *rmaxx = REAL(maxx);
   double *rminy = REAL(miny);
@@ -96,12 +96,12 @@ SEXP C_tsearch_orig(SEXP x,  SEXP y, SEXP elem,
 
   /* Make space for output */
   SEXP values;
-  PROTECT(values = allocVector(INTSXP, np));
+  PROTECT(values = Rf_allocVector(INTSXP, np));
   int *ivalues = INTEGER(values);
   SEXP p = NULL;
   double *rp = NULL;
   if (ibary) {
-    PROTECT(p = allocMatrix(REALSXP, np, 3));
+    PROTECT(p = Rf_allocMatrix(REALSXP, np, 3));
     rp = REAL(p);
     for (int k = 0; k < 3*np; k++)
       rp[k] = NA_REAL;
@@ -175,7 +175,7 @@ SEXP C_tsearch_orig(SEXP x,  SEXP y, SEXP elem,
 
   SEXP ans;
   if (ibary) {
-    PROTECT(ans = allocVector(VECSXP, 2));
+    PROTECT(ans = Rf_allocVector(VECSXP, 2));
     SET_VECTOR_ELT(ans, 0, values);
     SET_VECTOR_ELT(ans, 1, p);
     UNPROTECT(7);

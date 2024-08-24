@@ -31,27 +31,27 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   /* Get the qh object from the delaunayn object */
   SEXP ptr, tag;
   qhT *qh;
-  tag = PROTECT(allocVector(STRSXP, 1));
-  SET_STRING_ELT(tag, 0, mkChar("delaunayn"));
-  ptr = PROTECT(getAttrib(dt, tag));
+  tag = PROTECT(Rf_allocVector(STRSXP, 1));
+  SET_STRING_ELT(tag, 0, Rf_mkChar("delaunayn"));
+  ptr = PROTECT(Rf_getAttrib(dt, tag));
   if (ptr == R_NilValue) {
-    error("Delaunay triangulation has no delaunayn attribute");
+    Rf_error("Delaunay triangulation has no delaunayn attribute");
   }
   qh = R_ExternalPtrAddr(ptr);
   UNPROTECT(2);
 
   /* Check input matrix */
-  if(!isMatrix(p) || !isReal(p)){
-    error("Second argument should be a real matrix.");
+  if(!Rf_isMatrix(p) || !Rf_isReal(p)){
+    Rf_error("Second argument should be a real matrix.");
   }
   unsigned int dim, n;
-  dim = ncols(p) + 1;
-  n   = nrows(p);
+  dim = Rf_ncols(p) + 1;
+  n   = Rf_nrows(p);
   if(dim <= 0 || n <= 0){
-    error("Invalid input matrix.");
+    Rf_error("Invalid input matrix.");
   }
   if (dim != qh->hull_dim)
-    error("Invalid input matrix.");
+    Rf_error("Invalid input matrix.");
   
   /* Construct map from facet id to index */ 
   facetT *facet;
@@ -94,9 +94,9 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
   SEXP retlist, retnames;       /* Return list and names */
   int retlen = 2;               /* Length of return list */
   SEXP idx, points;
-  idx = PROTECT(allocVector(INTSXP, n));
+  idx = PROTECT(Rf_allocVector(INTSXP, n));
   int *iidx = INTEGER(idx);
-  points = PROTECT(allocMatrix(REALSXP, qh->num_points, dim - 1));
+  points = PROTECT(Rf_allocMatrix(REALSXP, qh->num_points, dim - 1));
 
   int j, k;
 
@@ -151,17 +151,17 @@ SEXP C_tsearchn(const SEXP dt, const SEXP p)
 
   }
 
-  retlist = PROTECT(allocVector(VECSXP, retlen));
-  retnames = PROTECT(allocVector(VECSXP, retlen));
+  retlist = PROTECT(Rf_allocVector(VECSXP, retlen));
+  retnames = PROTECT(Rf_allocVector(VECSXP, retlen));
   SET_VECTOR_ELT(retlist, 0, idx);
-  SET_VECTOR_ELT(retnames, 0, mkChar("idx"));
+  SET_VECTOR_ELT(retnames, 0, Rf_mkChar("idx"));
   SET_VECTOR_ELT(retlist, 1, points);
-  SET_VECTOR_ELT(retnames, 1, mkChar("P"));
-  setAttrib(retlist, R_NamesSymbol, retnames);
+  SET_VECTOR_ELT(retnames, 1, Rf_mkChar("P"));
+  Rf_setAttrib(retlist, R_NamesSymbol, retnames);
   UNPROTECT(4);
   
   if (exitcode)
-    error("findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).", facet->id);
+    Rf_error("findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).", facet->id);
   
   return retlist;
 }

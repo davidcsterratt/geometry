@@ -9,7 +9,7 @@ void freeQhull(qhT *qh) {
   qh_freeqhull(qh, !qh_ALL);                /* free long memory */
   qh_memfreeshort (qh, &curlong, &totlong);	/* free short memory and memory allocator */
   if (curlong || totlong) {
-    warning("convhulln: did not free %d bytes of long memory (%d pieces)",
+    Rf_warning("convhulln: did not free %d bytes of long memory (%d pieces)",
 	    totlong, curlong);
   }
   qh_free(qh);
@@ -54,24 +54,24 @@ int qhullNewQhull(qhT *qh, const SEXP p, char* cmd, const SEXP options, const SE
   FILE *tmpstdout = NULL;
   FILE *errfile = NULL;       
 
-  if(!isString(options) || length(options) != 1){
-    error("Second argument must be a single string.");
+  if(!Rf_isString(options) || Rf_length(options) != 1){
+    Rf_error("Second argument must be a single string.");
   }
-  if(!isMatrix(p) || !isReal(p)){
-    error("First argument should be a real matrix.");
+  if(!Rf_isMatrix(p) || !Rf_isReal(p)){
+    Rf_error("First argument should be a real matrix.");
   }
 
   /* Read options into command */
 	i = LENGTH(STRING_ELT(options,0)); 
   if (i > 200) 
-    error("Option string too long");
+    Rf_error("Option string too long");
   snprintf(flags, 249, "%s %s", cmd, CHAR(STRING_ELT(options,0)));
 
   /* Check input matrix */
-  dim = ncols(p);
-  n   = nrows(p);
+  dim = Rf_ncols(p);
+  n   = Rf_nrows(p);
   if(dim <= 0 || n <= 0){
-    error("Invalid input matrix.");
+    Rf_error("Invalid input matrix.");
   }
 
   pt_array = (double *) R_alloc(n*dim, sizeof(double)); 

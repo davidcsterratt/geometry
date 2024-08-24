@@ -1,6 +1,6 @@
 /* Copyright (C) 2000 Kai Habel
 ** Copyright R-version (C) 2005 Raoul Grasman
-** Copyright           (C) 2013-2019 David Sterratt
+** Copyright           (C) 2013-2024 David Sterratt
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmp_stdout, SEXP tmp_std
   /* Qz forces triangulation when the number of points is equal to the
      number of dimensions + 1 ; This mirrors the behaviour of octave
      and matlab */
-  if (nrows(p) == ncols(p) + 1) {
+  if (Rf_nrows(p) == Rf_ncols(p) + 1) {
     strncat(cmd, " Qz", 4);
   }
   int exitcode = qhullNewQhull(qh, p, cmd,  options, tmp_stdout, tmp_stderr, &dim, &n, errstr);
@@ -94,14 +94,14 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmp_stdout, SEXP tmp_std
     }
       
     /* Alocate the space in R */
-    PROTECT(tri = allocMatrix(INTSXP, nf, dim+1));
+    PROTECT(tri = Rf_allocMatrix(INTSXP, nf, dim+1));
     if (hasPrintOption(qh, qh_PRINTneighbors)) {
-      PROTECT(neighbours = allocVector(VECSXP, nf));
+      PROTECT(neighbours = Rf_allocVector(VECSXP, nf));
     } else {
       PROTECT(neighbours = R_NilValue);
     }
     if (hasPrintOption(qh, qh_PRINTarea)) {
-      PROTECT(areas = allocVector(REALSXP, nf));      
+      PROTECT(areas = Rf_allocVector(REALSXP, nf));
     } else {
       PROTECT(areas = R_NilValue);
     }
@@ -111,21 +111,21 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmp_stdout, SEXP tmp_std
     FORALLfacets {
       if (!facet->upperdelaunay && facet->f.area) {
         if (i >= nf) {
-          error("Trying to access non-existent facet %i", i);
+          Rf_error("Trying to access non-existent facet %i", i);
         }
 
         /* Triangulation */
         int j=0;
         FOREACHvertex_ (facet->vertices) {
           if ((i + nf*j) >= nf*(dim+1))
-            error("Trying to write to non-existent area of memory i=%i, j=%i, nf=%i, dim=%i", i, j, nf, dim);
+            Rf_error("Trying to write to non-existent area of memory i=%i, j=%i, nf=%i, dim=%i", i, j, nf, dim);
           INTEGER(tri)[i + nf*j] = 1 + qh_pointid(qh, vertex->point);
           j++;
         }
 
         /* Neighbours - option Fn */
         if (hasPrintOption(qh, qh_PRINTneighbors)) {
-          PROTECT(neighbour = allocVector(INTSXP, qh_setsize(qh, facet->neighbors)));
+          PROTECT(neighbour = Rf_allocVector(INTSXP, qh_setsize(qh, facet->neighbors)));
           j=0;
           FOREACHneighbor_(facet) {
             INTEGER(neighbour)[j] = neighbor->visitid ? neighbor->visitid: 0 - neighbor->id;
@@ -153,14 +153,14 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmp_stdout, SEXP tmp_std
   } else { /* exitcode != 1 */
     /* There has been an error; Qhull will print the error
        message */
-    PROTECT(tri = allocMatrix(INTSXP, 0, dim+1));
+    PROTECT(tri = Rf_allocMatrix(INTSXP, 0, dim+1));
     if (hasPrintOption(qh, qh_PRINTneighbors)) {
-      PROTECT(neighbours = allocVector(VECSXP, 0));
+      PROTECT(neighbours = Rf_allocVector(VECSXP, 0));
     } else {
       PROTECT(neighbours = R_NilValue);
     }
     if (hasPrintOption(qh, qh_PRINTarea)) {
-      PROTECT(areas = allocVector(REALSXP, 0));
+      PROTECT(areas = Rf_allocVector(REALSXP, 0));
     } else {
       PROTECT(areas = R_NilValue);
     }
@@ -183,33 +183,33 @@ SEXP C_delaunayn(const SEXP p, const SEXP options, SEXP tmp_stdout, SEXP tmp_std
   }
 
   /* Set up output structure */
-  retlist =  PROTECT(allocVector(VECSXP, 3));
-  retnames = PROTECT(allocVector(VECSXP, 3));
+  retlist =  PROTECT(Rf_allocVector(VECSXP, 3));
+  retnames = PROTECT(Rf_allocVector(VECSXP, 3));
   SET_VECTOR_ELT(retlist,  0, tri);
-  SET_VECTOR_ELT(retnames, 0, mkChar("tri"));
+  SET_VECTOR_ELT(retnames, 0, Rf_mkChar("tri"));
   SET_VECTOR_ELT(retlist,  1, neighbours);
-  SET_VECTOR_ELT(retnames, 1, mkChar("neighbours"));
+  SET_VECTOR_ELT(retnames, 1, Rf_mkChar("neighbours"));
   SET_VECTOR_ELT(retlist,  2, areas);
-  SET_VECTOR_ELT(retnames, 2, mkChar("areas"));
-  setAttrib(retlist, R_NamesSymbol, retnames);
+  SET_VECTOR_ELT(retnames, 2, Rf_mkChar("areas"));
+  Rf_setAttrib(retlist, R_NamesSymbol, retnames);
   
   /* Register qhullFinalizer() for garbage collection and attach a
      pointer to the hull as an attribute for future use. */
   SEXP ptr, tag;
-  PROTECT(tag = allocVector(STRSXP, 1));
-  SET_STRING_ELT(tag, 0, mkChar("delaunayn"));
+  PROTECT(tag = Rf_allocVector(STRSXP, 1));
+  SET_STRING_ELT(tag, 0, Rf_mkChar("delaunayn"));
   PROTECT(ptr = R_MakeExternalPtr(qh, tag, R_NilValue));
   if (exitcode) {
     qhullFinalizer(ptr);
   } else {
     R_RegisterCFinalizerEx(ptr, qhullFinalizer, TRUE);
-    setAttrib(retlist, tag, ptr);
+    Rf_setAttrib(retlist, tag, ptr);
   }
 
   UNPROTECT(7); /* ptr, tag, retnames, retlist, areas, neigbours, tri */
   
   if (exitcode & (exitcode != 2)) {
-    error("Received error code %d from qhull. Qhull error:\n%s", exitcode, errstr);
+    Rf_error("Received error code %d from qhull. Qhull error:\n%s", exitcode, errstr);
   } 
   
 	return retlist;

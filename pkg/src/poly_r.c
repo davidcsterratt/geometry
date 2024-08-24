@@ -408,8 +408,8 @@ int qh_gethash(qhT *qh, int hashsize, setT *set, int size, int firstindex, void 
   unsigned result;
   int i;
 #ifdef _MSC_VER                   /* Microsoft Visual C++ -- warn about 64-bit issues */
-#pragma warning( push)            /* WARN64 -- ptr_intT holds a 64-bit pointer */
-#pragma warning( disable : 4311)  /* 'type cast': pointer truncation from 'void*' to 'ptr_intT' */
+#pragma Rf_warning( push)            /* WARN64 -- ptr_intT holds a 64-bit pointer */
+#pragma Rf_warning( disable : 4311)  /* 'type cast': pointer truncation from 'void*' to 'ptr_intT' */
 #endif
 
   switch (size-firstindex) {
@@ -458,7 +458,7 @@ int qh_gethash(qhT *qh, int hashsize, setT *set, int size, int firstindex, void 
   /* result= 0; for debugging */
   return result;
 #ifdef _MSC_VER
-#pragma warning( pop)
+#pragma Rf_warning( pop)
 #endif
 } /* gethash */
 

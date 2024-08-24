@@ -32,8 +32,8 @@ typedef struct facetT facetT;
 void    qh_errexit(qhT *qh, int exitcode, facetT *, ridgeT *);
 void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... );
 #  ifdef _MSC_VER  /* Microsoft Visual C++ -- warning level 4 */
-#  pragma warning( disable : 4127)  /* conditional expression is constant */
-#  pragma warning( disable : 4706)  /* assignment within conditional function */
+#  pragma Rf_warning( disable : 4127)  /* conditional expression is constant */
+#  pragma Rf_warning( disable : 4706)  /* assignment within conditional function */
 #  endif
 #endif
 

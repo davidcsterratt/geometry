@@ -25,11 +25,11 @@ SEXP C_inhulln(const SEXP ch, const SEXP p)
   /* Get the qh object from the convhulln object */
   SEXP ptr, tag;
   qhT *qh;
-  PROTECT(tag = allocVector(STRSXP, 1));
-  SET_STRING_ELT(tag, 0, mkChar("convhulln"));
-  PROTECT(ptr = getAttrib(ch, tag));
+  PROTECT(tag = Rf_allocVector(STRSXP, 1));
+  SET_STRING_ELT(tag, 0, Rf_mkChar("convhulln"));
+  PROTECT(ptr = Rf_getAttrib(ch, tag));
   if (ptr == R_NilValue) {
-    error("Convex hull has no convhulln attribute");
+    Rf_error("Convex hull has no convhulln attribute");
   }
   qh = R_ExternalPtrAddr(ptr);
   UNPROTECT(2);
@@ -39,22 +39,22 @@ SEXP C_inhulln(const SEXP ch, const SEXP p)
   inside = R_NilValue;
 
   /* Check input matrix */
-  if(!isMatrix(p) || !isReal(p)){
-    error("Second argument should be a real matrix.");
+  if(!Rf_isMatrix(p) || !Rf_isReal(p)){
+    Rf_error("Second argument should be a real matrix.");
   }
   unsigned int dim, n;
-  dim = ncols(p);
-  n   = nrows(p);
+  dim = Rf_ncols(p);
+  n   = Rf_nrows(p);
   if(dim <= 0 || n <= 0){
-    error("Invalid input matrix.");
+    Rf_error("Invalid input matrix.");
   }
   if(dim != qh->hull_dim){
-    error("Number of columns in test points p (%d) not equal to dimension of hull (%d).", dim, qh->hull_dim);
+    Rf_error("Number of columns in test points p (%d) not equal to dimension of hull (%d).", dim, qh->hull_dim);
   }
 
   /* Run through the matrix using qh_findbestfacet to determine
      whether in hull or not */
-  PROTECT(inside = allocVector(LGLSXP, n));
+  PROTECT(inside = Rf_allocVector(LGLSXP, n));
   double *point;
   point = (double *) R_alloc(dim, sizeof(double));
   boolT isoutside;

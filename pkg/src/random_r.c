@@ -16,8 +16,8 @@
 #include <stdlib.h>
 
 #ifdef _MSC_VER  /* Microsoft Visual C++ -- warning level 4 */
-#pragma warning( disable : 4706)  /* assignment within conditional function */
-#pragma warning( disable : 4996)  /* function was declared deprecated(strcpy, localtime, etc.) */
+#pragma Rf_warning( disable : 4706)  /* assignment within conditional function */
+#pragma Rf_warning( disable : 4996)  /* function was declared deprecated(strcpy, localtime, etc.) */
 #endif
 
 /*-<a                             href="qh-globa_r.htm#TOC"
