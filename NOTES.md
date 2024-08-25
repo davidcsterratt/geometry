@@ -30,7 +30,7 @@ tools::package_native_routine_registration_skeleton("geometry/pkg")
 # To update links in qhull docs
 
 The QHull html docs are copied from the Qhull source tree
-(`qhull/docs/html`) to `pkg/inst/doc/html`. To satisfy the R checks,
+(`qhull/html`) to `vignettes/qhull/html`. To satisfy the R checks,
 files have to be renamed from `*.htm` to `*.html`, and the links have
 to be updated too. In order to do this, once all doc files have been
 copied into `pkg/inst/doc/html`, the following bash commands work:
