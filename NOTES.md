@@ -5,14 +5,51 @@ roxygen2::roxygenise("..")
 devtools::install(".", build_vignettes=TRUE)
 ```
 The `build_vignettes` argument is needed because the Qhull docs now
-have to be installed in inst/doc using the .install_extras file in the
+have to be installed in inst/doc using the `.install_extras` file in the
 vignettes directory.
 
 # To do a reverse dependency check
 
+## Github actions method
+
+1. Browse to the __Actions__ page on Github and then select __Reverse
+   dependency check__. Alternatively go directly to this URL:
+   https://github.com/davidcsterratt/geometry/actions/workflows/recheck.yml
+2. Click on __Run Workflow__ and wait about an hour for results
+3. Once done, click on the top __Reverse dependency check__ row and
+   then __Show results__.
+4. Examine the __Get results__ section, which presents some summary
+   level information of the number of packages with Warning and
+   Errors.
+5. You can also download the old and new package logs, unzip them into
+   to two separate directories, and diff them using
+   ```
+   diff -ru -x '*.Rout' -x '*manual.log' -x 'Rdlatex.log' newpkg-checklogs-pre newpkg-checklogs-post/  |grep Status
+   ```
+
+## Revdepcheck method
+
+Install and use [the revdepcheck
+package](https://github.com/r-lib/revdepcheck) as follows:
+
 ```
 revdepcheck::revdep_check("geometry/pkg", num_workers=6)
+
 ```
+
+## CRAN manual method
+
+1. Make sure relevant system packages are install. On Debian/Ubuntu Linux:
+   ```
+   sudo apt install libgmp-dev cmake libudunits2-dev libgdal-dev libgsl-dev libglpk-dev libmagick++-dev libpoppler-cpp-dev
+
+   ```
+2. Build the package using R CMD check.
+3. Put the constructed .tar.gz file in a directory on its own
+4. Open R in this directory, and run
+   ```
+   tools::check_packages_in_dir(reverse = list(), dir='revdep-rtools', pfiles='geometry_0.4.8.tar.gz', clean=FALSE)
+   ```
 
 # To spell check
 ```
@@ -30,7 +67,7 @@ tools::package_native_routine_registration_skeleton("geometry/pkg")
 # To update links in qhull docs
 
 The QHull html docs are copied from the Qhull source tree
-(`qhull/docs/html`) to `pkg/inst/doc/html`. To satisfy the R checks,
+(`qhull/html`) to `vignettes/qhull/html`. To satisfy the R checks,
 files have to be renamed from `*.htm` to `*.html`, and the links have
 to be updated too. In order to do this, once all doc files have been
 copied into `pkg/inst/doc/html`, the following bash commands work:
