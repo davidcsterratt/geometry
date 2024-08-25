@@ -47,18 +47,21 @@ bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary, double 
   double a = ((p1.y - p2.y)*(p.x - p2.x) + (p2.x - p1.x)*(p.y - p2.y)) / det;
   double b = ((p2.y - p0.y)*(p.x - p2.x) + (p0.x - p2.x)*(p.y - p2.y)) / det;
   double c = 1 - a - b;
-  
+
   bary->x = c;
   bary->y = b;
-  
+
   return -eps <= a && a <= 1+eps && -eps <= b && b <= 1+eps && -eps <= c && c <= 1+eps;
 }
 
 //' @importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
 SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary = false, double eps = 1.0e-12)
-{ 
+{
   QuadTree *tree = QuadTree::create(as< std::vector<double> >(xi),as< std::vector<double> >(yi), eps);
+
+  if (tree == nullptr)
+    Rcpp::stop("Failed to insert point into QuadTree.\nPlease post input to tsearch  (or tsearchn at\nhttps://github.com/davidcsterratt/geometry/issues\nor email the maintainer.");
 
   int nelem = elem.nrow();
   int np = xi.size();
@@ -68,9 +71,9 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
 
   IntegerVector indexes(np);
   std::fill(indexes.begin(), indexes.end(), NA_INTEGER);
-  
+
   NumericMatrix barycentric;
-  
+
   if(bary)
   {
     barycentric = NumericMatrix(np, 3);
@@ -120,12 +123,12 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
     for (unsigned int i = 0 ; i < points.size() ; i++)
     {
       Point pbary;
-      
+
       if (PointInTriangle(A, B, C, *points[i], &pbary, eps))
       {
         int id = points[i]->id;
         indexes(id) = k + 1;
-        
+
         if(bary)
         {
           barycentric(id, 0) = 1 - pbary.x - pbary.y;
@@ -137,7 +140,7 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
   }
 
   delete tree;
-  
+
   if (bary)
   {
    return (List::create(indexes, barycentric));
