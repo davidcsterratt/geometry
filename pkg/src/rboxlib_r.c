@@ -25,8 +25,8 @@
 #include <stdlib.h>
 
 #ifdef _MSC_VER  /* Microsoft Visual C++ */
-#pragma Rf_warning( disable : 4706)  /* assignment within conditional expression. */
-#pragma Rf_warning( disable : 4996)  /* this function (strncat,sprintf,strcpy) or variable may be unsafe. */
+#pragma warning( disable : 4706)  /* assignment within conditional expression. */
+#pragma warning( disable : 4996)  /* this function (strncat,sprintf,strcpy) or variable may be unsafe. */
 #endif
 
 #define MAXdim 200

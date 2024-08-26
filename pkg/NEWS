@@ -1,4 +1,12 @@
-CHANGES IN VERSION 0.4.8 - Released 2024/08/??
+CHANGES IN VERSION 0.5.0 - Released 2024/08/26
+
+CODE IMPROVEMENTS
+
+* Issue #37: Incorporate Qhull 8.0.2
+  https://github.com/davidcsterratt/geometry/issues/37
+  This update of Qhull resolves a number of issues relating to points
+  spanning a small distance compared to their mean distance to the
+  origin: Issues #11, #12
 
 BUG FIXES
 
