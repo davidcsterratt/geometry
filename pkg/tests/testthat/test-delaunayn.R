@@ -99,3 +99,24 @@ test_that("A square is triangulated", {
                check.attributes=FALSE)
   expect_error(delaunayn(square, "", "QH6239 Qhull precision error: Initial simplex is cocircular or cospherical"))
 })
+
+test_that("No regression on issue 11: All points in a box far from the origin are triangulated", {
+  ## Generate set of randomly generated points in a 40 unit square,
+  ## 250,000 from the origin
+  set.seed(2)
+  p <- geometry::rbox(4000, D=2, 20) + 250000
+
+  ## Triangulate
+  t <- delaunayn(p)
+
+  ## Count how many of the points aren't in the triangulation - should be zero
+  expect_equal(length(setdiff(seq(1,nrow(p)), unique(c(t[,1], t[,2], t[,3])))),
+               0)
+
+  ## Plotting: in the plot below, untriangulated points appear in red
+  ## Basted on Jean-Romain's example in https://github.com/davidcsterratt/geometry/issues/11
+  ## x <- p[,1]
+  ## y <- p[,2]
+  ## plot(x, y, cex = 0.1, col = "red")
+  ## trimesh(t, x, y, add = T)
+})

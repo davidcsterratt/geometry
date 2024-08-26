@@ -7,6 +7,10 @@ BUG FIXES
   Thanks to the CRAN maintainers for reporting this and Jean-Romain
   Roussel for providing the fix.
 
+* Fix for Issue #11: Wrong triangulation for a specific dataset
+  https://github.com/davidcsterratt/geometry/issues/11
+  Thanks to Jean-Romain the report and C. B. Barber for help debugging
+
 CHANGES IN VERSION 0.4.7 - Released 2023/02/03
 
 BUG FIXES
