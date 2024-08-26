@@ -1,2 +1,3 @@
 PKG_CFLAGS = -include Rgeometry.h
 PKG_LDFLAGS = -fno-common
+PKG_CPPFLAGS = -DR_NO_REMAP
