@@ -1,12 +1,32 @@
+CHANGES IN VERSION 0.5.0 - Released 2024/08/26
 
-CHANGES IN VERSION 0.4.7 - Released 2023/02/01
+CODE IMPROVEMENTS
+
+* Issue #37: Incorporate Qhull 8.0.2
+  https://github.com/davidcsterratt/geometry/issues/37
+  This update of Qhull resolves a number of issues relating to points
+  spanning a small distance compared to their mean distance to the
+  origin: Issues #11, #12
 
 BUG FIXES
 
-* Fix for Issue #67: Compiled code should not call sprintf
+* Fix for Issue #71: noRemap CRAN chack
+  https://github.com/davidcsterratt/geometry/issues/71
+  Thanks to the CRAN maintainers for reporting this and Jean-Romain
+  Roussel for providing the fix.
+
+* Fix for Issue #11: Wrong triangulation for a specific dataset
+  https://github.com/davidcsterratt/geometry/issues/11
+  Thanks to Jean-Romain the report and C. B. Barber for help debugging
+
+CHANGES IN VERSION 0.4.7 - Released 2023/02/03
+
+BUG FIXES
+
+* Fix for Issue #67: Compiled code should not call sprintf()
   https://github.com/davidcsterratt/geometry/issues/67
   Thanks to the CRAN maintainers for reporting this. Update uses
-  safer snprintf function.
+  snprintf() function.
 
 * PR #64: Replace rgl.* with *3d
   https://github.com/davidcsterratt/geometry/pull/64

@@ -34,12 +34,12 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmp_stdout, const
   /* If error */
   if (exitcode) {
     freeQhull(qh);
-    error("Received error code %d from qhull. Qhull error:\n%s", exitcode, errstr);
+    Rf_error("Received error code %d from qhull. Qhull error:\n%s", exitcode, errstr);
   }
 
   if (!qh->feasible_point) {
     freeQhull(qh);
-    error("qhull input error (qh_printafacet): option 'Fp' needs qh->feasible_point");
+    Rf_error("qhull input error (qh_printafacet): option 'Fp' needs qh->feasible_point");
   }
   
   /* Extract information from output */
@@ -61,7 +61,7 @@ SEXP C_halfspacen(const SEXP p, const SEXP options, const SEXP tmp_stdout, const
   /* Output of intersections based on case qh_PRINTpointintersect:
      qh_printafacet() in io_r.c . This corresponds to the "Fp"
      option to the qhull program */
-  retval = PROTECT(allocMatrix(REALSXP, nf, dim-1));
+  retval = PROTECT(Rf_allocMatrix(REALSXP, nf, dim-1));
   int k;
   i=0; /* Facet counter */
   FORALLfacets {
