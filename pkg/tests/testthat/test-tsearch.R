@@ -183,3 +183,15 @@ test_that("no regression on Issue #39", {
       c(199.4, 4072.0)) #note that only the Y coordinate of datapoint 5 was changed
       expect_equal(tsearch(P[,1], P[,2],T, data2[,1], data2[,2]), c(2, 1, 3, 1, 2))
 })
+
+test_that("no regression on Issue #57", {
+  load(file.path(system.file(package="geometry"), "extdata", "issue57-tsearch.RData"))
+
+  dn <- delaunayn(P, options = "")
+  tri <- tsearch(P[, "XCoord"], P[, "YCoord"], dn, Pi[, "XCoord"], Pi[, "YCoord"], bary = T)
+  tri2 <- tsearch(P[, "XCoord"], P[, "YCoord"], dn, Pi[, "XCoord"], Pi[, "YCoord"], bary = T, method = "orig")
+  ## trimesh(dn, P[,"XCoord"], P[, "YCoord"])
+  ## points(P[,"XCoord"], P[,"YCoord"], col='red')
+
+  expect_equal(tri, tri2)
+})
