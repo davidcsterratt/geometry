@@ -19,8 +19,9 @@ BUG FIXES
   https://github.com/davidcsterratt/geometry/issues/11
   Thanks to Jean-Romain the report and C. B. Barber for help debugging
 
-* Fix for Issue #57: tsearch fails on points far from the origin
+* Fix for Issues #57 and #46: tsearch fails on points far from the origin
   https://github.com/davidcsterratt/geometry/issues/57
+  https://github.com/davidcsterratt/geometry/issues/46
   Thanks to Wayne Jones for the report and Jean-Romain for the fix
 
 CHANGES IN VERSION 0.4.7 - Released 2023/02/03
