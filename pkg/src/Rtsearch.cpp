@@ -58,7 +58,18 @@ bool PointInTriangle(Point p0, Point p1, Point p2, Point p, Point* bary, double 
 // [[Rcpp::export]]
 SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVector xi, NumericVector yi, bool bary = false, double eps = 1.0e-12)
 {
-  QuadTree *tree = QuadTree::create(as< std::vector<double> >(xi),as< std::vector<double> >(yi), eps);
+  std::vector<double> xx = as< std::vector<double> >(xi);
+  std::vector<double> yy = as< std::vector<double> >(yi);
+
+  // Compute the minimum of each vector
+  double xoffset = *std::min_element(xx.begin(), xx.end());
+  double yoffset = *std::min_element(yy.begin(), yy.end());
+
+  // Subtract the minimum from all elements in the vector
+  std::transform(xx.begin(), xx.end(), xx.begin(), [xoffset](double& elem) { return elem - xoffset; });
+  std::transform(yy.begin(), yy.end(), yy.begin(), [yoffset](double& elem) { return elem - yoffset; });
+
+  QuadTree *tree = QuadTree::create(xx, yy, eps);
 
   if (tree == nullptr)
     Rcpp::stop("Failed to insert point into QuadTree.\nPlease post input to tsearch  (or tsearchn at\nhttps://github.com/davidcsterratt/geometry/issues\nor email the maintainer.");
@@ -97,9 +108,9 @@ SEXP C_tsearch(NumericVector x,  NumericVector y, IntegerMatrix elem, NumericVec
     int iB = elem(k, 1) - 1;
     int iC = elem(k, 2) - 1;
 
-    Point A(x(iA), y(iA));
-    Point B(x(iB), y(iB));
-    Point C(x(iC), y(iC));
+    Point A(x(iA)-xoffset, y(iA)-yoffset);
+    Point B(x(iB)-xoffset, y(iB)-yoffset);
+    Point C(x(iC)-xoffset, y(iC)-yoffset);
 
     // Boundingbox of A B C
 

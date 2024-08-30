@@ -73,7 +73,7 @@ QuadTree::~QuadTree()
   delete SW;
 }
 
-QuadTree* QuadTree::create(const std::vector<double> x, const std::vector<double> y, const double eps = 1.0e-12)
+QuadTree* QuadTree::create(const std::vector<double>& x, const std::vector<double>& y, const double eps = 1.0e-12)
 {
   int n = x.size();
 
