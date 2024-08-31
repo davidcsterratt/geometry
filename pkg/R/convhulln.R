@@ -127,7 +127,19 @@ convhulln <- function (p, options = "Tv", output.options=NULL, return.non.triang
       options <- paste(options, "Qt")
     }
   }
-  out <- .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmp_stdout, tmp_stderr, PACKAGE="geometry")
+  out <- tryCatch(
+    .Call("C_convhulln", p, as.character(options), as.integer(return.non.triangulated.facets), tmp_stdout, tmp_stderr, PACKAGE="geometry"),
+    error=function(e) {
+      message = e$message
+      if (grepl("QH6271", e$message)) {
+        message("You may be able to avoid the following error by adding  \"Qbb\" to the \"options\" argument of convhulln()
+For example: options=\"", options, " Qbb\"
+If this does not work, please add to the issue at
+https://github.com/davidcsterratt/geometry/issues/58
+")
+      }
+      stop(e)
+    })
 
   # Remove NULL elements
   out[which(sapply(out, is.null))] <- NULL

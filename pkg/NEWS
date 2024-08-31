@@ -36,6 +36,11 @@ BUG FIXES
   https://github.com/davidcsterratt/geometry/issues/46
   Thanks to Wayne Jones for the report and Jean-Romain for the fix
 
+* Issue #58: convhulln() receives QH6271 qhull precision error
+  https://github.com/davidcsterratt/geometry/issues/58
+  convhulln() now issues advice about options to avoid this error.
+  Thanks to GitHub user Huangmp1996 for the report
+
 CHANGES IN VERSION 0.4.7 - Released 2023/02/03
 
 BUG FIXES
