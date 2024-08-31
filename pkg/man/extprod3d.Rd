@@ -2,7 +2,7 @@
 % Please edit documentation in R/extprod3d.R
 \name{extprod3d}
 \alias{extprod3d}
-\title{Compute external- or `cross'- product of 3D vectors.}
+\title{Compute external- or \sQuote{cross}- product of 3D vectors.}
 \usage{
 extprod3d(x, y, drop = TRUE)
 }
@@ -21,11 +21,14 @@ If \code{n} is greater than 1 or \code{drop} is
   \code{drop} is \code{TRUE}, a vector of length 3.
 }
 \description{
-Computes the external product \deqn{ }{ (x2 * y3 - x3 * y2, x3 * y1 - x1 *
-y3, x1 * y2 - x2 * y1) }\deqn{ \left(x_2 y_3 - x_3 y_2,\; x_3 y_1 - x_1
-y_3,\; x_1 y_2 - x_2 y_1 \right) }{ (x2 * y3 - x3 * y2, x3 * y1 - x1 * y3,
-x1 * y2 - x2 * y1) }\deqn{ }{ (x2 * y3 - x3 * y2, x3 * y1 - x1 * y3, x1 *
-y2 - x2 * y1) } of the 3D vectors in \bold{x} and \bold{y}.
+Computes the external product
+\deqn{ \left(x_2 y_3 - x_3 y_2,\;
+             x_3 y_1 - x_1 y_3,\;
+             x_1 y_2 - x_2 y_1 \right) }{
+            (x2 * y3 - x3 * y2,
+             x3 * y1 - x1 * y3,
+             x1 * y2 - x2 * y1) }
+of the 3D vectors in \bold{x} and \bold{y}.
 }
 \seealso{
 \code{\link[base]{drop}}
