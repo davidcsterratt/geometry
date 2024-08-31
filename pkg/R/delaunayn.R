@@ -128,12 +128,12 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
   }
 
   ## Default options
+  defult.options <- "Qt Qc Qx"
+  if (ncol(p) < 4) {
+    default.options <- "Qt Qc Qz"
+  }
   if (is.null(options)) {
-    if (ncol(p) < 4) {
-      options <- "Qt Qc Qz"
-    } else {
-      options <- "Qt Qc Qx"
-    }
+    options <- default.options
   }
 
   ## Combine and check options
@@ -148,6 +148,21 @@ function(p, options=NULL, output.options=NULL, full=FALSE) {
   }
 
   out <- .Call("C_delaunayn", p, as.character(options), tmp_stdout, tmp_stderr, PACKAGE="geometry")
+
+  ## Check for points missing from triangulation, but not in the case
+  ## of a degenerate trianguation (zero rows in output)
+  if (nrow(out$tri) > 0) {
+    missing.points <- length(setdiff(seq(1,nrow(p)), unique(as.vector(out$tri))))
+    if (missing.points > 0) {
+      warning(paste0(missing.points, " points missing from triangulation.
+It is possible that setting the 'options' argument of delaunayn may help.
+For example:
+options = \"", default.options, " Qbb\"
+options = \"", default.options, " QbB\"
+If these options do not work, try shifting the centre of the points
+to the origin by subtracting the mean coordinates from every point."))
+    }
+  }
 
   # Remove NULL elements
   out[which(sapply(out, is.null))] <- NULL

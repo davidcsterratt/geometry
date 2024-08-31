@@ -120,3 +120,23 @@ test_that("No regression on issue 11: All points in a box far from the origin ar
   ## plot(x, y, cex = 0.1, col = "red")
   ## trimesh(t, x, y, add = T)
 })
+
+test_that("No regression on issue 12: All points in a small box with different x and y distances to the origin are triangulated", {
+  ## Generate set of randomly generated points in a 40 unit square,
+  ## with x distance of 5E5 from the origin and y distance 5E6 from
+  ## the orgin. Note that the mean x and y values relative to the
+  ## width of the window are quite different to each other.
+  set.seed(2)
+  p <- geometry::rbox(4000, D=2, 20) + 5E5
+  p[,2] <- p[,2] + 5E6
+
+  ## Expect warnings without the correct options
+  expect_warning(delaunayn(p), "points missing from triangulation")
+  expect_warning(delaunayn(p, options="Qt Qc Qz Qbb"), "points missing from triangulation")
+  expect_warning(delaunayn(p, options="Qt Qc Qz QbB"), "points missing from triangulation")
+
+  ## Centring the points does allow triangulation
+  p.centred <- cbind(p[,1] - mean(p[,1]),
+                     p[,2] - mean(p[,2]))
+  delaunayn(p.centred)
+})
