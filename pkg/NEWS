@@ -4,9 +4,21 @@ CODE IMPROVEMENTS
 
 * Issue #37: Incorporate Qhull 8.0.2
   https://github.com/davidcsterratt/geometry/issues/37
-  This update of Qhull resolves a number of issues relating to points
-  spanning a small distance compared to their mean distance to the
-  origin: Issues #11, #12
+  This update of Qhull resolves or addresses a number of issues (#11,
+  #12) relating to points spanning a small distance compared to their
+  mean distance to the origin
+
+MINOR API CHANGE
+
+* Issue #12: QH6227 impossible to triangulate a dataset far from the origin
+  https://github.com/davidcsterratt/geometry/issues/12
+  This particular error was fixed by the fix for #37, but some points
+  were still missing from the triangulation, when the points are far
+  from the origin. Delaunayn now throws a warning about points missing
+  from the triangulation, and suggests passing options to deluanayn
+  that may help, or centering the input data before passing it to
+  delaunayn. Thanks to Jean-Romain the orignal report, and C. B.
+  Barber for extensive advice on Qhull.
 
 BUG FIXES
 
