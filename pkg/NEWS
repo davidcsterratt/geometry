@@ -1,3 +1,14 @@
+CHANGES IN VERSION 0.5.1 - Released 2025/01/09
+
+BUG FIX
+
+* Issue #75: Sanitiser issues
+  https://github.com/davidcsterratt/geometry/issues/75
+  This update resolves issues with memory sanitisation observed when
+  compiling in an UBSAN environment. Thanks to Brian Ripley for
+  running the tests and reporting the error, and Tomas Kalibera for
+  providing the fix.
+
 CHANGES IN VERSION 0.5.0 - Released 2024/08/31
 
 CODE IMPROVEMENTS
