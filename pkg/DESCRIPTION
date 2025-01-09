@@ -29,4 +29,4 @@ Suggests: spelling, testthat, rgl, R.matlab, interp
 LinkingTo: Rcpp, RcppProgress
 Encoding: UTF-8
 Language: en-GB
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
