@@ -20,6 +20,7 @@
 #define qhDEFmem 1
 
 #include <stdio.h>
+#include <stdint.h>
 
 #ifndef DEFsetT
 #define DEFsetT 1
@@ -89,11 +90,11 @@ Trace short and quick memory allocations at T5
     This matches Qt convention and is easier to work with.
 */
 #if (defined(__MINGW64__)) && defined(_WIN64)
-typedef long long ptr_intT;
+typedef uintptr_t ptr_intT;
 #elif defined(_MSC_VER) && defined(_WIN64)
-typedef long long ptr_intT;
+typedef uintptr_t ptr_intT;
 #else
-typedef long ptr_intT;
+typedef uintptr_t ptr_intT;
 #endif
 
 /*-<a                             href="qh-mem_r.htm#TOC"
